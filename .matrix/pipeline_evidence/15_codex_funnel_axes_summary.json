@@ -1,0 +1,90 @@
+{
+  "axes": {
+    "A1_circuts": {
+      "adapter": "scripts/codex_funnel_circuts_adapter.py",
+      "codex_primitive": "app_server_protocol (JSON-RPC over stdio/uds)",
+      "dead_letter_count": 1,
+      "dogfood_checks": "6/6 pass (route, kind, method, trace_id, ack, on_disk)",
+      "fixture": "tnt/codex_funnel_app_server_fixture.json",
+      "matrix_target": "Circuts signals",
+      "records_dir": "runtime/frameworks/circuts/records",
+      "signal_count": 6
+    },
+    "A2_tracer": {
+      "adapter": "scripts/codex_funnel_tracer_adapter.py",
+      "codex_primitive": "rollout / rollout_trace",
+      "dead_letter_count": 0,
+      "dogfood_checks": "5/5 pass (trace_count, kind, root_trace_id_propagated, on_disk, unique)",
+      "fixture": "tnt/codex_funnel_rollout_fixture.json",
+      "matrix_target": "Tracer records",
+      "records_dir": "runtime/frameworks/tracer/records",
+      "trace_count": 12
+    },
+    "A3_tools": {
+      "adapter": "scripts/codex_funnel_tools_adapter.py",
+      "codex_primitive": "tools registry + handlers",
+      "dead_letter_count": 0,
+      "dispatch_count": 4,
+      "dogfood_checks": "6/6 pass (forager+tightrope on_disk, tool_name, trace_id, args_sha256, ack)",
+      "fixture": "tnt/codex_funnel_tools_fixture.json",
+      "forager_records_dir": "runtime/frameworks/forager/codex_tool_records",
+      "matrix_target": "Forager asset + Tightrope dispatch (pair-output)",
+      "tightrope_records_dir": "runtime/frameworks/tightrope/codex_dispatch_records",
+      "tool_count": 1
+    },
+    "A4_thread": {
+      "adapter": "scripts/codex_funnel_thread_adapter.py",
+      "canon_count": 3,
+      "codex_primitive": "thread_store / message_history",
+      "dead_letter_count": 0,
+      "dogfood_checks": "6/6 pass (canon_count, on_disk, trace_id, thread_id_in_all, unique_ids, category_uniform)",
+      "fixture": "tnt/codex_funnel_thread_fixture.json",
+      "matrix_target": "Library canon entries (one per message)",
+      "records_dir": "runtime/frameworks/library_framework/codex_thread_records"
+    },
+    "A5_memory": {
+      "adapter": "scripts/codex_funnel_memory_adapter.py",
+      "codex_primitive": "memories / skills",
+      "dead_letter_count": 0,
+      "dogfood_checks": "6/6 pass (on_disk, kind, body_sha256, trace_id, version, title)",
+      "fixture": "tnt/codex_funnel_memory_fixture.json",
+      "matrix_target": "Forager asset materialization",
+      "memory_count": 1,
+      "records_dir": "runtime/frameworks/forager/codex_memory_records"
+    },
+    "A6_sandbox": {
+      "adapter": "scripts/codex_funnel_sandbox_adapter.py",
+      "codex_primitive": "sandboxing / bwrap / linux_sandbox / windows_sandbox_rs / process_hardening",
+      "dead_letter_count": 0,
+      "dogfood_checks": "7/7 pass (on_disk, kind, trace_id, overall, network, paths, env)",
+      "fixture": "tnt/codex_funnel_sandbox_fixture.json",
+      "matrix_target": "Truarch boundary verdict",
+      "records_dir": "runtime/frameworks/truarch/codex_sandbox_records",
+      "verdict_count": 1
+    }
+  },
+  "axes_implemented": 6,
+  "consolidation_loc_reduction": "948 deletions - 490 insertions = -458 LOC net (-46%)",
+  "cross_axis_trace_id": "4bf92f3577b34da6a3ce929d0e0e4736 \u2014 appears in records across all 6 axes, proves shared substrate not silos",
+  "flowing_decisions": {
+    "d_01KRY8ZAKJCCTZ91GX4BTWYNBY": "A2 architecture (OTel-collector-shaped translator)",
+    "d_01KRYA0RGSFJMY736PKDRP6MQ5": "A3-A6 shared architecture (same translator pattern)"
+  },
+  "generated_at": "2026-05-18T21:07:42Z",
+  "library_canon": "ce_codex_funnel_adapter_pattern_v2 \u2014 PatternCard covering all 6 axes",
+  "related_prs": [
+    "#12 (A1)",
+    "#13 (A2)",
+    "#14 (A3-A6)",
+    "#15 (consolidation)"
+  ],
+  "schema_version": "matrix.codex_funnel_axes_summary/1.0",
+  "shared_scaffold": "scripts/codex_funnel_base.py (197 LOC) \u2014 parse_traceparent, validate_required, emit_records, dead_letter_writer, dogfood_runner, cli_main",
+  "tightrope_workorders": {
+    "30a7bc9c-2178-4155-bf06-a19dc8c23edc": "A3 build",
+    "44e8ee2e-54e3-42b7-ba22-ebbe319de3e5": "A4 build",
+    "46acee7c-f0b9-4686-951f-5785ce894b5c": "A5 build",
+    "90f55f4f-36d8-4304-b628-7ee697fde2a8": "A6 build",
+    "d3294092-8a21-4144-84e3-e74623248b69": "A2 build"
+  }
+}

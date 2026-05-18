@@ -1,100 +1,108 @@
-# Deep Research Prompt V2 — Codex × Matrix Runtime Funneling, Refactor Ceiling, Guard Policy, Routing, Event Store, Flow Metrics, Attestation
+# Deep Research Prompt V3 — Codex × Matrix: audit live funnel + refactor ceiling + open architectural questions
 
-Repository under study: `locogrande/codex-matrix-port`.
-Matrix platform reference: `locogrande/matrix`.
+**Repository under study**: `locogrande/codex-matrix-port` (this repo, 110 sealed codex assets)
+**Matrix platform reference**: `locogrande/matrix` (`main = 781553982f` at prompt time)
 
-First read `.matrix/pipeline_evidence/INDEX.md` and all JSON evidence files. Every claim must cite the evidence file or a direct repo/doc prior-art source. Do not speculate when the evidence is missing; create a follow-up work item instead.
+## Read this first — what changed since V2
 
-Output must be implementation-grade, not essay-grade.
+The V2 prompt asked the research to **design** the 6 funneling axes. **All 6 are now built and dogfood-passing.** Your job is no longer design; it is **audit + sharpen**.
+
+| Axis | Codex primitive | Matrix target | Adapter | Live? |
+|---|---|---|---|---|
+| A1 | `app_server_protocol` (JSON-RPC) | Circuts signals | `scripts/codex_funnel_circuts_adapter.py` | ✅ 6/6 dogfood |
+| A2 | `rollout` / `rollout_trace` | Tracer records | `scripts/codex_funnel_tracer_adapter.py` | ✅ 5/5 dogfood |
+| A3 | `tools` registry | Forager + Tightrope (pair) | `scripts/codex_funnel_tools_adapter.py` | ✅ 6/6 dogfood |
+| A4 | `thread_store` / `message_history` | Library canon | `scripts/codex_funnel_thread_adapter.py` | ✅ 6/6 dogfood |
+| A5 | `memories` / `skills` | Forager assets | `scripts/codex_funnel_memory_adapter.py` | ✅ 6/6 dogfood |
+| A6 | `sandboxing` / `bwrap` / harden | Truarch verdicts | `scripts/codex_funnel_sandbox_adapter.py` | ✅ 7/7 dogfood |
+
+A single W3C `traceparent` (`4bf92f3577b34da6a3ce929d0e0e4736`) propagates from the originating A1 envelope through all 6 axes — proving they're one substrate, not silos.
+
+Shared scaffold lives in `scripts/codex_funnel_base.py` (197 LOC). Consolidation pass landed **−46 % net LOC** across the 6 adapters.
+
+Netrix verb chain executed for every axis: `flowing_record_decision` → `tightrope_create_workorder` → adapter build → `tightrope_submit_work` → `library_submit_promotion` (canon entry `ce_codex_funnel_adapter_pattern_v2` covers all 6).
 
 ## Required outputs
 
-1. Executive summary ≤300 words: numbers + verdicts only.
-2. Funneling architecture table: six axes; 2–3 adapter options each; ranked; dependency DAG.
-3. Refactor-ceiling table: technique, tool, exact files examined, additional ceiling, overlap with existing 2.3%, P5 cost, funnel leverage.
-4. Matrix implementation map: repo files to edit, new files, tests, gate evidence, TNT fixtures.
-5. PatternCards: reusable mechanism cards for every adopted pattern.
-6. ActionRecipes: deterministic scripts/actions to reuse without agent reasoning.
-7. Inspired-code bibliography: repo URL + exact file/function/commit SHA + 1-line mechanism.
-8. Open questions: only items not answerable from current evidence.
+1. **Audit table** — for each of the 6 live adapters, list:
+   - Strengths (what the implementation got right)
+   - Specific gaps (line-numbered if possible) where the deterministic translator over-trusts envelope shape, misses an edge case, or skips an evidence field
+   - Recommended patches with file targets and minimal diff sketches
+   - At least one *failure mode* the dogfood probe doesn't currently catch
+2. **Cross-axis correlation audit** — single trace_id propagation works on a fixture; does it survive real codex flows? Specifically: (a) when a single conversation produces multiple turns + multiple tool calls + a sandboxed exec, does every emitted record carry the same root trace_id? (b) what happens when codex sub-spawns a child agent — does it propagate the parent's trace_id or mint a new root? Recommend the policy.
+3. **Refactor-ceiling table** — codex source (`codex-rs/`, `codex-cli/`, `sdk/`, `docs/`), **actually run the techniques** (do not desk-estimate):
+   - jscpd / PMD CPD / NiCad / ast-grep structural clone scan
+   - cargo-machete / cargo-udeps / cargo metadata workspace audit
+   - dependency-cruiser / nx / turborepo TS graph audit
+   - test prelude survey (`pretty_assertions::assert_eq` 765 hits, `#[tokio::test]` 2,401, `MockServer::start` 202, tempdir 600+ per the V1 scan)
+   - cross-crate ID type unification (`SessionId`, `ThreadId`, `WorkOrderId`-equivalents)
+   - markdown/prose dedup (MinHash on the 433 .md files)
+   Report **additive ceiling separated from the existing 2.3% syntactic ceiling** + P5 cost (dependency-hiding risk) per technique.
+4. **Matrix implementation map** — for every recommended patch: target file path(s), new files to create, tests to add, gate evidence required, TNT fixtures, expected receipt fields. No prose-only recommendations.
+5. **PatternCards** — reusable mechanism cards for each adopted pattern. The funnel-adapter pattern already lives in canon as `ce_codex_funnel_adapter_pattern_v2`; propose follow-on PatternCards for: trace-id propagation policy, cross-axis idempotency keys, dead-letter triage SLOs, dogfood-probe minimum-set rules.
+6. **ActionRecipes** — deterministic scripts/recipes that future agents can run without LLM reasoning. Each recipe: name, input parameters, output artifact, verification gate.
+7. **Inspired-code bibliography** — for every external pattern cited, give: repo URL + exact file + function + commit SHA + 1-line mechanism. Cover both 2015-2020 generation (LSP/DAP, OTel, Temporal, gRPC) and 2024-2025 generation (MCP, Letta, LangGraph, LiteLLM proxy, WASM component-model).
+8. **Open questions** — only items the current evidence cannot answer. Flag each as either "needs new evidence run" or "needs principal decision".
 
 ## Evidence anchors
 
-Use these as factual inputs:
-- `.matrix/pipeline_evidence/01_collector_classification.json`
-- `.matrix/pipeline_evidence/02_codex_registry_snapshot.json`
-- `.matrix/pipeline_evidence/03_codex_form_bundle.json`
-- `.matrix/pipeline_evidence/07_caps_cutover.json`
-- `.matrix/pipeline_evidence/08_codex_voltmeter_probes.json`
-- `.matrix/pipeline_evidence/10_codex_export_dryrun_receipt.json`
-- `.matrix/pipeline_evidence/12_replay_state.json`
-- `.matrix/pipeline_evidence/13_flow_health.json`
-- `.matrix/pipeline_evidence/14_codex_artifact_guard.json`
+Every claim must cite one of these (read all before writing):
 
-## Q1 — Runtime funneling
+- `.matrix/pipeline_evidence/INDEX.md` — pack overview
+- `.matrix/pipeline_evidence/01_collector_classification.json` — 3,953 codex files / 8 slots / 0 ORPHAN escalations
+- `.matrix/pipeline_evidence/02_codex_registry_snapshot.json` — 113 rows, 110 unique asset_ids
+- `.matrix/pipeline_evidence/03_codex_form_bundle.json` — P3 resolver output for `ipr_submit + tightrope + high risk`
+- `.matrix/pipeline_evidence/07_caps_cutover.json` — 68 caps, 0 violations
+- `.matrix/pipeline_evidence/08_codex_voltmeter_probes.json` — 12 probes, mixed pass/fail correctly
+- `.matrix/pipeline_evidence/10_codex_export_dryrun_receipt.json` — 110 unique asset_ids exportable
+- `.matrix/pipeline_evidence/12_replay_state.json` — original P12 replay snapshot
+- `.matrix/pipeline_evidence/13_flow_health.json` — 6 metrics + threshold policy + findings
+- `.matrix/pipeline_evidence/14_codex_artifact_guard.json` — post-lockfile-policy refinement
+- **NEW** `.matrix/pipeline_evidence/15_codex_funnel_axes_summary.json` — all 6 axis counts + flowing decisions + tightrope workorders + library canon
+- **NEW** `.matrix/pipeline_evidence/16_codex_funnel_replay_state.json` — current replay reducer output (116 events, 0 divergence)
+- **NEW** `.matrix/pipeline_evidence/17_codex_funnel_projection.json` — current MATRIX_APP_STATE.codex_funnel section
+- **NEW** `.matrix/pipeline_evidence/18_codex_funnel_consolidation.json` — −46 % LOC consolidation stats
 
-Answer each axis separately. For each, include: adapter architecture, event schema, failure semantics, state ownership, gate, TNT fixture, next-task dogfood use.
+## Question chain
 
-Axes:
-1. `app_server` + `app_server_protocol` → Circuts.
-2. rollout/trace → Tracer.
-3. tools/tool handlers → Forager + Tightrope.
-4. thread_store/message_history → Library canon.
-5. memories/skills → Forager assets + reuse KB.
-6. sandboxing/bwrap/windows/linux hardening → Truarch.
+### Q1 (now an audit, not a design)
 
-Prior-art minimum set:
-- MCP spec/server implementations.
-- LSP/DAP adapters.
-- Temporal/Cadence event history.
-- OpenTelemetry Collector pipeline.
-- Letta memory store.
-- LangGraph checkpointing.
-- LiteLLM/function-call proxy.
-- WASM component model.
+Per axis: what would you change about the live adapter? Where are its blind spots? Note that the dogfood-probe checks are deliberate over-fits; suggest a richer probe set per axis that exercises real codex traffic shapes, not just the fixture.
 
-## Q2 — Refactor ceiling
+### Q2 — codex source refactor ceiling (unchanged)
 
-Run or specify exactly how to run:
-- jscpd / PMD CPD / NiCad / Simian / SourcererCC.
-- tree-sitter / ast-grep structural clone scan.
-- CodeBERT/embedding semantic clone scan.
-- cargo-machete / cargo-udeps / cargo metadata workspace audit.
-- dependency-cruiser / nx / turborepo TS graph audit.
-- macro/test prelude survey.
-- type alias / ID type unification survey.
-- markdown/prose dedupe scan.
+The combined 2.3 % syntactic ceiling (Miro+gpt scans) was a back-of-envelope estimate. **Actually run the AST + monorepo + embedding tools listed in Required Output 3.** Separate the additive ceiling from the syntactic baseline. Identify the 5 highest funnel-leverage refactors (refactors that also reduce funnel-adapter cost).
 
-Separate additive ceiling from already-measured 2.3%.
+### Q3 — pre-commit policy refinement (already partially solved)
 
-## Q3 — Artifact guard
+The lockfile-collision detector landed (PR #11). What other systemic guard rules are missing? Survey: gitleaks, talisman, pre-commit framework, lefthook. Propose 3-5 new BLOCK rules + their `runtime_artifact_guard.py` patch.
 
-Produce minimal patch and regression tests for lockfile policy:
-- allow project lockfiles by basename.
-- block runtime lock sentinels by pattern.
-- block file-as-directory lockfile collision.
-- preserve `.log`, `.pyc`, `.pyo`, `.tmp`, `.pid` blocking.
+### Q4 — routing DSL (already partially solved)
 
-## Q4 — Routing DSL
+`library/policies/routing_rules.json` + `scripts/routing_policy_resolver.py` shipped in PR #12. **Critique the DSL** — what's missing for codex-funnel work specifically? Propose: per-axis routing affinities, sticky-session rules for trace-correlated work, fallback when a downstream framework is unhealthy.
 
-Replace F4 phase heuristic with JSON routing policy.
-Must support manager capability, cap, cost, priority, task class, framework, sticky locality, failure fallback, and blocked reason.
+### Q5 — event store maturity (unchanged)
 
-## Q5 — Event store threshold
+`scripts/replay_matrix_state.py` filesystem walker handles 116 events today with 0 divergence. **Quantify** when it breaks: at what event rate? What divergence shapes appear under concurrent multi-manager writes? Propose the FS → JSONL append-stream → JetStream/Kurrent migration with explicit thresholds.
 
-Quantify when filesystem reducer fails. Preserve pure reducer semantics. Provide FS → JSONL stream → JetStream/Kurrent/Marten migration path.
+### Q6 — flow-health thresholds (unchanged)
 
-## Q6 — Flow-health thresholds
+`scripts/flow_health_check.py` thresholds are hardcoded. Propose hybrid policy: hard limits + rolling p90/p95/p99 over 30 days. Patch targets must be specific.
 
-Recommend fixed, rolling, or hybrid. Give formulas and patch targets.
+### Q7 — attestation federation (unchanged)
 
-## Q7 — Attestation federation
-
-Map dogfood receipt → in-toto/SLSA/Cosign/Sigstore. Provide translator schema and commands.
+Map dogfood receipts → in-toto / SLSA / Sigstore / cosign / Rekor. Provide translator schema, verification commands, and the trust-boundary diagram.
 
 ## Constraints
 
-- Matrix-native implementation only; no vendored code.
-- Use external repos for mechanism study only.
-- Every recommendation must include Matrix file targets and acceptance gate.
-- Dense technical output only. No marketing prose.
+- **Matrix-native implementation only.** Adapt patterns, do not vendor.
+- **Every recommendation must include Matrix file targets + acceptance gate + TNT fixture.**
+- **Dense technical output.** No marketing prose. If a technique didn't pan out, say so explicitly with the numbers.
+- **Cite the evidence pack file for every claim.** Speculation without an anchor goes in "Open questions" (Required Output 8).
+- **Inspired-code citations must include commit SHA.** Not just repo + filename.
+
+## Synthesis section (after Q1-Q7)
+
+1. **Top 3 leverage points** — recommendations where solving one question makes 2+ others easier
+2. **Top 3 conflicts** — places where the answer to one question contradicts another
+3. **5 ordered build paths** — time-to-value ranked, each path is a sequence of merge-able PRs

@@ -1,0 +1,102 @@
+{
+  "alerts": [],
+  "caps": {
+    "cap_count": 68,
+    "caps_dir": "runtime/frameworks/circuts/caps",
+    "latest_cutover_report": {
+      "mtime": 1779126547,
+      "path": "runtime/diagnostics/caps_cutover_20260518T174907Z.json"
+    },
+    "waiver_count": 0,
+    "waivers_dir": "runtime/frameworks/circuts/waivers"
+  },
+  "codex_funnel": {
+    "axes": {
+      "A1_circuts": {
+        "dead_letter_count": 1,
+        "signal_count": 6
+      },
+      "A2_tracer": {
+        "dead_letter_count": 0,
+        "trace_count": 12
+      },
+      "A3_tools": {
+        "dead_letter_count": 0,
+        "dispatch_count": 4,
+        "tool_count": 1
+      },
+      "A4_thread": {
+        "canon_count": 3,
+        "dead_letter_count": 0
+      },
+      "A5_memory": {
+        "dead_letter_count": 0,
+        "memory_count": 1
+      },
+      "A6_sandbox": {
+        "dead_letter_count": 0,
+        "verdict_count": 1
+      }
+    },
+    "axes_implemented": 6,
+    "latest_canon": {
+      "mtime": 1779133767,
+      "path": "runtime/frameworks/library_framework/codex_thread_records/canon_codex_3113b048f5ed79.json"
+    },
+    "latest_dispatch": {
+      "mtime": 1779134222,
+      "path": "runtime/frameworks/tightrope/codex_dispatch_records/dispatch_codex_43ab4aa4d498.json"
+    },
+    "latest_memory": {
+      "mtime": 1779133767,
+      "path": "runtime/frameworks/forager/codex_memory_records/memory_mem_demo_001.json"
+    },
+    "latest_signal": {
+      "mtime": 1779134222,
+      "path": "runtime/frameworks/circuts/records/sig_codex_5df0d978b784.json"
+    },
+    "latest_trace": {
+      "mtime": 1779134222,
+      "path": "runtime/frameworks/tracer/records/trace_codex_8c1a71bda11d.json"
+    },
+    "latest_verdict": {
+      "mtime": 1779133767,
+      "path": "runtime/frameworks/truarch/codex_sandbox_records/sandbox_sandbox_demo_001.json"
+    }
+  },
+  "forms": {
+    "form_count": 20,
+    "registry_path": "library/forms/_registry/form_registry.json",
+    "registry_present": true
+  },
+  "gates": {
+    "latest_dogfood_receipt_validation": {
+      "mtime": 1779108950,
+      "path": "runtime/diagnostics/dogfood_receipt_validation_20260518T125550Z.json"
+    },
+    "latest_platform_conformance": {
+      "mtime": 1779133765,
+      "path": "runtime/diagnostics/platform_conformance_20260518T194925Z.json"
+    },
+    "latest_workorder_materializer": {
+      "mtime": 1779126766,
+      "path": "runtime/diagnostics/workorder_materializer_20260518T175245Z.json"
+    },
+    "receipts_count": 18,
+    "receipts_dir": "runtime/diagnostics/receipts"
+  },
+  "generated_at": "2026-05-18T21:07:42Z",
+  "schema_version": "matrix.app_state_projection/1.0",
+  "stale": [
+    {
+      "age_s": 40715,
+      "id": "manager.processing_idle",
+      "manager": "cl_miro",
+      "ref": "managers/cl_miro/logs/processing/task_85f8f0d7f123.json"
+    },
+    {
+      "age_s": 4697,
+      "id": "gates.conformance_stale_1h"
+    }
+  ]
+}

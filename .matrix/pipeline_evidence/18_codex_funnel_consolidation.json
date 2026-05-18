@@ -1,0 +1,35 @@
+{
+  "adapter_loc_after": {
+    "A1_circuts": 79,
+    "A2_tracer": 67,
+    "A3_tools": 94,
+    "A4_thread": 69,
+    "A5_memory": 73,
+    "A6_sandbox": 85,
+    "total": 467
+  },
+  "adapter_loc_before": {
+    "A1_circuts": 192,
+    "A2_tracer": 166,
+    "A3_tools": 243,
+    "A4_thread": 201,
+    "A5_memory": 173,
+    "A6_sandbox": 265,
+    "total": 1240
+  },
+  "commit_sha": "781553982",
+  "description": "extract codex_funnel_base.py shared scaffold, refactor all 6 adapters",
+  "generated_at": "2026-05-18T21:07:54Z",
+  "net_reduction_pct_with_base": -46,
+  "pr": "#15",
+  "reduction_per_adapter_pct": {
+    "A1": -59,
+    "A2": -60,
+    "A3": -61,
+    "A4": -66,
+    "A5": -58,
+    "A6": -68
+  },
+  "schema_version": "matrix.codex_funnel_consolidation/1.0",
+  "shared_base_loc": 197
+}
