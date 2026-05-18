@@ -18,6 +18,10 @@ The F4 acceptance chassis (P0 conformance + P1 receipt validator + P12 replay + 
 
 ---
 
+## Seven open questions
+
+The research must answer all seven. Q1 and Q2 are the architectural core (funneling + refactor ceiling). Q3-Q7 are smaller-scope but were surfaced by running the F4 acceptance chassis against codex — they share the same evidence pack as input.
+
 ## Question 1 — Mechanical funneling: codex behavior → Matrix frameworks
 
 ### What we have
@@ -49,15 +53,23 @@ Required output: a 6-axis table with the ranked architecture per axis and an exp
 
 ### Research task 1.2 — Existing prior art
 
-Find and rank existing **inspired-code** sources (we adapt, we don't vendor — license is not blocking):
+Find and rank existing **inspired-code** sources (we adapt, we don't vendor — license is not blocking). Cover **two generations** of prior art and explicitly compare them:
 
-- LSP / DAP adapters between editors and language servers (closest pattern to codex's app-server)
+**2015-2020 generation** (protocol-level adapters):
+- LSP / DAP adapters between editors and language servers (closest non-LLM pattern to codex's app-server)
 - Erlang/OTP `gen_server` ↔ external protocol bridges
 - Temporal / Cadence workflow engines (rollout-trace analogue)
 - OpenTelemetry collectors (tracer adapter analogue)
 - WASM component-model bindings (sandbox boundary analogue)
 
-For each, give: repo + one-line mechanism + which codex axis it informs + the specific file/function to study.
+**2024-2025 generation** (LLM-agent interop — these are likely *much* closer to codex's actual shape):
+- **Model Context Protocol (MCP)** — Anthropic's open spec for tool servers; codex's own app-server speaks an MCP-shaped protocol on the wire. Likely the cleanest funnel-axis-1 adapter pattern.
+- **Letta** (formerly MemGPT) — persistent agent memory store, archival + recall semantics. Direct analogue for `as_codex_memories` + `as_codex_message_history` → Library/Forager funnel.
+- **LangGraph** — explicit state-machine checkpointing for agent workflows. Analogue for `as_codex_rollout` + `as_codex_thread_manager_sample` → Tracer.
+- **OpenAI function-calling proxy patterns** (e.g. `function-call-bridge`, `litellm`'s tool routing) — proxy-shaped adapters between agent tool calls and arbitrary backends. Analogue for `as_codex_tools` → Forager+Tightrope.
+- **Sigstore / in-toto attestations** — supply-chain proof shape that matches the dogfood receipt envelope (relevant to Q7 below).
+
+For each, give: repo + one-line mechanism + which codex axis it informs + the specific file/function/commit-SHA to study. **Explicitly state whether the 2020-era pattern is dominated by a 2025-era pattern for each axis** — Matrix should not reinvent LSP if MCP already solves the same shape.
 
 ---
 
@@ -112,6 +124,13 @@ Evaluate these techniques against the codex source in this repo:
 - **AST-level clone detection** (Type-1/Type-2/Type-3 clones) — tools: `nicad`, `simian`, `pmd-cpd`, `jscpd`, `sourcerer-cc`, `oreo`. Which run on Rust + TypeScript + Python? Report: 5–10 highest-value clones with file paths and ceilings.
 - **Embedding-based semantic clone detection** — `code2vec`, `infercode`, CodeBERT, treesitter-AST embedding + cosine. Report whether the embeddings find Type-4 clones (semantically equivalent, syntactically different) that the deterministic scans missed.
 - **Cargo workspace dedup** — codex-rs has 110+ crates. How many share dependency *version pins*, *feature flags*, *lint configs*? What does `cargo-machete` + `cargo-udeps` + `cargo-features-manager` actually save? Quantify.
+- **Modern monorepo tooling** (the F4 evidence shows codex has Cargo + npm + pnpm + pyproject mixed in 130 manifest dirs — syntactic scans miss this):
+  - `nx`, `turborepo` — TypeScript monorepo dep graph + task caching; would find unused TS deps the import-only scan can't see
+  - `bazel`, `pants` — Python monorepo build with strict dep declaration; surfaces over-declared dependencies
+  - `cargo-udeps`, `cargo-machete` — Rust unused-dependency detection per crate
+  - `cargo-features-manager` — feature flag dedup across workspace
+  - `verdaccio` + `dependency-cruiser` — npm dep boundary enforcement
+  Report quantified savings from running each on this repo, **separated from the import-scan ceiling** (so we know what's additive vs overlapping).
 - **Macro consolidation surveys** — tools to find macro candidates: `dylint`, custom `syn` walks. Specifically: do the 1,400+ `#[tokio::test]` + `#[test]` attribute occurrences hide a `#[matrix::test]` candidate that captures setup + teardown + tracer-span + Voltmeter probe in one attribute?
 - **Cross-crate type unification** — count distinct definitions of `Result<T,E>` aliases, error chains, ID types (`SessionId`, `ThreadId`, `WorkOrderId`-equivalents). Report the unification savings if the duplicates are merged into a `codex-common-types` crate.
 - **Documentation/markdown dedup** — there are 433 manifest-equivalent markdown files. How much duplicate prose (READMEs that copy each other)?
@@ -157,3 +176,197 @@ Rank the refactor opportunities by **funnel-leverage** (does this refactor also 
 6. **Open questions still unresolved** — what *you* couldn't answer with the data in this repo, framed as crisp follow-up prompts.
 
 **Tone**: short sentences, dense numbers, no marketing prose. If a technique didn't pan out, say so explicitly.
+
+---
+
+## Question 3 — Pre-commit hook policy refinement
+
+**Surfaced by**: `.matrix/pipeline_evidence/14_codex_artifact_guard.json` showing **2 real findings**:
+1. `codex-rs/Cargo.lock/Cargo.lock` — a genuine export bug (Cargo.lock got copied as a directory). P14 surfaced it correctly.
+2. `sdk/python/uv.lock` — a guard over-trigger. `uv.lock` is a legitimate Python dependency lock for reproducibility, not a runtime sentinel.
+
+The current `runtime_artifact_guard.py` rule `BLOCKED_SUFFIXES = {.log, .pyc, .pyo, .tmp, .pid, .lock}` is too coarse. It conflates:
+
+- **Project lockfiles we want tracked**: `Cargo.lock`, `package-lock.json`, `pnpm-lock.yaml`, `yarn.lock`, `uv.lock`, `poetry.lock`, `Gemfile.lock`, `composer.lock`, `Pipfile.lock`, `go.sum`
+- **Runtime sentinel locks we want blocked**: `*.jsonl.lock`, `*.queue.lock`, `*.pid` lock files used by daemons for mutex
+
+### Research task 3.1 — Survey prior art
+
+Survey production-grade pre-commit hook systems and document their classification rules:
+
+- `pre-commit` framework (`pre-commit/pre-commit-hooks`) — `check-added-large-files`, `forbid-new-submodules`, etc.
+- `husky` + `lint-staged` (npm)
+- `lefthook` (Go-based, multi-language)
+- `gitleaks` (secret detection)
+- `talisman` (secret + key detection)
+- `pre-commit-hooks/pre-commit-hooks` (the repo, not the framework)
+- GitHub's native `.gitattributes` `filter` + `diff` rules
+- `git-secrets` (AWS Labs)
+
+For each: what's their lockfile policy? Allowlist? Suffix-blocklist with name-allowlist override? AST-based?
+
+### Research task 3.2 — Propose Matrix's refined rule
+
+Specifically propose:
+- Updated `BLOCKED_SUFFIXES` keeping `.log`, `.pyc`, `.pyo`, `.tmp`, `.pid` but excluding `.lock`
+- New `LOCKFILE_ALLOWLIST = {Cargo.lock, package-lock.json, pnpm-lock.yaml, yarn.lock, uv.lock, poetry.lock, Gemfile.lock, composer.lock, Pipfile.lock, go.sum}` — match exact basenames
+- New `LOCKFILE_BLOCKLIST = {*.jsonl.lock, *.queue.lock, *.daemon.lock}` — match patterns
+- Test cases that validate both findings stay caught/cleared correctly
+
+Output: minimal patch to `scripts/runtime_artifact_guard.py` plus a regression test list.
+
+---
+
+## Question 4 — Routing heuristic generalization
+
+**Surfaced by**: `scripts/workorder_materializer.py` lines 35-47, where the routing rule is hard-coded:
+
+```python
+def _route_manager(phase: dict[str, Any]) -> str:
+    if mgr := phase.get("manager"):
+        return mgr
+    priority = (phase.get("priority") or "").lower()
+    p = (phase.get("phase") or "").upper()
+    if p in {"P0", "P1", "P2", "P3", "P4", "P8", "P14"}:
+        return "cl_miro"
+    if priority == "critical":
+        return "gpt_miro"
+    return "cl_miro"
+```
+
+This breaks the moment work doesn't have F4 phase IDs — which is exactly what will happen when the funnel adapters land and codex sub-work routes through Tightrope without P0-P14 framing.
+
+### Research task 4.1 — Survey production schedulers
+
+For each, document the routing primitive + DSL shape:
+
+- **Kubernetes**: nodeSelector, taints/tolerations, affinity rules, topology spread constraints
+- **Nomad**: constraint stanzas, datacenter/region matching, weighted preferences
+- **Apache Airflow**: executor types (LocalExecutor / CeleryExecutor / KubernetesExecutor), task queues, pools
+- **Temporal**: task queues + worker affinity, sticky cache semantics
+- **Apache Mesos / Apache YARN**: resource offer model
+- **Slurm**: partition + QOS + features model
+
+For each, give: smallest expressible routing rule, how it composes, what fails when it doesn't match.
+
+### Research task 4.2 — Propose Matrix routing DSL
+
+Matrix-shaped routing must handle:
+
+- Manager capability matching (`cl_miro` = Claude xhigh, `gpt_miro` = codex xhigh)
+- Per-manager caps (`cl_miro=3`, `gpt_miro=4`) — already in `scripts/worker_control.py`
+- Priority bands (critical / high / normal)
+- Cost-aware preference (codex cheaper for trivial; Opus required for principle-cited decisions)
+- Locality (sticky-session affinity when codex pool already has thread state)
+- Failure-fallback (gpt failure → cl_miro per `feedback_budget_and_tier_policy`)
+
+Propose:
+- A DSL (YAML or JSON) for declaring routes
+- A reference resolver (drop-in replacement for `_route_manager()`)
+- Migration plan from the current heuristic to the DSL
+
+---
+
+## Question 5 — Event store maturity
+
+**Surfaced by**: `scripts/replay_matrix_state.py` walks 4 filesystem sources (receipts, recycle reports, voltmeter probes, materializer reports) every time and reduces in-memory. The evidence pack's `12_replay_state.json` shows this works for 18 events. **What's the scaling ceiling?**
+
+### Research task 5.1 — Survey event stores
+
+Document each on these axes: append throughput, query latency, schema evolution, projection support, divergence/CRDT semantics:
+
+- **KurrentDB** (formerly EventStoreDB) — the canonical OSS event store
+- **Marten** — Postgres-backed event sourcing for .NET (relevant pattern even if we don't use .NET)
+- **Axon Framework** — JVM event-sourcing CQRS
+- **NATS JetStream** — append-only streams with replay
+- **Apache Kafka + ksqlDB** — streaming events with materialized views
+- **Datomic** — immutable database with time-travel queries
+- **rqlite** — lightweight raft-replicated SQLite (potential bridge)
+- **EventStoreDB v23+** — projections + persistent subscriptions
+- **Differential Dataflow** / **Materialize** — incremental view maintenance over event streams
+
+### Research task 5.2 — Threshold analysis
+
+Given the F4 pipeline's expected event rate (estimate: 10–50 events/hour today, scaling to 1k–10k/hour when funnel adapters fire on every codex tool call), at what event count does the filesystem-walk become unsustainable? What divergence/merge scenarios arise once two managers can emit events into the same stream?
+
+Output: an event-count threshold (e.g. "≤100k events: filesystem-walk fine; >100k: graduate to KurrentDB-style"), plus a migration plan that preserves `replay_matrix_state.py`'s pure-reducer semantics.
+
+---
+
+## Question 6 — Threshold calibration for flow health
+
+**Surfaced by**: `scripts/flow_health_check.py` hard-codes:
+
+```python
+THRESHOLDS = {
+    "wip_per_manager_warn": 4,
+    "queue_age_warn_s": 7200,
+    "queue_age_critical_s": 21600,
+    "blocker_age_critical_s": 3600,
+    "review_latency_warn_s": 3600,
+    "rework_24h_warn": 5,
+    "acceptance_rate_min": 0.7,
+}
+```
+
+These are guesses informed by `managers/shared/routing_and_caps.md`. They will be wrong for some workloads.
+
+### Research task 6.1 — Survey industry baselines
+
+Document the relevant industry frameworks and their numeric defaults:
+
+- **DORA metrics** (Google's State of DevOps): deployment frequency, lead time for changes, change failure rate, mean time to recovery — what are 2024-2025 elite / high / medium / low thresholds?
+- **SPACE framework** (GitHub research): Satisfaction, Performance, Activity, Communication, Efficiency
+- **Toyota Production System / Lean** WIP limits — formulas, not just numbers
+- **Theory of Constraints** queue-length thresholds
+- **Kanban** lead-time vs cycle-time distinguishing rules
+
+### Research task 6.2 — Adaptive vs fixed thresholds
+
+Decide: should `flow_health_check.py` thresholds be:
+
+- **(a) Fixed** — current; predictable but wrong for workload shifts
+- **(b) Rolling baseline** — 30/60/90-day rolling p95 (like Datadog/Dynatrace anomaly detection); adapts but adds state
+- **(c) Hybrid** — fixed hard limits + rolling soft limits
+
+Output: chosen approach + the specific formula + a migration patch.
+
+---
+
+## Question 7 — Supply-chain attestation federation
+
+**Surfaced by**: the dogfood receipt envelope (`library/source_assets/components/contracts/versions/v0001_initial/source/dogfood_receipt.schema.json`) is *isomorphic* to in-toto / SLSA provenance attestations. Should it federate?
+
+### Research task 7.1 — Map Matrix receipts to existing standards
+
+For each, document the schema overlap with Matrix's `{deliverables, gate_ref, dogfood_activation_ref, next_task_use_ref, notes}`:
+
+- **SLSA v1.0 provenance** (Build L1-L4) — `predicateType`, `builder`, `buildDefinition`, `runDetails`
+- **in-toto attestation** v1.0 — `subject`, `predicateType`, `predicate`
+- **Sigstore Rekor** transparency log entries — what a Matrix receipt would look like as a Rekor entry
+- **SBOM standards**: SPDX, CycloneDX — for declaring sealed-asset contents
+- **Cosign attestation** — `cosign attest` workflow
+- **The Update Framework (TUF)** — for receipt integrity over time
+
+### Research task 7.2 — Federation proof of concept
+
+If Matrix receipts federated as SLSA L3 attestations:
+
+- A downstream consumer could run `cosign verify-attestation` against an exported asset to prove it came from a sealed Matrix pipeline run
+- The codex export bundles in `exports/matrix_app_<ts>/` could carry an `attestation.intoto.jsonl` file
+- Receipts could land in a Sigstore Rekor log for tamper-evident audit
+
+Output:
+- A `dogfood_receipt → in-toto predicate` translator schema
+- The Sigstore commands a downstream user would run to verify a Matrix export
+- A trust boundary diagram showing where Matrix's sealed-source-asset registry intersects with industry attestation chains
+
+---
+
+## Cross-question synthesis
+
+After answering Q1-Q7 independently, produce **one** synthesis section that:
+
+1. Lists the **top 3 leverage points** — research findings where solving one question makes 2+ others easier (e.g. "MCP adapter for Q1 also gives Q7 the natural in-toto subject ID")
+2. Lists the **top 3 conflicts** — places where the answer to one question contradicts another (e.g. "Q4 routing DSL implies Q5 event store, but Q5 says filesystem is fine until 100k events")
+3. Lists the **5 build orders** the Matrix team could pick from, ordered by total time-to-value
