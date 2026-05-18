@@ -1,0 +1,38 @@
+{
+  "schema_version": "1.0.0",
+  "component_id": "process_hardening",
+  "kernel_asset_id": "as_codex_process_hardening",
+  "asset_id": "as_codex_process_hardening",
+  "version_id": "v0001_initial",
+  "wo_id": "WO_2026-05-18_codex-port_as_codex_process_hardening",
+  "task_id": "WO_2026-05-18_codex-port_as_codex_process_hardening_copy_register_gate",
+  "manager": "gpt_miro",
+  "status": "accepted",
+  "created_at": "2026-05-18T06:08:39Z",
+  "source_lineage_authority": "forager",
+  "kind": "codex_port_asset",
+  "primary_framework": "build_config",
+  "framework_distribution": {
+    "build_config": 2,
+    "readme": 1,
+    "tracer": 1
+  },
+  "source_path": "codex-rs/process-hardening",
+  "source_root": "library/source_assets/components/process_hardening/versions/v0001_initial/source",
+  "source_files_count": 4,
+  "expected_plan_hash": "4d6a36ab7187565d071f8c444042190875d05fa5cbd2447e6c60633bc07d61d2",
+  "content_hashes_ref": "library/source_assets/components/process_hardening/versions/v0001_initial/evidence/content_hashes.json",
+  "reuse_map_ref": "library/source_assets/components/process_hardening/versions/v0001_initial/reuse_map.md",
+  "source_map_ref": "library/source_assets/components/process_hardening/versions/v0001_initial/source_map.json",
+  "framework_kit_adapter_ref": "library/framework_kit/process_hardening/__init__.py",
+  "sealed_at": "2026-05-18T06:08:39Z",
+  "content_hash_root": "15eae04495d20bd559df6d9e5b1d7275ba57e5fa39a49b8d3e7a9bedbff51de7",
+  "seal": {
+    "content_hash_algorithm": "sha256",
+    "canonicalization": "json_canonical_v1_sorted_keys_no_whitespace",
+    "content_hash_root": "15eae04495d20bd559df6d9e5b1d7275ba57e5fa39a49b8d3e7a9bedbff51de7",
+    "sealed_marker_ref": "runtime/diagnostics/as_codex_process_hardening_seal/v0001_initial.sealed",
+    "signed_by": "gpt_miro",
+    "signature_ref": "library/source_assets/components/process_hardening/versions/v0001_initial/evidence/manifest_v0001_initial.sig"
+  }
+}

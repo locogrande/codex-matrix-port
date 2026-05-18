@@ -1,0 +1,39 @@
+{
+  "schema_version": "1.0.0",
+  "component_id": "app_server_test_client",
+  "kernel_asset_id": "as_codex_app_server_test_client",
+  "asset_id": "as_codex_app_server_test_client",
+  "version_id": "v0001_initial",
+  "wo_id": "WO_2026-05-18_codex-port_as_codex_app_server_test_client",
+  "task_id": "WO_2026-05-18_codex-port_as_codex_app_server_test_client_copy_register_gate",
+  "manager": "gpt_miro",
+  "status": "accepted",
+  "created_at": "2026-05-18T06:08:39Z",
+  "source_lineage_authority": "forager",
+  "kind": "codex_port_asset",
+  "primary_framework": "build_config",
+  "framework_distribution": {
+    "build_config": 2,
+    "readme": 1,
+    "automation_tools": 1,
+    "forager": 2
+  },
+  "source_path": "codex-rs/app-server-test-client",
+  "source_root": "library/source_assets/components/app_server_test_client/versions/v0001_initial/source",
+  "source_files_count": 6,
+  "expected_plan_hash": "48d6ee35ea649960211e93ba5cc2d4bcc651bbef90491bb011975d165cdde204",
+  "content_hashes_ref": "library/source_assets/components/app_server_test_client/versions/v0001_initial/evidence/content_hashes.json",
+  "reuse_map_ref": "library/source_assets/components/app_server_test_client/versions/v0001_initial/reuse_map.md",
+  "source_map_ref": "library/source_assets/components/app_server_test_client/versions/v0001_initial/source_map.json",
+  "framework_kit_adapter_ref": "library/framework_kit/app_server_test_client/__init__.py",
+  "sealed_at": "2026-05-18T06:08:39Z",
+  "content_hash_root": "37fc6b78f1766cec6612c964a9ea2d3959bd0cafa3ea11230f5375af7a916076",
+  "seal": {
+    "content_hash_algorithm": "sha256",
+    "canonicalization": "json_canonical_v1_sorted_keys_no_whitespace",
+    "content_hash_root": "37fc6b78f1766cec6612c964a9ea2d3959bd0cafa3ea11230f5375af7a916076",
+    "sealed_marker_ref": "runtime/diagnostics/as_codex_app_server_test_client_seal/v0001_initial.sealed",
+    "signed_by": "gpt_miro",
+    "signature_ref": "library/source_assets/components/app_server_test_client/versions/v0001_initial/evidence/manifest_v0001_initial.sig"
+  }
+}

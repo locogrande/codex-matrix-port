@@ -1,0 +1,9 @@
+{
+  "asset_id": "as_codex_git_utils",
+  "version_id": "v0001_initial",
+  "task_id": "WO_2026-05-18_codex-port_as_codex_git_utils_copy_register_gate",
+  "wo_id": "WO_2026-05-18_codex-port_as_codex_git_utils",
+  "source": "C:\\Users\\yonat\\Desktop\\codex\\repo\\codex-rs\\git-utils",
+  "plan_hash": "f15a1ce1550192e5d9c1b45df3ae9e646042254ac4331f9f3cc647931cd55af7",
+  "created_at": "2026-05-18T05:52:30Z"
+}

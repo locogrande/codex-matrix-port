@@ -1,0 +1,12 @@
+{
+  "asset_id": "as_codex_config.md",
+  "component_id": "as_codex_config.md",
+  "version_id": "v0001_initial",
+  "task_id": "WO_2026-05-18_codex-port_as_codex_config.md_copy_register_gate",
+  "wo_id": "WO_2026-05-18_codex-port_as_codex_config.md",
+  "manager": "gpt_miro",
+  "origin": "codex-rs/config.md",
+  "status": "accepted",
+  "content_hash_root": "01a9e4b4f1fa45c05db977ae2670b8d1a5d898a5ade3394880f32985a1866562",
+  "sealed_at": "2026-05-18T07:21:17Z"
+}

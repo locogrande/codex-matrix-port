@@ -1,0 +1,36 @@
+{
+  "schema_version": "1.0.0",
+  "component_id": "root_build_bazel",
+  "kernel_asset_id": "as_codex_BUILD.bazel",
+  "asset_id": "as_codex_BUILD.bazel",
+  "version_id": "v0001_initial",
+  "wo_id": "WO_2026-05-18_codex-port_as_codex_BUILD.bazel",
+  "task_id": "WO_2026-05-18_codex-port_as_codex_BUILD.bazel_copy_register_gate",
+  "manager": "gpt_miro",
+  "status": "accepted",
+  "created_at": "2026-05-18T06:31:18Z",
+  "source_lineage_authority": "forager",
+  "kind": "codex_port_asset",
+  "primary_framework": "build_config",
+  "framework_distribution": {
+    "build_config": 1
+  },
+  "source_path": "codex-rs/BUILD.bazel",
+  "source_root": "library/source_assets/components/root_build_bazel/versions/v0001_initial/source",
+  "source_files_count": 1,
+  "expected_plan_hash": "4932d33d32d68d75603472b708ff7a0c4653babd7e338873e2dedebe5512b09a",
+  "content_hashes_ref": "library/source_assets/components/root_build_bazel/versions/v0001_initial/evidence/content_hashes.json",
+  "reuse_map_ref": "library/source_assets/components/root_build_bazel/versions/v0001_initial/reuse_map.md",
+  "source_map_ref": "library/source_assets/components/root_build_bazel/versions/v0001_initial/source_map.json",
+  "framework_kit_adapter_ref": "library/framework_kit/root_build_bazel/__init__.py",
+  "sealed_at": "2026-05-18T06:31:18Z",
+  "content_hash_root": "05c9133b8559857bc60f1f6d9ef2e124eef6c9bdb1d3a5f5c7f3a2d8e64f8a4b",
+  "seal": {
+    "content_hash_algorithm": "sha256",
+    "canonicalization": "json_canonical_v1_sorted_keys_no_whitespace",
+    "content_hash_root": "05c9133b8559857bc60f1f6d9ef2e124eef6c9bdb1d3a5f5c7f3a2d8e64f8a4b",
+    "sealed_marker_ref": "runtime/diagnostics/as_codex_BUILD.bazel_seal/v0001_initial.sealed",
+    "signed_by": "gpt_miro",
+    "signature_ref": "library/source_assets/components/root_build_bazel/versions/v0001_initial/evidence/manifest_v0001_initial.sig"
+  }
+}

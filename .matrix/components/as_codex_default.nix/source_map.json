@@ -1,0 +1,31 @@
+{
+  "schema_version": "codex_port_source_map/1.0",
+  "asset_id": "as_codex_default.nix",
+  "version_id": "v0001_initial",
+  "source_path": "codex-rs/default.nix",
+  "source_inventory": "C:\\Users\\yonat\\Desktop\\codex\\repo",
+  "source_files_count": 1,
+  "expected_plan_hash": "a2244603a0e61337cc2ad08d22efeef724da342f460bcc9744adfcbe422687f3",
+  "regenerated_at": "2026-05-18T07:46:29Z",
+  "mappings": [
+    {
+      "path": "codex-rs/default.nix",
+      "lang": "nix",
+      "size_bytes": 1754,
+      "lines": 56,
+      "code_lines": 53,
+      "blank_lines": 3,
+      "is_test": false,
+      "is_main": false,
+      "matrix_framework": "unmapped",
+      "mapping_rationale": "no rule matched for lang=nix",
+      "reuse_verdict": "USE",
+      "reuse_reason": "nix source - unmapped target",
+      "target_relpath": "default.nix",
+      "target_path": "library/source_assets/components/as_codex_default.nix/versions/v0001_initial/source/default.nix",
+      "sha256_full": "95da79da2fa28ac9135190fd4ce9cd9cfda835455851ad81721c029db076a61e",
+      "sha256_16": "95da79da2fa28ac9",
+      "copied_size_bytes": 1754
+    }
+  ]
+}

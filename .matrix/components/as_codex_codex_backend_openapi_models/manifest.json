@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.0.0",
+  "component_id": "as_codex_codex_backend_openapi_models",
+  "kernel_asset_id": "as_codex_codex_backend_openapi_models",
+  "asset_id": "as_codex_codex_backend_openapi_models",
+  "version_id": "v0001_initial",
+  "wo_id": "WO_2026-05-18_codex-port_as_codex_codex_backend_openapi_models",
+  "task_id": "WO_2026-05-18_codex-port_as_codex_codex_backend_openapi_models_copy_register_gate",
+  "manager": "cl_miro",
+  "status": "accepted",
+  "created_at": "2026-05-18T05:19:54Z",
+  "source_lineage_authority": "forager",
+  "kind": "codex_port_asset",
+  "primary_framework": "forager",
+  "framework_distribution": {
+    "build_config": 2,
+    "forager": 14
+  },
+  "source_path": "codex-rs/codex-backend-openapi-models",
+  "source_root": "library/source_assets/components/as_codex_codex_backend_openapi_models/versions/v0001_initial/source",
+  "source_files_count": 16,
+  "expected_plan_hash": "4aa6947ba4a6d242b57a3e3101cd4705eedfe4e8e676253cd8d4796488414659",
+  "provenance": {
+    "plan_ref": "library/migration_archive/codex_repo_matrix_plan.json",
+    "workorder_ref": "current_work/pending_work/WO_2026-05-18_codex-port/tasks/wo_as_codex_codex_backend_openapi_models.json",
+    "source_inventory": "C:\\Users\\yonat\\Desktop\\codex\\repo"
+  },
+  "supersedes_version_id": null,
+  "content_hashes_ref": "library/source_assets/components/as_codex_codex_backend_openapi_models/versions/v0001_initial/evidence/content_hashes.json",
+  "components": [
+    {
+      "component_id": "as_codex_codex_backend_openapi_models",
+      "asset_id": "as_codex_codex_backend_openapi_models",
+      "version_id": "v0001_initial",
+      "role": "codex_rust_crate",
+      "source_root": "library/source_assets/components/as_codex_codex_backend_openapi_models/versions/v0001_initial/source",
+      "source_map_ref": "library/source_assets/components/as_codex_codex_backend_openapi_models/versions/v0001_initial/source_map.json",
+      "criticality": "codex_port_asset",
+      "notes": "Verbatim source copy of codex-rs/codex-backend-openapi-models."
+    }
+  ],
+  "reuse_map_ref": "library/source_assets/components/as_codex_codex_backend_openapi_models/versions/v0001_initial/reuse_map.md",
+  "source_map_ref": "library/source_assets/components/as_codex_codex_backend_openapi_models/versions/v0001_initial/source_map.json",
+  "evidence": {
+    "source_migration_receipt_ref": "library/source_assets/components/as_codex_codex_backend_openapi_models/versions/v0001_initial/evidence/source_migration_receipt.json",
+    "dogfood_registration_ref": "library/source_assets/components/as_codex_codex_backend_openapi_models/versions/v0001_initial/evidence/dogfood_registration.json",
+    "peer_review_ref": "managers/cl_miro/reviews/WO_2026-05-18_codex-port_as_codex_codex_backend_openapi_models_copy_register_gate_peer_review_v01.json",
+    "route_review_ref": "managers/cl_miro/reviews/WO_2026-05-18_codex-port_as_codex_codex_backend_openapi_models_copy_register_gate_route_review_v01.json"
+  },
+  "framework_kit_adapter_ref": "library/framework_kit/codex_backend_openapi_models/__init__.py",
+  "sealed_at": "2026-05-18T05:19:54Z",
+  "content_hash_root": "90612a0252e4b5ef6d7c684b50333b931c2c06e23569b8e42be9e0bf21f1a96f",
+  "seal": {
+    "content_hash_algorithm": "sha256",
+    "canonicalization": "json_canonical_v1_sorted_keys_no_whitespace",
+    "content_hash_root": "90612a0252e4b5ef6d7c684b50333b931c2c06e23569b8e42be9e0bf21f1a96f",
+    "sealed_marker_ref": "runtime/diagnostics/as_codex_codex_backend_openapi_models_seal/v0001_initial.sealed",
+    "signed_by": "cl_miro",
+    "signature_ref": "library/source_assets/components/as_codex_codex_backend_openapi_models/versions/v0001_initial/evidence/manifest_v0001_initial.sig"
+  }
+}

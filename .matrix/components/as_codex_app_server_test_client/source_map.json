@@ -1,0 +1,75 @@
+{
+  "schema_version": "codex_port_source_map/1.0",
+  "asset_id": "as_codex_app_server_test_client",
+  "component_id": "app_server_test_client",
+  "version_id": "v0001_initial",
+  "source_root": "library/source_assets/components/app_server_test_client/versions/v0001_initial/source",
+  "origin_root": "codex-rs/app-server-test-client",
+  "origin_repo": "C:\\Users\\yonat\\Desktop\\codex\\repo",
+  "file_count": 6,
+  "total_bytes": 84343,
+  "expected_plan_hash": "48d6ee35ea649960211e93ba5cc2d4bcc651bbef90491bb011975d165cdde204",
+  "regenerated_at": "2026-05-18T06:08:39Z",
+  "mappings": [
+    {
+      "path": "BUILD.bazel",
+      "target_relpath": "BUILD.bazel",
+      "origin_path": "codex-rs/app-server-test-client/BUILD.bazel",
+      "size": 147,
+      "sha256": "df101b1b94ac4fe0e389f155eeb7cca5ff47f7f5e321f7d568076cc631a7f94f",
+      "matrix_framework": "build_config",
+      "reuse_verdict": "REFACTOR",
+      "reuse_reason": "build config — adapt for Matrix import structure"
+    },
+    {
+      "path": "Cargo.toml",
+      "target_relpath": "Cargo.toml",
+      "origin_path": "codex-rs/app-server-test-client/Cargo.toml",
+      "size": 799,
+      "sha256": "d2c9b684264828033e02c01494be198132f54a4a3066ff15de72593b6f3539a2",
+      "matrix_framework": "build_config",
+      "reuse_verdict": "REFACTOR",
+      "reuse_reason": "build config — adapt for Matrix import structure"
+    },
+    {
+      "path": "README.md",
+      "target_relpath": "README.md",
+      "origin_path": "codex-rs/app-server-test-client/README.md",
+      "size": 1508,
+      "sha256": "83a4419d6879ce14503b1c2d8a256e6b5828630d36dc5b57c8ff0b3197a302c8",
+      "matrix_framework": "readme",
+      "reuse_verdict": "USE",
+      "reuse_reason": "documentation — preserve as docs asset"
+    },
+    {
+      "path": "scripts/live_elicitation_hold.sh",
+      "target_relpath": "scripts/live_elicitation_hold.sh",
+      "origin_path": "codex-rs/app-server-test-client/scripts/live_elicitation_hold.sh",
+      "size": 1084,
+      "sha256": "11695f4511e53fdfc036881f15afa1988d5da5efac2084031cd03d018208b28a",
+      "matrix_framework": "automation_tools",
+      "reuse_verdict": "USE",
+      "reuse_reason": "shell source — automation_tools target"
+    },
+    {
+      "path": "src/lib.rs",
+      "target_relpath": "src/lib.rs",
+      "origin_path": "codex-rs/app-server-test-client/src/lib.rs",
+      "size": 80598,
+      "sha256": "331d82283e9f91216e7b1e3ea8d7c6cd47117d5b7a77d97251ed375c54217ef0",
+      "matrix_framework": "forager",
+      "reuse_verdict": "USE",
+      "reuse_reason": "rust source — forager target"
+    },
+    {
+      "path": "src/main.rs",
+      "target_relpath": "src/main.rs",
+      "origin_path": "codex-rs/app-server-test-client/src/main.rs",
+      "size": 207,
+      "sha256": "bcad20722153461f33f9a76881ac23369ff57f5284773fdcff68baade2c85cf8",
+      "matrix_framework": "forager",
+      "reuse_verdict": "USE",
+      "reuse_reason": "rust source — forager target"
+    }
+  ]
+}

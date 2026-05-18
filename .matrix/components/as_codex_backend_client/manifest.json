@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.0.0",
+  "component_id": "as_codex_backend_client",
+  "kernel_asset_id": "as_codex_backend_client",
+  "asset_id": "as_codex_backend_client",
+  "version_id": "v0001_initial",
+  "wo_id": "WO_2026-05-18_codex-port_as_codex_backend_client",
+  "task_id": "WO_2026-05-18_codex-port_as_codex_backend_client_copy_register_gate",
+  "manager": "cl_miro",
+  "status": "accepted",
+  "created_at": "2026-05-18T04:49:50Z",
+  "source_lineage_authority": "forager",
+  "kind": "codex_port_asset",
+  "primary_framework": "forager",
+  "framework_distribution": {
+    "build_config": 2,
+    "forager": 3,
+    "tester": 2
+  },
+  "source_path": "codex-rs/backend-client",
+  "source_root": "library/source_assets/components/as_codex_backend_client/versions/v0001_initial/source",
+  "source_files_count": 7,
+  "expected_plan_hash": "d8e2c457eff1754c7f4a48d4eb32e44a4551be8f2cb917141f005b23204f0ca6",
+  "provenance": {
+    "plan_ref": "library/migration_archive/codex_repo_matrix_plan.json",
+    "workorder_ref": "current_work/pending_work/WO_2026-05-18_codex-port/tasks/wo_as_codex_backend_client.json",
+    "source_inventory": "C:\\Users\\yonat\\Desktop\\codex\\repo"
+  },
+  "supersedes_version_id": null,
+  "content_hashes_ref": "library/source_assets/components/as_codex_backend_client/versions/v0001_initial/evidence/content_hashes.json",
+  "components": [
+    {
+      "component_id": "as_codex_backend_client",
+      "asset_id": "as_codex_backend_client",
+      "version_id": "v0001_initial",
+      "role": "codex_rust_crate",
+      "source_root": "library/source_assets/components/as_codex_backend_client/versions/v0001_initial/source",
+      "source_map_ref": "library/source_assets/components/as_codex_backend_client/versions/v0001_initial/source_map.json",
+      "criticality": "codex_port_asset",
+      "notes": "Verbatim source copy of codex-rs/backend-client."
+    }
+  ],
+  "reuse_map_ref": "library/source_assets/components/as_codex_backend_client/versions/v0001_initial/reuse_map.md",
+  "source_map_ref": "library/source_assets/components/as_codex_backend_client/versions/v0001_initial/source_map.json",
+  "evidence": {
+    "source_migration_receipt_ref": "library/source_assets/components/as_codex_backend_client/versions/v0001_initial/evidence/source_migration_receipt.json",
+    "dogfood_registration_ref": "library/source_assets/components/as_codex_backend_client/versions/v0001_initial/evidence/dogfood_registration.json",
+    "peer_review_ref": "managers/cl_miro/reviews/WO_2026-05-18_codex-port_as_codex_backend_client_copy_register_gate_peer_review_v01.json",
+    "route_review_ref": "managers/cl_miro/reviews/WO_2026-05-18_codex-port_as_codex_backend_client_copy_register_gate_route_review_v01.json"
+  },
+  "framework_kit_adapter_ref": "library/framework_kit/backend_client/__init__.py",
+  "sealed_at": "2026-05-18T04:49:50Z",
+  "content_hash_root": "f4f3df70b97e618cef77d11f228a644aefbe6158ff6d3b8f8293d17275b29b4d",
+  "seal": {
+    "content_hash_algorithm": "sha256",
+    "canonicalization": "json_canonical_v1_sorted_keys_no_whitespace",
+    "content_hash_root": "f4f3df70b97e618cef77d11f228a644aefbe6158ff6d3b8f8293d17275b29b4d",
+    "sealed_marker_ref": "runtime/diagnostics/as_codex_backend_client_seal/v0001_initial.sealed",
+    "signed_by": "cl_miro",
+    "signature_ref": "library/source_assets/components/as_codex_backend_client/versions/v0001_initial/evidence/manifest_v0001_initial.sig"
+  }
+}

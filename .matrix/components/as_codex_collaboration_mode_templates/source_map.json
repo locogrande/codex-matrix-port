@@ -1,0 +1,85 @@
+{
+  "schema_version": "codex_port_source_map/1.0",
+  "asset_id": "as_codex_collaboration_mode_templates",
+  "component_id": "collaboration_mode_templates",
+  "version_id": "v0001_initial",
+  "source_root": "library/source_assets/components/collaboration_mode_templates/versions/v0001_initial/source",
+  "origin_root": "codex-rs/collaboration-mode-templates",
+  "origin_repo": "C:\\Users\\yonat\\Desktop\\codex\\repo",
+  "file_count": 7,
+  "total_bytes": 15561,
+  "expected_plan_hash": "c5fde687766f6a2c01b5cab2ee24cfb7249548974c5afbf002acffa0e13495fd",
+  "regenerated_at": "2026-05-18T07:21:17Z",
+  "mappings": [
+    {
+      "path": "BUILD.bazel",
+      "target_relpath": "BUILD.bazel",
+      "origin_path": "codex-rs/collaboration-mode-templates/BUILD.bazel",
+      "size": 294,
+      "sha256": "80aa602e4849a1a72d4c564cc1c4dd877832daf4112bdd693c0af8feaab10889",
+      "matrix_framework": "build_config",
+      "reuse_verdict": "REFACTOR",
+      "reuse_reason": "build config — adapt for Matrix import structure"
+    },
+    {
+      "path": "Cargo.toml",
+      "target_relpath": "Cargo.toml",
+      "origin_path": "codex-rs/collaboration-mode-templates/Cargo.toml",
+      "size": 255,
+      "sha256": "52aa162c5ba6085b0eead685bd21a15043150789fcd08000465c95db0044fef4",
+      "matrix_framework": "build_config",
+      "reuse_verdict": "REFACTOR",
+      "reuse_reason": "build config — adapt for Matrix import structure"
+    },
+    {
+      "path": "src/lib.rs",
+      "target_relpath": "src/lib.rs",
+      "origin_path": "codex-rs/collaboration-mode-templates/src/lib.rs",
+      "size": 280,
+      "sha256": "b7d15334a0230f6d971306f0848e2ba26e637988158081f7ca94593adf2bf5dd",
+      "matrix_framework": "forager",
+      "reuse_verdict": "USE",
+      "reuse_reason": "rust source — forager target"
+    },
+    {
+      "path": "templates/default.md",
+      "target_relpath": "templates/default.md",
+      "origin_path": "codex-rs/collaboration-mode-templates/templates/default.md",
+      "size": 929,
+      "sha256": "94a6a72b8aaf0d597eac1aa59926c58a156dbca7573c1bf48f3d5ae8b80558d7",
+      "matrix_framework": "docs",
+      "reuse_verdict": "USE",
+      "reuse_reason": "documentation"
+    },
+    {
+      "path": "templates/execute.md",
+      "target_relpath": "templates/execute.md",
+      "origin_path": "codex-rs/collaboration-mode-templates/templates/execute.md",
+      "size": 3900,
+      "sha256": "9006d8b2415d46889d5ff7f5e85416e9dff025190a38bef2ca54f2ba9823fb13",
+      "matrix_framework": "docs",
+      "reuse_verdict": "USE",
+      "reuse_reason": "documentation"
+    },
+    {
+      "path": "templates/pair_programming.md",
+      "target_relpath": "templates/pair_programming.md",
+      "origin_path": "codex-rs/collaboration-mode-templates/templates/pair_programming.md",
+      "size": 1126,
+      "sha256": "19762149a918b93f005e858d7637615b4f2866b4bb8bbabfd68e93e56adb92e9",
+      "matrix_framework": "docs",
+      "reuse_verdict": "USE",
+      "reuse_reason": "documentation"
+    },
+    {
+      "path": "templates/plan.md",
+      "target_relpath": "templates/plan.md",
+      "origin_path": "codex-rs/collaboration-mode-templates/templates/plan.md",
+      "size": 8777,
+      "sha256": "2338d0000e681c9cfedc598974e8ec2782c7aba2d6d6d94460ca32d3d9f41ca9",
+      "matrix_framework": "docs",
+      "reuse_verdict": "USE",
+      "reuse_reason": "documentation"
+    }
+  ]
+}

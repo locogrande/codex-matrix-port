@@ -1,0 +1,25 @@
+{
+  "schema_version": "codex_port_source_map/1.0",
+  "asset_id": "as_codex_.gitignore",
+  "component_id": "dot_gitignore",
+  "version_id": "v0001_initial",
+  "source_root": "library/source_assets/components/dot_gitignore/versions/v0001_initial/source",
+  "origin_root": "codex-rs/.gitignore",
+  "origin_repo": "C:\\Users\\yonat\\Desktop\\codex\\repo",
+  "file_count": 1,
+  "total_bytes": 223,
+  "expected_plan_hash": "4263429eae2859d1bd79fcc5ad82f58c82fcf107a894fdb39cdbb83217cda39d",
+  "regenerated_at": "2026-05-18T06:27:56Z",
+  "mappings": [
+    {
+      "path": ".gitignore",
+      "target_relpath": ".gitignore",
+      "origin_path": "codex-rs/.gitignore",
+      "size": 223,
+      "sha256": "eddbfd7580d9d7758ce1dc0911fa74682c24a4779e5fc5abf4cb5785e3583971",
+      "matrix_framework": "unmapped",
+      "reuse_verdict": "USE",
+      "reuse_reason": "compliance / SCM metadata — preserve verbatim"
+    }
+  ]
+}

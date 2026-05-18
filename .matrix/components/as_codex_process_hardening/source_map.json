@@ -1,0 +1,55 @@
+{
+  "schema_version": "codex_port_source_map/1.0",
+  "asset_id": "as_codex_process_hardening",
+  "component_id": "process_hardening",
+  "version_id": "v0001_initial",
+  "source_root": "library/source_assets/components/process_hardening/versions/v0001_initial/source",
+  "origin_root": "codex-rs/process-hardening",
+  "origin_repo": "C:\\Users\\yonat\\Desktop\\codex\\repo",
+  "file_count": 4,
+  "total_bytes": 7125,
+  "expected_plan_hash": "4d6a36ab7187565d071f8c444042190875d05fa5cbd2447e6c60633bc07d61d2",
+  "regenerated_at": "2026-05-18T06:08:39Z",
+  "mappings": [
+    {
+      "path": "BUILD.bazel",
+      "target_relpath": "BUILD.bazel",
+      "origin_path": "codex-rs/process-hardening/BUILD.bazel",
+      "size": 137,
+      "sha256": "5a9b05023688d328e8a148861390b75d85290adc3c27ac948a6a85aa3faa7a49",
+      "matrix_framework": "build_config",
+      "reuse_verdict": "REFACTOR",
+      "reuse_reason": "build config — adapt for Matrix import structure"
+    },
+    {
+      "path": "Cargo.toml",
+      "target_relpath": "Cargo.toml",
+      "origin_path": "codex-rs/process-hardening/Cargo.toml",
+      "size": 325,
+      "sha256": "93c8131ae5485a66d16cff10dd254bf56bd49fd33235399cd5f59ccf0d75396d",
+      "matrix_framework": "build_config",
+      "reuse_verdict": "REFACTOR",
+      "reuse_reason": "build config — adapt for Matrix import structure"
+    },
+    {
+      "path": "README.md",
+      "target_relpath": "README.md",
+      "origin_path": "codex-rs/process-hardening/README.md",
+      "size": 386,
+      "sha256": "eecdd6817dcd001a2b4a4473a32b2f36020954701e88b7b6893e372bb0cbe72a",
+      "matrix_framework": "readme",
+      "reuse_verdict": "USE",
+      "reuse_reason": "documentation — preserve as docs asset"
+    },
+    {
+      "path": "src/lib.rs",
+      "target_relpath": "src/lib.rs",
+      "origin_path": "codex-rs/process-hardening/src/lib.rs",
+      "size": 6277,
+      "sha256": "4ab3cda9949d7d8b065a266dc1b49883fe4455594ddafeac8253dc4490c9fd6c",
+      "matrix_framework": "tracer",
+      "reuse_verdict": "USE",
+      "reuse_reason": "rust source — tracer target"
+    }
+  ]
+}

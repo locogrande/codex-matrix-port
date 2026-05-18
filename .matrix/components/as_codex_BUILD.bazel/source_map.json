@@ -1,0 +1,25 @@
+{
+  "schema_version": "codex_port_source_map/1.0",
+  "asset_id": "as_codex_BUILD.bazel",
+  "component_id": "root_build_bazel",
+  "version_id": "v0001_initial",
+  "source_root": "library/source_assets/components/root_build_bazel/versions/v0001_initial/source",
+  "origin_root": "codex-rs/BUILD.bazel",
+  "origin_repo": "C:\\Users\\yonat\\Desktop\\codex\\repo",
+  "file_count": 1,
+  "total_bytes": 269,
+  "expected_plan_hash": "4932d33d32d68d75603472b708ff7a0c4653babd7e338873e2dedebe5512b09a",
+  "regenerated_at": "2026-05-18T06:31:18Z",
+  "mappings": [
+    {
+      "path": "BUILD.bazel",
+      "target_relpath": "BUILD.bazel",
+      "origin_path": "codex-rs/BUILD.bazel",
+      "size": 269,
+      "sha256": "e04772e771c76ed90b01bb80a05db6e4a6c32b6863bf191f11b8069960609176",
+      "matrix_framework": "build_config",
+      "reuse_verdict": "USE",
+      "reuse_reason": "verbatim root config port"
+    }
+  ]
+}

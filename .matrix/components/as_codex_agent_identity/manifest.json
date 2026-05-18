@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.0.0",
+  "component_id": "agent_identity",
+  "kernel_asset_id": "as_codex_agent_identity",
+  "version_id": "v0001_initial",
+  "wo_id": "WO_2026-05-18_codex-port_as_codex_agent_identity",
+  "task_id": "WO_2026-05-18_codex-port_as_codex_agent_identity_copy_register_gate",
+  "manager": "gpt_miro",
+  "status": "accepted",
+  "created_at": "2026-05-18T00:00:00Z",
+  "source_lineage_authority": "forager",
+  "source_root": "library/source_assets/components/agent_identity/versions/v0001_initial/source",
+  "expected_plan_hash": "72898efbecb3aaa08a994b2e98812bc06d3ba9eb0f67fbd3d75747ec1b0bedcc",
+  "provenance": {
+    "kernel_provenance_ref": "library/source_assets/components/agent_identity/versions/v0001_initial/provenance.json",
+    "component_provenance_refs": [
+      "library/source_assets/components/agent_identity/versions/v0001_initial/provenance.json"
+    ]
+  },
+  "supersedes_version_id": null,
+  "components": [
+    {
+      "component_id": "agent_identity",
+      "asset_id": "as_codex_agent_identity",
+      "version_id": "v0001_initial",
+      "role": "external_port",
+      "source_root": "library/source_assets/components/agent_identity/versions/v0001_initial/source",
+      "source_map_ref": "library/source_assets/components/agent_identity/versions/v0001_initial/source_map.json",
+      "criticality": "build_config",
+      "notes": "Verbatim import of codex-rs/agent-identity (3 source files); adapter exposes metadata to Matrix Python callers."
+    }
+  ],
+  "reuse_map_ref": "library/source_assets/components/agent_identity/versions/v0001_initial/reuse_map.md",
+  "source_map_ref": "library/source_assets/components/agent_identity/versions/v0001_initial/source_map.json",
+  "adapter_ref": "library/framework_kit/agent_identity/__init__.py",
+  "evidence": {
+    "source_migration_receipt_ref": "library/source_assets/components/agent_identity/versions/v0001_initial/evidence/migration_receipt.json"
+  },
+  "primary_framework": "build_config",
+  "framework_distribution": {
+    "build_config": 2,
+    "forager": 1
+  },
+  "depends_on_assets": [],
+  "hash_policy_ref": "library/policies/hash_canonicalization.md",
+  "asset_id": "as_codex_agent_identity",
+  "kind": "codex_port_asset",
+  "source_path": "codex-rs/agent-identity",
+  "source_files_count": 3,
+  "content_hashes_ref": "library/source_assets/components/agent_identity/versions/v0001_initial/evidence/content_hashes.json",
+  "framework_kit_adapter_ref": "library/framework_kit/agent_identity/__init__.py",
+  "sealed_at": "2026-05-18T04:10:30Z",
+  "content_hash_root": "9c8b35b39269bb27ce2641499647808bf3b4a050effb14f699d0af00e2ffc619",
+  "seal": {
+    "content_hash_algorithm": "sha256",
+    "canonicalization": "json_canonical_v1_sorted_keys_no_whitespace",
+    "content_hash_root": "9c8b35b39269bb27ce2641499647808bf3b4a050effb14f699d0af00e2ffc619",
+    "sealed_marker_ref": "runtime/diagnostics/as_codex_agent_identity_seal/v0001_initial.sealed",
+    "signed_by": "gpt_miro",
+    "signature_ref": "library/source_assets/components/agent_identity/versions/v0001_initial/evidence/manifest_v0001_initial.sig"
+  }
+}

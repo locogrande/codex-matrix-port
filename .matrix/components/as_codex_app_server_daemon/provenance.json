@@ -1,0 +1,9 @@
+{
+  "asset_id": "as_codex_app_server_daemon",
+  "version_id": "v0001_initial",
+  "task_id": "WO_2026-05-18_codex-port_as_codex_app_server_daemon_copy_register_gate",
+  "wo_id": "WO_2026-05-18_codex-port_as_codex_app_server_daemon",
+  "source": "C:\\Users\\yonat\\Desktop\\codex\\repo\\codex-rs\\app-server-daemon",
+  "plan_hash": "08ce71efac33e0ccdb0d8a1916fec3d99eb0330ff782844cd04f70121e9a849a",
+  "created_at": "2026-05-18T07:10:12Z"
+}

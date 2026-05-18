@@ -1,0 +1,9 @@
+{
+  "asset_id": "as_codex_shell_escalation",
+  "version_id": "v0001_initial",
+  "task_id": "WO_2026-05-18_codex-port_as_codex_shell_escalation_copy_register_gate",
+  "wo_id": "WO_2026-05-18_codex-port_as_codex_shell_escalation",
+  "source": "C:\\Users\\yonat\\Desktop\\codex\\repo\\codex-rs\\shell-escalation",
+  "plan_hash": "b3530e55bfc1c9dfa358a5952b21a139d911d2d03d0a6a66a9c55c16eca043db",
+  "created_at": "2026-05-18T08:58:07Z"
+}

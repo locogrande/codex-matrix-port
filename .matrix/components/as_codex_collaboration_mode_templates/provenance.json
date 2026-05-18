@@ -1,0 +1,12 @@
+{
+  "asset_id": "as_codex_collaboration_mode_templates",
+  "component_id": "collaboration_mode_templates",
+  "version_id": "v0001_initial",
+  "task_id": "WO_2026-05-18_codex-port_as_codex_collaboration_mode_templates_copy_register_gate",
+  "wo_id": "WO_2026-05-18_codex-port_as_codex_collaboration_mode_templates",
+  "manager": "gpt_miro",
+  "origin": "codex-rs/collaboration-mode-templates",
+  "status": "accepted",
+  "content_hash_root": "192ada87b7ea6c56edcf34c92bcff5599b642bf8ddd3cbb5da5e3ccd8c5ca131",
+  "sealed_at": "2026-05-18T07:21:17Z"
+}

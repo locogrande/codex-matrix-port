@@ -1,0 +1,55 @@
+{
+  "schema_version": "codex_port_source_map/1.0",
+  "asset_id": "as_codex_v8_poc",
+  "component_id": "v8_poc",
+  "version_id": "v0001_initial",
+  "source_root": "library/source_assets/components/v8_poc/versions/v0001_initial/source",
+  "origin_root": "codex-rs/v8-poc",
+  "origin_repo": "C:\\Users\\yonat\\Desktop\\codex\\repo",
+  "file_count": 4,
+  "total_bytes": 3067,
+  "expected_plan_hash": "f476fac6cfb6dd50b5337d4ef1ed4653b9e43698ba04e8349ae7d091b8bdb110",
+  "regenerated_at": "2026-05-18T06:08:39Z",
+  "mappings": [
+    {
+      "path": ".gitignore",
+      "target_relpath": ".gitignore",
+      "origin_path": "codex-rs/v8-poc/.gitignore",
+      "size": 21,
+      "sha256": "edd63e92bacb7601d91254be7ccd8c803e2f916e0efafa8f1949b4ac21b34d8b",
+      "matrix_framework": "unmapped",
+      "reuse_verdict": "USE",
+      "reuse_reason": "compliance / SCM metadata — preserve verbatim"
+    },
+    {
+      "path": "BUILD.bazel",
+      "target_relpath": "BUILD.bazel",
+      "origin_path": "codex-rs/v8-poc/BUILD.bazel",
+      "size": 374,
+      "sha256": "045a8df5f0fea9fd69f5b00f8277fe546d50db0128a6e5eee527b39549caca96",
+      "matrix_framework": "build_config",
+      "reuse_verdict": "REFACTOR",
+      "reuse_reason": "build config — adapt for Matrix import structure"
+    },
+    {
+      "path": "Cargo.toml",
+      "target_relpath": "Cargo.toml",
+      "origin_path": "codex-rs/v8-poc/Cargo.toml",
+      "size": 348,
+      "sha256": "e98d307ee1683087debb02cf5fba46cc1a23177a25cd6b03f74f1539239312c9",
+      "matrix_framework": "build_config",
+      "reuse_verdict": "REFACTOR",
+      "reuse_reason": "build config — adapt for Matrix import structure"
+    },
+    {
+      "path": "src/lib.rs",
+      "target_relpath": "src/lib.rs",
+      "origin_path": "codex-rs/v8-poc/src/lib.rs",
+      "size": 2324,
+      "sha256": "6ddd94a21fc6cebc61a282aa241b7046d44dc8d7ea7cfbeb306ee3ec900f920a",
+      "matrix_framework": "forager",
+      "reuse_verdict": "USE",
+      "reuse_reason": "rust source — forager target"
+    }
+  ]
+}

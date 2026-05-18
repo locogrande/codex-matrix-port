@@ -1,0 +1,12 @@
+{
+  "asset_id": "as_codex_responses_api_proxy",
+  "component_id": "responses_api_proxy",
+  "version_id": "v0001_initial",
+  "task_id": "WO_2026-05-18_codex-port_as_codex_responses_api_proxy_copy_register_gate",
+  "wo_id": "WO_2026-05-18_codex-port_as_codex_responses_api_proxy",
+  "manager": "gpt_miro",
+  "origin": "codex-rs/responses-api-proxy",
+  "status": "accepted",
+  "content_hash_root": "5b30167e45f952123db7bf587764678f3b0ab72fd62a30bd176f63cda835f720",
+  "sealed_at": "2026-05-18T05:50:12Z"
+}

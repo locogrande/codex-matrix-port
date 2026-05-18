@@ -1,0 +1,9 @@
+{
+  "asset_id": "as_codex_exec_server",
+  "version_id": "v0001_initial",
+  "task_id": "WO_2026-05-18_codex-port_as_codex_exec_server_copy_register_gate",
+  "wo_id": "WO_2026-05-18_codex-port_as_codex_exec_server",
+  "source": "C:\\Users\\yonat\\Desktop\\codex\\repo\\codex-rs\\exec-server",
+  "plan_hash": "5714e398dfa64c50bb2528f6ac326c473bc8b5c6aaa46cd4f9ee466a8eb05c30",
+  "created_at": "2026-05-18T07:50:49Z"
+}

@@ -1,0 +1,12 @@
+{
+  "asset_id": "as_codex_process_hardening",
+  "component_id": "process_hardening",
+  "version_id": "v0001_initial",
+  "task_id": "WO_2026-05-18_codex-port_as_codex_process_hardening_copy_register_gate",
+  "wo_id": "WO_2026-05-18_codex-port_as_codex_process_hardening",
+  "manager": "gpt_miro",
+  "origin": "codex-rs/process-hardening",
+  "status": "accepted",
+  "content_hash_root": "15eae04495d20bd559df6d9e5b1d7275ba57e5fa39a49b8d3e7a9bedbff51de7",
+  "sealed_at": "2026-05-18T06:08:39Z"
+}

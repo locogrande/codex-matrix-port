@@ -1,0 +1,12 @@
+{
+  "asset_id": "as_codex_secrets",
+  "component_id": "secrets",
+  "version_id": "v0001_initial",
+  "task_id": "WO_2026-05-18_codex-port_as_codex_secrets_copy_register_gate",
+  "wo_id": "WO_2026-05-18_codex-port_as_codex_secrets",
+  "manager": "gpt_miro",
+  "origin": "codex-rs/secrets",
+  "status": "accepted",
+  "content_hash_root": "6aad0c20f9327b17e17b23fd38355902acbadc76e351da0250e60bc430810adc",
+  "sealed_at": "2026-05-18T05:21:36Z"
+}

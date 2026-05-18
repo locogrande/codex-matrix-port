@@ -1,0 +1,31 @@
+{
+  "asset_id": "as_codex_uds",
+  "content_hash_algorithm": "sha256",
+  "content_hash_root": "a22c3c7aebca80988a28cc58d35c906d0ca3cdb76eb0f82da45ee175a4589dfa",
+  "file_count": 4,
+  "files": [
+    {
+      "path": "BUILD.bazel",
+      "sha256": "8d63234480ab3da7a82e1754fcc10d988ff2e3f38344f9fe086914985c03cebc",
+      "size": 109
+    },
+    {
+      "path": "Cargo.toml",
+      "sha256": "7f4087f6078469c318ec5992560f072f45f246ed7ae0d7b48b71ffed7eb5f0b0",
+      "size": 621
+    },
+    {
+      "path": "src/lib.rs",
+      "sha256": "4e655cbadc4a488c5c28c788eb81f11c49c1a284ee4f53cee671420361ccd33f",
+      "size": 10538
+    },
+    {
+      "path": "src/lib_tests.rs",
+      "sha256": "76affab02d9b829bcb941af3183a908824d1b555b851bec1d956e10e024c77cd",
+      "size": 4035
+    }
+  ],
+  "schema_version": "codex_port_content_hashes/1.0",
+  "summary": "a22c3c7aebca80988a28cc58d35c906d0ca3cdb76eb0f82da45ee175a4589dfa",
+  "version_id": "v0001_initial"
+}

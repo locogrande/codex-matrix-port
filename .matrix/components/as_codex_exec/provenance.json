@@ -1,0 +1,12 @@
+{
+  "asset_id": "as_codex_exec",
+  "component_id": "exec",
+  "version_id": "v0001_initial",
+  "task_id": "WO_2026-05-18_codex-port_as_codex_exec_copy_register_gate",
+  "wo_id": "WO_2026-05-18_codex-port_as_codex_exec",
+  "manager": "gpt_miro",
+  "origin": "codex-rs/exec",
+  "status": "accepted",
+  "content_hash_root": "a523ce6d0a51be2c2d2a9daf93b8eba7eea1bf27513a8f1e0519c04bcb69922f",
+  "sealed_at": "2026-05-18T05:47:34Z"
+}

@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.0.0",
+  "component_id": "as_codex_aws_auth",
+  "kernel_asset_id": "as_codex_aws_auth",
+  "asset_id": "as_codex_aws_auth",
+  "version_id": "v0001_initial",
+  "wo_id": "WO_2026-05-18_codex-port_as_codex_aws_auth",
+  "task_id": "WO_2026-05-18_codex-port_as_codex_aws_auth_copy_register_gate",
+  "manager": "cl_miro",
+  "status": "accepted",
+  "created_at": "2026-05-18T04:43:39Z",
+  "source_lineage_authority": "forager",
+  "kind": "codex_port_asset",
+  "primary_framework": "forager",
+  "framework_distribution": {
+    "build_config": 2,
+    "forager": 3
+  },
+  "source_path": "codex-rs/aws-auth",
+  "source_root": "library/source_assets/components/as_codex_aws_auth/versions/v0001_initial/source",
+  "source_files_count": 5,
+  "expected_plan_hash": "5ebd8533f2735482acc09fc855fc48d04c4d9c89d97c570ace8424c60aa1e26e",
+  "provenance": {
+    "plan_ref": "library/migration_archive/codex_repo_matrix_plan.json",
+    "workorder_ref": "current_work/pending_work/WO_2026-05-18_codex-port/tasks/wo_as_codex_aws_auth.json",
+    "source_inventory": "C:\\Users\\yonat\\Desktop\\codex\\repo"
+  },
+  "supersedes_version_id": null,
+  "content_hashes_ref": "library/source_assets/components/as_codex_aws_auth/versions/v0001_initial/evidence/content_hashes.json",
+  "components": [
+    {
+      "component_id": "as_codex_aws_auth",
+      "asset_id": "as_codex_aws_auth",
+      "version_id": "v0001_initial",
+      "role": "codex_rust_crate",
+      "source_root": "library/source_assets/components/as_codex_aws_auth/versions/v0001_initial/source",
+      "source_map_ref": "library/source_assets/components/as_codex_aws_auth/versions/v0001_initial/source_map.json",
+      "criticality": "codex_port_asset",
+      "notes": "Verbatim source copy of codex-rs/aws-auth."
+    }
+  ],
+  "reuse_map_ref": "library/source_assets/components/as_codex_aws_auth/versions/v0001_initial/reuse_map.md",
+  "source_map_ref": "library/source_assets/components/as_codex_aws_auth/versions/v0001_initial/source_map.json",
+  "evidence": {
+    "source_migration_receipt_ref": "library/source_assets/components/as_codex_aws_auth/versions/v0001_initial/evidence/source_migration_receipt.json",
+    "dogfood_registration_ref": "library/source_assets/components/as_codex_aws_auth/versions/v0001_initial/evidence/dogfood_registration.json",
+    "peer_review_ref": "managers/cl_miro/reviews/WO_2026-05-18_codex-port_as_codex_aws_auth_copy_register_gate_peer_review_v01.json",
+    "route_review_ref": "managers/cl_miro/reviews/WO_2026-05-18_codex-port_as_codex_aws_auth_copy_register_gate_route_review_v01.json"
+  },
+  "framework_kit_adapter_ref": "library/framework_kit/aws_auth/__init__.py",
+  "sealed_at": "2026-05-18T04:43:39Z",
+  "content_hash_root": "ee78b90e104364a48729ee29f15326211d7f39caf93541e86705de4e9d88e005",
+  "seal": {
+    "content_hash_algorithm": "sha256",
+    "canonicalization": "json_canonical_v1_sorted_keys_no_whitespace",
+    "content_hash_root": "ee78b90e104364a48729ee29f15326211d7f39caf93541e86705de4e9d88e005",
+    "sealed_marker_ref": "runtime/diagnostics/as_codex_aws_auth_seal/v0001_initial.sealed",
+    "signed_by": "cl_miro",
+    "signature_ref": "library/source_assets/components/as_codex_aws_auth/versions/v0001_initial/evidence/manifest_v0001_initial.sig"
+  }
+}

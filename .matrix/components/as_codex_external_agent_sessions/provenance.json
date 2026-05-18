@@ -1,0 +1,9 @@
+{
+  "asset_id": "as_codex_external_agent_sessions",
+  "version_id": "v0001_initial",
+  "task_id": "WO_2026-05-18_codex-port_as_codex_external_agent_sessions_copy_register_gate",
+  "wo_id": "WO_2026-05-18_codex-port_as_codex_external_agent_sessions",
+  "source": "C:\\Users\\yonat\\Desktop\\codex\\repo\\codex-rs\\external-agent-sessions",
+  "plan_hash": "ca13ccab2c8ae502eb0da333af6b0d15e68e7a70a7016f45e5862302d49dedb8",
+  "created_at": "2026-05-18T07:56:40Z"
+}

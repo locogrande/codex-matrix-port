@@ -1,0 +1,12 @@
+{
+  "asset_id": "as_codex_Cargo.toml",
+  "component_id": "root_cargo_toml",
+  "version_id": "v0001_initial",
+  "task_id": "WO_2026-05-18_codex-port_as_codex_Cargo.toml_copy_register_gate",
+  "wo_id": "WO_2026-05-18_codex-port_as_codex_Cargo.toml",
+  "manager": "gpt_miro",
+  "origin": "codex-rs/Cargo.toml",
+  "status": "accepted",
+  "content_hash_root": "bd581ecc44ccf9ebcd839b8cd3ee501ba36db72ee1d1d8326d973d9688f47746",
+  "sealed_at": "2026-05-18T06:31:28Z"
+}

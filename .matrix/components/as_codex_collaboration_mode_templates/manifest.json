@@ -1,0 +1,38 @@
+{
+  "schema_version": "1.0.0",
+  "component_id": "collaboration_mode_templates",
+  "kernel_asset_id": "as_codex_collaboration_mode_templates",
+  "asset_id": "as_codex_collaboration_mode_templates",
+  "version_id": "v0001_initial",
+  "wo_id": "WO_2026-05-18_codex-port_as_codex_collaboration_mode_templates",
+  "task_id": "WO_2026-05-18_codex-port_as_codex_collaboration_mode_templates_copy_register_gate",
+  "manager": "gpt_miro",
+  "status": "accepted",
+  "created_at": "2026-05-18T07:21:17Z",
+  "source_lineage_authority": "forager",
+  "kind": "codex_port_asset",
+  "primary_framework": "docs",
+  "framework_distribution": {
+    "build_config": 2,
+    "forager": 1,
+    "docs": 4
+  },
+  "source_path": "codex-rs/collaboration-mode-templates",
+  "source_root": "library/source_assets/components/collaboration_mode_templates/versions/v0001_initial/source",
+  "source_files_count": 7,
+  "expected_plan_hash": "c5fde687766f6a2c01b5cab2ee24cfb7249548974c5afbf002acffa0e13495fd",
+  "content_hashes_ref": "library/source_assets/components/collaboration_mode_templates/versions/v0001_initial/evidence/content_hashes.json",
+  "reuse_map_ref": "library/source_assets/components/collaboration_mode_templates/versions/v0001_initial/reuse_map.md",
+  "source_map_ref": "library/source_assets/components/collaboration_mode_templates/versions/v0001_initial/source_map.json",
+  "framework_kit_adapter_ref": "library/framework_kit/collaboration_mode_templates/__init__.py",
+  "sealed_at": "2026-05-18T07:21:17Z",
+  "content_hash_root": "192ada87b7ea6c56edcf34c92bcff5599b642bf8ddd3cbb5da5e3ccd8c5ca131",
+  "seal": {
+    "content_hash_algorithm": "sha256",
+    "canonicalization": "json_canonical_v1_sorted_keys_no_whitespace",
+    "content_hash_root": "192ada87b7ea6c56edcf34c92bcff5599b642bf8ddd3cbb5da5e3ccd8c5ca131",
+    "sealed_marker_ref": "runtime/diagnostics/as_codex_collaboration_mode_templates_seal/v0001_initial.sealed",
+    "signed_by": "gpt_miro",
+    "signature_ref": "library/source_assets/components/collaboration_mode_templates/versions/v0001_initial/evidence/manifest_v0001_initial.sig"
+  }
+}

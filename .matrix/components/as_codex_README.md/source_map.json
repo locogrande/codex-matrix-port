@@ -1,0 +1,25 @@
+{
+  "schema_version": "codex_port_source_map/1.0",
+  "asset_id": "as_codex_README.md",
+  "component_id": "root_readme_md",
+  "version_id": "v0001_initial",
+  "source_root": "library/source_assets/components/root_readme_md/versions/v0001_initial/source",
+  "origin_root": "codex-rs/README.md",
+  "origin_repo": "C:\\Users\\yonat\\Desktop\\codex\\repo",
+  "file_count": 1,
+  "total_bytes": 5449,
+  "expected_plan_hash": "93cfe0b63efcb334bb09f8cfe7c46e19043deee08825a5582631f20cd3d89eeb",
+  "regenerated_at": "2026-05-18T06:31:38Z",
+  "mappings": [
+    {
+      "path": "README.md",
+      "target_relpath": "README.md",
+      "origin_path": "codex-rs/README.md",
+      "size": 5449,
+      "sha256": "b4597e0f0738172bb1a822dfbd3e67953b60ede46a5cbdc0c3faaf0fe38db4f5",
+      "matrix_framework": "readme",
+      "reuse_verdict": "USE",
+      "reuse_reason": "verbatim root config port"
+    }
+  ]
+}

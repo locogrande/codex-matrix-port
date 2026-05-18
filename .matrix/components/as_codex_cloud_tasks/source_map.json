@@ -1,0 +1,125 @@
+{
+  "schema_version": "codex_port_source_map/1.0",
+  "asset_id": "as_codex_cloud_tasks",
+  "component_id": "cloud_tasks",
+  "version_id": "v0001_initial",
+  "source_root": "library/source_assets/components/cloud_tasks/versions/v0001_initial/source",
+  "origin_root": "codex-rs/cloud-tasks",
+  "origin_repo": "C:\\Users\\yonat\\Desktop\\codex\\repo",
+  "file_count": 11,
+  "total_bytes": 198511,
+  "expected_plan_hash": "f6d50b73e72d037f466a30480cf718fc713b10d9d63c8cb37cd598c261b44c59",
+  "regenerated_at": "2026-05-18T04:55:15Z",
+  "mappings": [
+    {
+      "path": "BUILD.bazel",
+      "target_relpath": "BUILD.bazel",
+      "origin_path": "codex-rs/cloud-tasks/BUILD.bazel",
+      "size": 213,
+      "sha256": "4e5e31bf812cf25fdfcb5a5ecd2c883798995796671a5b9cb9997080c446a40d",
+      "matrix_framework": "build_config",
+      "reuse_verdict": "REFACTOR",
+      "reuse_reason": "build config — adapt for Matrix import structure"
+    },
+    {
+      "path": "Cargo.toml",
+      "target_relpath": "Cargo.toml",
+      "origin_path": "codex-rs/cloud-tasks/Cargo.toml",
+      "size": 1493,
+      "sha256": "62880928e463663f83d81516531a7234e2b4d0435e2ca749b6edfca036333bef",
+      "matrix_framework": "build_config",
+      "reuse_verdict": "REFACTOR",
+      "reuse_reason": "build config — adapt for Matrix import structure"
+    },
+    {
+      "path": "src/app.rs",
+      "target_relpath": "src/app.rs",
+      "origin_path": "codex-rs/cloud-tasks/src/app.rs",
+      "size": 16025,
+      "sha256": "ed1eacbd176590960566f9c6212196eb72854ebf9c26187fa123b0573adb6967",
+      "matrix_framework": "forager",
+      "reuse_verdict": "USE",
+      "reuse_reason": "rust source — forager target"
+    },
+    {
+      "path": "src/cli.rs",
+      "target_relpath": "src/cli.rs",
+      "origin_path": "codex-rs/cloud-tasks/src/cli.rs",
+      "size": 3379,
+      "sha256": "9ffbf4e43e12986a3ade28f05bc3d70e80d2860314f32ace7b3060148bc2fbaa",
+      "matrix_framework": "forager",
+      "reuse_verdict": "USE",
+      "reuse_reason": "rust source — forager target"
+    },
+    {
+      "path": "src/env_detect.rs",
+      "target_relpath": "src/env_detect.rs",
+      "origin_path": "codex-rs/cloud-tasks/src/env_detect.rs",
+      "size": 13173,
+      "sha256": "790d8c4be98310e67aaf77fdffffbb59c52e06f93f1aaea80e90cd06972b1b78",
+      "matrix_framework": "forager",
+      "reuse_verdict": "USE",
+      "reuse_reason": "rust source — forager target"
+    },
+    {
+      "path": "src/lib.rs",
+      "target_relpath": "src/lib.rs",
+      "origin_path": "codex-rs/cloud-tasks/src/lib.rs",
+      "size": 117029,
+      "sha256": "4942ebd55551f807a9b5fb5f3e7164ed935aa4e5ff5d2dfad02357a03f22d23a",
+      "matrix_framework": "forager",
+      "reuse_verdict": "USE",
+      "reuse_reason": "rust source — forager target"
+    },
+    {
+      "path": "src/new_task.rs",
+      "target_relpath": "src/new_task.rs",
+      "origin_path": "codex-rs/cloud-tasks/src/new_task.rs",
+      "size": 833,
+      "sha256": "4fe4f9894778f81f76240d54694d6caec904f72e0df85c3be7bc0047e768cc28",
+      "matrix_framework": "forager",
+      "reuse_verdict": "USE",
+      "reuse_reason": "rust source — forager target"
+    },
+    {
+      "path": "src/scrollable_diff.rs",
+      "target_relpath": "src/scrollable_diff.rs",
+      "origin_path": "codex-rs/cloud-tasks/src/scrollable_diff.rs",
+      "size": 6007,
+      "sha256": "68a85c442a892ca4147951c96a38cb9e81b0f4e9541f8ef27dfd97d8b5d61adf",
+      "matrix_framework": "forager",
+      "reuse_verdict": "USE",
+      "reuse_reason": "rust source — forager target"
+    },
+    {
+      "path": "src/ui.rs",
+      "target_relpath": "src/ui.rs",
+      "origin_path": "codex-rs/cloud-tasks/src/ui.rs",
+      "size": 35704,
+      "sha256": "fa1c7639aa8230e19ece68be7066ef9eade2cf7cfce9669d4d1588c15ca025ed",
+      "matrix_framework": "forager",
+      "reuse_verdict": "USE",
+      "reuse_reason": "rust source — forager target"
+    },
+    {
+      "path": "src/util.rs",
+      "target_relpath": "src/util.rs",
+      "origin_path": "codex-rs/cloud-tasks/src/util.rs",
+      "size": 3777,
+      "sha256": "2f733c020846b9c6f031c42d25d55237b670966f84f84edb23037367ec10fe58",
+      "matrix_framework": "forager",
+      "reuse_verdict": "USE",
+      "reuse_reason": "rust source — forager target"
+    },
+    {
+      "path": "tests/env_filter.rs",
+      "target_relpath": "tests/env_filter.rs",
+      "origin_path": "codex-rs/cloud-tasks/tests/env_filter.rs",
+      "size": 878,
+      "sha256": "67c98d845e58031c9a6c138bea9a5c9c29c1af4459cf1b66a370e3a8722ae8a1",
+      "matrix_framework": "forager",
+      "reuse_verdict": "USE",
+      "reuse_reason": "test file — preserve for Tester framework integration"
+    }
+  ]
+}

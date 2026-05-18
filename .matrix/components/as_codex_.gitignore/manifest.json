@@ -1,0 +1,36 @@
+{
+  "schema_version": "1.0.0",
+  "component_id": "dot_gitignore",
+  "kernel_asset_id": "as_codex_.gitignore",
+  "asset_id": "as_codex_.gitignore",
+  "version_id": "v0001_initial",
+  "wo_id": "WO_2026-05-18_codex-port_as_codex_.gitignore",
+  "task_id": "WO_2026-05-18_codex-port_as_codex_.gitignore_copy_register_gate",
+  "manager": "gpt_miro",
+  "status": "accepted",
+  "created_at": "2026-05-18T06:27:00Z",
+  "source_lineage_authority": "forager",
+  "kind": "codex_port_asset",
+  "primary_framework": "unmapped",
+  "framework_distribution": {
+    "unmapped": 1
+  },
+  "source_path": "codex-rs/.gitignore",
+  "source_root": "library/source_assets/components/dot_gitignore/versions/v0001_initial/source",
+  "source_files_count": 1,
+  "expected_plan_hash": "4263429eae2859d1bd79fcc5ad82f58c82fcf107a894fdb39cdbb83217cda39d",
+  "content_hashes_ref": "library/source_assets/components/dot_gitignore/versions/v0001_initial/evidence/content_hashes.json",
+  "reuse_map_ref": "library/source_assets/components/dot_gitignore/versions/v0001_initial/reuse_map.md",
+  "source_map_ref": "library/source_assets/components/dot_gitignore/versions/v0001_initial/source_map.json",
+  "framework_kit_adapter_ref": "library/framework_kit/dot_gitignore/__init__.py",
+  "sealed_at": "2026-05-18T06:27:56Z",
+  "content_hash_root": "8dd8459c86f6da590b3eb7e32c43f66287c722d60fe947fa3295ba08f0fb37a0",
+  "seal": {
+    "content_hash_algorithm": "sha256",
+    "canonicalization": "json_canonical_v1_sorted_keys_no_whitespace",
+    "content_hash_root": "8dd8459c86f6da590b3eb7e32c43f66287c722d60fe947fa3295ba08f0fb37a0",
+    "sealed_marker_ref": "runtime/diagnostics/as_codex_.gitignore_seal/v0001_initial.sealed",
+    "signed_by": "gpt_miro",
+    "signature_ref": "library/source_assets/components/dot_gitignore/versions/v0001_initial/evidence/manifest_v0001_initial.sig"
+  }
+}

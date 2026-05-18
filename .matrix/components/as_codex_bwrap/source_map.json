@@ -1,0 +1,65 @@
+{
+  "schema_version": "codex_port_source_map/1.0",
+  "asset_id": "as_codex_bwrap",
+  "component_id": "as_codex_bwrap",
+  "version_id": "v0001_initial",
+  "source_root": "library/source_assets/components/as_codex_bwrap/versions/v0001_initial/source",
+  "origin_root": "codex-rs/bwrap",
+  "origin_repo": "C:\\Users\\yonat\\Desktop\\codex\\repo",
+  "file_count": 5,
+  "total_bytes": 6603,
+  "expected_plan_hash": "e63bd737eb34d4f7c8a2d7a6bb748570d4ea10e635edaf65f460a680b7f663cd",
+  "regenerated_at": "2026-05-18T04:10:30Z",
+  "mappings": [
+    {
+      "path": "BUILD.bazel",
+      "target_relpath": "BUILD.bazel",
+      "origin_path": "codex-rs/bwrap/BUILD.bazel",
+      "size": 1012,
+      "sha256": "583df1972a666a3993a53b2b0bf7e0045db9d178966fe32de0342d69b06d2404",
+      "matrix_framework": "build_config",
+      "reuse_verdict": "REFACTOR",
+      "reuse_reason": "build config — adapt for Matrix import structure"
+    },
+    {
+      "path": "Cargo.toml",
+      "target_relpath": "Cargo.toml",
+      "origin_path": "codex-rs/bwrap/Cargo.toml",
+      "size": 305,
+      "sha256": "5b524ac2c30f4029cae77721c026d3487a6628473b042d26f354ab6075ec4a7c",
+      "matrix_framework": "build_config",
+      "reuse_verdict": "REFACTOR",
+      "reuse_reason": "build config — adapt for Matrix import structure"
+    },
+    {
+      "path": "build.rs",
+      "target_relpath": "build.rs",
+      "origin_path": "codex-rs/bwrap/build.rs",
+      "size": 3851,
+      "sha256": "3ca3f0c90e075d38215e74ff19049df1ff6fdd80a04711ee05f3acd39dfd7b70",
+      "matrix_framework": "forager",
+      "reuse_verdict": "USE",
+      "reuse_reason": "rust source — forager target"
+    },
+    {
+      "path": "config.h",
+      "target_relpath": "config.h",
+      "origin_path": "codex-rs/bwrap/config.h",
+      "size": 52,
+      "sha256": "55f7dedf5504659f50b6575571eb4a4c884afc0597fa11435a8318e0cccccd1e",
+      "matrix_framework": "unmapped",
+      "reuse_verdict": "USE",
+      "reuse_reason": "c_header source — unmapped target"
+    },
+    {
+      "path": "src/main.rs",
+      "target_relpath": "src/main.rs",
+      "origin_path": "codex-rs/bwrap/src/main.rs",
+      "size": 1383,
+      "sha256": "1fdfa3549d633f7d260c9bccc896f59a7f32275b9130b72ee796622b639081aa",
+      "matrix_framework": "forager",
+      "reuse_verdict": "USE",
+      "reuse_reason": "rust source — forager target"
+    }
+  ]
+}

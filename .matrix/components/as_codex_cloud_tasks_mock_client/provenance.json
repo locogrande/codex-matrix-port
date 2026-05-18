@@ -1,0 +1,9 @@
+{
+  "asset_id": "as_codex_cloud_tasks_mock_client",
+  "version_id": "v0001_initial",
+  "task_id": "WO_2026-05-18_codex-port_as_codex_cloud_tasks_mock_client_copy_register_gate",
+  "wo_id": "WO_2026-05-18_codex-port_as_codex_cloud_tasks_mock_client",
+  "source": "C:\\Users\\yonat\\Desktop\\codex\\repo\\codex-rs\\cloud-tasks-mock-client",
+  "plan_hash": "3660bb86a8fd09abd099b420fc6c794af5ac70e90f179db845a1c2c6f74f6040",
+  "created_at": "2026-05-18T06:56:39Z"
+}

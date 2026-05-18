@@ -1,0 +1,100 @@
+{
+  "asset_id": "a_01KRX9S8XB34E9XZ95Y39SPP2F",
+  "forager_submit_asset": {
+    "asset_id": "a_01KRX9S8XB34E9XZ95Y39SPP2F",
+    "asset_uri": "matrix://forager/asset/a_01KRX9S8XB34E9XZ95Y39SPP2F",
+    "commit_note_emitted": false,
+    "connection_audit": {
+      "audit_event_id": "fge_01KRX9S92EABRV68CXCTS475R6",
+      "ipr_refs": [],
+      "ok": true,
+      "rejections": [],
+      "warnings": []
+    },
+    "context_refs": {
+      "asset_refs": [
+        "matrix://forager/asset/a_01KRX9S8XB34E9XZ95Y39SPP2F"
+      ],
+      "envelope_refs": [],
+      "eval_refs": [],
+      "patch_refs": [],
+      "pattern_refs": [],
+      "projection_refs": []
+    },
+    "gate_results": [],
+    "ok": true,
+    "operation_trace": {
+      "actor": "framework_kit",
+      "idempotency_key": "matrix://project/forager/work_unit/wu_01KRX9S8ZE1212S1V9R8F90DHG",
+      "parent_trace_ref": null,
+      "schema_version": "1.0.0",
+      "started_at": "2026-05-18T10:23:24.763807Z",
+      "trace_id": "ot_01KRX9S92V4KP1RGHMY2EPRMER"
+    },
+    "receipt_ref": "matrix://project/forager/forager/ledger/fge_01KRX9S92M4T3X254G3VYYXP9G",
+    "receipt_refs": [
+      "matrix://project/forager/forager/ledger/fge_01KRX9S92M4T3X254G3VYYXP9G"
+    ],
+    "schema_version": "1.0.0",
+    "state": "candidate",
+    "trace_links": [],
+    "work_unit_ref": "matrix://project/forager/work_unit/wu_01KRX9S8ZE1212S1V9R8F90DHG"
+  },
+  "forager_test_target": {
+    "asset_id": "a_01KRX9S95M5X1NPT7GMD6S8EMK",
+    "asset_uri": "matrix://project/forager/forager/asset/a_01KRX9S95M5X1NPT7GMD6S8EMK",
+    "context_refs": {
+      "asset_refs": [
+        "matrix://project/forager/forager/asset/a_01KRX9S95M5X1NPT7GMD6S8EMK"
+      ],
+      "envelope_refs": [],
+      "eval_refs": [],
+      "patch_refs": [],
+      "pattern_refs": [],
+      "projection_refs": []
+    },
+    "gate_ref": "matrix://project/forager/forager/asset/a_01KRX9S95M5X1NPT7GMD6S8EMK",
+    "gate_results": [
+      {
+        "evidence": {
+          "assertion_failure": false,
+          "error_reason": null,
+          "load_error": false,
+          "stderr": "",
+          "stdout": "",
+          "timeout": false
+        },
+        "gate_id": "forager.fast",
+        "gate_type": "fast_tester",
+        "hard_fail": false,
+        "observed_at": "2026-05-18T10:23:25.541209Z",
+        "owner": "forager",
+        "passed": true,
+        "schema_version": "1.0.0",
+        "ts_iso": "2026-05-18T10:23:24.972906+00:00",
+        "verdict": "pass"
+      }
+    ],
+    "id": "matrix://project/forager/forager/asset/a_01KRX9S95M5X1NPT7GMD6S8EMK",
+    "ok": true,
+    "operation_trace": {
+      "actor": "framework_kit",
+      "idempotency_key": "d213b4eeaf0c",
+      "parent_trace_ref": null,
+      "schema_version": "1.0.0",
+      "started_at": "2026-05-18T10:23:25.544731Z",
+      "trace_id": "ot_01KRX9S9V87BY2RSECY8MQWTMF"
+    },
+    "passed": true,
+    "receipt_ref": "matrix://project/forager/forager/ledger/fge_01KRX9S9V639SRW8S4YV51P85X",
+    "receipt_refs": [
+      "matrix://project/forager/forager/ledger/fge_01KRX9S9V639SRW8S4YV51P85X"
+    ],
+    "schema_version": "1.0.0",
+    "tester_kind": "fast",
+    "trace_links": [],
+    "work_unit_ref": "d213b4eeaf0c"
+  },
+  "gate_ref": "matrix://project/forager/forager/asset/a_01KRX9S95M5X1NPT7GMD6S8EMK",
+  "recorded_at": "2026-05-18T10:23:25Z"
+}

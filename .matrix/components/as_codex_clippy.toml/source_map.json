@@ -1,0 +1,31 @@
+{
+  "schema_version": "codex_port_source_map/1.0",
+  "asset_id": "as_codex_clippy.toml",
+  "version_id": "v0001_initial",
+  "source_path": "codex-rs/clippy.toml",
+  "source_inventory": "C:\\Users\\yonat\\Desktop\\codex\\repo",
+  "source_files_count": 1,
+  "expected_plan_hash": "93834b985f6fc18c17619be7e1edda03c120ed36f1c821a0333511297749ca3d",
+  "regenerated_at": "2026-05-18T06:56:25Z",
+  "mappings": [
+    {
+      "path": "codex-rs/clippy.toml",
+      "lang": "toml_config",
+      "size_bytes": 1085,
+      "lines": 18,
+      "code_lines": 17,
+      "blank_lines": 1,
+      "is_test": false,
+      "is_main": false,
+      "matrix_framework": "unmapped",
+      "mapping_rationale": "no rule matched for lang=toml_config",
+      "reuse_verdict": "USE",
+      "reuse_reason": "toml_config source - unmapped target",
+      "target_relpath": "clippy.toml",
+      "target_path": "library/source_assets/components/as_codex_clippy.toml/versions/v0001_initial/source/clippy.toml",
+      "sha256_full": "8e0e72dbb580ec1a45577300c4c9ee5114e1d1d946953dbb57d44535f906b1db",
+      "sha256_16": "8e0e72dbb580ec1a",
+      "copied_size_bytes": 1085
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "asset_id": "as_codex_BUILD.bazel",
+  "component_id": "root_build_bazel",
+  "version_id": "v0001_initial",
+  "task_id": "WO_2026-05-18_codex-port_as_codex_BUILD.bazel_copy_register_gate",
+  "wo_id": "WO_2026-05-18_codex-port_as_codex_BUILD.bazel",
+  "manager": "gpt_miro",
+  "origin": "codex-rs/BUILD.bazel",
+  "status": "accepted",
+  "content_hash_root": "05c9133b8559857bc60f1f6d9ef2e124eef6c9bdb1d3a5f5c7f3a2d8e64f8a4b",
+  "sealed_at": "2026-05-18T06:31:18Z"
+}

@@ -1,0 +1,25 @@
+{
+  "schema_version": "codex_port_source_map/1.0",
+  "asset_id": "as_codex_config.md",
+  "component_id": "as_codex_config.md",
+  "version_id": "v0001_initial",
+  "source_root": "library/source_assets/components/as_codex_config.md/versions/v0001_initial/source",
+  "origin_root": "codex-rs/config.md",
+  "origin_repo": "C:\\Users\\yonat\\Desktop\\codex\\repo",
+  "file_count": 1,
+  "total_bytes": 273,
+  "expected_plan_hash": "fc926e95bcd56a88f47e4db62958773ee86209df5abd87b4ad4e08709eccc89c",
+  "regenerated_at": "2026-05-18T07:21:17Z",
+  "mappings": [
+    {
+      "path": "config.md",
+      "target_relpath": "config.md",
+      "origin_path": "codex-rs/config.md",
+      "size": 273,
+      "sha256": "671218d12b0aec684c5cbcc9de6d789739ec55f94aba0a147021f35566f4c88e",
+      "matrix_framework": "docs",
+      "reuse_verdict": "USE",
+      "reuse_reason": "documentation"
+    }
+  ]
+}

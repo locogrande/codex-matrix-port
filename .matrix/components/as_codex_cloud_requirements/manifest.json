@@ -1,0 +1,63 @@
+{
+  "schema_version": "1.0.0",
+  "component_id": "cloud_requirements",
+  "kernel_asset_id": "as_codex_cloud_requirements",
+  "version_id": "v0001_initial",
+  "wo_id": "WO_2026-05-18_codex-port_as_codex_cloud_requirements",
+  "task_id": "WO_2026-05-18_codex-port_as_codex_cloud_requirements_copy_register_gate",
+  "manager": "gpt_miro",
+  "status": "accepted",
+  "created_at": "2026-05-18T04:00:00Z",
+  "source_lineage_authority": "forager",
+  "source_root": "library/source_assets/components/cloud_requirements/versions/v0001_initial/source",
+  "expected_plan_hash": "89c50844848cbcb7a7f58230780713fb5508030162f53154ad63e5202e132bc6",
+  "provenance": {
+    "kernel_provenance_ref": "library/source_assets/components/cloud_requirements/versions/v0001_initial/provenance.json",
+    "component_provenance_refs": [
+      "library/source_assets/components/cloud_requirements/versions/v0001_initial/provenance.json"
+    ]
+  },
+  "supersedes_version_id": null,
+  "components": [
+    {
+      "component_id": "cloud_requirements",
+      "asset_id": "as_codex_cloud_requirements",
+      "version_id": "v0001_initial",
+      "role": "external_port",
+      "source_root": "library/source_assets/components/cloud_requirements/versions/v0001_initial/source",
+      "source_map_ref": "library/source_assets/components/cloud_requirements/versions/v0001_initial/source_map.json",
+      "criticality": "build_config",
+      "notes": "Verbatim import of codex-rs/cloud-requirements (3 source files); adapter exposes metadata to Matrix Python callers."
+    }
+  ],
+  "reuse_map_ref": "library/source_assets/components/cloud_requirements/versions/v0001_initial/reuse_map.md",
+  "source_map_ref": "library/source_assets/components/cloud_requirements/versions/v0001_initial/source_map.json",
+  "adapter_ref": "library/framework_kit/cloud_requirements/__init__.py",
+  "evidence": {
+    "source_migration_receipt_ref": "library/source_assets/components/cloud_requirements/versions/v0001_initial/evidence/migration_receipt.json",
+    "content_hashes_ref": "library/source_assets/components/cloud_requirements/versions/v0001_initial/evidence/content_hashes.json"
+  },
+  "primary_framework": "build_config",
+  "framework_distribution": {
+    "build_config": 2,
+    "forager": 1
+  },
+  "depends_on_assets": [],
+  "hash_policy_ref": "library/policies/hash_canonicalization.md",
+  "asset_id": "as_codex_cloud_requirements",
+  "kind": "codex_port_asset",
+  "source_path": "codex-rs/cloud-requirements",
+  "source_files_count": 3,
+  "content_hashes_ref": "library/source_assets/components/cloud_requirements/versions/v0001_initial/evidence/content_hashes.json",
+  "framework_kit_adapter_ref": "library/framework_kit/cloud_requirements/__init__.py",
+  "sealed_at": "2026-05-18T04:10:30Z",
+  "content_hash_root": "29b7c487b90937958aaad57dc7af12f5afe2e2662a71f4a4f454d218920e0e2c",
+  "seal": {
+    "content_hash_algorithm": "sha256",
+    "canonicalization": "json_canonical_v1_sorted_keys_no_whitespace",
+    "content_hash_root": "29b7c487b90937958aaad57dc7af12f5afe2e2662a71f4a4f454d218920e0e2c",
+    "sealed_marker_ref": "runtime/diagnostics/as_codex_cloud_requirements_seal/v0001_initial.sealed",
+    "signed_by": "gpt_miro",
+    "signature_ref": "library/source_assets/components/cloud_requirements/versions/v0001_initial/evidence/manifest_v0001_initial.sig"
+  }
+}

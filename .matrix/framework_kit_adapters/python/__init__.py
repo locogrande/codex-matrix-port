@@ -1,0 +1,21 @@
+from __future__ import annotations
+import hashlib, json
+from pathlib import Path
+ASSET_ID = "as_codex_sdk_python"
+ACCEPTED_VERSION = "v0001_initial"
+EXPECTED_PLAN_HASH = "e58f46c047766dc5121a210825790063201acdd648f323f0c4b32c9acc9bb742"
+EXPECTED_COUNT = 76
+_ROOT = Path(__file__).resolve().parents[3]
+_VERSION_ROOT = _ROOT / "library" / "source_assets" / "components" / ASSET_ID / "versions" / ACCEPTED_VERSION
+ENGINE_ROOT = _VERSION_ROOT / "source"
+MANIFEST_PATH = _VERSION_ROOT / "manifest.json"
+SOURCE_MAP_PATH = _VERSION_ROOT / "source_map.json"
+SOURCE_FILES = ('README.md', '_runtime_setup.py', 'docs/api-reference.md', 'docs/faq.md', 'docs/getting-started.md', 'examples/01_quickstart_constructor/async.py', 'examples/01_quickstart_constructor/sync.py', 'examples/02_turn_run/async.py', 'examples/02_turn_run/sync.py', 'examples/03_turn_stream_events/async.py', 'examples/03_turn_stream_events/sync.py', 'examples/04_models_and_metadata/async.py', 'examples/04_models_and_metadata/sync.py', 'examples/05_existing_thread/async.py', 'examples/05_existing_thread/sync.py', 'examples/06_thread_lifecycle_and_controls/async.py', 'examples/06_thread_lifecycle_and_controls/sync.py', 'examples/07_image_and_text/async.py', 'examples/07_image_and_text/sync.py', 'examples/08_local_image_and_text/async.py', 'examples/08_local_image_and_text/sync.py', 'examples/09_async_parity/sync.py', 'examples/10_error_handling_and_retry/async.py', 'examples/10_error_handling_and_retry/sync.py', 'examples/11_cli_mini_app/async.py', 'examples/11_cli_mini_app/sync.py', 'examples/12_turn_params_kitchen_sink/async.py', 'examples/12_turn_params_kitchen_sink/sync.py', 'examples/13_model_select_and_turn_params/async.py', 'examples/13_model_select_and_turn_params/sync.py', 'examples/14_turn_controls/async.py', 'examples/14_turn_controls/sync.py', 'examples/15_login_and_account/async.py', 'examples/15_login_and_account/sync.py', 'examples/README.md', 'examples/_bootstrap.py', 'notebooks/sdk_walkthrough.ipynb', 'pyproject.toml', 'scripts/update_sdk_artifacts.py', 'src/openai_codex/__init__.py', 'src/openai_codex/_approval_mode.py', 'src/openai_codex/_initialize_metadata.py', 'src/openai_codex/_inputs.py', 'src/openai_codex/_login.py', 'src/openai_codex/_message_router.py', 'src/openai_codex/_run.py', 'src/openai_codex/_version.py', 'src/openai_codex/api.py', 'src/openai_codex/async_client.py', 'src/openai_codex/client.py', 'src/openai_codex/errors.py', 'src/openai_codex/generated/__init__.py', 'src/openai_codex/generated/notification_registry.py', 'src/openai_codex/generated/v2_all.py', 'src/openai_codex/models.py', 'src/openai_codex/py.typed', 'src/openai_codex/retry.py', 'src/openai_codex/types.py', 'tests/app_server_harness.py', 'tests/app_server_helpers.py', 'tests/conftest.py', 'tests/test_app_server_approvals.py', 'tests/test_app_server_inputs.py', 'tests/test_app_server_lifecycle.py', 'tests/test_app_server_login.py', 'tests/test_app_server_run.py', 'tests/test_app_server_streaming.py', 'tests/test_app_server_turn_controls.py', 'tests/test_artifact_workflow_and_binaries.py', 'tests/test_async_client_behavior.py', 'tests/test_client_rpc_methods.py', 'tests/test_contract_generation.py', 'tests/test_public_api_runtime_behavior.py', 'tests/test_public_api_signatures.py', 'tests/test_real_app_server_integration.py', 'uv.lock')
+def _load(path: Path) -> dict: return json.loads(path.read_text(encoding="utf-8"))
+def manifest() -> dict: return _load(MANIFEST_PATH)
+def source_map() -> dict: return _load(SOURCE_MAP_PATH)
+def source_paths() -> list[Path]: return [ENGINE_ROOT / p for p in SOURCE_FILES]
+def gate_probe() -> bool:
+    rows = source_map().get("mappings", []) if SOURCE_MAP_PATH.is_file() else []
+    return ENGINE_ROOT.is_dir() and manifest().get("status") == "accepted" and manifest().get("expected_plan_hash") == EXPECTED_PLAN_HASH and len(rows) == EXPECTED_COUNT and all((p := ENGINE_ROOT / r["target_relpath"]).is_file() and hashlib.sha256(p.read_bytes()).hexdigest() == r["sha256_full"] for r in rows)
+__all__ = ["ACCEPTED_VERSION", "ASSET_ID", "ENGINE_ROOT", "EXPECTED_PLAN_HASH", "MANIFEST_PATH", "SOURCE_FILES", "SOURCE_MAP_PATH", "gate_probe", "manifest", "source_map", "source_paths"]

@@ -1,0 +1,45 @@
+{
+  "schema_version": "1.0.0",
+  "component_id": "ansi_escape",
+  "asset_id": "as_codex_ansi_escape",
+  "version_id": "v0001_initial",
+  "source_root": "library/source_assets/components/ansi_escape/versions/v0001_initial/source",
+  "origin_root": "C:/Users/yonat/Desktop/codex/repo/codex-rs/ansi-escape",
+  "file_count": 4,
+  "total_bytes": 3146,
+  "expected_plan_hash": "6bf83eb80c7807b756b299d9afb546c76acc19279bd390ae01a4f2973b072ff5",
+  "mappings": [
+    {
+      "path": "BUILD.bazel",
+      "source": "codex-rs/ansi-escape/BUILD.bazel",
+      "target": "library/source_assets/components/ansi_escape/versions/v0001_initial/source/BUILD.bazel",
+      "size": 125,
+      "sha256": "a8ab7628f473594ebfc2873908ec29c5576df24c59e292f60b880161ec35f3d5",
+      "migration_action": "REFACTOR"
+    },
+    {
+      "path": "Cargo.toml",
+      "source": "codex-rs/ansi-escape/Cargo.toml",
+      "target": "library/source_assets/components/ansi_escape/versions/v0001_initial/source/Cargo.toml",
+      "size": 432,
+      "sha256": "421bf7347d93afd4afeb7e61489ef64d4f02449099d2f037ba667319b6dbf6d7",
+      "migration_action": "REFACTOR"
+    },
+    {
+      "path": "README.md",
+      "source": "codex-rs/ansi-escape/README.md",
+      "target": "library/source_assets/components/ansi_escape/versions/v0001_initial/source/README.md",
+      "size": 425,
+      "sha256": "6813c1f03eeedf2d8cc69f3beacbcd354eb69af3e975743028eedcd88e40e708",
+      "migration_action": "USE"
+    },
+    {
+      "path": "src/lib.rs",
+      "source": "codex-rs/ansi-escape/src/lib.rs",
+      "target": "library/source_assets/components/ansi_escape/versions/v0001_initial/source/src/lib.rs",
+      "size": 2164,
+      "sha256": "4ee1d3709d986a783ba479f6df4b11033a5c26645f51795c50311d7e16642e0c",
+      "migration_action": "USE"
+    }
+  ]
+}

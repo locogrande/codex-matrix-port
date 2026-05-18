@@ -1,0 +1,14 @@
+{
+  "asset_id": "as_codex_utils",
+  "component_id": "as_codex_utils",
+  "content_hash_root": "5d54cfe767dff8dcc175672a380cd1420809f3415cb6eba12e54649886e0600f",
+  "content_hashes_ref": "library/source_assets/components/as_codex_utils/versions/v0001_initial/evidence/content_hashes.json",
+  "manager": "gpt_miro",
+  "origin": "codex-rs/utils",
+  "origin_repo": "C:\\Users\\yonat\\Desktop\\codex\\repo",
+  "sealed_at": "2026-05-18T10:23:23Z",
+  "status": "accepted",
+  "task_id": "WO_2026-05-18_codex-port_as_codex_utils_copy_register_gate",
+  "version_id": "v0001_initial",
+  "wo_id": "WO_2026-05-18_codex-port_as_codex_utils"
+}

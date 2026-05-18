@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.0.0",
+  "component_id": "as_codex_rmcp_client",
+  "kernel_asset_id": "as_codex_rmcp_client",
+  "asset_id": "as_codex_rmcp_client",
+  "version_id": "v0001_initial",
+  "wo_id": "WO_2026-05-18_codex-port_as_codex_rmcp_client",
+  "task_id": "WO_2026-05-18_codex-port_as_codex_rmcp_client_copy_register_gate",
+  "manager": "gpt_miro",
+  "status": "accepted",
+  "created_at": "2026-05-18T08:40:10Z",
+  "source_lineage_authority": "forager",
+  "kind": "codex_port_asset",
+  "primary_framework": "forager",
+  "framework_distribution": {
+    "build_config": 2,
+    "forager": 16,
+    "tester": 5
+  },
+  "source_path": "codex-rs/rmcp-client",
+  "source_root": "library/source_assets/components/as_codex_rmcp_client/versions/v0001_initial/source",
+  "source_files_count": 23,
+  "expected_plan_hash": "22fecb0951594ad055a2d963ba102cfd483453f69943aea01e29222a163ad4b0",
+  "provenance": {
+    "plan_ref": "library/migration_archive/codex_repo_matrix_plan.json",
+    "workorder_ref": "current_work/pending_work/WO_2026-05-18_codex-port/tasks/wo_as_codex_rmcp_client.json",
+    "source_inventory": "C:\\Users\\yonat\\Desktop\\codex\\repo"
+  },
+  "supersedes_version_id": null,
+  "content_hashes_ref": "library/source_assets/components/as_codex_rmcp_client/versions/v0001_initial/evidence/content_hashes.json",
+  "components": [
+    {
+      "component_id": "as_codex_rmcp_client",
+      "asset_id": "as_codex_rmcp_client",
+      "version_id": "v0001_initial",
+      "role": "codex_port_source",
+      "source_root": "library/source_assets/components/as_codex_rmcp_client/versions/v0001_initial/source",
+      "source_map_ref": "library/source_assets/components/as_codex_rmcp_client/versions/v0001_initial/source_map.json",
+      "criticality": "codex_port_asset",
+      "notes": "Verbatim source copy of codex-rs/rmcp-client."
+    }
+  ],
+  "reuse_map_ref": "library/source_assets/components/as_codex_rmcp_client/versions/v0001_initial/reuse_map.md",
+  "source_map_ref": "library/source_assets/components/as_codex_rmcp_client/versions/v0001_initial/source_map.json",
+  "evidence": {
+    "source_migration_receipt_ref": "library/source_assets/components/as_codex_rmcp_client/versions/v0001_initial/evidence/source_migration_receipt.json",
+    "dogfood_registration_ref": "library/source_assets/components/as_codex_rmcp_client/versions/v0001_initial/evidence/dogfood_registration.json",
+    "peer_review_ref": "managers/gpt_miro/reviews/WO_2026-05-18_codex-port_as_codex_rmcp_client_copy_register_gate_peer_review_v01.json",
+    "route_review_ref": "managers/gpt_miro/reviews/WO_2026-05-18_codex-port_as_codex_rmcp_client_copy_register_gate_route_review_v01.json"
+  },
+  "framework_kit_adapter_ref": "library/framework_kit/rmcp_client/__init__.py",
+  "sealed_at": "2026-05-18T08:40:10Z",
+  "content_hash_root": "20a183ccef281d9270a543dc355e37a9e0e48667295a0c509b56aec992c8050f",
+  "seal": {
+    "content_hash_algorithm": "sha256",
+    "canonicalization": "json_canonical_v1_sorted_keys_no_whitespace",
+    "content_hash_root": "20a183ccef281d9270a543dc355e37a9e0e48667295a0c509b56aec992c8050f",
+    "sealed_marker_ref": "runtime/diagnostics/as_codex_rmcp_client_seal/v0001_initial.sealed",
+    "signed_by": "gpt_miro",
+    "signature_ref": "library/source_assets/components/as_codex_rmcp_client/versions/v0001_initial/evidence/manifest_v0001_initial.sig"
+  }
+}

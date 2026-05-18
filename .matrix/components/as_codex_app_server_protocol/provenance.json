@@ -1,0 +1,11 @@
+{
+  "asset_id": "as_codex_app_server_protocol",
+  "manager": "gpt_miro",
+  "plan_ref": "library\\migration_archive\\codex_repo_matrix_plan.json",
+  "schema_version": "codex_port_provenance/1.0",
+  "sealed_at": "2026-05-18T12:19:16Z",
+  "source_inventory": "C:\\Users\\yonat\\Desktop\\codex\\repo",
+  "source_path": "codex-rs/app-server-protocol",
+  "task_id": "WO_2026-05-18_codex-port_as_codex_app_server_protocol_copy_register_gate",
+  "wo_id": "WO_2026-05-18_codex-port_as_codex_app_server_protocol"
+}

@@ -1,0 +1,25 @@
+{
+  "schema_version": "codex_port_source_map/1.0",
+  "asset_id": "as_codex_Cargo.toml",
+  "component_id": "root_cargo_toml",
+  "version_id": "v0001_initial",
+  "source_root": "library/source_assets/components/root_cargo_toml/versions/v0001_initial/source",
+  "origin_root": "codex-rs/Cargo.toml",
+  "origin_repo": "C:\\Users\\yonat\\Desktop\\codex\\repo",
+  "file_count": 1,
+  "total_bytes": 15506,
+  "expected_plan_hash": "4b7a72e644a500c2980c7f037c3f0ce8f4d2f9f15343eca1cb1a672ddd60f587",
+  "regenerated_at": "2026-05-18T06:31:28Z",
+  "mappings": [
+    {
+      "path": "Cargo.toml",
+      "target_relpath": "Cargo.toml",
+      "origin_path": "codex-rs/Cargo.toml",
+      "size": 15506,
+      "sha256": "0027f08c35483eb5022e8972d4e9b14cdd8e8a63b3538a8086784b9743ddc593",
+      "matrix_framework": "build_config",
+      "reuse_verdict": "USE",
+      "reuse_reason": "verbatim root config port"
+    }
+  ]
+}

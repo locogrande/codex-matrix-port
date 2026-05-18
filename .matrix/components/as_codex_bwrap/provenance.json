@@ -1,0 +1,12 @@
+{
+  "asset_id": "as_codex_bwrap",
+  "component_id": "as_codex_bwrap",
+  "version_id": "v0001_initial",
+  "task_id": "WO_2026-05-18_codex-port_as_codex_bwrap_copy_register_gate",
+  "wo_id": "WO_2026-05-18_codex-port_as_codex_bwrap",
+  "manager": "gpt_miro",
+  "origin": "codex-rs/bwrap",
+  "status": "accepted",
+  "content_hash_root": "7b658566b5067eb1b78bdf855c7e6a37b673885c6d7b2f5c2b079af486ad240c",
+  "sealed_at": "2026-05-18T04:10:30Z"
+}

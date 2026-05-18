@@ -1,0 +1,12 @@
+{
+  "asset_id": "as_codex_cloud_requirements",
+  "component_id": "cloud_requirements",
+  "version_id": "v0001_initial",
+  "task_id": "WO_2026-05-18_codex-port_as_codex_cloud_requirements_copy_register_gate",
+  "wo_id": "WO_2026-05-18_codex-port_as_codex_cloud_requirements",
+  "manager": "gpt_miro",
+  "origin": "codex-rs/cloud-requirements",
+  "status": "accepted",
+  "content_hash_root": "29b7c487b90937958aaad57dc7af12f5afe2e2662a71f4a4f454d218920e0e2c",
+  "sealed_at": "2026-05-18T04:10:30Z"
+}

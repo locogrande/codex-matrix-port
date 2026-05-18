@@ -1,0 +1,13 @@
+{
+  "asset_id": "as_codex_features",
+  "version_id": "v0001_initial",
+  "wo_id": "WO_2026-05-18_codex-port_as_codex_features",
+  "task_id": "WO_2026-05-18_codex-port_as_codex_features_copy_register_gate",
+  "manager": "cl_miro",
+  "source_inventory": "C:\\Users\\yonat\\Desktop\\codex\\repo",
+  "source_path": "codex-rs/features",
+  "expected_plan_hash": "5a5ed69042c7fcebac4c4c109971e0f319d3985d468f1a9164d6f4ae4a5e77e6",
+  "sealed_at": "2026-05-18T05:55:00Z",
+  "plan_ref": "library/migration_archive/codex_repo_matrix_plan.json",
+  "workorder_ref": "current_work/pending_work/WO_2026-05-18_codex-port/tasks/wo_as_codex_features.json"
+}

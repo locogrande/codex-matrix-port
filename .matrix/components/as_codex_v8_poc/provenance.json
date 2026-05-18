@@ -1,0 +1,12 @@
+{
+  "asset_id": "as_codex_v8_poc",
+  "component_id": "v8_poc",
+  "version_id": "v0001_initial",
+  "task_id": "WO_2026-05-18_codex-port_as_codex_v8_poc_copy_register_gate",
+  "wo_id": "WO_2026-05-18_codex-port_as_codex_v8_poc",
+  "manager": "gpt_miro",
+  "origin": "codex-rs/v8-poc",
+  "status": "accepted",
+  "content_hash_root": "f2e550d6384b37c1e095fbd28709943571873760cbc5e74d2648c161e897cd79",
+  "sealed_at": "2026-05-18T06:08:39Z"
+}

@@ -1,0 +1,12 @@
+{
+  "asset_id": "as_codex_core_api",
+  "component_id": "core_api",
+  "version_id": "v0001_initial",
+  "task_id": "WO_2026-05-18_codex-port_as_codex_core_api_copy_register_gate",
+  "wo_id": "WO_2026-05-18_codex-port_as_codex_core_api",
+  "manager": "gpt_miro",
+  "origin": "codex-rs/core-api",
+  "status": "accepted",
+  "content_hash_root": "c31048d6ac44fa65bdcf050e6cbbef0c51808aeba3341f2ce93775062285aa19",
+  "sealed_at": "2026-05-18T07:21:17Z"
+}

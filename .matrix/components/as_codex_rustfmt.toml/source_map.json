@@ -1,0 +1,31 @@
+{
+  "schema_version": "codex_port_source_map/1.0",
+  "asset_id": "as_codex_rustfmt.toml",
+  "version_id": "v0001_initial",
+  "source_path": "codex-rs/rustfmt.toml",
+  "source_inventory": "C:\\Users\\yonat\\Desktop\\codex\\repo",
+  "source_files_count": 1,
+  "expected_plan_hash": "fde78bcbcb2963eaea329d80ef30656bfbf27d34bd485fdfb3d2c2bf8b563f2b",
+  "regenerated_at": "2026-05-18T08:45:17Z",
+  "mappings": [
+    {
+      "path": "codex-rs/rustfmt.toml",
+      "lang": "toml_config",
+      "size_bytes": 164,
+      "lines": 4,
+      "code_lines": 4,
+      "blank_lines": 0,
+      "is_test": false,
+      "is_main": false,
+      "matrix_framework": "unmapped",
+      "mapping_rationale": "no rule matched for lang=toml_config",
+      "reuse_verdict": "USE",
+      "reuse_reason": "toml_config source - unmapped target",
+      "target_relpath": "rustfmt.toml",
+      "target_path": "library/source_assets/components/as_codex_rustfmt.toml/versions/v0001_initial/source/rustfmt.toml",
+      "sha256_full": "384d5d8a1366a86cd6fc01aecde2b0a5806a9e77073ff53abd97b4f6cad94d1c",
+      "sha256_16": "384d5d8a1366a86c",
+      "copied_size_bytes": 164
+    }
+  ]
+}

@@ -1,0 +1,64 @@
+{
+  "schema_version": "1.0.0",
+  "component_id": "as_codex_exec_server",
+  "kernel_asset_id": "as_codex_exec_server",
+  "asset_id": "as_codex_exec_server",
+  "version_id": "v0001_initial",
+  "wo_id": "WO_2026-05-18_codex-port_as_codex_exec_server",
+  "task_id": "WO_2026-05-18_codex-port_as_codex_exec_server_copy_register_gate",
+  "manager": "gpt_miro",
+  "status": "accepted",
+  "created_at": "2026-05-18T07:50:49Z",
+  "source_lineage_authority": "forager",
+  "kind": "codex_port_asset",
+  "primary_framework": "forager",
+  "framework_distribution": {
+    "build_config": 2,
+    "readme": 1,
+    "forager": 39,
+    "unmapped": 1,
+    "tester": 11
+  },
+  "source_path": "codex-rs/exec-server",
+  "source_root": "library/source_assets/components/as_codex_exec_server/versions/v0001_initial/source",
+  "source_files_count": 54,
+  "expected_plan_hash": "5714e398dfa64c50bb2528f6ac326c473bc8b5c6aaa46cd4f9ee466a8eb05c30",
+  "provenance": {
+    "plan_ref": "library/migration_archive/codex_repo_matrix_plan.json",
+    "workorder_ref": "current_work/pending_work/WO_2026-05-18_codex-port/tasks/wo_as_codex_exec_server.json",
+    "source_inventory": "C:\\Users\\yonat\\Desktop\\codex\\repo"
+  },
+  "supersedes_version_id": null,
+  "content_hashes_ref": "library/source_assets/components/as_codex_exec_server/versions/v0001_initial/evidence/content_hashes.json",
+  "components": [
+    {
+      "component_id": "as_codex_exec_server",
+      "asset_id": "as_codex_exec_server",
+      "version_id": "v0001_initial",
+      "role": "codex_port_source",
+      "source_root": "library/source_assets/components/as_codex_exec_server/versions/v0001_initial/source",
+      "source_map_ref": "library/source_assets/components/as_codex_exec_server/versions/v0001_initial/source_map.json",
+      "criticality": "codex_port_asset",
+      "notes": "Verbatim source copy of codex-rs/exec-server."
+    }
+  ],
+  "reuse_map_ref": "library/source_assets/components/as_codex_exec_server/versions/v0001_initial/reuse_map.md",
+  "source_map_ref": "library/source_assets/components/as_codex_exec_server/versions/v0001_initial/source_map.json",
+  "evidence": {
+    "source_migration_receipt_ref": "library/source_assets/components/as_codex_exec_server/versions/v0001_initial/evidence/source_migration_receipt.json",
+    "dogfood_registration_ref": "library/source_assets/components/as_codex_exec_server/versions/v0001_initial/evidence/dogfood_registration.json",
+    "peer_review_ref": "managers/gpt_miro/reviews/WO_2026-05-18_codex-port_as_codex_exec_server_copy_register_gate_peer_review_v01.json",
+    "route_review_ref": "managers/gpt_miro/reviews/WO_2026-05-18_codex-port_as_codex_exec_server_copy_register_gate_route_review_v01.json"
+  },
+  "framework_kit_adapter_ref": "library/framework_kit/exec_server/__init__.py",
+  "sealed_at": "2026-05-18T07:50:49Z",
+  "content_hash_root": "ecd6a4376a6b0df51aade72a53e0f2bc4473607083c75fcfcfaa5a2067d38c42",
+  "seal": {
+    "content_hash_algorithm": "sha256",
+    "canonicalization": "json_canonical_v1_sorted_keys_no_whitespace",
+    "content_hash_root": "ecd6a4376a6b0df51aade72a53e0f2bc4473607083c75fcfcfaa5a2067d38c42",
+    "sealed_marker_ref": "runtime/diagnostics/as_codex_exec_server_seal/v0001_initial.sealed",
+    "signed_by": "gpt_miro",
+    "signature_ref": "library/source_assets/components/as_codex_exec_server/versions/v0001_initial/evidence/manifest_v0001_initial.sig"
+  }
+}

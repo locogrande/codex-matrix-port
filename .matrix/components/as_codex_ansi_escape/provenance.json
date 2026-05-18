@@ -1,0 +1,17 @@
+{
+  "schema_version": "1.0.0",
+  "asset_id": "as_codex_ansi_escape",
+  "component_id": "ansi_escape",
+  "version_id": "v0001_initial",
+  "task_id": "WO_2026-05-18_codex-port_as_codex_ansi_escape_copy_register_gate",
+  "wo_id": "WO_2026-05-18_codex-port_as_codex_ansi_escape",
+  "manager": "gpt_miro",
+  "status": "accepted",
+  "source_inventory": "C:/Users/yonat/Desktop/codex/repo",
+  "source_path": "codex-rs/ansi-escape",
+  "expected_plan_hash": "6bf83eb80c7807b756b299d9afb546c76acc19279bd390ae01a4f2973b072ff5",
+  "source_map_ref": "library/source_assets/components/ansi_escape/versions/v0001_initial/source_map.json",
+  "migration_receipt_ref": "library/source_assets/components/ansi_escape/versions/v0001_initial/evidence/ansi_escape_source_migration_receipt.json",
+  "content_hashes_ref": "library/source_assets/components/ansi_escape/versions/v0001_initial/evidence/content_hashes.json",
+  "gate_refs": []
+}

@@ -1,0 +1,45 @@
+{
+  "schema_version": "codex_port_source_map/1.0",
+  "asset_id": "as_codex_core_api",
+  "component_id": "core_api",
+  "version_id": "v0001_initial",
+  "source_root": "library/source_assets/components/core_api/versions/v0001_initial/source",
+  "origin_root": "codex-rs/core-api",
+  "origin_repo": "C:\\Users\\yonat\\Desktop\\codex\\repo",
+  "file_count": 3,
+  "total_bytes": 4529,
+  "expected_plan_hash": "b8db36d6762b36c352c0ea1d10d5469d52df758f5ec8215e1f8f03844e7a9dd4",
+  "regenerated_at": "2026-05-18T07:21:17Z",
+  "mappings": [
+    {
+      "path": "BUILD.bazel",
+      "target_relpath": "BUILD.bazel",
+      "origin_path": "codex-rs/core-api/BUILD.bazel",
+      "size": 119,
+      "sha256": "7fca45e8f3cb598efd33c35dc0c0d7067c767da977920a14268af07a1b48f01a",
+      "matrix_framework": "build_config",
+      "reuse_verdict": "REFACTOR",
+      "reuse_reason": "build config — adapt for Matrix import structure"
+    },
+    {
+      "path": "Cargo.toml",
+      "target_relpath": "Cargo.toml",
+      "origin_path": "codex-rs/core-api/Cargo.toml",
+      "size": 760,
+      "sha256": "fcb2abf9eb249238634cf8e7aa83f37bd4e01e2fdeb16419266aeb30fee9da97",
+      "matrix_framework": "build_config",
+      "reuse_verdict": "REFACTOR",
+      "reuse_reason": "build config — adapt for Matrix import structure"
+    },
+    {
+      "path": "src/lib.rs",
+      "target_relpath": "src/lib.rs",
+      "origin_path": "codex-rs/core-api/src/lib.rs",
+      "size": 3650,
+      "sha256": "df0dd23a9298c3b1228c427da4dd49b44bdb800e46e0baefd854a78e323f7baa",
+      "matrix_framework": "forager",
+      "reuse_verdict": "USE",
+      "reuse_reason": "rust source — forager target"
+    }
+  ]
+}

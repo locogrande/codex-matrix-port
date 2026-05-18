@@ -1,0 +1,27 @@
+# Build artifacts
+target/
+node_modules/
+dist/
+build/
+out/
+.next/
+.turbo/
+.yarn/
+*.lock.bak
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Matrix runtime (regenerable; do not commit)
+.matrix/runtime/
+.matrix/logs/

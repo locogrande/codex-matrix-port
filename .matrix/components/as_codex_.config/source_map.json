@@ -1,0 +1,25 @@
+{
+  "schema_version": "codex_port_source_map/1.0",
+  "asset_id": "as_codex_.config",
+  "component_id": "dot_config",
+  "version_id": "v0001_initial",
+  "source_root": "library/source_assets/components/dot_config/versions/v0001_initial/source",
+  "origin_root": "codex-rs/.config",
+  "origin_repo": "C:\\Users\\yonat\\Desktop\\codex\\repo",
+  "file_count": 1,
+  "total_bytes": 1956,
+  "expected_plan_hash": "cd9414a2897eb120821a92198820f583198eec2a18fd8423ca4b9bbf226c3b7f",
+  "regenerated_at": "2026-05-18T06:27:56Z",
+  "mappings": [
+    {
+      "path": "nextest.toml",
+      "target_relpath": "nextest.toml",
+      "origin_path": "codex-rs/.config/nextest.toml",
+      "size": 1956,
+      "sha256": "8d7ce9954abe389a3d0b416e487a099f3f19f0f85210d435fb366df37b5ff0dd",
+      "matrix_framework": "unmapped",
+      "reuse_verdict": "USE",
+      "reuse_reason": "toml_config source — unmapped target"
+    }
+  ]
+}

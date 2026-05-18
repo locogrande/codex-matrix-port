@@ -1,0 +1,9 @@
+{
+  "asset_id": "as_codex_rmcp_client",
+  "version_id": "v0001_initial",
+  "task_id": "WO_2026-05-18_codex-port_as_codex_rmcp_client_copy_register_gate",
+  "wo_id": "WO_2026-05-18_codex-port_as_codex_rmcp_client",
+  "source": "C:\\Users\\yonat\\Desktop\\codex\\repo\\codex-rs\\rmcp-client",
+  "plan_hash": "22fecb0951594ad055a2d963ba102cfd483453f69943aea01e29222a163ad4b0",
+  "created_at": "2026-05-18T08:40:10Z"
+}

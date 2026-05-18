@@ -1,0 +1,12 @@
+{
+  "asset_id": "as_codex_.gitignore",
+  "component_id": "dot_gitignore",
+  "version_id": "v0001_initial",
+  "task_id": "WO_2026-05-18_codex-port_as_codex_.gitignore_copy_register_gate",
+  "wo_id": "WO_2026-05-18_codex-port_as_codex_.gitignore",
+  "manager": "gpt_miro",
+  "origin": "codex-rs/.gitignore",
+  "status": "accepted",
+  "content_hash_root": "8dd8459c86f6da590b3eb7e32c43f66287c722d60fe947fa3295ba08f0fb37a0",
+  "sealed_at": "2026-05-18T06:27:56Z"
+}

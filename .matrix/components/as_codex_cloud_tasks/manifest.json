@@ -1,0 +1,37 @@
+{
+  "schema_version": "1.0.0",
+  "component_id": "cloud_tasks",
+  "kernel_asset_id": "as_codex_cloud_tasks",
+  "asset_id": "as_codex_cloud_tasks",
+  "version_id": "v0001_initial",
+  "wo_id": "WO_2026-05-18_codex-port_as_codex_cloud_tasks",
+  "task_id": "WO_2026-05-18_codex-port_as_codex_cloud_tasks_copy_register_gate",
+  "manager": "gpt_miro",
+  "status": "accepted",
+  "created_at": "2026-05-18T04:55:15Z",
+  "source_lineage_authority": "forager",
+  "kind": "codex_port_asset",
+  "primary_framework": "forager",
+  "framework_distribution": {
+    "build_config": 2,
+    "forager": 9
+  },
+  "source_path": "codex-rs/cloud-tasks",
+  "source_root": "library/source_assets/components/cloud_tasks/versions/v0001_initial/source",
+  "source_files_count": 11,
+  "expected_plan_hash": "f6d50b73e72d037f466a30480cf718fc713b10d9d63c8cb37cd598c261b44c59",
+  "content_hashes_ref": "library/source_assets/components/cloud_tasks/versions/v0001_initial/evidence/content_hashes.json",
+  "reuse_map_ref": "library/source_assets/components/cloud_tasks/versions/v0001_initial/reuse_map.md",
+  "source_map_ref": "library/source_assets/components/cloud_tasks/versions/v0001_initial/source_map.json",
+  "framework_kit_adapter_ref": "library/framework_kit/cloud_tasks/__init__.py",
+  "sealed_at": "2026-05-18T04:55:15Z",
+  "content_hash_root": "01ba9dd85369a68567378508f38af7e816e01c11d2734672594bdb2425d53441",
+  "seal": {
+    "content_hash_algorithm": "sha256",
+    "canonicalization": "json_canonical_v1_sorted_keys_no_whitespace",
+    "content_hash_root": "01ba9dd85369a68567378508f38af7e816e01c11d2734672594bdb2425d53441",
+    "sealed_marker_ref": "runtime/diagnostics/as_codex_cloud_tasks_seal/v0001_initial.sealed",
+    "signed_by": "gpt_miro",
+    "signature_ref": "library/source_assets/components/cloud_tasks/versions/v0001_initial/evidence/manifest_v0001_initial.sig"
+  }
+}

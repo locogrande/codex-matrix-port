@@ -1,0 +1,65 @@
+{
+  "schema_version": "codex_port_source_map/1.0",
+  "asset_id": "as_codex_secrets",
+  "component_id": "secrets",
+  "version_id": "v0001_initial",
+  "source_root": "library/source_assets/components/secrets/versions/v0001_initial/source",
+  "origin_root": "codex-rs/secrets",
+  "origin_repo": "C:\\Users\\yonat\\Desktop\\codex\\repo",
+  "file_count": 5,
+  "total_bytes": 23524,
+  "expected_plan_hash": "7ac4394172649b1e4afd59899d7b716643437ebd82e221ed161be73f07f2698d",
+  "regenerated_at": "2026-05-18T05:21:36Z",
+  "mappings": [
+    {
+      "path": "BUILD.bazel",
+      "target_relpath": "BUILD.bazel",
+      "origin_path": "codex-rs/secrets/BUILD.bazel",
+      "size": 117,
+      "sha256": "5c1f53c7fa9fe58e1831dfd9189bf2a48f752d4e736bcf72889522a681b2eeea",
+      "matrix_framework": "build_config",
+      "reuse_verdict": "REFACTOR",
+      "reuse_reason": "build config — adapt for Matrix import structure"
+    },
+    {
+      "path": "Cargo.toml",
+      "target_relpath": "Cargo.toml",
+      "origin_path": "codex-rs/secrets/Cargo.toml",
+      "size": 677,
+      "sha256": "99d0a0c6bb4972d0ee5336949870ce0b2bc4b05c22bfe34f47edfb3655602150",
+      "matrix_framework": "build_config",
+      "reuse_verdict": "REFACTOR",
+      "reuse_reason": "build config — adapt for Matrix import structure"
+    },
+    {
+      "path": "src/lib.rs",
+      "target_relpath": "src/lib.rs",
+      "origin_path": "codex-rs/secrets/src/lib.rs",
+      "size": 7075,
+      "sha256": "6ab7299532cfd25b82045edbfca95ac8f5a7680f5d660cddb5c2e0e2b887a24a",
+      "matrix_framework": "forager",
+      "reuse_verdict": "USE",
+      "reuse_reason": "rust source — forager target"
+    },
+    {
+      "path": "src/local.rs",
+      "target_relpath": "src/local.rs",
+      "origin_path": "codex-rs/secrets/src/local.rs",
+      "size": 14099,
+      "sha256": "20a7c7402589b3b67adab651bed0d094264256b5ddee2b86b5cdf0dcd7fb5d62",
+      "matrix_framework": "forager",
+      "reuse_verdict": "USE",
+      "reuse_reason": "rust source — forager target"
+    },
+    {
+      "path": "src/sanitizer.rs",
+      "target_relpath": "src/sanitizer.rs",
+      "origin_path": "codex-rs/secrets/src/sanitizer.rs",
+      "size": 1556,
+      "sha256": "6042600ad5fca0c286e36257a8e3113a9f6d37a3a11260c897927a30d9d4f972",
+      "matrix_framework": "forager",
+      "reuse_verdict": "USE",
+      "reuse_reason": "rust source — forager target"
+    }
+  ]
+}

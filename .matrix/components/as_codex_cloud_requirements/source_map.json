@@ -1,0 +1,45 @@
+{
+  "schema_version": "codex_port_source_map/1.0",
+  "asset_id": "as_codex_cloud_requirements",
+  "component_id": "cloud_requirements",
+  "version_id": "v0001_initial",
+  "source_root": "library/source_assets/components/cloud_requirements/versions/v0001_initial/source",
+  "origin_root": "codex-rs/cloud-requirements",
+  "origin_repo": "C:\\Users\\yonat\\Desktop\\codex\\repo",
+  "file_count": 3,
+  "total_bytes": 86927,
+  "expected_plan_hash": "89c50844848cbcb7a7f58230780713fb5508030162f53154ad63e5202e132bc6",
+  "regenerated_at": "2026-05-18T04:10:30Z",
+  "mappings": [
+    {
+      "path": "BUILD.bazel",
+      "target_relpath": "BUILD.bazel",
+      "origin_path": "codex-rs/cloud-requirements/BUILD.bazel",
+      "size": 139,
+      "sha256": "afb9d7aa54f4efa5c87ad5717f023d5cabdd6359a5a0b6969e6bf83ef1096592",
+      "matrix_framework": "build_config",
+      "reuse_verdict": "REFACTOR",
+      "reuse_reason": "build config — adapt for Matrix import structure"
+    },
+    {
+      "path": "Cargo.toml",
+      "target_relpath": "Cargo.toml",
+      "origin_path": "codex-rs/cloud-requirements/Cargo.toml",
+      "size": 980,
+      "sha256": "55bf6b4283e2e01b5f1e9f339802398382b69704b0af9898067a47af41554fc6",
+      "matrix_framework": "build_config",
+      "reuse_verdict": "REFACTOR",
+      "reuse_reason": "build config — adapt for Matrix import structure"
+    },
+    {
+      "path": "src/lib.rs",
+      "target_relpath": "src/lib.rs",
+      "origin_path": "codex-rs/cloud-requirements/src/lib.rs",
+      "size": 85808,
+      "sha256": "e8466fa7a03f583a5dfef05775432820bd39d68a0ce4f963e330aaf3a6656700",
+      "matrix_framework": "forager",
+      "reuse_verdict": "USE",
+      "reuse_reason": "rust source — forager target"
+    }
+  ]
+}

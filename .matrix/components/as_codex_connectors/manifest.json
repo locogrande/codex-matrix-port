@@ -1,0 +1,37 @@
+{
+  "schema_version": "1.0.0",
+  "component_id": "connectors",
+  "kernel_asset_id": "as_codex_connectors",
+  "asset_id": "as_codex_connectors",
+  "version_id": "v0001_initial",
+  "wo_id": "WO_2026-05-18_codex-port_as_codex_connectors",
+  "task_id": "WO_2026-05-18_codex-port_as_codex_connectors_copy_register_gate",
+  "manager": "gpt_miro",
+  "status": "accepted",
+  "created_at": "2026-05-18T05:21:36Z",
+  "source_lineage_authority": "forager",
+  "kind": "codex_port_asset",
+  "primary_framework": "forager",
+  "framework_distribution": {
+    "build_config": 2,
+    "forager": 6
+  },
+  "source_path": "codex-rs/connectors",
+  "source_root": "library/source_assets/components/connectors/versions/v0001_initial/source",
+  "source_files_count": 8,
+  "expected_plan_hash": "31e0c2fd77b245158a93215eddc6fb68d9d58f0d55fd7697b831f846962b8241",
+  "content_hashes_ref": "library/source_assets/components/connectors/versions/v0001_initial/evidence/content_hashes.json",
+  "reuse_map_ref": "library/source_assets/components/connectors/versions/v0001_initial/reuse_map.md",
+  "source_map_ref": "library/source_assets/components/connectors/versions/v0001_initial/source_map.json",
+  "framework_kit_adapter_ref": "library/framework_kit/connectors/__init__.py",
+  "sealed_at": "2026-05-18T05:21:36Z",
+  "content_hash_root": "29b37c78fd21b3ed2c419fbc26d8b2a963645b08a63f9c678342199eb0cd2b1b",
+  "seal": {
+    "content_hash_algorithm": "sha256",
+    "canonicalization": "json_canonical_v1_sorted_keys_no_whitespace",
+    "content_hash_root": "29b37c78fd21b3ed2c419fbc26d8b2a963645b08a63f9c678342199eb0cd2b1b",
+    "sealed_marker_ref": "runtime/diagnostics/as_codex_connectors_seal/v0001_initial.sealed",
+    "signed_by": "gpt_miro",
+    "signature_ref": "library/source_assets/components/connectors/versions/v0001_initial/evidence/manifest_v0001_initial.sig"
+  }
+}

@@ -1,0 +1,95 @@
+{
+  "schema_version": "codex_port_source_map/1.0",
+  "asset_id": "as_codex_connectors",
+  "component_id": "connectors",
+  "version_id": "v0001_initial",
+  "source_root": "library/source_assets/components/connectors/versions/v0001_initial/source",
+  "origin_root": "codex-rs/connectors",
+  "origin_repo": "C:\\Users\\yonat\\Desktop\\codex\\repo",
+  "file_count": 8,
+  "total_bytes": 51234,
+  "expected_plan_hash": "31e0c2fd77b245158a93215eddc6fb68d9d58f0d55fd7697b831f846962b8241",
+  "regenerated_at": "2026-05-18T05:21:36Z",
+  "mappings": [
+    {
+      "path": "BUILD.bazel",
+      "target_relpath": "BUILD.bazel",
+      "origin_path": "codex-rs/connectors/BUILD.bazel",
+      "size": 123,
+      "sha256": "222814f8ae14be0982c9154e160f05efa907fb2a312cf8281c3bd9077dc14756",
+      "matrix_framework": "build_config",
+      "reuse_verdict": "REFACTOR",
+      "reuse_reason": "build config — adapt for Matrix import structure"
+    },
+    {
+      "path": "Cargo.toml",
+      "target_relpath": "Cargo.toml",
+      "origin_path": "codex-rs/connectors/Cargo.toml",
+      "size": 599,
+      "sha256": "2b7b831a5d972f7a6d3e9bcb46ae57e7b93004fd90df76c19dc1e9b95d76a135",
+      "matrix_framework": "build_config",
+      "reuse_verdict": "REFACTOR",
+      "reuse_reason": "build config — adapt for Matrix import structure"
+    },
+    {
+      "path": "src/accessible.rs",
+      "target_relpath": "src/accessible.rs",
+      "origin_path": "codex-rs/connectors/src/accessible.rs",
+      "size": 2969,
+      "sha256": "c7b30e4146229f8a25f404bbfd3212ed44a155aea66aab992c2d76cd74e7f069",
+      "matrix_framework": "forager",
+      "reuse_verdict": "USE",
+      "reuse_reason": "rust source — forager target"
+    },
+    {
+      "path": "src/directory_cache.rs",
+      "target_relpath": "src/directory_cache.rs",
+      "origin_path": "codex-rs/connectors/src/directory_cache.rs",
+      "size": 3451,
+      "sha256": "d74d22e8768bd6561d8798e7a6946e1bbca5fee2c9d11b26e0e7138b0536cfdb",
+      "matrix_framework": "forager",
+      "reuse_verdict": "USE",
+      "reuse_reason": "rust source — forager target"
+    },
+    {
+      "path": "src/filter.rs",
+      "target_relpath": "src/filter.rs",
+      "origin_path": "codex-rs/connectors/src/filter.rs",
+      "size": 7391,
+      "sha256": "ba0f7bf032713de4b516a7f874cff1f049d825d2c74e18a907d889539f7238a1",
+      "matrix_framework": "forager",
+      "reuse_verdict": "USE",
+      "reuse_reason": "rust source — forager target"
+    },
+    {
+      "path": "src/lib.rs",
+      "target_relpath": "src/lib.rs",
+      "origin_path": "codex-rs/connectors/src/lib.rs",
+      "size": 28243,
+      "sha256": "83313d9fe4a30b6a1cb7d23946513fec050900c8bba26eea3f203abc5925b9bb",
+      "matrix_framework": "forager",
+      "reuse_verdict": "USE",
+      "reuse_reason": "rust source — forager target"
+    },
+    {
+      "path": "src/merge.rs",
+      "target_relpath": "src/merge.rs",
+      "origin_path": "codex-rs/connectors/src/merge.rs",
+      "size": 7639,
+      "sha256": "ceed7c189ecf9b20afcfa633021b6982eb7d754b936215abd2e507852b848256",
+      "matrix_framework": "forager",
+      "reuse_verdict": "USE",
+      "reuse_reason": "rust source — forager target"
+    },
+    {
+      "path": "src/metadata.rs",
+      "target_relpath": "src/metadata.rs",
+      "origin_path": "codex-rs/connectors/src/metadata.rs",
+      "size": 819,
+      "sha256": "ecbdd03d37f032f4041e9b63e30bee4f8472e8834dcd9a8f37d0130283361fa9",
+      "matrix_framework": "forager",
+      "reuse_verdict": "USE",
+      "reuse_reason": "rust source — forager target"
+    }
+  ]
+}

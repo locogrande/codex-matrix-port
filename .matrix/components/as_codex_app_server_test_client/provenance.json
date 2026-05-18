@@ -1,0 +1,12 @@
+{
+  "asset_id": "as_codex_app_server_test_client",
+  "component_id": "app_server_test_client",
+  "version_id": "v0001_initial",
+  "task_id": "WO_2026-05-18_codex-port_as_codex_app_server_test_client_copy_register_gate",
+  "wo_id": "WO_2026-05-18_codex-port_as_codex_app_server_test_client",
+  "manager": "gpt_miro",
+  "origin": "codex-rs/app-server-test-client",
+  "status": "accepted",
+  "content_hash_root": "37fc6b78f1766cec6612c964a9ea2d3959bd0cafa3ea11230f5375af7a916076",
+  "sealed_at": "2026-05-18T06:08:39Z"
+}

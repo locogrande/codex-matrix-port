@@ -1,0 +1,12 @@
+{
+  "asset_id": "as_codex_.github",
+  "component_id": "dot_github",
+  "version_id": "v0001_initial",
+  "task_id": "WO_2026-05-18_codex-port_as_codex_.github_copy_register_gate",
+  "wo_id": "WO_2026-05-18_codex-port_as_codex_.github",
+  "manager": "gpt_miro",
+  "origin": "codex-rs/.github",
+  "status": "accepted",
+  "content_hash_root": "e0fa594e365e2dadb35fa6b8f7eb7fefa8597464f0c40cb33d1b1c9fc7ea734c",
+  "sealed_at": "2026-05-18T06:27:56Z"
+}

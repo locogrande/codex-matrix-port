@@ -1,0 +1,9 @@
+{
+  "asset_id": "as_codex_external_agent_migration",
+  "version_id": "v0001_initial",
+  "task_id": "WO_2026-05-18_codex-port_as_codex_external_agent_migration_copy_register_gate",
+  "wo_id": "WO_2026-05-18_codex-port_as_codex_external_agent_migration",
+  "source": "C:\\Users\\yonat\\Desktop\\codex\\repo\\codex-rs\\external-agent-migration",
+  "plan_hash": "12013c7ed120bc555e1bd3d2d627236f69066aa2cd64257754260c950d620031",
+  "created_at": "2026-05-18T07:56:33Z"
+}

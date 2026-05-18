@@ -1,0 +1,12 @@
+{
+  "asset_id": "as_codex_ollama",
+  "component_id": "ollama",
+  "version_id": "v0001_initial",
+  "task_id": "WO_2026-05-18_codex-port_as_codex_ollama_copy_register_gate",
+  "wo_id": "WO_2026-05-18_codex-port_as_codex_ollama",
+  "manager": "gpt_miro",
+  "origin": "codex-rs/ollama",
+  "status": "accepted",
+  "content_hash_root": "d80463867200a66c9e3b03c923111cd102dd0bbcf9e2bbcac986db2be1986013",
+  "sealed_at": "2026-05-18T05:50:11Z"
+}

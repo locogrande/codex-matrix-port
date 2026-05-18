@@ -1,0 +1,36 @@
+{
+  "schema_version": "1.0.0",
+  "component_id": "dot_github",
+  "kernel_asset_id": "as_codex_.github",
+  "asset_id": "as_codex_.github",
+  "version_id": "v0001_initial",
+  "wo_id": "WO_2026-05-18_codex-port_as_codex_.github",
+  "task_id": "WO_2026-05-18_codex-port_as_codex_.github_copy_register_gate",
+  "manager": "gpt_miro",
+  "status": "accepted",
+  "created_at": "2026-05-18T06:27:00Z",
+  "source_lineage_authority": "forager",
+  "kind": "codex_port_asset",
+  "primary_framework": "unmapped",
+  "framework_distribution": {
+    "unmapped": 1
+  },
+  "source_path": "codex-rs/.github",
+  "source_root": "library/source_assets/components/dot_github/versions/v0001_initial/source",
+  "source_files_count": 1,
+  "expected_plan_hash": "31f48158fd2bfb97d822b5fafc3faf90d20ecc5357c1e3818943302986d2b67e",
+  "content_hashes_ref": "library/source_assets/components/dot_github/versions/v0001_initial/evidence/content_hashes.json",
+  "reuse_map_ref": "library/source_assets/components/dot_github/versions/v0001_initial/reuse_map.md",
+  "source_map_ref": "library/source_assets/components/dot_github/versions/v0001_initial/source_map.json",
+  "framework_kit_adapter_ref": "library/framework_kit/dot_github/__init__.py",
+  "sealed_at": "2026-05-18T06:27:56Z",
+  "content_hash_root": "e0fa594e365e2dadb35fa6b8f7eb7fefa8597464f0c40cb33d1b1c9fc7ea734c",
+  "seal": {
+    "content_hash_algorithm": "sha256",
+    "canonicalization": "json_canonical_v1_sorted_keys_no_whitespace",
+    "content_hash_root": "e0fa594e365e2dadb35fa6b8f7eb7fefa8597464f0c40cb33d1b1c9fc7ea734c",
+    "sealed_marker_ref": "runtime/diagnostics/as_codex_.github_seal/v0001_initial.sealed",
+    "signed_by": "gpt_miro",
+    "signature_ref": "library/source_assets/components/dot_github/versions/v0001_initial/evidence/manifest_v0001_initial.sig"
+  }
+}

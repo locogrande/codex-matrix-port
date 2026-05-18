@@ -1,0 +1,70 @@
+{
+  "schema_version": "1.0.0",
+  "component_id": "ansi_escape",
+  "kernel_asset_id": "as_codex_ansi_escape",
+  "asset_id": "as_codex_ansi_escape",
+  "version_id": "v0001_initial",
+  "wo_id": "WO_2026-05-18_codex-port_as_codex_ansi_escape",
+  "task_id": "WO_2026-05-18_codex-port_as_codex_ansi_escape_copy_register_gate",
+  "manager": "gpt_miro",
+  "status": "accepted",
+  "created_at": "2026-05-18T03:47:06Z",
+  "source_lineage_authority": "forager",
+  "kind": "codex_port_asset",
+  "primary_framework": "build_config",
+  "source_root": "library/source_assets/components/ansi_escape/versions/v0001_initial/source",
+  "expected_plan_hash": "6bf83eb80c7807b756b299d9afb546c76acc19279bd390ae01a4f2973b072ff5",
+  "provenance": {
+    "kernel_provenance_ref": "library/source_assets/components/ansi_escape/versions/v0001_initial/provenance.json",
+    "component_provenance_refs": [
+      "library/source_assets/components/ansi_escape/versions/v0001_initial/provenance.json"
+    ],
+    "accepted_record_ref": "current_work/accepted/WO_2026-05-18_codex-port_as_codex_ansi_escape/task_WO_2026-05-18_codex-port_as_codex_ansi_escape_copy_register_gate/",
+    "verdict_ref": "managers/gpt_miro/reviews/WO_2026-05-18_codex-port_as_codex_ansi_escape_copy_register_gate_peer_review_v01.json"
+  },
+  "supersedes_version_id": null,
+  "content_hashes_ref": "library/source_assets/components/ansi_escape/versions/v0001_initial/evidence/content_hashes.json",
+  "components": [
+    {
+      "component_id": "ansi_escape",
+      "asset_id": "as_codex_ansi_escape",
+      "version_id": "v0001_initial",
+      "role": "codex_port_asset",
+      "source_root": "library/source_assets/components/ansi_escape/versions/v0001_initial/source",
+      "source_map_ref": "library/source_assets/components/ansi_escape/versions/v0001_initial/source_map.json",
+      "criticality": "S1_component",
+      "source_paths": [
+        "library/source_assets/components/ansi_escape/versions/v0001_initial/source/BUILD.bazel",
+        "library/source_assets/components/ansi_escape/versions/v0001_initial/source/Cargo.toml",
+        "library/source_assets/components/ansi_escape/versions/v0001_initial/source/README.md",
+        "library/source_assets/components/ansi_escape/versions/v0001_initial/source/src/lib.rs"
+      ],
+      "notes": "Four-file codex-rs/ansi-escape import; source preserved verbatim."
+    }
+  ],
+  "reuse_map_ref": "library/source_assets/components/ansi_escape/versions/v0001_initial/reuse_map.md",
+  "source_map_ref": "library/source_assets/components/ansi_escape/versions/v0001_initial/source_map.json",
+  "manager_subworker_spawn_method": {
+    "method": "codex_exec",
+    "canonical_enum": "codex_exec",
+    "subworker_done_glob": "managers/gpt_miro/workers/WO_2026-05-18_codex-port_as_codex_ansi_escape_copy_register_gate/subworkers/*/done_*.json"
+  },
+  "evidence": {
+    "source_map_regeneration_ref": "library/source_assets/components/ansi_escape/versions/v0001_initial/evidence/source_map_regeneration_receipt.json",
+    "source_migration_receipt_ref": "library/source_assets/components/ansi_escape/versions/v0001_initial/evidence/ansi_escape_source_migration_receipt.json",
+    "dogfood_registration_ref": "library/source_assets/components/ansi_escape/versions/v0001_initial/evidence/dogfood_registration.json",
+    "peer_review_ref": "managers/gpt_miro/reviews/WO_2026-05-18_codex-port_as_codex_ansi_escape_copy_register_gate_peer_review_v01.json",
+    "route_review_ref": "managers/gpt_miro/reviews/WO_2026-05-18_codex-port_as_codex_ansi_escape_copy_register_gate_route_review_v01.json",
+    "compactness_ref": "python scripts/lint_compactness.py library/framework_kit/ansi_escape"
+  },
+  "sealed_at": "2026-05-18T03:47:06Z",
+  "content_hash_root": "9263a666387a2e0da7ebcd139ddfceb9bc43e21551ceaee0ca0496cb3e0bc443",
+  "seal": {
+    "content_hash_algorithm": "sha256",
+    "canonicalization": "json_canonical_v1_sorted_keys_no_whitespace",
+    "content_hash_root": "9263a666387a2e0da7ebcd139ddfceb9bc43e21551ceaee0ca0496cb3e0bc443",
+    "sealed_marker_ref": "runtime/diagnostics/ansi_escape_seal/v0001_initial.sealed",
+    "signed_by": "gpt_miro",
+    "signature_ref": "library/source_assets/components/ansi_escape/versions/v0001_initial/evidence/manifest_v0001_initial.sig"
+  }
+}

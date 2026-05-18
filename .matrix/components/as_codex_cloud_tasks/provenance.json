@@ -1,0 +1,12 @@
+{
+  "asset_id": "as_codex_cloud_tasks",
+  "component_id": "cloud_tasks",
+  "version_id": "v0001_initial",
+  "task_id": "WO_2026-05-18_codex-port_as_codex_cloud_tasks_copy_register_gate",
+  "wo_id": "WO_2026-05-18_codex-port_as_codex_cloud_tasks",
+  "manager": "gpt_miro",
+  "origin": "codex-rs/cloud-tasks",
+  "status": "accepted",
+  "content_hash_root": "01ba9dd85369a68567378508f38af7e816e01c11d2734672594bdb2425d53441",
+  "sealed_at": "2026-05-18T04:55:15Z"
+}

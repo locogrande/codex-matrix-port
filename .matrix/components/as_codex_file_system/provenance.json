@@ -1,0 +1,9 @@
+{
+  "asset_id": "as_codex_file_system",
+  "version_id": "v0001_initial",
+  "task_id": "WO_2026-05-18_codex-port_as_codex_file_system_copy_register_gate",
+  "wo_id": "WO_2026-05-18_codex-port_as_codex_file_system",
+  "source": "C:\\Users\\yonat\\Desktop\\codex\\repo\\codex-rs\\file-system",
+  "plan_hash": "570c90ac661a464c5d96a76368e997950f399de2d6ba35041af6b06b0d63e227",
+  "created_at": "2026-05-18T08:00:59Z"
+}

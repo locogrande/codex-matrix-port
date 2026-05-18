@@ -1,0 +1,25 @@
+{
+  "schema_version": "codex_port_source_map/1.0",
+  "asset_id": "as_codex_.github",
+  "component_id": "dot_github",
+  "version_id": "v0001_initial",
+  "source_root": "library/source_assets/components/dot_github/versions/v0001_initial/source",
+  "origin_root": "codex-rs/.github",
+  "origin_repo": "C:\\Users\\yonat\\Desktop\\codex\\repo",
+  "file_count": 1,
+  "total_bytes": 528,
+  "expected_plan_hash": "31f48158fd2bfb97d822b5fafc3faf90d20ecc5357c1e3818943302986d2b67e",
+  "regenerated_at": "2026-05-18T06:27:56Z",
+  "mappings": [
+    {
+      "path": "workflows/cargo-audit.yml",
+      "target_relpath": "workflows/cargo-audit.yml",
+      "origin_path": "codex-rs/.github/workflows/cargo-audit.yml",
+      "size": 528,
+      "sha256": "4904090f84587c432412af2440cc3e9ec8f85a89436a67f08c4385cfdc117639",
+      "matrix_framework": "unmapped",
+      "reuse_verdict": "USE",
+      "reuse_reason": "yaml source — unmapped target"
+    }
+  ]
+}

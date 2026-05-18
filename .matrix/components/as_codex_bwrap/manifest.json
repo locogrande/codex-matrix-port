@@ -1,0 +1,38 @@
+{
+  "schema_version": "1.0.0",
+  "component_id": "as_codex_bwrap",
+  "kernel_asset_id": "as_codex_bwrap",
+  "asset_id": "as_codex_bwrap",
+  "version_id": "v0001_initial",
+  "wo_id": "WO_2026-05-18_codex-port_as_codex_bwrap",
+  "task_id": "WO_2026-05-18_codex-port_as_codex_bwrap_copy_register_gate",
+  "manager": "gpt_miro",
+  "status": "accepted",
+  "created_at": "2026-05-18T04:10:30Z",
+  "source_lineage_authority": "forager",
+  "kind": "codex_port_asset",
+  "primary_framework": "build_config",
+  "framework_distribution": {
+    "build_config": 2,
+    "forager": 2,
+    "unmapped": 1
+  },
+  "source_path": "codex-rs/bwrap",
+  "source_root": "library/source_assets/components/as_codex_bwrap/versions/v0001_initial/source",
+  "source_files_count": 5,
+  "expected_plan_hash": "e63bd737eb34d4f7c8a2d7a6bb748570d4ea10e635edaf65f460a680b7f663cd",
+  "content_hashes_ref": "library/source_assets/components/as_codex_bwrap/versions/v0001_initial/evidence/content_hashes.json",
+  "reuse_map_ref": "library/source_assets/components/as_codex_bwrap/versions/v0001_initial/reuse_map.md",
+  "source_map_ref": "library/source_assets/components/as_codex_bwrap/versions/v0001_initial/source_map.json",
+  "framework_kit_adapter_ref": "library/framework_kit/bwrap/__init__.py",
+  "sealed_at": "2026-05-18T04:10:30Z",
+  "content_hash_root": "7b658566b5067eb1b78bdf855c7e6a37b673885c6d7b2f5c2b079af486ad240c",
+  "seal": {
+    "content_hash_algorithm": "sha256",
+    "canonicalization": "json_canonical_v1_sorted_keys_no_whitespace",
+    "content_hash_root": "7b658566b5067eb1b78bdf855c7e6a37b673885c6d7b2f5c2b079af486ad240c",
+    "sealed_marker_ref": "runtime/diagnostics/as_codex_bwrap_seal/v0001_initial.sealed",
+    "signed_by": "gpt_miro",
+    "signature_ref": "library/source_assets/components/as_codex_bwrap/versions/v0001_initial/evidence/manifest_v0001_initial.sig"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "asset_id": "as_codex_windows_sandbox_rs",
+  "component_id": "as_codex_windows_sandbox_rs",
+  "content_hash_root": "e124b00f228c827ea4de024e23d97fbc452d54092c1aec8b5800ae92dda964e9",
+  "content_hashes_ref": "library/source_assets/components/as_codex_windows_sandbox_rs/versions/v0001_initial/evidence/content_hashes.json",
+  "manager": "gpt_miro",
+  "origin": "codex-rs/windows-sandbox-rs",
+  "origin_repo": "C:\\Users\\yonat\\Desktop\\codex\\repo",
+  "sealed_at": "2026-05-18T09:51:53Z",
+  "status": "accepted",
+  "task_id": "WO_2026-05-18_codex-port_as_codex_windows_sandbox_rs_copy_register_gate",
+  "version_id": "v0001_initial",
+  "wo_id": "WO_2026-05-18_codex-port_as_codex_windows_sandbox_rs"
+}

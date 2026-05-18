@@ -1,0 +1,59 @@
+{
+  "actual_source_hash_root": "687495222faf0e98aeac6b09070239710d9e0885bf39f45e7d5309f1634ae923",
+  "asset_id": "as_codex_cli",
+  "component_id": "as_codex_cli",
+  "components": [
+    {
+      "asset_id": "as_codex_cli",
+      "component_id": "as_codex_cli",
+      "criticality": "codex_port_asset",
+      "notes": "Verbatim source copy of codex-rs/cli.",
+      "role": "codex_port_source",
+      "source_map_ref": "library/source_assets/components/as_codex_cli/versions/v0001_initial/source_map.json",
+      "source_root": "library/source_assets/components/as_codex_cli/versions/v0001_initial/source",
+      "version_id": "v0001_initial"
+    }
+  ],
+  "content_hash_root": "7aca45afd96b330db1bcf72e759788f9e29426e2b1efa6b5a957eb406880fd41",
+  "content_hashes_ref": "library/source_assets/components/as_codex_cli/versions/v0001_initial/evidence/content_hashes.json",
+  "created_at": "2026-05-18T12:19:23Z",
+  "expected_plan_hash": "7aca45afd96b330db1bcf72e759788f9e29426e2b1efa6b5a957eb406880fd41",
+  "framework_distribution": {
+    "build_config": 2,
+    "tightrope": 37
+  },
+  "framework_kit_adapter_ref": "library/framework_kit/cli/__init__.py",
+  "kernel_asset_id": "as_codex_cli",
+  "kind": "codex_port_asset",
+  "manager": "gpt_miro",
+  "primary_framework": "tightrope",
+  "provenance": {
+    "asset_id": "as_codex_cli",
+    "manager": "gpt_miro",
+    "plan_ref": "library\\migration_archive\\codex_repo_matrix_plan.json",
+    "schema_version": "codex_port_provenance/1.0",
+    "sealed_at": "2026-05-18T12:19:23Z",
+    "source_inventory": "C:\\Users\\yonat\\Desktop\\codex\\repo",
+    "source_path": "codex-rs/cli",
+    "task_id": "WO_2026-05-18_codex-port_as_codex_cli_copy_register_gate",
+    "wo_id": "WO_2026-05-18_codex-port_as_codex_cli"
+  },
+  "provenance_ref": "library/source_assets/components/as_codex_cli/versions/v0001_initial/provenance.json",
+  "schema_version": "1.0.0",
+  "seal": {
+    "canonicalization": "expected_plan_hash_contract",
+    "content_hash_algorithm": "sha256",
+    "content_hash_root": "7aca45afd96b330db1bcf72e759788f9e29426e2b1efa6b5a957eb406880fd41",
+    "signed_by": "gpt_miro"
+  },
+  "sealed_at": "2026-05-18T12:19:23Z",
+  "source_files_count": 39,
+  "source_lineage_authority": "forager",
+  "source_map_ref": "library/source_assets/components/as_codex_cli/versions/v0001_initial/source_map.json",
+  "source_path": "codex-rs/cli",
+  "source_root": "library/source_assets/components/as_codex_cli/versions/v0001_initial/source",
+  "status": "accepted",
+  "task_id": "WO_2026-05-18_codex-port_as_codex_cli_copy_register_gate",
+  "version_id": "v0001_initial",
+  "wo_id": "WO_2026-05-18_codex-port_as_codex_cli"
+}

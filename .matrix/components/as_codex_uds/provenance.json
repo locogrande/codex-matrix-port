@@ -1,0 +1,14 @@
+{
+  "asset_id": "as_codex_uds",
+  "component_id": "as_codex_uds",
+  "content_hash_root": "a22c3c7aebca80988a28cc58d35c906d0ca3cdb76eb0f82da45ee175a4589dfa",
+  "content_hashes_ref": "library/source_assets/components/as_codex_uds/versions/v0001_initial/evidence/content_hashes.json",
+  "manager": "gpt_miro",
+  "origin": "codex-rs/uds",
+  "origin_repo": "C:\\Users\\yonat\\Desktop\\codex\\repo",
+  "sealed_at": "2026-05-18T09:51:49Z",
+  "status": "accepted",
+  "task_id": "WO_2026-05-18_codex-port_as_codex_uds_copy_register_gate",
+  "version_id": "v0001_initial",
+  "wo_id": "WO_2026-05-18_codex-port_as_codex_uds"
+}

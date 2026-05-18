@@ -1,0 +1,60 @@
+{
+  "actual_source_hash_root": "4e32b31fac3be551234f9b84b277a549f053b8741607028677eb2450741416b5",
+  "asset_id": "as_codex_core",
+  "component_id": "as_codex_core",
+  "components": [
+    {
+      "asset_id": "as_codex_core",
+      "component_id": "as_codex_core",
+      "criticality": "codex_port_asset",
+      "notes": "Verbatim source copy of codex-rs/core.",
+      "role": "codex_port_source",
+      "source_map_ref": "library/source_assets/components/as_codex_core/versions/v0001_initial/source_map.json",
+      "source_root": "library/source_assets/components/as_codex_core/versions/v0001_initial/source",
+      "version_id": "v0001_initial"
+    }
+  ],
+  "content_hash_root": "260500b28bcf20629e13624d9891faa030c57780510109aae86c1cf1281a2322",
+  "content_hashes_ref": "library/source_assets/components/as_codex_core/versions/v0001_initial/evidence/content_hashes.json",
+  "created_at": "2026-05-18T12:19:23Z",
+  "expected_plan_hash": "260500b28bcf20629e13624d9891faa030c57780510109aae86c1cf1281a2322",
+  "framework_distribution": {
+    "build_config": 6,
+    "forager": 480,
+    "readme": 38
+  },
+  "framework_kit_adapter_ref": "library/framework_kit/core/__init__.py",
+  "kernel_asset_id": "as_codex_core",
+  "kind": "codex_port_asset",
+  "manager": "gpt_miro",
+  "primary_framework": "forager",
+  "provenance": {
+    "asset_id": "as_codex_core",
+    "manager": "gpt_miro",
+    "plan_ref": "library\\migration_archive\\codex_repo_matrix_plan.json",
+    "schema_version": "codex_port_provenance/1.0",
+    "sealed_at": "2026-05-18T12:19:23Z",
+    "source_inventory": "C:\\Users\\yonat\\Desktop\\codex\\repo",
+    "source_path": "codex-rs/core",
+    "task_id": "WO_2026-05-18_codex-port_as_codex_core_copy_register_gate",
+    "wo_id": "WO_2026-05-18_codex-port_as_codex_core"
+  },
+  "provenance_ref": "library/source_assets/components/as_codex_core/versions/v0001_initial/provenance.json",
+  "schema_version": "1.0.0",
+  "seal": {
+    "canonicalization": "expected_plan_hash_contract",
+    "content_hash_algorithm": "sha256",
+    "content_hash_root": "260500b28bcf20629e13624d9891faa030c57780510109aae86c1cf1281a2322",
+    "signed_by": "gpt_miro"
+  },
+  "sealed_at": "2026-05-18T12:19:23Z",
+  "source_files_count": 524,
+  "source_lineage_authority": "forager",
+  "source_map_ref": "library/source_assets/components/as_codex_core/versions/v0001_initial/source_map.json",
+  "source_path": "codex-rs/core",
+  "source_root": "library/source_assets/components/as_codex_core/versions/v0001_initial/source",
+  "status": "accepted",
+  "task_id": "WO_2026-05-18_codex-port_as_codex_core_copy_register_gate",
+  "version_id": "v0001_initial",
+  "wo_id": "WO_2026-05-18_codex-port_as_codex_core"
+}

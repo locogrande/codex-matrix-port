@@ -1,0 +1,12 @@
+{
+  "asset_id": "as_codex_.config",
+  "component_id": "dot_config",
+  "version_id": "v0001_initial",
+  "task_id": "WO_2026-05-18_codex-port_as_codex_.config_copy_register_gate",
+  "wo_id": "WO_2026-05-18_codex-port_as_codex_.config",
+  "manager": "gpt_miro",
+  "origin": "codex-rs/.config",
+  "status": "accepted",
+  "content_hash_root": "1e8c834ddb6278e690b6425625a3b3731506a0b85c1e9455d2ba5e2f22527d4e",
+  "sealed_at": "2026-05-18T06:27:56Z"
+}

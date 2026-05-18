@@ -1,0 +1,45 @@
+{
+  "schema_version": "codex_port_source_map/1.0",
+  "asset_id": "as_codex_agent_identity",
+  "component_id": "agent_identity",
+  "version_id": "v0001_initial",
+  "source_root": "library/source_assets/components/agent_identity/versions/v0001_initial/source",
+  "origin_root": "codex-rs/agent-identity",
+  "origin_repo": "C:\\Users\\yonat\\Desktop\\codex\\repo",
+  "file_count": 3,
+  "total_bytes": 28709,
+  "expected_plan_hash": "72898efbecb3aaa08a994b2e98812bc06d3ba9eb0f67fbd3d75747ec1b0bedcc",
+  "regenerated_at": "2026-05-18T04:10:30Z",
+  "mappings": [
+    {
+      "path": "BUILD.bazel",
+      "target_relpath": "BUILD.bazel",
+      "origin_path": "codex-rs/agent-identity/BUILD.bazel",
+      "size": 131,
+      "sha256": "64ca1054a09f93efb24ef994a702b50f2468580766fd4d38c5f91b736d65d5fc",
+      "matrix_framework": "build_config",
+      "reuse_verdict": "REFACTOR",
+      "reuse_reason": "build config — adapt for Matrix import structure"
+    },
+    {
+      "path": "Cargo.toml",
+      "target_relpath": "Cargo.toml",
+      "origin_path": "codex-rs/agent-identity/Cargo.toml",
+      "size": 720,
+      "sha256": "476e56f99d4a2e51273b9e105a5816e35ece52fe170046092fed576c38fd65cc",
+      "matrix_framework": "build_config",
+      "reuse_verdict": "REFACTOR",
+      "reuse_reason": "build config — adapt for Matrix import structure"
+    },
+    {
+      "path": "src/lib.rs",
+      "target_relpath": "src/lib.rs",
+      "origin_path": "codex-rs/agent-identity/src/lib.rs",
+      "size": 27858,
+      "sha256": "042deae662b514e419c0517006961434d94c6d317c46d93b27e92b01a2c3a919",
+      "matrix_framework": "forager",
+      "reuse_verdict": "USE",
+      "reuse_reason": "rust source — forager target"
+    }
+  ]
+}

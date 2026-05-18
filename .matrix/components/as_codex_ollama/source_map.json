@@ -1,0 +1,85 @@
+{
+  "schema_version": "codex_port_source_map/1.0",
+  "asset_id": "as_codex_ollama",
+  "component_id": "ollama",
+  "version_id": "v0001_initial",
+  "source_root": "library/source_assets/components/ollama/versions/v0001_initial/source",
+  "origin_root": "codex-rs/ollama",
+  "origin_repo": "C:\\Users\\yonat\\Desktop\\codex\\repo",
+  "file_count": 7,
+  "total_bytes": 29199,
+  "expected_plan_hash": "bf2af29a405ca0e5383fa00fc8990700a8bdf9612971b48e6bd3082df1307e52",
+  "regenerated_at": "2026-05-18T05:50:11Z",
+  "mappings": [
+    {
+      "path": "BUILD.bazel",
+      "target_relpath": "BUILD.bazel",
+      "origin_path": "codex-rs/ollama/BUILD.bazel",
+      "size": 115,
+      "sha256": "4e51f0796f0adf7cb7f288a129618db908b3e360e5775eca621a4bd24110c623",
+      "matrix_framework": "build_config",
+      "reuse_verdict": "REFACTOR",
+      "reuse_reason": "build config — adapt for Matrix import structure"
+    },
+    {
+      "path": "Cargo.toml",
+      "target_relpath": "Cargo.toml",
+      "origin_path": "codex-rs/ollama/Cargo.toml",
+      "size": 826,
+      "sha256": "59b2e6bdb8e0d6c00460edc5aca10a2083f38518aab8d19345d0372a7157be23",
+      "matrix_framework": "build_config",
+      "reuse_verdict": "REFACTOR",
+      "reuse_reason": "build config — adapt for Matrix import structure"
+    },
+    {
+      "path": "src/client.rs",
+      "target_relpath": "src/client.rs",
+      "origin_path": "codex-rs/ollama/src/client.rs",
+      "size": 16252,
+      "sha256": "4b6ff291fef360e9caffb9c258979f0ef4ee4b69d47143ec7202d8c2c9fe5ef6",
+      "matrix_framework": "forager",
+      "reuse_verdict": "USE",
+      "reuse_reason": "rust source — forager target"
+    },
+    {
+      "path": "src/lib.rs",
+      "target_relpath": "src/lib.rs",
+      "origin_path": "codex-rs/ollama/src/lib.rs",
+      "size": 2998,
+      "sha256": "68e612153d31c485881eca30f735f7ffde906b2d41b3ed2fc4fc8716b308cda3",
+      "matrix_framework": "forager",
+      "reuse_verdict": "USE",
+      "reuse_reason": "rust source — forager target"
+    },
+    {
+      "path": "src/parser.rs",
+      "target_relpath": "src/parser.rs",
+      "origin_path": "codex-rs/ollama/src/parser.rs",
+      "size": 2527,
+      "sha256": "142cbcbd252617f47f4393826c6c419ef181c1506bb4c0757fa3c34762db5388",
+      "matrix_framework": "forager",
+      "reuse_verdict": "USE",
+      "reuse_reason": "rust source — forager target"
+    },
+    {
+      "path": "src/pull.rs",
+      "target_relpath": "src/pull.rs",
+      "origin_path": "codex-rs/ollama/src/pull.rs",
+      "size": 5339,
+      "sha256": "d9b3e3aa521a11a511782b81c85ccf9685687990239dfe3bb7866530d576f462",
+      "matrix_framework": "forager",
+      "reuse_verdict": "USE",
+      "reuse_reason": "rust source — forager target"
+    },
+    {
+      "path": "src/url.rs",
+      "target_relpath": "src/url.rs",
+      "origin_path": "codex-rs/ollama/src/url.rs",
+      "size": 1142,
+      "sha256": "81b096a1eec79b302975b51525a176411f6cf5470c86204549403b050a7cae28",
+      "matrix_framework": "forager",
+      "reuse_verdict": "USE",
+      "reuse_reason": "rust source — forager target"
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "schema_version": "1.0.0",
+  "component_id": "responses_api_proxy",
+  "kernel_asset_id": "as_codex_responses_api_proxy",
+  "asset_id": "as_codex_responses_api_proxy",
+  "version_id": "v0001_initial",
+  "wo_id": "WO_2026-05-18_codex-port_as_codex_responses_api_proxy",
+  "task_id": "WO_2026-05-18_codex-port_as_codex_responses_api_proxy_copy_register_gate",
+  "manager": "gpt_miro",
+  "status": "accepted",
+  "created_at": "2026-05-18T05:50:12Z",
+  "source_lineage_authority": "forager",
+  "kind": "codex_port_asset",
+  "primary_framework": "forager",
+  "framework_distribution": {
+    "build_config": 3,
+    "readme": 2,
+    "forager": 5
+  },
+  "source_path": "codex-rs/responses-api-proxy",
+  "source_root": "library/source_assets/components/responses_api_proxy/versions/v0001_initial/source",
+  "source_files_count": 10,
+  "expected_plan_hash": "43b6fb2c77716c245c8936b4d2bcc05f7eeaa61a44be27fbf591b0435ec1ac15",
+  "content_hashes_ref": "library/source_assets/components/responses_api_proxy/versions/v0001_initial/evidence/content_hashes.json",
+  "reuse_map_ref": "library/source_assets/components/responses_api_proxy/versions/v0001_initial/reuse_map.md",
+  "source_map_ref": "library/source_assets/components/responses_api_proxy/versions/v0001_initial/source_map.json",
+  "framework_kit_adapter_ref": "library/framework_kit/responses_api_proxy/__init__.py",
+  "sealed_at": "2026-05-18T05:50:12Z",
+  "content_hash_root": "5b30167e45f952123db7bf587764678f3b0ab72fd62a30bd176f63cda835f720",
+  "seal": {
+    "content_hash_algorithm": "sha256",
+    "canonicalization": "json_canonical_v1_sorted_keys_no_whitespace",
+    "content_hash_root": "5b30167e45f952123db7bf587764678f3b0ab72fd62a30bd176f63cda835f720",
+    "sealed_marker_ref": "runtime/diagnostics/as_codex_responses_api_proxy_seal/v0001_initial.sealed",
+    "signed_by": "gpt_miro",
+    "signature_ref": "library/source_assets/components/responses_api_proxy/versions/v0001_initial/evidence/manifest_v0001_initial.sig"
+  }
+}

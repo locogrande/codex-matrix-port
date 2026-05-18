@@ -1,0 +1,31 @@
+{
+  "schema_version": "codex_port_source_map/1.0",
+  "asset_id": "as_codex_Cargo.lock",
+  "version_id": "v0001_initial",
+  "source_path": "codex-rs/Cargo.lock",
+  "source_inventory": "C:\\Users\\yonat\\Desktop\\codex\\repo",
+  "source_files_count": 1,
+  "expected_plan_hash": "205925eba923a7716030ace4d561eb6b28401112ca005157dd2d1e4319bbc393",
+  "regenerated_at": "2026-05-18T07:30:49Z",
+  "mappings": [
+    {
+      "path": "codex-rs/Cargo.lock",
+      "lang": "lockfile",
+      "size_bytes": 344373,
+      "lines": 0,
+      "code_lines": 0,
+      "blank_lines": 0,
+      "is_test": false,
+      "is_main": false,
+      "matrix_framework": "lockfile",
+      "mapping_rationale": "Cargo lockfile",
+      "reuse_verdict": "REJECT",
+      "reuse_reason": "lockfile - regenerable by build system",
+      "target_relpath": "Cargo.lock",
+      "target_path": "library/source_assets/components/as_codex_Cargo.lock/versions/v0001_initial/source/Cargo.lock",
+      "sha256_full": "e34abe4e9b912d88d8149f941ce0438727edf31e5e21fd88ec49d4212e9b3d8f",
+      "sha256_16": "e34abe4e9b912d88",
+      "copied_size_bytes": 344373
+    }
+  ]
+}

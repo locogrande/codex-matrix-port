@@ -1,0 +1,31 @@
+{
+  "schema_version": "codex_port_source_map/1.0",
+  "asset_id": "as_codex_rust_toolchain.toml",
+  "version_id": "v0001_initial",
+  "source_path": "codex-rs/rust-toolchain.toml",
+  "source_inventory": "C:\\Users\\yonat\\Desktop\\codex\\repo",
+  "source_files_count": 1,
+  "expected_plan_hash": "03777c6bb7010f4421f4e76862fe6c9dc8db7ac5863e7e81d521a2a1bf40c518",
+  "regenerated_at": "2026-05-18T08:45:11Z",
+  "mappings": [
+    {
+      "path": "codex-rs/rust-toolchain.toml",
+      "lang": "toml_config",
+      "size_bytes": 78,
+      "lines": 3,
+      "code_lines": 3,
+      "blank_lines": 0,
+      "is_test": false,
+      "is_main": false,
+      "matrix_framework": "unmapped",
+      "mapping_rationale": "no rule matched for lang=toml_config",
+      "reuse_verdict": "USE",
+      "reuse_reason": "toml_config source - unmapped target",
+      "target_relpath": "rust-toolchain.toml",
+      "target_path": "library/source_assets/components/as_codex_rust_toolchain.toml/versions/v0001_initial/source/rust-toolchain.toml",
+      "sha256_full": "3e0fa7308a423309995753182d075dfff3e4bd6b891871c3f3b947f3e97699be",
+      "sha256_16": "3e0fa7308a423309",
+      "copied_size_bytes": 78
+    }
+  ]
+}

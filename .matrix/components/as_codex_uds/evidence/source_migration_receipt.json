@@ -1,0 +1,15 @@
+{
+  "asset_id": "as_codex_uds",
+  "content_hash_root": "a22c3c7aebca80988a28cc58d35c906d0ca3cdb76eb0f82da45ee175a4589dfa",
+  "copied_files": [
+    "library/source_assets/components/as_codex_uds/versions/v0001_initial/source/BUILD.bazel",
+    "library/source_assets/components/as_codex_uds/versions/v0001_initial/source/Cargo.toml",
+    "library/source_assets/components/as_codex_uds/versions/v0001_initial/source/src/lib.rs",
+    "library/source_assets/components/as_codex_uds/versions/v0001_initial/source/src/lib_tests.rs"
+  ],
+  "expected_plan_hash": "a24ca79041791ee16ee03facedde308ef2b3994e4fbb8dd4ad29be2a30273d51",
+  "missing_plan_ref": true,
+  "source_files_count": 4,
+  "task_id": "WO_2026-05-18_codex-port_as_codex_uds_copy_register_gate",
+  "version_id": "v0001_initial"
+}

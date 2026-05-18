@@ -1,0 +1,31 @@
+{
+  "schema_version": "codex_port_source_map/1.0",
+  "asset_id": "as_codex_scripts",
+  "version_id": "v0001_initial",
+  "source_path": "codex-rs/scripts",
+  "source_inventory": "C:\\Users\\yonat\\Desktop\\codex\\repo",
+  "source_files_count": 1,
+  "expected_plan_hash": "801832d16dea1991263cf4ca459bceaa1d3b740d41447ac17154787f537265cb",
+  "regenerated_at": "2026-05-18T08:51:27Z",
+  "mappings": [
+    {
+      "path": "codex-rs/scripts/setup-windows.ps1",
+      "lang": "powershell",
+      "size_bytes": 9577,
+      "lines": 246,
+      "code_lines": 209,
+      "blank_lines": 37,
+      "is_test": false,
+      "is_main": false,
+      "matrix_framework": "automation_tools",
+      "mapping_rationale": "script - automation_tools",
+      "reuse_verdict": "USE",
+      "reuse_reason": "powershell source - automation_tools target",
+      "target_relpath": "setup-windows.ps1",
+      "target_path": "library/source_assets/components/as_codex_scripts/versions/v0001_initial/source/setup-windows.ps1",
+      "sha256_full": "0dac472e21f5742f24f5b965149b44990a3491072af514d5d689568eb7a249b3",
+      "sha256_16": "0dac472e21f5742f",
+      "copied_size_bytes": 9577
+    }
+  ]
+}

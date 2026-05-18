@@ -1,0 +1,40 @@
+{
+  "schema_version": "1.0.0",
+  "component_id": "as_codex_config",
+  "kernel_asset_id": "as_codex_config",
+  "asset_id": "as_codex_config",
+  "version_id": "v0001_initial",
+  "wo_id": "WO_2026-05-18_codex-port_as_codex_config",
+  "task_id": "WO_2026-05-18_codex-port_as_codex_config_copy_register_gate",
+  "manager": "gpt_miro",
+  "status": "accepted",
+  "created_at": "2026-05-18T07:35:17Z",
+  "source_lineage_authority": "forager",
+  "kind": "codex_port_asset",
+  "primary_framework": "forager",
+  "framework_distribution": {
+    "build_config": 2,
+    "forager": 41,
+    "automation_tools": 1,
+    "readme": 1,
+    "unmapped": 1
+  },
+  "source_path": "codex-rs/config",
+  "source_root": "library/source_assets/components/as_codex_config/versions/v0001_initial/source",
+  "source_files_count": 46,
+  "expected_plan_hash": "74305282525989fd0c4c0b7fc7de5c09a36b4e17d07e66b6b7b22bcc46e7570b",
+  "content_hashes_ref": "library/source_assets/components/as_codex_config/versions/v0001_initial/evidence/content_hashes.json",
+  "reuse_map_ref": "library/source_assets/components/as_codex_config/versions/v0001_initial/reuse_map.md",
+  "source_map_ref": "library/source_assets/components/as_codex_config/versions/v0001_initial/source_map.json",
+  "framework_kit_adapter_ref": "library/framework_kit/config/__init__.py",
+  "sealed_at": "2026-05-18T07:35:17Z",
+  "content_hash_root": "f98d4eb24d09c1b27ccf14c137166b92210f798e0b7105eafe07a299ca31bd34",
+  "seal": {
+    "content_hash_algorithm": "sha256",
+    "canonicalization": "json_canonical_v1_sorted_keys_no_whitespace",
+    "content_hash_root": "f98d4eb24d09c1b27ccf14c137166b92210f798e0b7105eafe07a299ca31bd34",
+    "sealed_marker_ref": "runtime/diagnostics/as_codex_config_seal/v0001_initial.sealed",
+    "signed_by": "gpt_miro",
+    "signature_ref": "library/source_assets/components/as_codex_config/versions/v0001_initial/evidence/manifest_v0001_initial.sig"
+  }
+}

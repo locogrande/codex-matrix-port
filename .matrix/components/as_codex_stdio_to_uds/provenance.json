@@ -1,0 +1,9 @@
+{
+  "asset_id": "as_codex_stdio_to_uds",
+  "version_id": "v0001_initial",
+  "task_id": "WO_2026-05-18_codex-port_as_codex_stdio_to_uds_copy_register_gate",
+  "wo_id": "WO_2026-05-18_codex-port_as_codex_stdio_to_uds",
+  "source": "C:\\Users\\yonat\\Desktop\\codex\\repo\\codex-rs\\stdio-to-uds",
+  "plan_hash": "d9213a93ace6227a24ce09b8eb7297926db58fd3ea766fced14e5b85fcfc3e35",
+  "created_at": "2026-05-18T09:06:33Z"
+}

@@ -1,0 +1,305 @@
+{
+  "schema_version": "codex_port_source_map/1.0",
+  "asset_id": "as_codex_exec",
+  "component_id": "exec",
+  "version_id": "v0001_initial",
+  "source_root": "library/source_assets/components/exec/versions/v0001_initial/source",
+  "origin_root": "codex-rs/exec",
+  "origin_repo": "C:\\Users\\yonat\\Desktop\\codex\\repo",
+  "file_count": 29,
+  "total_bytes": 302494,
+  "expected_plan_hash": "13a802d80d909a7d75dd679ea64239be40b2b43764adb46cce99b82c2d650b90",
+  "regenerated_at": "2026-05-18T05:47:34Z",
+  "mappings": [
+    {
+      "path": "BUILD.bazel",
+      "target_relpath": "BUILD.bazel",
+      "origin_path": "codex-rs/exec/BUILD.bazel",
+      "size": 204,
+      "sha256": "a219be4df8a3a90bb3773c183ff6eeac8bd993397752a8b5a28f77d518cbaa9b",
+      "matrix_framework": "build_config",
+      "reuse_verdict": "REFACTOR",
+      "reuse_reason": "build config — adapt for Matrix import structure"
+    },
+    {
+      "path": "Cargo.toml",
+      "target_relpath": "Cargo.toml",
+      "origin_path": "codex-rs/exec/Cargo.toml",
+      "size": 2135,
+      "sha256": "c2d1b8466bb5cf3dee5340020a883953db900aac84875e9697b2d067a1085b49",
+      "matrix_framework": "build_config",
+      "reuse_verdict": "REFACTOR",
+      "reuse_reason": "build config — adapt for Matrix import structure"
+    },
+    {
+      "path": "src/cli.rs",
+      "target_relpath": "src/cli.rs",
+      "origin_path": "codex-rs/exec/src/cli.rs",
+      "size": 9463,
+      "sha256": "b915b505a32c598f92d11f287872dc607bb3fec8fabc4afd1b7f3682aab77f4c",
+      "matrix_framework": "tightrope",
+      "reuse_verdict": "USE",
+      "reuse_reason": "rust source — tightrope target"
+    },
+    {
+      "path": "src/cli_tests.rs",
+      "target_relpath": "src/cli_tests.rs",
+      "origin_path": "codex-rs/exec/src/cli_tests.rs",
+      "size": 2148,
+      "sha256": "ef2470a1f9e7dda7a06ad5577c2f98a20f4858bd8d0349344b69def2874771ae",
+      "matrix_framework": "tightrope",
+      "reuse_verdict": "USE",
+      "reuse_reason": "test file — preserve for Tester framework integration"
+    },
+    {
+      "path": "src/event_processor.rs",
+      "target_relpath": "src/event_processor.rs",
+      "origin_path": "codex-rs/exec/src/event_processor.rs",
+      "size": 1546,
+      "sha256": "b23e5cff350f621247ca2d7e21d2458ddd515074becf8f7de599aa495459b2b4",
+      "matrix_framework": "tightrope",
+      "reuse_verdict": "USE",
+      "reuse_reason": "rust source — tightrope target"
+    },
+    {
+      "path": "src/event_processor_with_human_output.rs",
+      "target_relpath": "src/event_processor_with_human_output.rs",
+      "origin_path": "codex-rs/exec/src/event_processor_with_human_output.rs",
+      "size": 19771,
+      "sha256": "98b23d799196cc87c58647cda02a340b20547e16142b0c01c0472b002011a6dc",
+      "matrix_framework": "tightrope",
+      "reuse_verdict": "USE",
+      "reuse_reason": "rust source — tightrope target"
+    },
+    {
+      "path": "src/event_processor_with_human_output_tests.rs",
+      "target_relpath": "src/event_processor_with_human_output_tests.rs",
+      "origin_path": "codex-rs/exec/src/event_processor_with_human_output_tests.rs",
+      "size": 16812,
+      "sha256": "f515ecadc8c7d220747e1ebe6c359df7bd8358475be9cd1c0add3082cbfb8ad7",
+      "matrix_framework": "tightrope",
+      "reuse_verdict": "USE",
+      "reuse_reason": "test file — preserve for Tester framework integration"
+    },
+    {
+      "path": "src/event_processor_with_jsonl_output.rs",
+      "target_relpath": "src/event_processor_with_jsonl_output.rs",
+      "origin_path": "codex-rs/exec/src/event_processor_with_jsonl_output.rs",
+      "size": 26194,
+      "sha256": "50e9894e6319f24d7d0c3e6ad68a3d1d5e6d0ee83b525bc4ed8bddb5e7293398",
+      "matrix_framework": "tightrope",
+      "reuse_verdict": "USE",
+      "reuse_reason": "rust source — tightrope target"
+    },
+    {
+      "path": "src/event_processor_with_jsonl_output_tests.rs",
+      "target_relpath": "src/event_processor_with_jsonl_output_tests.rs",
+      "origin_path": "codex-rs/exec/src/event_processor_with_jsonl_output_tests.rs",
+      "size": 4293,
+      "sha256": "926b8db29ef52f7e3693bb9211be2b54795a4734c913a6f5b2b33af3ab9097d3",
+      "matrix_framework": "tightrope",
+      "reuse_verdict": "USE",
+      "reuse_reason": "test file — preserve for Tester framework integration"
+    },
+    {
+      "path": "src/exec_events.rs",
+      "target_relpath": "src/exec_events.rs",
+      "origin_path": "codex-rs/exec/src/exec_events.rs",
+      "size": 10381,
+      "sha256": "fa46724c54076701d04d29415f22398eb1e8c45abc60b54abd95fad0ecbfe201",
+      "matrix_framework": "tightrope",
+      "reuse_verdict": "USE",
+      "reuse_reason": "rust source — tightrope target"
+    },
+    {
+      "path": "src/lib.rs",
+      "target_relpath": "src/lib.rs",
+      "origin_path": "codex-rs/exec/src/lib.rs",
+      "size": 66801,
+      "sha256": "946e2fd4d783ce248b7ce8aee6a5f799497f91470264e23d0a727f1a076d3ca8",
+      "matrix_framework": "tightrope",
+      "reuse_verdict": "USE",
+      "reuse_reason": "rust source — tightrope target"
+    },
+    {
+      "path": "src/lib_tests.rs",
+      "target_relpath": "src/lib_tests.rs",
+      "origin_path": "codex-rs/exec/src/lib_tests.rs",
+      "size": 19184,
+      "sha256": "991e196783fe638c28648f6388959f37207f31c8ea8516874b8cd91808c32635",
+      "matrix_framework": "tightrope",
+      "reuse_verdict": "USE",
+      "reuse_reason": "test file — preserve for Tester framework integration"
+    },
+    {
+      "path": "src/main.rs",
+      "target_relpath": "src/main.rs",
+      "origin_path": "codex-rs/exec/src/main.rs",
+      "size": 1413,
+      "sha256": "28c10b39d57f050de64fb4a40cc3501da2076029b2c920a9b43f5fceeccdcdb4",
+      "matrix_framework": "tightrope",
+      "reuse_verdict": "USE",
+      "reuse_reason": "rust source — tightrope target"
+    },
+    {
+      "path": "src/main_tests.rs",
+      "target_relpath": "src/main_tests.rs",
+      "origin_path": "codex-rs/exec/src/main_tests.rs",
+      "size": 1218,
+      "sha256": "2a903f99773823915126deec51c672ff75b2cd49111f9c6f84a3910b9bfa223a",
+      "matrix_framework": "tightrope",
+      "reuse_verdict": "USE",
+      "reuse_reason": "test file — preserve for Tester framework integration"
+    },
+    {
+      "path": "tests/all.rs",
+      "target_relpath": "tests/all.rs",
+      "origin_path": "codex-rs/exec/tests/all.rs",
+      "size": 160,
+      "sha256": "ad3456a3759f3c50c155bad6454ba2f354fdd70ef79a8dcb50201cb11d73c6b6",
+      "matrix_framework": "tightrope",
+      "reuse_verdict": "USE",
+      "reuse_reason": "test file — preserve for Tester framework integration"
+    },
+    {
+      "path": "tests/event_processor_with_json_output.rs",
+      "target_relpath": "tests/event_processor_with_json_output.rs",
+      "origin_path": "codex-rs/exec/tests/event_processor_with_json_output.rs",
+      "size": 60657,
+      "sha256": "a5ec3be3ef338c0251ee5036d230f6e3163a1bda40d6f711a65ab9d435d4f6a8",
+      "matrix_framework": "tightrope",
+      "reuse_verdict": "USE",
+      "reuse_reason": "test file — preserve for Tester framework integration"
+    },
+    {
+      "path": "tests/fixtures/apply_patch_freeform_final.txt",
+      "target_relpath": "tests/fixtures/apply_patch_freeform_final.txt",
+      "origin_path": "codex-rs/exec/tests/fixtures/apply_patch_freeform_final.txt",
+      "size": 50,
+      "sha256": "e5eaa1380a0af927062637cbe4d1b31f7a880de51d01adf2ac1b2b0d22ccf90c",
+      "matrix_framework": "tightrope",
+      "reuse_verdict": "USE",
+      "reuse_reason": "test file — preserve for Tester framework integration"
+    },
+    {
+      "path": "tests/suite/add_dir.rs",
+      "target_relpath": "tests/suite/add_dir.rs",
+      "origin_path": "codex-rs/exec/tests/suite/add_dir.rs",
+      "size": 2372,
+      "sha256": "16739cbdecd100cc2fd925b83916500ed610cfaa1f0bcfb7ccbe36c2f34bc3fb",
+      "matrix_framework": "tightrope",
+      "reuse_verdict": "USE",
+      "reuse_reason": "test file — preserve for Tester framework integration"
+    },
+    {
+      "path": "tests/suite/apply_patch.rs",
+      "target_relpath": "tests/suite/apply_patch.rs",
+      "origin_path": "codex-rs/exec/tests/suite/apply_patch.rs",
+      "size": 4624,
+      "sha256": "8c6ef129a247ec4de7ee5fe105a405e41caf39ecb1346d28c66bf6185daf5f3c",
+      "matrix_framework": "tightrope",
+      "reuse_verdict": "USE",
+      "reuse_reason": "test file — preserve for Tester framework integration"
+    },
+    {
+      "path": "tests/suite/auth_env.rs",
+      "target_relpath": "tests/suite/auth_env.rs",
+      "origin_path": "codex-rs/exec/tests/suite/auth_env.rs",
+      "size": 969,
+      "sha256": "18021a3cbc353700030aa63771c2d8a514e1e9b5b4ded71b5246c3919b71ce64",
+      "matrix_framework": "tightrope",
+      "reuse_verdict": "USE",
+      "reuse_reason": "test file — preserve for Tester framework integration"
+    },
+    {
+      "path": "tests/suite/ephemeral.rs",
+      "target_relpath": "tests/suite/ephemeral.rs",
+      "origin_path": "codex-rs/exec/tests/suite/ephemeral.rs",
+      "size": 2088,
+      "sha256": "88c0a8116a7477073ecd20acae55760aad77f4f4870c3c35eff1246929603011",
+      "matrix_framework": "tightrope",
+      "reuse_verdict": "USE",
+      "reuse_reason": "test file — preserve for Tester framework integration"
+    },
+    {
+      "path": "tests/suite/mcp_required_exit.rs",
+      "target_relpath": "tests/suite/mcp_required_exit.rs",
+      "origin_path": "codex-rs/exec/tests/suite/mcp_required_exit.rs",
+      "size": 1233,
+      "sha256": "e3f929614807ea98f05e3c8c454ad09f5b7caa8502738fb5cc2aa4fa67c2313a",
+      "matrix_framework": "tightrope",
+      "reuse_verdict": "USE",
+      "reuse_reason": "test file — preserve for Tester framework integration"
+    },
+    {
+      "path": "tests/suite/mod.rs",
+      "target_relpath": "tests/suite/mod.rs",
+      "origin_path": "codex-rs/exec/tests/suite/mod.rs",
+      "size": 249,
+      "sha256": "34840e55f7e286e36eb3d2dc7135abeacaf0a7dbabbc39df810ee71a3e184563",
+      "matrix_framework": "tightrope",
+      "reuse_verdict": "USE",
+      "reuse_reason": "test file — preserve for Tester framework integration"
+    },
+    {
+      "path": "tests/suite/originator.rs",
+      "target_relpath": "tests/suite/originator.rs",
+      "origin_path": "codex-rs/exec/tests/suite/originator.rs",
+      "size": 1945,
+      "sha256": "fefbc0f37fb4fba18f2dc6c1f0040caab57077ca0a5af43e1afce8675de4355a",
+      "matrix_framework": "tightrope",
+      "reuse_verdict": "USE",
+      "reuse_reason": "test file — preserve for Tester framework integration"
+    },
+    {
+      "path": "tests/suite/output_schema.rs",
+      "target_relpath": "tests/suite/output_schema.rs",
+      "origin_path": "codex-rs/exec/tests/suite/output_schema.rs",
+      "size": 1984,
+      "sha256": "cce5e36cfaa7dc74b78d510b02c1523a542c3e5a8d2cccd4af3ac775ed2e3d30",
+      "matrix_framework": "tightrope",
+      "reuse_verdict": "USE",
+      "reuse_reason": "test file — preserve for Tester framework integration"
+    },
+    {
+      "path": "tests/suite/prompt_stdin.rs",
+      "target_relpath": "tests/suite/prompt_stdin.rs",
+      "origin_path": "codex-rs/exec/tests/suite/prompt_stdin.rs",
+      "size": 5694,
+      "sha256": "bb556d6c12c0e63393140d1c7d9d898f1007dd48eb49a9569ada2b6944e500fd",
+      "matrix_framework": "tightrope",
+      "reuse_verdict": "USE",
+      "reuse_reason": "test file — preserve for Tester framework integration"
+    },
+    {
+      "path": "tests/suite/resume.rs",
+      "target_relpath": "tests/suite/resume.rs",
+      "origin_path": "codex-rs/exec/tests/suite/resume.rs",
+      "size": 19515,
+      "sha256": "a2ab77b031f1d46fde61a029fbf8f1d468e5880477f22f83b6906b8b78f04386",
+      "matrix_framework": "tightrope",
+      "reuse_verdict": "USE",
+      "reuse_reason": "test file — preserve for Tester framework integration"
+    },
+    {
+      "path": "tests/suite/sandbox.rs",
+      "target_relpath": "tests/suite/sandbox.rs",
+      "origin_path": "codex-rs/exec/tests/suite/sandbox.rs",
+      "size": 18222,
+      "sha256": "85511800f0cd8cbbd814d334d7456a8458f6b00f79c448962958443d70a8c612",
+      "matrix_framework": "tightrope",
+      "reuse_verdict": "USE",
+      "reuse_reason": "test file — preserve for Tester framework integration"
+    },
+    {
+      "path": "tests/suite/server_error_exit.rs",
+      "target_relpath": "tests/suite/server_error_exit.rs",
+      "origin_path": "codex-rs/exec/tests/suite/server_error_exit.rs",
+      "size": 1169,
+      "sha256": "7b76c6deaedc8b7c5f52d6ad65b2c7ee9d7735cfb8f005a2f67f783f5109c88c",
+      "matrix_framework": "tightrope",
+      "reuse_verdict": "USE",
+      "reuse_reason": "test file — preserve for Tester framework integration"
+    }
+  ]
+}

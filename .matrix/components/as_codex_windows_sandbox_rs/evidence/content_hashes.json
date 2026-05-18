@@ -1,0 +1,291 @@
+{
+  "asset_id": "as_codex_windows_sandbox_rs",
+  "content_hash_algorithm": "sha256",
+  "content_hash_root": "e124b00f228c827ea4de024e23d97fbc452d54092c1aec8b5800ae92dda964e9",
+  "file_count": 56,
+  "files": [
+    {
+      "path": "BUILD.bazel",
+      "sha256": "dbe47e3bed95e777721e489a605aab5dbf8498ce6a5311eb88612ceaab1f15b1",
+      "size": 239
+    },
+    {
+      "path": "Cargo.toml",
+      "sha256": "1ce8eecef87ce4e5602d298cf9107441b5c00936894a53b450ab12100613e248",
+      "size": 2407
+    },
+    {
+      "path": "build.rs",
+      "sha256": "3cad8d4f7aa7da0022b5f6a0698aa7a0dda4e4dbfcd9cbc79b94772eda9012ab",
+      "size": 617
+    },
+    {
+      "path": "codex-windows-sandbox-setup.manifest",
+      "sha256": "14b210c3cc998be496d7511a8900321cdf603a1510cf4423b25648023085b7cb",
+      "size": 370
+    },
+    {
+      "path": "sandbox_smoketests.py",
+      "sha256": "b7551e6f645f898e262be41c723fa68f1f4303464ca5fa3685a67de33cc9229a",
+      "size": 26757
+    },
+    {
+      "path": "src/acl.rs",
+      "sha256": "e0948ee698698e747b5e3be192e8b6afea5b6ca4a69ecf3527ed54f899d1cdad",
+      "size": 24827
+    },
+    {
+      "path": "src/allow.rs",
+      "sha256": "639395c7478fab35ea515de8db1e54d876b728702838535d428fe69a6aa3e1f1",
+      "size": 8898
+    },
+    {
+      "path": "src/audit.rs",
+      "sha256": "382cd28a44fad3930a67c9fd56aba71b7b2387dab7e4c5fa7f31c347bb91f561",
+      "size": 11946
+    },
+    {
+      "path": "src/bin/command_runner/main.rs",
+      "sha256": "835d7ea6f658300088f835701ebe0cfb7e1ff07e57626d109cfff17db09272a2",
+      "size": 224
+    },
+    {
+      "path": "src/bin/command_runner/win.rs",
+      "sha256": "2c78d4ac284131bebcfc49e5c21c4e70ca8cf0db63cf8564a26f9a687be04fdf",
+      "size": 23608
+    },
+    {
+      "path": "src/bin/command_runner/win/cwd_junction.rs",
+      "sha256": "e77c44263f96bf5ef21d0fffec9f4550c2f335738c7149dfd2eb7d4e48fa6ee2",
+      "size": 4952
+    },
+    {
+      "path": "src/bin/setup_main/main.rs",
+      "sha256": "5aa17a3bde3f2ad869037f0829139dfb338d1346ef9eea577b577febbda8a632",
+      "size": 231
+    },
+    {
+      "path": "src/bin/setup_main/win.rs",
+      "sha256": "0c7006f6716eb92fc3c0c3b6f43b5d076c0786523740aa1f455e8179a01a97e1",
+      "size": 39348
+    },
+    {
+      "path": "src/bin/setup_main/win/firewall.rs",
+      "sha256": "0fcef21310cb4f3ca6333424e4b554678d01586d9a00d096ea8d7a75a4eb9af2",
+      "size": 23401
+    },
+    {
+      "path": "src/bin/setup_main/win/read_acl_mutex.rs",
+      "sha256": "89d689e0c0a07ff8b68d719f6ffb23df86a22598df37d57f6d70360ca738e695",
+      "size": 1913
+    },
+    {
+      "path": "src/bin/setup_main/win/sandbox_users.rs",
+      "sha256": "2f00d46d09d604e083c3b7672c773c48edc05dbdcb62c6ed4689a0c751af166a",
+      "size": 16947
+    },
+    {
+      "path": "src/bin/setup_main/win/setup_runtime_bin.rs",
+      "sha256": "6796194202a0336b240285d9155ff08c5467b0e5afa2e6af5438bddf4cd333ba",
+      "size": 2939
+    },
+    {
+      "path": "src/cap.rs",
+      "sha256": "8e566bf403711781568ba6aec41d13d565caeef48c396d05a7cc8ea323d32354",
+      "size": 7394
+    },
+    {
+      "path": "src/conpty/mod.rs",
+      "sha256": "82818a075f88f4cea9cb63315311b87e86ef485e83792dbba4cd03573db55688",
+      "size": 5845
+    },
+    {
+      "path": "src/deny_read_acl.rs",
+      "sha256": "80a1f89c6badd8240102d4c50c982a2aa88bf2c5c49e19e672145076e61415c4",
+      "size": 4118
+    },
+    {
+      "path": "src/deny_read_resolver.rs",
+      "sha256": "4deb9dd8cc03e279853aecd12c5a7144a6f989163083d7e2d43f0297e3d4dd70",
+      "size": 13524
+    },
+    {
+      "path": "src/deny_read_state.rs",
+      "sha256": "1a277638c3b7a39cf3d9eed32f954a0c3e32110ccbc738c8348b2ba7dabba82a",
+      "size": 2983
+    },
+    {
+      "path": "src/desktop.rs",
+      "sha256": "867ce1204fabf0fcfb555c631da419a734d04f8649594c2f1e5356556be5af57",
+      "size": 6727
+    },
+    {
+      "path": "src/dpapi.rs",
+      "sha256": "e87a193e0d41b8d53da58d0390e302dc28c617cd437fbbfc86034838104de87d",
+      "size": 2739
+    },
+    {
+      "path": "src/elevated/ipc_framed.rs",
+      "sha256": "ea93c62faf4969549873b72c8731d2dd01657f2fe00869eab8d74fa77cb7e784",
+      "size": 6081
+    },
+    {
+      "path": "src/elevated/mod.rs",
+      "sha256": "40e4390266704ef1f1f3b6b535c9f768290fd144b2b458ef92f8fbb3fa4c8857",
+      "size": 85
+    },
+    {
+      "path": "src/elevated/runner_client.rs",
+      "sha256": "55c33959b223e7891b58bd32285d9ea7973420d4d5b3c3bd44b8120a7d935d31",
+      "size": 14810
+    },
+    {
+      "path": "src/elevated/runner_pipe.rs",
+      "sha256": "fa1fd3c5822c10303421a895cbe76ab3dd368c645c831ffc1c003bba626925db",
+      "size": 5321
+    },
+    {
+      "path": "src/elevated_impl.rs",
+      "sha256": "841379b8238588e0b9a7c6b5edf2fc02df909453e6f212f60dc116ec0c9ec65a",
+      "size": 9879
+    },
+    {
+      "path": "src/env.rs",
+      "sha256": "aa3746281cd6c5bb056e3dd449bd92cc98ceea667fa8681add3e16572fdc521d",
+      "size": 5573
+    },
+    {
+      "path": "src/helper_materialization.rs",
+      "sha256": "4ecc462e5393075275626066d0c87db9244737bff654f5b07510dea9e828bfd2",
+      "size": 17057
+    },
+    {
+      "path": "src/hide_users.rs",
+      "sha256": "136d2d348533970b7286a2938ab41659c0be14a2d3be443c29f5114fef36c86f",
+      "size": 5288
+    },
+    {
+      "path": "src/identity.rs",
+      "sha256": "853a989562f00fbe988acbb36ad99cf8e5ce8cc442c54c168c5e6def8b5e9b54",
+      "size": 8330
+    },
+    {
+      "path": "src/lib.rs",
+      "sha256": "67b7347cacc4a8d3b884c99a8a8cb905fbe55bb8ffcd65c5795a550d5ba922e5",
+      "size": 23802
+    },
+    {
+      "path": "src/logging.rs",
+      "sha256": "f54702a8e0892f2b11c007f1f21e7b367f187e082c269cf3642661c19bc983f0",
+      "size": 2775
+    },
+    {
+      "path": "src/path_normalization.rs",
+      "sha256": "0d4babda338194208989ffabb5cd9e8499036df89cb335dcfd8ff51e1153a8e3",
+      "size": 783
+    },
+    {
+      "path": "src/policy.rs",
+      "sha256": "6b25e7e94bb9ef1516aabaae88ed01615bde6aa49e2c249e31b44bc67d5ca8c2",
+      "size": 1920
+    },
+    {
+      "path": "src/proc_thread_attr.rs",
+      "sha256": "090defb3c4fa6658eecff21ffc8e651db61eb1fd21f73f5fa9aea62220ec4d4d",
+      "size": 3269
+    },
+    {
+      "path": "src/process.rs",
+      "sha256": "a88b41f60731acc0edf26696b760b52255236e523e8a9841b0252bb66dc4e8db",
+      "size": 12351
+    },
+    {
+      "path": "src/sandbox_utils.rs",
+      "sha256": "bc5174c116649f393fbc6d7e593cd6d495cb9131183014e3fe85daa1695f51d2",
+      "size": 4088
+    },
+    {
+      "path": "src/setup.rs",
+      "sha256": "79e6acd0ca89eceba16f9ca33d403819e896230d852e6a8653e7159fdbaa5659",
+      "size": 55117
+    },
+    {
+      "path": "src/setup_error.rs",
+      "sha256": "2811736f89ad1ed8f1481998480457a32f45b3ccac27db093f23cb103e4e0459",
+      "size": 11020
+    },
+    {
+      "path": "src/spawn_prep.rs",
+      "sha256": "951d0fb639a39737c8433d148852af503225a18ede497302b89608ce330c22fd",
+      "size": 25281
+    },
+    {
+      "path": "src/ssh_config_dependencies.rs",
+      "sha256": "9ef2a08f5206d101387523073175c52995ddd32579c50e0d75f77d1483d336ca",
+      "size": 7435
+    },
+    {
+      "path": "src/token.rs",
+      "sha256": "c3d3d09876451f0a39b21a5fceecdc422d337fd3e501ca213328ee79d5552804",
+      "size": 16837
+    },
+    {
+      "path": "src/unified_exec/backends/elevated.rs",
+      "sha256": "a683b8cd39172bbe94e12ef32be4031070a3f358bd38cd21c20b9c8c65674a52",
+      "size": 4625
+    },
+    {
+      "path": "src/unified_exec/backends/legacy.rs",
+      "sha256": "d71e302da2c06bb8f83fca116389fca63860dec0f821306a7d7a4165b85c29ef",
+      "size": 14424
+    },
+    {
+      "path": "src/unified_exec/backends/mod.rs",
+      "sha256": "cf64b630aa4a2fadc62f4bf2e3a15cc24fd0079183d72d25c3b60e69bc88adc1",
+      "size": 79
+    },
+    {
+      "path": "src/unified_exec/backends/windows_common.rs",
+      "sha256": "96f1156c35baefce2d42f68fa25d4d55836218ff0de17ef84f075a02455e8403",
+      "size": 6317
+    },
+    {
+      "path": "src/unified_exec/mod.rs",
+      "sha256": "1c4890fc4b686c403fe554ba4370b25d4f8757a1d07d3f2549d307dd1b371274",
+      "size": 2962
+    },
+    {
+      "path": "src/unified_exec/tests.rs",
+      "sha256": "fd0b43f466cd580839f57cc5a6abc2f4008464ae679fa27c3cb82aaf8e8e64b5",
+      "size": 20026
+    },
+    {
+      "path": "src/wfp.rs",
+      "sha256": "2bef44b9abde719f02853818b1309f70228367d51142193fba6676a9ebb80d70",
+      "size": 15710
+    },
+    {
+      "path": "src/wfp/filter_specs.rs",
+      "sha256": "11bef68565843485376f31dea62930d833c6b758ccc2a8613a8b1872a2a0e1f1",
+      "size": 5267
+    },
+    {
+      "path": "src/wfp_setup.rs",
+      "sha256": "64dc4985fc8e07ff2459c744ad2b06c14c2aad08b102ecb6dab248dfa1b5dec4",
+      "size": 6194
+    },
+    {
+      "path": "src/winutil.rs",
+      "sha256": "12e2413a588b62ff3cc91c70c626a20801f4f84c0f4ea858ca7eb41e83a92185",
+      "size": 8038
+    },
+    {
+      "path": "src/workspace_acl.rs",
+      "sha256": "40c4cfdbc75943e5335811c8524646205ef3af28010c73516a1fdc099d956452",
+      "size": 943
+    }
+  ],
+  "schema_version": "codex_port_content_hashes/1.0",
+  "summary": "e124b00f228c827ea4de024e23d97fbc452d54092c1aec8b5800ae92dda964e9",
+  "version_id": "v0001_initial"
+}

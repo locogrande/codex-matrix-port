@@ -1,0 +1,12 @@
+{
+  "asset_id": "as_codex_agent_identity",
+  "component_id": "agent_identity",
+  "version_id": "v0001_initial",
+  "task_id": "WO_2026-05-18_codex-port_as_codex_agent_identity_copy_register_gate",
+  "wo_id": "WO_2026-05-18_codex-port_as_codex_agent_identity",
+  "manager": "gpt_miro",
+  "origin": "codex-rs/agent-identity",
+  "status": "accepted",
+  "content_hash_root": "9c8b35b39269bb27ce2641499647808bf3b4a050effb14f699d0af00e2ffc619",
+  "sealed_at": "2026-05-18T04:10:30Z"
+}
