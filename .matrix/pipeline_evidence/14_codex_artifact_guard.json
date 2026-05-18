@@ -14,7 +14,6 @@
     "venv"
   ],
   "blocked_suffixes": [
-    ".lock",
     ".log",
     ".pid",
     ".pyc",
@@ -27,21 +26,41 @@
     "runtime",
     "vault"
   ],
-  "generated_at": "2026-05-18T14:47:26Z",
+  "generated_at": "2026-05-18T17:47:44Z",
   "large_file_threshold_bytes": 1048576,
-  "large_files": [],
+  "large_files": [
+    {
+      "path": ".matrix/pipeline_evidence/01_collector_classification.json",
+      "size_bytes": 2533831,
+      "threshold": 1048576
+    }
+  ],
+  "lockfile_allowlist": [
+    "Cargo.lock",
+    "Gemfile.lock",
+    "Pipfile.lock",
+    "composer.lock",
+    "go.sum",
+    "package-lock.json",
+    "pnpm-lock.yaml",
+    "poetry.lock",
+    "uv.lock",
+    "yarn.lock"
+  ],
+  "lockfile_block_patterns": [
+    "*.jsonl.lock",
+    "*.queue.lock",
+    "*.daemon.lock",
+    "*.pid.lock"
+  ],
   "ok": false,
-  "scan_target": "codex-matrix-port repo (codex source + .matrix metadata)",
-  "scanned_count": 4889,
-  "schema_version": "matrix.runtime_artifact_guard/1.0",
+  "scan_target": "C:\\Users\\yonat\\Desktop\\codex-matrix-port",
+  "scanned_count": 4900,
+  "schema_version": "matrix.runtime_artifact_guard/1.1",
   "violations": [
     {
       "path": "codex-rs/Cargo.lock/Cargo.lock",
-      "reason": "blocked_suffix:.lock"
-    },
-    {
-      "path": "sdk/python/uv.lock",
-      "reason": "blocked_suffix:.lock"
+      "reason": "lockfile_path_collision:Cargo.lock"
     }
   ]
 }
