@@ -1,0 +1,40 @@
+{
+  "divergence": [],
+  "event_count": 52,
+  "event_kind_counts": {
+    "probe_emitted": 37,
+    "receipt_accepted": 13,
+    "workorders_materialized": 2
+  },
+  "generated_at": "2026-05-18T14:46:50Z",
+  "ok": true,
+  "replayed_state": {
+    "accepted_phases": [
+      "P10",
+      "P11",
+      "P12",
+      "P13",
+      "P14",
+      "P2",
+      "P3",
+      "P4",
+      "P5",
+      "P6",
+      "P7",
+      "P8",
+      "P9"
+    ],
+    "fixtures_debris_pending": 0,
+    "fixtures_promoted": 0,
+    "last_event_ts": 1779115567,
+    "probes_failed": 12,
+    "probes_passed": 25,
+    "receipts_count": 13,
+    "workorder_routing": {
+      "cl_miro": 12,
+      "gpt_miro": 3
+    },
+    "workorders_materialized": 15
+  },
+  "schema_version": "matrix.replay_state/1.0"
+}

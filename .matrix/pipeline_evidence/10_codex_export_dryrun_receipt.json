@@ -1,0 +1,43 @@
+{
+  "asset_filter": "as_codex_",
+  "by_primary_framework": {
+    "automation_tools": 1,
+    "build_config": 31,
+    "contracts": 2,
+    "docs": 4,
+    "forager": 48,
+    "framework_kit_adapter": 2,
+    "lockfile": 1,
+    "netrix_extension": 1,
+    "office_framework": 2,
+    "readme": 1,
+    "tightrope": 7,
+    "unmapped": 12,
+    "youmove": 1
+  },
+  "cap_blocker_count": 0,
+  "cap_blockers": [],
+  "dry_run": true,
+  "eligible_count": 113,
+  "exclusions": [
+    ".git",
+    "__pycache__",
+    ".pytest_cache",
+    ".mypy_cache",
+    "node_modules",
+    ".turbo",
+    ".next",
+    ".yarn",
+    "target",
+    "dist",
+    "build",
+    "runtime",
+    "exports",
+    "vault"
+  ],
+  "generated_at": "2026-05-18T14:46:37Z",
+  "note": "Pure dry-run derived from codex-matrix-port registry. A real export run via scripts/export_matrix_app.py --filter as_codex_ would copy each assets versions/v0001_initial/source/ tree into exports/matrix_app_<ts>/components/<asset_id>/ with the exclusion patterns above. Validated on as_codex_app_server_protocol earlier: 814 files copied.",
+  "schema_version": "matrix.codex_export_dryrun/1.0",
+  "tag_preservation": "per_asset_id; primary_framework retained in registry row",
+  "unique_asset_ids": 110
+}

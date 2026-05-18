@@ -1,0 +1,204 @@
+{
+  "ok": true,
+  "work_order_id": "WO_codex_app_server_demo",
+  "action": "ipr_submit",
+  "risk": "high",
+  "framework": "tightrope",
+  "task_class": "production_submission",
+  "required_forms": [
+    "kernel.acceptance_receipt",
+    "kernel.blocker_event",
+    "kernel.flow_event",
+    "kernel.form_proposal",
+    "kernel.ipr_submission",
+    "kernel.review_record",
+    "netrix.connection_form"
+  ],
+  "allowed_actions": [
+    "accept",
+    "block",
+    "blocked",
+    "circuts_change",
+    "claim",
+    "delegate",
+    "dispatch",
+    "form_proposal",
+    "intake",
+    "ipr_close",
+    "ipr_open",
+    "ipr_submit",
+    "preload",
+    "production_submit",
+    "propose_form",
+    "review",
+    "routing_conflict",
+    "schema_change",
+    "topology_change"
+  ],
+  "missing_fields": [],
+  "framework_preload": {
+    "ok": true,
+    "framework": "tightrope",
+    "forms": [
+      "kernel.form_proposal",
+      "kernel.flow_event",
+      "netrix.connection_form",
+      "kernel.ipr_submission",
+      "kernel.review_record",
+      "kernel.acceptance_receipt",
+      "kernel.blocker_event"
+    ],
+    "payload": [
+      {
+        "form_id": "kernel.form_proposal",
+        "form_kind": "kernel_event",
+        "category": "proposal",
+        "owner_framework": "kernel",
+        "preload_policy": "always",
+        "schema_path": null,
+        "route_handler": "kernel.handle_form_proposal"
+      },
+      {
+        "form_id": "kernel.flow_event",
+        "form_kind": "kernel_event",
+        "category": "flow_event",
+        "owner_framework": "kernel",
+        "preload_policy": "always",
+        "schema_path": null,
+        "route_handler": "kernel.handle_flow_event"
+      },
+      {
+        "form_id": "netrix.connection_form",
+        "form_kind": "netrix_schema",
+        "category": "registration",
+        "owner_framework": "netrix",
+        "preload_policy": "always",
+        "schema_path": "netrix/schemas/forms/connection_form.json",
+        "route_handler": "netrix.routes.connection_form"
+      },
+      {
+        "form_id": "kernel.ipr_submission",
+        "form_kind": "kernel_event",
+        "category": "submission",
+        "owner_framework": "kernel",
+        "preload_policy": "always",
+        "schema_path": null,
+        "route_handler": "kernel.handle_ipr_submission"
+      },
+      {
+        "form_id": "kernel.review_record",
+        "form_kind": "kernel_event",
+        "category": "review",
+        "owner_framework": "kernel",
+        "preload_policy": "always",
+        "schema_path": null,
+        "route_handler": "kernel.handle_review_record"
+      },
+      {
+        "form_id": "kernel.acceptance_receipt",
+        "form_kind": "kernel_event",
+        "category": "receipt",
+        "owner_framework": "kernel",
+        "preload_policy": "always",
+        "schema_path": null,
+        "route_handler": "kernel.handle_acceptance_receipt"
+      },
+      {
+        "form_id": "kernel.blocker_event",
+        "form_kind": "kernel_event",
+        "category": "blocker_event",
+        "owner_framework": "kernel",
+        "preload_policy": "always",
+        "schema_path": null,
+        "route_handler": "kernel.handle_blocker_event"
+      }
+    ],
+    "missing": [],
+    "allowed_frameworks": [
+      "circuts",
+      "flowing",
+      "forager",
+      "library",
+      "miner",
+      "netrix",
+      "tightrope",
+      "tnt",
+      "tracer",
+      "truarch",
+      "voltmeter",
+      "youmove"
+    ],
+    "preload_requires": [
+      "netrix.connection_form",
+      "kernel.form_proposal"
+    ],
+    "staleness_action": "rebuild_via_build_form_registry",
+    "map_id": "matrix.framework_local_preload/1.0"
+  },
+  "bundle": [
+    {
+      "form_id": "kernel.acceptance_receipt",
+      "form_kind": "kernel_event",
+      "category": "receipt",
+      "owner_framework": "kernel",
+      "preload_policy": "always",
+      "route_handler": "kernel.handle_acceptance_receipt",
+      "schema_path": null
+    },
+    {
+      "form_id": "kernel.blocker_event",
+      "form_kind": "kernel_event",
+      "category": "blocker_event",
+      "owner_framework": "kernel",
+      "preload_policy": "always",
+      "route_handler": "kernel.handle_blocker_event",
+      "schema_path": null
+    },
+    {
+      "form_id": "kernel.flow_event",
+      "form_kind": "kernel_event",
+      "category": "flow_event",
+      "owner_framework": "kernel",
+      "preload_policy": "always",
+      "route_handler": "kernel.handle_flow_event",
+      "schema_path": null
+    },
+    {
+      "form_id": "kernel.form_proposal",
+      "form_kind": "kernel_event",
+      "category": "proposal",
+      "owner_framework": "kernel",
+      "preload_policy": "always",
+      "route_handler": "kernel.handle_form_proposal",
+      "schema_path": null
+    },
+    {
+      "form_id": "kernel.ipr_submission",
+      "form_kind": "kernel_event",
+      "category": "submission",
+      "owner_framework": "kernel",
+      "preload_policy": "always",
+      "route_handler": "kernel.handle_ipr_submission",
+      "schema_path": null
+    },
+    {
+      "form_id": "kernel.review_record",
+      "form_kind": "kernel_event",
+      "category": "review",
+      "owner_framework": "kernel",
+      "preload_policy": "always",
+      "route_handler": "kernel.handle_review_record",
+      "schema_path": null
+    },
+    {
+      "form_id": "netrix.connection_form",
+      "form_kind": "netrix_schema",
+      "category": "registration",
+      "owner_framework": "netrix",
+      "preload_policy": "always",
+      "route_handler": "netrix.routes.connection_form",
+      "schema_path": "netrix/schemas/forms/connection_form.json"
+    }
+  ],
+  "selection_order": []
+}

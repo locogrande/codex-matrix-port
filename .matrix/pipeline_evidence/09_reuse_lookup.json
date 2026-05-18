@@ -1,0 +1,96 @@
+{
+  "queries": {
+    "gate": {
+      "card_count": 1,
+      "card_matches": [
+        {
+          "path": "library/reuse/pattern_cards/pc_platform_conformance_gate.json",
+          "pattern_id": "pc_platform_conformance_gate",
+          "purpose": "Prove root/path/authority contracts before every build by running fixed checks (required files, manifest root, runtime phase match, path-canonicality, no live MatrixRefresh refs).",
+          "related_recipes": [
+            "ar_run_p0_gate"
+          ],
+          "title": "Platform contract conformance gate"
+        }
+      ],
+      "kind": "any",
+      "query": "gate",
+      "recipe_count": 1,
+      "recipe_matches": [
+        {
+          "deterministic": true,
+          "param_names": [],
+          "path": "library/reuse/action_recipes/ar_run_p0_gate.json",
+          "pattern_card_ref": "pc_platform_conformance_gate",
+          "recipe_id": "ar_run_p0_gate",
+          "title": "Run P0 platform conformance gate + capture report path"
+        }
+      ]
+    },
+    "port": {
+      "card_count": 0,
+      "card_matches": [],
+      "kind": "any",
+      "query": "port",
+      "recipe_count": 2,
+      "recipe_matches": [
+        {
+          "deterministic": true,
+          "param_names": [
+            "repo_path",
+            "prefix",
+            "bundle_out"
+          ],
+          "path": "library/reuse/action_recipes/ar_repo_port_first_seal.json",
+          "pattern_card_ref": "pc_coin_sorter_pipeline",
+          "recipe_id": "ar_repo_port_first_seal",
+          "title": "First-seal a fresh external repo into Matrix"
+        },
+        {
+          "deterministic": true,
+          "param_names": [],
+          "path": "library/reuse/action_recipes/ar_run_p0_gate.json",
+          "pattern_card_ref": "pc_platform_conformance_gate",
+          "recipe_id": "ar_run_p0_gate",
+          "title": "Run P0 platform conformance gate + capture report path"
+        }
+      ]
+    },
+    "receipt": {
+      "card_count": 1,
+      "card_matches": [
+        {
+          "path": "library/reuse/pattern_cards/pc_dogfood_receipt.json",
+          "pattern_id": "pc_dogfood_receipt",
+          "purpose": "Every phase emits a JSON record that the receipt validator accepts. Used by P1-P14 of folder 4.",
+          "related_recipes": [
+            "ar_write_dogfood_receipt",
+            "ar_validate_receipt"
+          ],
+          "title": "Dogfood receipt completion envelope"
+        }
+      ],
+      "kind": "any",
+      "query": "receipt",
+      "recipe_count": 1,
+      "recipe_matches": [
+        {
+          "deterministic": true,
+          "param_names": [
+            "phase_id",
+            "deliverables",
+            "gate_ref",
+            "dogfood_activation_ref",
+            "next_task_use_ref",
+            "notes"
+          ],
+          "path": "library/reuse/action_recipes/ar_write_dogfood_receipt.json",
+          "pattern_card_ref": "pc_dogfood_receipt",
+          "recipe_id": "ar_write_dogfood_receipt",
+          "title": "Write + validate a dogfood receipt"
+        }
+      ]
+    }
+  },
+  "schema_version": "matrix.reuse_codex_evidence/1.0"
+}

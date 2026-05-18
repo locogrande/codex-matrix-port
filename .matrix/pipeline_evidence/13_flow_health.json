@@ -1,0 +1,66 @@
+{
+  "findings": [
+    {
+      "id": "wip_over_cap",
+      "manager": "cl_miro",
+      "owner": "cl_miro",
+      "severity": "warning",
+      "threshold": 4,
+      "unblock_action": "rotate or kill oldest worker via worker_control.py kill",
+      "wip": 52
+    },
+    {
+      "id": "wip_over_cap",
+      "manager": "gpt_miro",
+      "owner": "gpt_miro",
+      "severity": "warning",
+      "threshold": 4,
+      "unblock_action": "rotate or kill oldest worker via worker_control.py kill",
+      "wip": 94
+    },
+    {
+      "id": "queue_age_critical",
+      "max_age_s": 155651,
+      "owner": "manager_pool",
+      "severity": "critical",
+      "threshold": 21600,
+      "unblock_action": "supervisor drain or dispatch"
+    },
+    {
+      "id": "rework_spike",
+      "owner": "manager_pool",
+      "rework_24h": 12,
+      "severity": "warning",
+      "threshold": 5,
+      "unblock_action": "investigate manager rejection log root cause"
+    }
+  ],
+  "generated_at": "2026-05-18T14:46:51Z",
+  "metrics": {
+    "acceptance_rate": 1.0,
+    "accepted_phases": 13,
+    "blocker_age_s": 0,
+    "queue_age_max_s": 155651,
+    "queue_age_p95_s": 155651,
+    "review_latency_p95_s": 0,
+    "rework_24h": 12,
+    "total_receipts": 13,
+    "wip": {
+      "cl_miro": 52,
+      "gpt_miro": 94
+    },
+    "wip_total": 146
+  },
+  "ok": false,
+  "p14_proceed": false,
+  "schema_version": "matrix.flow_health/1.0",
+  "thresholds": {
+    "acceptance_rate_min": 0.7,
+    "blocker_age_critical_s": 3600,
+    "queue_age_critical_s": 21600,
+    "queue_age_warn_s": 7200,
+    "review_latency_warn_s": 3600,
+    "rework_24h_warn": 5,
+    "wip_per_manager_warn": 4
+  }
+}

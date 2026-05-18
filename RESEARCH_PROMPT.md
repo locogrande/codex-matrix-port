@@ -1,6 +1,18 @@
 # Deep Research Prompt — Codex × Matrix Funneling and Refactor Ceiling
 
-**Repo under study**: this repo (`codex-matrix-port`) — 110 sealed assets / 4,886 files / 53 MB. The 4,339-file source tree under `codex-cli/`, `codex-rs/`, `sdk/`, `docs/` is the upstream OpenAI codex code; the `.matrix/` subdir holds Matrix-native provenance, registry, and adapter stubs.
+**Repo under study**: this repo (`codex-matrix-port`) — 110 sealed assets / 4,886 files / 53 MB. The 4,339-file source tree under `codex-cli/`, `codex-rs/`, `sdk/`, `docs/` is the upstream OpenAI codex code; the `.matrix/` subdir holds Matrix-native provenance, registry, adapter stubs, **and concrete pipeline evidence** (see `.matrix/pipeline_evidence/INDEX.md`).
+
+**Before researching, read the evidence pack.** The Matrix F4 acceptance pipeline has been run end-to-end against the codex source at `--budget-agents=0` (no agent in the critical path). The 10 JSON files + INDEX in `.matrix/pipeline_evidence/` show exactly what the deterministic pipeline produces today. Ground every claim in these numbers, not in speculation. The pipeline:
+
+- Classifies all 3,953 codex files into 8 deterministic slots with 0 ORPHAN escalations (`01_collector_classification.json`)
+- Indexes 113 codex registry rows reducing to 110 unique asset_ids (`02_codex_registry_snapshot.json`)
+- Builds a tightrope form bundle of 7 forms with 0 missing for any task class (`03_codex_form_bundle.json`)
+- Tracks 68 caps across 2 boards with 0 path violations (`07_caps_cutover.json`)
+- Probes assets via 5 classes (cap/form/signal/ui_event/code), correctly flagging real misses (`08_codex_voltmeter_probes.json`)
+- Surfaces a real export bug: `codex-rs/Cargo.lock/Cargo.lock` (Cargo.lock got copied as a directory) (`14_codex_artifact_guard.json`)
+- Replays 13 accepted F4 phases from event sources with 0 divergence vs live state (`12_replay_state.json`)
+
+The F4 acceptance chassis (P0 conformance + P1 receipt validator + P12 replay + P14 artifact guard) is live and gating today. The 6-axis **funnel adapters** that would route codex runtime through Matrix frameworks at runtime are still stubs — that is what this research is for.
 
 **Two open questions** the research must address. They are **orthogonal** — please answer both, do not collapse one into the other.
 

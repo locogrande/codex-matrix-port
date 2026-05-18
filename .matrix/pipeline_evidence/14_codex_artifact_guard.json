@@ -1,0 +1,47 @@
+{
+  "blocked_dirs_anywhere": [
+    ".mypy_cache",
+    ".next",
+    ".pytest_cache",
+    ".turbo",
+    ".venv",
+    ".yarn",
+    "__pycache__",
+    "build",
+    "dist",
+    "node_modules",
+    "target",
+    "venv"
+  ],
+  "blocked_suffixes": [
+    ".lock",
+    ".log",
+    ".pid",
+    ".pyc",
+    ".pyo",
+    ".tmp"
+  ],
+  "blocked_top_levels": [
+    "_delete_pending",
+    "exports",
+    "runtime",
+    "vault"
+  ],
+  "generated_at": "2026-05-18T14:47:26Z",
+  "large_file_threshold_bytes": 1048576,
+  "large_files": [],
+  "ok": false,
+  "scan_target": "codex-matrix-port repo (codex source + .matrix metadata)",
+  "scanned_count": 4889,
+  "schema_version": "matrix.runtime_artifact_guard/1.0",
+  "violations": [
+    {
+      "path": "codex-rs/Cargo.lock/Cargo.lock",
+      "reason": "blocked_suffix:.lock"
+    },
+    {
+      "path": "sdk/python/uv.lock",
+      "reason": "blocked_suffix:.lock"
+    }
+  ]
+}

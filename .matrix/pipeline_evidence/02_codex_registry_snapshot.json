@@ -1,0 +1,34 @@
+{
+  "by_primary_framework": {
+    "automation_tools": 1,
+    "build_config": 31,
+    "contracts": 2,
+    "docs": 4,
+    "forager": 48,
+    "framework_kit_adapter": 2,
+    "lockfile": 1,
+    "netrix_extension": 1,
+    "office_framework": 2,
+    "readme": 1,
+    "tightrope": 7,
+    "unmapped": 12,
+    "youmove": 1
+  },
+  "codex_rows": 113,
+  "sample_asset_ids": [
+    "as_codex_.config",
+    "as_codex_.github",
+    "as_codex_.gitignore",
+    "as_codex_BUILD.bazel",
+    "as_codex_Cargo.lock",
+    "as_codex_Cargo.toml",
+    "as_codex_README.md",
+    "as_codex_agent_graph_store",
+    "as_codex_agent_identity",
+    "as_codex_analytics"
+  ],
+  "schema_version": "matrix.codex_registry_snapshot/1.0",
+  "source": ".matrix/registry/assets.jsonl",
+  "total_rows": 113,
+  "unique_asset_ids": 110
+}

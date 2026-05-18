@@ -1,0 +1,25 @@
+{
+  "active_waivers": [],
+  "cap_count": 68,
+  "cap_path_violations": [],
+  "caps_by_board": {
+    "netrix_forms": 59,
+    "pipeline_design_round1_87029b9cf35d": 9
+  },
+  "caps_by_direction": {
+    "input": 31,
+    "output": 37
+  },
+  "caps_dir": "runtime/frameworks/circuts/caps",
+  "generated_at": "2026-05-18T14:45:06Z",
+  "ok": true,
+  "schema_version": "matrix.caps_cutover/1.0",
+  "waiver_count": 0,
+  "waiver_status_counts": {
+    "active": 0,
+    "expired": 0,
+    "invalid_format": 0,
+    "invalid_no_ttl": 0
+  },
+  "waivers_dir": "runtime/frameworks/circuts/waivers"
+}
