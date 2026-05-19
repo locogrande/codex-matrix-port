@@ -10,7 +10,6 @@ use tokio::sync::Mutex as TokioMutex;
 use tokio::sync::Notify;
 use tokio::sync::oneshot;
 
-use matrix_test_macro as matrix;
 /// Streaming SSE chunk payload gated by a per-chunk signal.
 #[derive(Debug)]
 pub struct StreamingSseChunk {
@@ -285,6 +284,7 @@ fn unix_ms_now() -> i64 {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use matrix_test_macro as matrix;
     use pretty_assertions::assert_eq;
     use reqwest::StatusCode;
     use tokio::net::TcpStream;

@@ -205,8 +205,8 @@ impl LMStudioClient {
 
 #[cfg(test)]
 mod tests {
-    use matrix_test_macro as matrix;
     #![allow(clippy::expect_used, clippy::unwrap_used)]
+    use matrix_test_macro as matrix;
     use super::*;
 
     #[matrix::test]
