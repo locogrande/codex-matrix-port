@@ -6,6 +6,7 @@ use std::sync::RwLock;
 use std::sync::atomic::AtomicBool;
 use std::sync::atomic::Ordering;
 
+use codex_protocol::mirror_from;
 use codex_utils_string::to_ascii_json_string;
 use serde::Serialize;
 use serde_json::Value;
@@ -57,15 +58,9 @@ struct TurnMetadataWorkspace {
     has_changes: Option<bool>,
 }
 
-impl From<WorkspaceGitMetadata> for TurnMetadataWorkspace {
-    fn from(value: WorkspaceGitMetadata) -> Self {
-        Self {
-            associated_remote_urls: value.associated_remote_urls,
-            latest_git_commit_hash: value.latest_git_commit_hash,
-            has_changes: value.has_changes,
-        }
-    }
-}
+mirror_from!(WorkspaceGitMetadata => TurnMetadataWorkspace {
+    associated_remote_urls, latest_git_commit_hash, has_changes
+});
 
 #[derive(Clone, Debug, Serialize, Default)]
 pub(crate) struct TurnMetadataBag {

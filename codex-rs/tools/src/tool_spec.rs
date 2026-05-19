@@ -7,6 +7,7 @@ use codex_protocol::config_types::WebSearchContextSize;
 use codex_protocol::config_types::WebSearchFilters as ConfigWebSearchFilters;
 use codex_protocol::config_types::WebSearchUserLocation as ConfigWebSearchUserLocation;
 use codex_protocol::config_types::WebSearchUserLocationType;
+use codex_protocol::mirror_from;
 use serde::Serialize;
 use serde_json::Value;
 
@@ -94,13 +95,7 @@ pub struct ResponsesApiWebSearchFilters {
     pub allowed_domains: Option<Vec<String>>,
 }
 
-impl From<ConfigWebSearchFilters> for ResponsesApiWebSearchFilters {
-    fn from(filters: ConfigWebSearchFilters) -> Self {
-        Self {
-            allowed_domains: filters.allowed_domains,
-        }
-    }
-}
+mirror_from!(ConfigWebSearchFilters => ResponsesApiWebSearchFilters { allowed_domains });
 
 #[derive(Debug, Clone, Serialize, PartialEq)]
 pub struct ResponsesApiWebSearchUserLocation {
@@ -116,17 +111,9 @@ pub struct ResponsesApiWebSearchUserLocation {
     pub timezone: Option<String>,
 }
 
-impl From<ConfigWebSearchUserLocation> for ResponsesApiWebSearchUserLocation {
-    fn from(user_location: ConfigWebSearchUserLocation) -> Self {
-        Self {
-            r#type: user_location.r#type,
-            country: user_location.country,
-            region: user_location.region,
-            city: user_location.city,
-            timezone: user_location.timezone,
-        }
-    }
-}
+mirror_from!(ConfigWebSearchUserLocation => ResponsesApiWebSearchUserLocation {
+    r#type, country, region, city, timezone
+});
 
 #[cfg(test)]
 #[path = "tool_spec_tests.rs"]

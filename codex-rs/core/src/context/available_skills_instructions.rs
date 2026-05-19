@@ -1,5 +1,6 @@
 use codex_core_skills::AvailableSkills;
 use codex_core_skills::render_available_skills_body;
+use codex_protocol::mirror_from;
 use codex_protocol::protocol::SKILLS_INSTRUCTIONS_CLOSE_TAG;
 use codex_protocol::protocol::SKILLS_INSTRUCTIONS_OPEN_TAG;
 
@@ -11,14 +12,7 @@ pub(crate) struct AvailableSkillsInstructions {
     skill_lines: Vec<String>,
 }
 
-impl From<AvailableSkills> for AvailableSkillsInstructions {
-    fn from(available_skills: AvailableSkills) -> Self {
-        Self {
-            skill_root_lines: available_skills.skill_root_lines,
-            skill_lines: available_skills.skill_lines,
-        }
-    }
-}
+mirror_from!(AvailableSkills => AvailableSkillsInstructions { skill_root_lines, skill_lines });
 
 impl ContextualUserFragment for AvailableSkillsInstructions {
     const ROLE: &'static str = "developer";

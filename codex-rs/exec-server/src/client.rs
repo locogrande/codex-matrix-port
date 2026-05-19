@@ -8,6 +8,7 @@ use std::time::Duration;
 
 use arc_swap::ArcSwap;
 use codex_app_server_protocol::JSONRPCNotification;
+use codex_app_server_protocol::mirror_from;
 use futures::FutureExt;
 use futures::future::BoxFuture;
 use serde_json::Value;
@@ -96,25 +97,12 @@ impl Default for ExecServerClientConnectOptions {
     }
 }
 
-impl From<RemoteExecServerConnectArgs> for ExecServerClientConnectOptions {
-    fn from(value: RemoteExecServerConnectArgs) -> Self {
-        Self {
-            client_name: value.client_name,
-            initialize_timeout: value.initialize_timeout,
-            resume_session_id: value.resume_session_id,
-        }
-    }
-}
-
-impl From<StdioExecServerConnectArgs> for ExecServerClientConnectOptions {
-    fn from(value: StdioExecServerConnectArgs) -> Self {
-        Self {
-            client_name: value.client_name,
-            initialize_timeout: value.initialize_timeout,
-            resume_session_id: value.resume_session_id,
-        }
-    }
-}
+mirror_from!(RemoteExecServerConnectArgs => ExecServerClientConnectOptions {
+    client_name, initialize_timeout, resume_session_id
+});
+mirror_from!(StdioExecServerConnectArgs => ExecServerClientConnectOptions {
+    client_name, initialize_timeout, resume_session_id
+});
 
 impl RemoteExecServerConnectArgs {
     pub fn new(websocket_url: String, client_name: String) -> Self {
