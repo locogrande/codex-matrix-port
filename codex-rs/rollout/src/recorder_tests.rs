@@ -27,6 +27,7 @@ use std::time::Duration;
 use tempfile::TempDir;
 use uuid::Uuid;
 
+use matrix_test_macro as matrix;
 fn test_config(codex_home: &Path) -> RolloutConfig {
     RolloutConfig {
         codex_home: codex_home.to_path_buf(),
@@ -69,7 +70,7 @@ fn write_session_file(root: &Path, ts: &str, uuid: Uuid) -> std::io::Result<Path
     Ok(path)
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn state_db_init_backfills_before_returning() -> anyhow::Result<()> {
     let home = TempDir::new().expect("temp dir");
     let uuid = Uuid::new_v4();
@@ -142,7 +143,7 @@ async fn state_db_init_backfills_before_returning() -> anyhow::Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn load_rollout_items_skips_legacy_ghost_snapshot_lines() -> std::io::Result<()> {
     let home = TempDir::new().expect("temp dir");
     let rollout_path = home.path().join("rollout.jsonl");
@@ -217,7 +218,7 @@ async fn load_rollout_items_skips_legacy_ghost_snapshot_lines() -> std::io::Resu
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn load_rollout_items_preserves_legacy_guardian_assessment_lines() -> std::io::Result<()> {
     let home = TempDir::new().expect("temp dir");
     let rollout_path = home.path().join("rollout.jsonl");
@@ -279,7 +280,7 @@ async fn load_rollout_items_preserves_legacy_guardian_assessment_lines() -> std:
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn load_rollout_items_filters_legacy_ghost_snapshots_from_compaction_history()
 -> std::io::Result<()> {
     let home = TempDir::new().expect("temp dir");
@@ -359,7 +360,7 @@ async fn load_rollout_items_filters_legacy_ghost_snapshots_from_compaction_histo
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn recorder_materializes_on_flush_with_pending_items() -> std::io::Result<()> {
     let home = TempDir::new().expect("temp dir");
     let config = test_config(home.path());
@@ -438,7 +439,7 @@ async fn recorder_materializes_on_flush_with_pending_items() -> std::io::Result<
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn persist_reports_filesystem_error_and_retries_buffered_items() -> std::io::Result<()> {
     let home = TempDir::new().expect("temp dir");
     let config = test_config(home.path());
@@ -491,7 +492,7 @@ async fn persist_reports_filesystem_error_and_retries_buffered_items() -> std::i
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn writer_state_retries_write_error_before_reporting_flush_success() -> std::io::Result<()> {
     let home = TempDir::new().expect("temp dir");
     let rollout_path = home.path().join("rollout.jsonl");
@@ -521,7 +522,7 @@ async fn writer_state_retries_write_error_before_reporting_flush_success() -> st
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn list_threads_db_disabled_does_not_skip_paginated_items() -> std::io::Result<()> {
     let home = TempDir::new().expect("temp dir");
     let config = test_config(home.path());
@@ -568,7 +569,7 @@ async fn list_threads_db_disabled_does_not_skip_paginated_items() -> std::io::Re
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn list_threads_db_enabled_drops_missing_rollout_paths() -> std::io::Result<()> {
     let home = TempDir::new().expect("temp dir");
     let config = test_config(home.path());
@@ -633,7 +634,7 @@ async fn list_threads_db_enabled_drops_missing_rollout_paths() -> std::io::Resul
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn list_threads_db_enabled_repairs_stale_rollout_paths() -> std::io::Result<()> {
     let home = TempDir::new().expect("temp dir");
     let config = test_config(home.path());
@@ -701,7 +702,7 @@ async fn list_threads_db_enabled_repairs_stale_rollout_paths() -> std::io::Resul
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn list_threads_state_db_only_skips_jsonl_repair_scan() -> std::io::Result<()> {
     let home = TempDir::new().expect("temp dir");
     let config = test_config(home.path());
@@ -799,7 +800,7 @@ async fn list_threads_state_db_only_skips_jsonl_repair_scan() -> std::io::Result
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn list_threads_default_filter_returns_filesystem_scan_results() -> std::io::Result<()> {
     let home = TempDir::new().expect("temp dir");
     let config = test_config(home.path());
@@ -890,7 +891,7 @@ async fn list_threads_default_filter_returns_filesystem_scan_results() -> std::i
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn list_threads_metadata_filter_overlays_state_db_list_metadata() -> std::io::Result<()> {
     let home = TempDir::new().expect("temp dir");
     let config = test_config(home.path());
@@ -1023,7 +1024,7 @@ fn fill_missing_thread_item_metadata_preserves_identity_and_prefers_state_git_fi
     assert_eq!(item.updated_at.as_deref(), Some("2025-01-03T16:01:02.003Z"));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn list_threads_search_repairs_stale_state_db_hits_before_returning() -> std::io::Result<()> {
     let home = TempDir::new().expect("temp dir");
     let config = test_config(home.path());
@@ -1113,7 +1114,7 @@ async fn list_threads_search_repairs_stale_state_db_hits_before_returning() -> s
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn resume_candidate_matches_cwd_reads_latest_turn_context() -> std::io::Result<()> {
     let home = TempDir::new().expect("temp dir");
     let stale_cwd = home.path().join("stale");

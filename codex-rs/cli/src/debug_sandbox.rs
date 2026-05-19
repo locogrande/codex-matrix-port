@@ -500,6 +500,7 @@ async fn spawn_debug_sandbox_child(
 
 #[cfg(target_os = "windows")]
 mod windows_stdio_bridge {
+    use matrix_test_macro as matrix;
     use std::io::Read;
     use std::io::Write;
 
@@ -573,7 +574,7 @@ mod windows_stdio_bridge {
 
         use super::*;
 
-        #[tokio::test]
+        #[matrix::test]
         async fn input_forwarder_sends_chunks_and_reports_eof() -> anyhow::Result<()> {
             let (writer_tx, mut writer_rx) = tokio::sync::mpsc::channel::<Vec<u8>>(4);
             let (stdin_closed_tx, stdin_closed_rx) = tokio::sync::oneshot::channel();
@@ -591,7 +592,7 @@ mod windows_stdio_bridge {
             Ok(())
         }
 
-        #[tokio::test]
+        #[matrix::test]
         async fn output_forwarder_writes_all_chunks() -> anyhow::Result<()> {
             #[derive(Clone, Default)]
             struct SharedWriter(std::sync::Arc<Mutex<Vec<u8>>>);
@@ -747,6 +748,7 @@ fn cli_overrides_use_legacy_sandbox_mode(cli_overrides: &[(String, TomlValue)]) 
 
 #[cfg(test)]
 mod tests {
+    use matrix_test_macro as matrix;
     use super::*;
     use pretty_assertions::assert_eq;
     use tempfile::TempDir;
@@ -777,7 +779,7 @@ mod tests {
         Ok(())
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn debug_sandbox_honors_active_permission_profiles() -> anyhow::Result<()> {
         let codex_home = TempDir::new()?;
         let sandbox_paths = TempDir::new()?;
@@ -837,7 +839,7 @@ mod tests {
         Ok(())
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn debug_sandbox_honors_explicit_legacy_sandbox_mode() -> anyhow::Result<()> {
         let codex_home = TempDir::new()?;
         let codex_home_path = codex_home.path().to_path_buf();
@@ -906,7 +908,7 @@ mod tests {
         Ok(())
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn debug_sandbox_defaults_legacy_configs_to_read_only() -> anyhow::Result<()> {
         let codex_home = TempDir::new()?;
         let codex_home_path = codex_home.path().to_path_buf();
@@ -945,7 +947,7 @@ mod tests {
         Ok(())
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn debug_sandbox_honors_explicit_builtin_permission_profile() -> anyhow::Result<()> {
         let codex_home = TempDir::new()?;
 
@@ -979,7 +981,7 @@ mod tests {
         Ok(())
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn explicit_permission_profile_overrides_active_profile_sandbox_mode()
     -> anyhow::Result<()> {
         let codex_home = TempDir::new()?;
@@ -1021,7 +1023,7 @@ mod tests {
         Ok(())
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn debug_sandbox_honors_explicit_named_permission_profile() -> anyhow::Result<()> {
         let codex_home = TempDir::new()?;
         let sandbox_paths = TempDir::new()?;
@@ -1062,7 +1064,7 @@ mod tests {
         Ok(())
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn debug_sandbox_uses_explicit_profile_cwd() -> anyhow::Result<()> {
         let codex_home = TempDir::new()?;
         let cwd = TempDir::new()?;

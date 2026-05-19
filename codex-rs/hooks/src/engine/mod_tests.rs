@@ -33,6 +33,7 @@ use super::ClaudeHooksEngine;
 use super::CommandShell;
 use crate::events::pre_tool_use::PreToolUseRequest;
 
+use matrix_test_macro as matrix;
 fn cwd() -> AbsolutePathBuf {
     AbsolutePathBuf::current_dir().expect("current dir")
 }
@@ -139,7 +140,7 @@ fn requirements_with_managed_hooks_only(
     )
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn requirements_managed_hooks_execute_from_managed_dir() {
     let temp = tempdir().expect("create temp dir");
     let managed_dir =
@@ -257,7 +258,7 @@ with Path(r"{log_path}").open("a", encoding="utf-8") as handle:
     assert!(log_contents.contains("\"hook_event_name\": \"PreToolUse\""));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn requirements_managed_hooks_execute_windows_command_override() {
     let temp = tempdir().expect("create temp dir");
     let managed_dir =
@@ -1124,7 +1125,7 @@ fn discovers_hooks_from_json_and_toml_in_the_same_layer() {
     assert_eq!(preview[1].source_path, config_path);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn plugin_hook_sources_run_with_plugin_env_and_plugin_source() {
     let temp = tempdir().expect("create temp dir");
     let plugin_root =

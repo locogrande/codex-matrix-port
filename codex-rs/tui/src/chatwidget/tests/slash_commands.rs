@@ -3,6 +3,7 @@ use crate::bottom_pane::slash_commands::ServiceTierCommand;
 use pretty_assertions::assert_eq;
 use serial_test::serial;
 
+use matrix_test_macro as matrix;
 fn force_pet_image_support(chat: &mut ChatWidget) {
     chat.set_pet_image_support_for_tests(crate::pets::PetImageSupport::Supported(
         crate::pets::ImageProtocol::Kitty,
@@ -75,7 +76,7 @@ fn next_add_to_history_event(rx: &mut tokio::sync::mpsc::UnboundedReceiver<AppEv
     }
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn service_tier_commands_lowercase_catalog_names() {
     let (mut chat, _rx, _op_rx) = make_chatwidget_manual(Some("gpt-5.4")).await;
     let mut preset = get_available_model(&chat, "gpt-5.4");
@@ -93,7 +94,7 @@ async fn service_tier_commands_lowercase_catalog_names() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn slash_compact_eagerly_queues_follow_up_before_turn_start() {
     let (mut chat, mut rx, mut op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
 
@@ -121,7 +122,7 @@ async fn slash_compact_eagerly_queues_follow_up_before_turn_start() {
     assert_matches!(op_rx.try_recv(), Err(TryRecvError::Empty));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn queued_slash_compact_dispatches_after_active_turn() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     chat.thread_id = Some(ThreadId::new());
@@ -151,7 +152,7 @@ async fn queued_slash_compact_dispatches_after_active_turn() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn queued_slash_review_with_args_dispatches_after_active_turn() {
     let (mut chat, _rx, mut op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     chat.thread_id = Some(ThreadId::new());
@@ -172,7 +173,7 @@ async fn queued_slash_review_with_args_dispatches_after_active_turn() {
     }
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn queued_slash_review_with_args_restores_for_edit() {
     let (mut chat, _rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     chat.thread_id = Some(ThreadId::new());
@@ -187,7 +188,7 @@ async fn queued_slash_review_with_args_restores_for_edit() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn queued_bang_shell_dispatches_after_active_turn() {
     let (mut chat, mut rx, mut op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     chat.thread_id = Some(ThreadId::new());
@@ -216,7 +217,7 @@ async fn queued_bang_shell_dispatches_after_active_turn() {
     assert!(chat.input_queue.queued_user_messages.is_empty());
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn queued_empty_bang_shell_reports_help_when_dequeued_and_drains_next_input() {
     let (mut chat, mut rx, mut op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     chat.thread_id = Some(ThreadId::new());
@@ -253,7 +254,7 @@ async fn queued_empty_bang_shell_reports_help_when_dequeued_and_drains_next_inpu
     assert!(chat.input_queue.queued_user_messages.is_empty());
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn queued_bang_shell_waits_for_user_shell_completion_before_next_input() {
     let (mut chat, mut rx, mut op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     chat.thread_id = Some(ThreadId::new());
@@ -325,14 +326,14 @@ async fn assert_cancelled_queued_menu_drains_next_input(command: &str, expected_
     assert!(chat.input_queue.queued_user_messages.is_empty());
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn queued_slash_menu_cancel_drains_next_input() {
     assert_cancelled_queued_menu_drains_next_input("/model", "Select Model").await;
     assert_cancelled_queued_menu_drains_next_input("/permissions", "Update Model Permissions")
         .await;
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn queued_slash_menu_selection_drains_next_input() {
     let (mut chat, _rx, mut op_rx) = make_chatwidget_manual(Some("gpt-5.2")).await;
     chat.thread_id = Some(ThreadId::new());
@@ -364,7 +365,7 @@ async fn queued_slash_menu_selection_drains_next_input() {
     assert!(chat.input_queue.queued_user_messages.is_empty());
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn queued_bare_rename_drains_next_input_after_name_update() {
     let (mut chat, mut rx, mut op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     let thread_id = ThreadId::new();
@@ -415,7 +416,7 @@ async fn queued_bare_rename_drains_next_input_after_name_update() {
     assert!(chat.input_queue.queued_user_messages.is_empty());
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn queued_inline_rename_does_not_drain_again_before_turn_started() {
     let (mut chat, mut rx, mut op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     let thread_id = ThreadId::new();
@@ -498,7 +499,7 @@ async fn queued_inline_rename_does_not_drain_again_before_turn_started() {
     assert!(chat.input_queue.queued_user_messages.is_empty());
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn queued_unknown_slash_reports_error_when_dequeued() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     chat.thread_id = Some(ThreadId::new());
@@ -523,7 +524,7 @@ async fn queued_unknown_slash_reports_error_when_dequeued() {
     assert!(chat.input_queue.queued_user_messages.is_empty());
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn ctrl_d_quits_without_prompt() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
 
@@ -531,7 +532,7 @@ async fn ctrl_d_quits_without_prompt() {
     assert_matches!(rx.try_recv(), Ok(AppEvent::Exit(ExitMode::ShutdownFirst)));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn ctrl_d_with_modal_open_does_not_quit() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
 
@@ -541,7 +542,7 @@ async fn ctrl_d_with_modal_open_does_not_quit() {
     assert_matches!(rx.try_recv(), Err(TryRecvError::Empty));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn slash_init_skips_when_project_doc_exists() {
     let (mut chat, mut rx, mut op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     let tempdir = tempdir().unwrap();
@@ -574,7 +575,7 @@ async fn slash_init_skips_when_project_doc_exists() {
     assert_eq!(recall_latest_after_clearing(&mut chat), "/init");
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn bare_slash_command_is_available_from_local_recall_after_dispatch() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
 
@@ -585,7 +586,7 @@ async fn bare_slash_command_is_available_from_local_recall_after_dispatch() {
     assert_eq!(chat.bottom_pane.composer_text(), "/diff");
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn inline_slash_command_is_available_from_local_recall_after_dispatch() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
 
@@ -596,7 +597,7 @@ async fn inline_slash_command_is_available_from_local_recall_after_dispatch() {
     assert_eq!(chat.bottom_pane.composer_text(), "/rename Better title");
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn goal_slash_command_emits_set_goal_event() {
     let (mut chat, mut rx, mut op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     chat.set_feature_enabled(Feature::Goals, /*enabled*/ true);
@@ -622,7 +623,7 @@ async fn goal_slash_command_emits_set_goal_event() {
     assert_eq!(recall_latest_after_clearing(&mut chat), command);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn goal_slash_command_uses_plain_text_for_mentions() {
     let (mut chat, mut rx, mut op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     chat.set_feature_enabled(Feature::Goals, /*enabled*/ true);
@@ -656,7 +657,7 @@ async fn goal_slash_command_uses_plain_text_for_mentions() {
     assert_no_submit_op(&mut op_rx);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn goal_slash_command_drops_attached_images() {
     let (mut chat, mut rx, mut op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     chat.set_feature_enabled(Feature::Goals, /*enabled*/ true);
@@ -695,7 +696,7 @@ async fn goal_slash_command_drops_attached_images() {
     assert_no_submit_op(&mut op_rx);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn bare_goal_slash_command_drains_pending_submission_state() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     chat.set_feature_enabled(Feature::Goals, /*enabled*/ true);
@@ -717,7 +718,7 @@ async fn bare_goal_slash_command_drains_pending_submission_state() {
     assert!(chat.bottom_pane.composer_local_image_paths().is_empty());
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn goal_control_slash_commands_emit_goal_events() {
     let cases = [
         ("/goal clear", None),
@@ -760,7 +761,7 @@ async fn goal_control_slash_commands_emit_goal_events() {
     }
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn goal_edit_slash_command_opens_goal_editor() {
     for thread_id in [Some(ThreadId::new()), None] {
         let (mut chat, mut rx, mut op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
@@ -781,7 +782,7 @@ async fn goal_edit_slash_command_opens_goal_editor() {
     }
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn queued_goal_slash_command_emits_set_goal_event_after_thread_starts() {
     let (mut chat, mut rx, mut op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     chat.set_feature_enabled(Feature::Goals, /*enabled*/ true);
@@ -809,7 +810,7 @@ async fn queued_goal_slash_command_emits_set_goal_event_after_thread_starts() {
     assert_no_submit_op(&mut op_rx);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn queued_goal_slash_command_preserves_current_draft_metadata() {
     let (mut chat, mut rx, mut op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     chat.set_feature_enabled(Feature::Goals, /*enabled*/ true);
@@ -854,7 +855,7 @@ async fn queued_goal_slash_command_preserves_current_draft_metadata() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn restored_queued_goal_slash_command_emits_set_goal_event() {
     let (mut chat, _rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     chat.set_feature_enabled(Feature::Goals, /*enabled*/ true);
@@ -999,7 +1000,7 @@ fn merged_history_record_remaps_override_image_placeholders() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn interrupted_merged_message_history_encodes_mentions_once() {
     let (mut chat, mut rx, mut op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     chat.thread_id = Some(ThreadId::new());
@@ -1056,7 +1057,7 @@ async fn interrupted_merged_message_history_encodes_mentions_once() {
     assert_eq!(next_add_to_history_event(&mut rx), encoded);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn slash_rename_prefills_existing_thread_name() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     chat.thread_name = Some("Current project title".to_string());
@@ -1074,7 +1075,7 @@ async fn slash_rename_prefills_existing_thread_name() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn slash_rename_without_existing_thread_name_starts_empty() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
 
@@ -1089,7 +1090,7 @@ async fn slash_rename_without_existing_thread_name_starts_empty() {
     assert_matches!(rx.try_recv(), Err(TryRecvError::Empty));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn usage_error_slash_command_is_available_from_local_recall() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(Some("gpt-5.3-codex")).await;
 
@@ -1110,7 +1111,7 @@ async fn usage_error_slash_command_is_available_from_local_recall() {
     assert_eq!(recall_latest_after_clearing(&mut chat), "/raw maybe");
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn unrecognized_slash_command_is_not_added_to_local_recall() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
 
@@ -1130,7 +1131,7 @@ async fn unrecognized_slash_command_is_not_added_to_local_recall() {
     assert_eq!(recall_latest_after_clearing(&mut chat), "");
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn unavailable_slash_command_is_available_from_local_recall() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     chat.bottom_pane.set_task_running(/*running*/ true);
@@ -1150,7 +1151,7 @@ async fn unavailable_slash_command_is_available_from_local_recall() {
     assert_eq!(recall_latest_after_clearing(&mut chat), "/model");
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn no_op_stub_slash_command_is_available_from_local_recall() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
 
@@ -1169,7 +1170,7 @@ async fn no_op_stub_slash_command_is_available_from_local_recall() {
     assert_eq!(recall_latest_after_clearing(&mut chat), "/debug-m-drop");
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn slash_quit_requests_exit() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
 
@@ -1178,7 +1179,7 @@ async fn slash_quit_requests_exit() {
     assert_matches!(rx.try_recv(), Ok(AppEvent::Exit(ExitMode::ShutdownFirst)));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn slash_logout_requests_app_server_logout() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
 
@@ -1187,7 +1188,7 @@ async fn slash_logout_requests_app_server_logout() {
     assert_matches!(rx.try_recv(), Ok(AppEvent::Logout));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn slash_copy_state_tracks_turn_complete_final_reply() {
     let (mut chat, _rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
 
@@ -1199,7 +1200,7 @@ async fn slash_copy_state_tracks_turn_complete_final_reply() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn slash_copy_state_tracks_plan_item_completion() {
     let (mut chat, _rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     let plan_text = "## Plan\n\n1. Build it\n2. Test it".to_string();
@@ -1225,7 +1226,7 @@ async fn slash_copy_state_tracks_plan_item_completion() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn slash_copy_reports_when_no_agent_response_exists() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
 
@@ -1241,7 +1242,7 @@ async fn slash_copy_reports_when_no_agent_response_exists() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn ctrl_o_copy_reports_when_no_agent_response_exists() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
 
@@ -1256,7 +1257,7 @@ async fn ctrl_o_copy_reports_when_no_agent_response_exists() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn keymap_capture_can_capture_current_copy_shortcut() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     let runtime_keymap = crate::keymap::RuntimeKeymap::defaults();
@@ -1288,7 +1289,7 @@ async fn keymap_capture_can_capture_current_copy_shortcut() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn slash_keymap_capture_can_capture_app_shortcuts() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     let runtime_keymap = crate::keymap::RuntimeKeymap::defaults();
@@ -1319,7 +1320,7 @@ async fn slash_keymap_capture_can_capture_app_shortcuts() {
     }
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn slash_keymap_debug_opens_keypress_inspector() {
     let (mut chat, mut rx, mut op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
 
@@ -1338,7 +1339,7 @@ async fn slash_keymap_debug_opens_keypress_inspector() {
     assert!(op_rx.try_recv().is_err(), "expected no core op to be sent");
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn slash_keymap_debug_can_inspect_app_shortcuts() {
     let (mut chat, mut rx, mut op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
 
@@ -1365,7 +1366,7 @@ async fn slash_keymap_debug_can_inspect_app_shortcuts() {
     assert!(op_rx.try_recv().is_err(), "expected no core op to be sent");
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn slash_keymap_invalid_args_show_usage() {
     let (mut chat, mut rx, mut op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
 
@@ -1385,7 +1386,7 @@ async fn slash_keymap_invalid_args_show_usage() {
     assert!(op_rx.try_recv().is_err(), "expected no core op to be sent");
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn copy_shortcut_can_be_remapped() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     let mut keymap_config = chat.config_ref().tui_keymap.clone();
@@ -1412,7 +1413,7 @@ async fn copy_shortcut_can_be_remapped() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn slash_copy_stores_clipboard_lease_and_preserves_it_on_failure() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     chat.transcript.last_agent_markdown = Some("copy me".to_string());
@@ -1446,7 +1447,7 @@ async fn slash_copy_stores_clipboard_lease_and_preserves_it_on_failure() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn slash_copy_state_is_preserved_during_running_task() {
     let (mut chat, _rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
 
@@ -1459,7 +1460,7 @@ async fn slash_copy_state_is_preserved_during_running_task() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn slash_copy_uses_agent_message_item_when_turn_complete_omits_final_text() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
 
@@ -1484,7 +1485,7 @@ async fn slash_copy_uses_agent_message_item_when_turn_complete_omits_final_text(
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn agent_turn_complete_notification_does_not_reuse_stale_copy_source() {
     let (mut chat, _rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
 
@@ -1499,7 +1500,7 @@ async fn agent_turn_complete_notification_does_not_reuse_stale_copy_source() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn active_goal_without_follow_up_suppresses_agent_turn_complete_notification() {
     let (mut chat, _rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     chat.set_feature_enabled(Feature::Goals, /*enabled*/ true);
@@ -1528,7 +1529,7 @@ async fn active_goal_without_follow_up_suppresses_agent_turn_complete_notificati
     assert_matches!(chat.pending_notification, None);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn queued_follow_up_suppresses_agent_turn_complete_notification() {
     let (mut chat, _rx, mut op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     chat.thread_id = Some(ThreadId::new());
@@ -1542,7 +1543,7 @@ async fn queued_follow_up_suppresses_agent_turn_complete_notification() {
     assert_matches!(next_submit_op(&mut op_rx), Op::UserTurn { .. });
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn queued_menu_slash_keeps_agent_turn_complete_notification() {
     let (mut chat, _rx, mut op_rx) = make_chatwidget_manual(Some("gpt-5.2")).await;
     chat.thread_id = Some(ThreadId::new());
@@ -1559,7 +1560,7 @@ async fn queued_menu_slash_keeps_agent_turn_complete_notification() {
     assert_matches!(op_rx.try_recv(), Err(TryRecvError::Empty));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn slash_copy_uses_latest_surviving_response_after_rollback() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
 
@@ -1589,7 +1590,7 @@ async fn slash_copy_uses_latest_surviving_response_after_rollback() {
     });
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn slash_copy_reports_when_rewind_exceeds_retained_copy_history() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
 
@@ -1615,7 +1616,7 @@ async fn slash_copy_reports_when_rewind_exceeds_retained_copy_history() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn slash_exit_requests_exit() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
 
@@ -1624,7 +1625,7 @@ async fn slash_exit_requests_exit() {
     assert_matches!(rx.try_recv(), Ok(AppEvent::Exit(ExitMode::ShutdownFirst)));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn slash_stop_submits_background_terminal_cleanup() {
     let (mut chat, mut rx, mut op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
 
@@ -1640,7 +1641,7 @@ async fn slash_stop_submits_background_terminal_cleanup() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn slash_clear_requests_ui_clear_when_idle() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
 
@@ -1649,7 +1650,7 @@ async fn slash_clear_requests_ui_clear_when_idle() {
     assert_matches!(rx.try_recv(), Ok(AppEvent::ClearUi));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn slash_clear_after_ctrl_c_keeps_stashed_draft_recallable() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     let thread_id = ThreadId::new();
@@ -1680,7 +1681,7 @@ async fn slash_clear_after_ctrl_c_keeps_stashed_draft_recallable() {
     assert_eq!(chat.bottom_pane.composer_text(), "ok");
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn slash_clear_is_disabled_while_task_running() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     chat.bottom_pane.set_task_running(/*running*/ true);
@@ -1701,7 +1702,7 @@ async fn slash_clear_is_disabled_while_task_running() {
     assert!(rx.try_recv().is_err(), "expected no follow-up events");
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn slash_memory_drop_reports_stubbed_feature() {
     let (mut chat, mut rx, mut op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
 
@@ -1721,7 +1722,7 @@ async fn slash_memory_drop_reports_stubbed_feature() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn slash_mcp_requests_inventory_via_app_server() {
     let (mut chat, mut rx, mut op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
 
@@ -1737,7 +1738,7 @@ async fn slash_mcp_requests_inventory_via_app_server() {
     assert!(op_rx.try_recv().is_err(), "expected no core op to be sent");
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn slash_mcp_verbose_requests_full_inventory_via_app_server() {
     let (mut chat, mut rx, mut op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
 
@@ -1753,7 +1754,7 @@ async fn slash_mcp_verbose_requests_full_inventory_via_app_server() {
     assert!(op_rx.try_recv().is_err(), "expected no core op to be sent");
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn slash_mcp_invalid_args_show_usage() {
     let (mut chat, mut rx, mut op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
 
@@ -1773,7 +1774,7 @@ async fn slash_mcp_invalid_args_show_usage() {
     assert!(op_rx.try_recv().is_err(), "expected no core op to be sent");
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn slash_memories_opens_memory_menu() {
     let (mut chat, mut rx, mut op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     chat.set_feature_enabled(Feature::MemoryTool, /*enabled*/ true);
@@ -1785,7 +1786,7 @@ async fn slash_memories_opens_memory_menu() {
     assert!(op_rx.try_recv().is_err(), "expected no core op to be sent");
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn slash_memory_update_reports_stubbed_feature() {
     let (mut chat, mut rx, mut op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
 
@@ -1805,7 +1806,7 @@ async fn slash_memory_update_reports_stubbed_feature() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn slash_resume_opens_picker() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
 
@@ -1814,7 +1815,7 @@ async fn slash_resume_opens_picker() {
     assert_matches!(rx.try_recv(), Ok(AppEvent::OpenResumePicker));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn slash_resume_with_arg_requests_named_session() {
     let (mut chat, mut rx, mut op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
 
@@ -1832,7 +1833,7 @@ async fn slash_resume_with_arg_requests_named_session() {
     assert_matches!(op_rx.try_recv(), Err(TryRecvError::Empty));
 }
 
-#[tokio::test]
+#[matrix::test]
 #[serial]
 async fn slash_pets_opens_picker() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
@@ -1847,7 +1848,7 @@ async fn slash_pets_opens_picker() {
     assert_chatwidget_snapshot!("slash_pets_picker", popup);
 }
 
-#[tokio::test]
+#[matrix::test]
 #[serial]
 async fn slash_pets_with_arg_selects_named_pet() {
     let (mut chat, mut rx, mut op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
@@ -1864,7 +1865,7 @@ async fn slash_pets_with_arg_selects_named_pet() {
     assert_matches!(op_rx.try_recv(), Err(TryRecvError::Empty));
 }
 
-#[tokio::test]
+#[matrix::test]
 #[serial]
 async fn slash_pets_disable_disables_pets_even_on_unsupported_terminal() {
     let (mut chat, mut rx, mut op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
@@ -1879,7 +1880,7 @@ async fn slash_pets_disable_disables_pets_even_on_unsupported_terminal() {
     assert_matches!(op_rx.try_recv(), Err(TryRecvError::Empty));
 }
 
-#[tokio::test]
+#[matrix::test]
 #[serial]
 async fn slash_pet_hide_disables_pets_even_on_unsupported_terminal() {
     let (mut chat, mut rx, mut op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
@@ -1894,7 +1895,7 @@ async fn slash_pet_hide_disables_pets_even_on_unsupported_terminal() {
     assert_matches!(op_rx.try_recv(), Err(TryRecvError::Empty));
 }
 
-#[tokio::test]
+#[matrix::test]
 #[serial]
 async fn slash_pets_on_unsupported_terminal_warns_without_picker() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
@@ -1913,7 +1914,7 @@ async fn slash_pets_on_unsupported_terminal_warns_without_picker() {
     assert!(rendered.contains("outside tmux"));
 }
 
-#[tokio::test]
+#[matrix::test]
 #[serial]
 async fn slash_pets_with_arg_on_unsupported_terminal_warns_without_selection() {
     let (mut chat, mut rx, mut op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
@@ -1934,7 +1935,7 @@ async fn slash_pets_with_arg_on_unsupported_terminal_warns_without_selection() {
     assert_matches!(op_rx.try_recv(), Err(TryRecvError::Empty));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn slash_fork_requests_current_fork() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
 
@@ -1943,7 +1944,7 @@ async fn slash_fork_requests_current_fork() {
     assert_matches!(rx.try_recv(), Ok(AppEvent::ForkCurrentSession));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn slash_rollout_displays_current_path() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     let rollout_path = PathBuf::from("/tmp/codex-test-rollout.jsonl");
@@ -1960,7 +1961,7 @@ async fn slash_rollout_displays_current_path() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn slash_rollout_handles_missing_path() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
 
@@ -1979,7 +1980,7 @@ async fn slash_rollout_handles_missing_path() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn fast_slash_command_updates_and_persists_local_service_tier() {
     let (mut chat, mut rx, mut op_rx) = make_chatwidget_manual(Some("gpt-5.4")).await;
     set_fast_mode_test_catalog(&mut chat);
@@ -2012,7 +2013,7 @@ async fn fast_slash_command_updates_and_persists_local_service_tier() {
     assert_matches!(op_rx.try_recv(), Err(TryRecvError::Empty));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn fast_keybinding_toggle_uses_same_events_as_fast_slash_command() {
     let (mut chat, mut rx, mut op_rx) = make_chatwidget_manual(Some("gpt-5.4")).await;
     set_fast_mode_test_catalog(&mut chat);
@@ -2045,7 +2046,7 @@ async fn fast_keybinding_toggle_uses_same_events_as_fast_slash_command() {
     assert_matches!(op_rx.try_recv(), Err(TryRecvError::Empty));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn fast_keybinding_toggle_requires_feature_and_idle_surface() {
     let (mut chat, _rx, _op_rx) = make_chatwidget_manual(Some("gpt-5.4")).await;
     set_fast_mode_test_catalog(&mut chat);
@@ -2060,7 +2061,7 @@ async fn fast_keybinding_toggle_requires_feature_and_idle_surface() {
     assert!(!chat.can_toggle_fast_mode_from_keybinding());
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn user_turn_carries_service_tier_after_fast_toggle() {
     let (mut chat, mut rx, mut op_rx) = make_chatwidget_manual(Some("gpt-5.4")).await;
     chat.thread_id = Some(ThreadId::new());
@@ -2085,7 +2086,7 @@ async fn user_turn_carries_service_tier_after_fast_toggle() {
     }
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn queued_fast_slash_applies_before_next_queued_message() {
     let (mut chat, mut rx, mut op_rx) = make_chatwidget_manual(Some("gpt-5.4")).await;
     chat.thread_id = Some(ThreadId::new());
@@ -2127,7 +2128,7 @@ async fn queued_fast_slash_applies_before_next_queued_message() {
     }
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn user_turn_sends_standard_override_after_fast_is_turned_off() {
     let (mut chat, mut rx, mut op_rx) = make_chatwidget_manual(Some("gpt-5.4")).await;
     chat.thread_id = Some(ThreadId::new());
@@ -2171,7 +2172,7 @@ async fn user_turn_sends_standard_override_after_fast_is_turned_off() {
     }
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn raw_slash_command_toggles_and_accepts_on_off_args() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
 
@@ -2203,7 +2204,7 @@ async fn raw_slash_command_toggles_and_accepts_on_off_args() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn raw_slash_command_reports_usage_for_invalid_arg() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
 
@@ -2222,7 +2223,7 @@ async fn raw_slash_command_reports_usage_for_invalid_arg() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn compact_queues_user_messages_snapshot() {
     let (mut chat, _rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     chat.thread_id = Some(ThreadId::new());

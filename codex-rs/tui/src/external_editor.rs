@@ -92,6 +92,7 @@ pub(crate) async fn run_editor(seed: &str, editor_cmd: &[String]) -> Result<Stri
 
 #[cfg(test)]
 mod tests {
+    use matrix_test_macro as matrix;
     use super::*;
     use pretty_assertions::assert_eq;
     use serial_test::serial;
@@ -152,7 +153,7 @@ mod tests {
         ));
     }
 
-    #[tokio::test]
+    #[matrix::test]
     #[cfg(unix)]
     async fn run_editor_returns_updated_content() {
         use std::os::unix::fs::PermissionsExt;

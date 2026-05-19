@@ -18,9 +18,10 @@ use codex_app_server_protocol::UserInput as V2UserInput;
 use serde_json::Value;
 use tokio::time::timeout;
 
+use matrix_test_macro as matrix;
 const DEFAULT_READ_TIMEOUT: std::time::Duration = std::time::Duration::from_secs(10);
 
-#[tokio::test]
+#[matrix::test]
 async fn thread_rollback_drops_last_turns_and_persists_to_rollout() -> Result<()> {
     // Three Codex turns hit the mock model (session start + two turn/start calls).
     let responses = vec![

@@ -21,6 +21,7 @@ codex-utils-template = { workspace = true }
 tokio = { workspace = true, features = ["fs"] }
 
 [dev-dependencies]
+matrix-test-macro = { workspace = true }
 pretty_assertions = { workspace = true }
 tempfile = { workspace = true }
 tokio = { workspace = true, features = ["fs", "macros"] }

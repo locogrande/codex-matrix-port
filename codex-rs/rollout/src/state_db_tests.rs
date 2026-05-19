@@ -9,6 +9,7 @@ use chrono::Utc;
 use pretty_assertions::assert_eq;
 use tempfile::TempDir;
 
+use matrix_test_macro as matrix;
 #[test]
 fn cursor_to_anchor_normalizes_timestamp_format() {
     let ts_str = "2026-01-27T12-34-56";
@@ -24,7 +25,7 @@ fn cursor_to_anchor_normalizes_timestamp_format() {
     assert_eq!(anchor.ts, expected_ts);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn try_init_waits_for_concurrent_startup_backfill() -> anyhow::Result<()> {
     let home = TempDir::new().expect("temp dir");
     let runtime =
@@ -56,7 +57,7 @@ async fn try_init_waits_for_concurrent_startup_backfill() -> anyhow::Result<()> 
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn try_init_times_out_waiting_for_stuck_startup_backfill() -> anyhow::Result<()> {
     let home = TempDir::new().expect("temp dir");
     let runtime =

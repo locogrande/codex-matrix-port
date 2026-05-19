@@ -69,6 +69,7 @@ pub async fn plugin_namespace_for_skill_path(
 
 #[cfg(test)]
 mod tests {
+    use matrix_test_macro as matrix;
     use super::find_plugin_manifest_path;
     use super::plugin_namespace_for_skill_path;
     use codex_exec_server::LOCAL_FS;
@@ -78,7 +79,7 @@ mod tests {
 
     const ALTERNATE_PLUGIN_MANIFEST_RELATIVE_PATH: &str = ".claude-plugin/plugin.json";
 
-    #[tokio::test]
+    #[matrix::test]
     async fn uses_manifest_name() {
         let tmp = tempdir().expect("tempdir");
         let plugin_root = tmp.path().join("plugins/sample");
@@ -99,7 +100,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn uses_name_from_alternate_discoverable_manifest_path() {
         let tmp = tempdir().expect("tempdir");
         let plugin_root = tmp.path().join("plugins/sample");

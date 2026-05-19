@@ -20,6 +20,7 @@ use super::util::try_parse_error_message;
 use crate::default_client::create_client;
 use crate::token_data::TokenData;
 
+use matrix_test_macro as matrix;
 const REVOKE_HTTP_TIMEOUT: Duration = Duration::from_secs(10);
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -186,7 +187,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn revoke_request_times_out() {
         skip_if_no_network!();
 

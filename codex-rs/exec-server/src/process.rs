@@ -188,6 +188,7 @@ pub trait ExecBackend: Send + Sync {
 
 #[cfg(test)]
 mod tests {
+    use matrix_test_macro as matrix;
     use pretty_assertions::assert_eq;
     use tokio::time::Duration;
     use tokio::time::timeout;
@@ -197,7 +198,7 @@ mod tests {
     use crate::protocol::ExecOutputStream;
     use crate::protocol::ProcessOutputChunk;
 
-    #[tokio::test]
+    #[matrix::test]
     async fn event_history_replay_is_bounded_by_retained_bytes() {
         let log = ExecProcessEventLog::new(/*event_capacity*/ 8, /*byte_capacity*/ 3);
 

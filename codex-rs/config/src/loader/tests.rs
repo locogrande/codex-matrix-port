@@ -10,6 +10,7 @@ use codex_file_system::RemoveOptions;
 use pretty_assertions::assert_eq;
 use tempfile::tempdir;
 
+use matrix_test_macro as matrix;
 struct TestFileSystem;
 
 #[async_trait]
@@ -76,7 +77,7 @@ impl ExecutorFileSystem for TestFileSystem {
     }
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn profile_v2_rejects_matching_legacy_profile_in_base_user_config() {
     let tmp = tempdir().expect("tempdir");
     let selected_config = tmp.path().join("work.config.toml");
@@ -133,7 +134,7 @@ model = "gpt-work"
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn profile_v2_allows_unrelated_legacy_profiles_in_base_user_config() {
     let tmp = tempdir().expect("tempdir");
     let selected_config = tmp.path().join("work.config.toml");

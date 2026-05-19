@@ -7,6 +7,7 @@ use codex_protocol::protocol::InterAgentCommunication;
 use codex_protocol::protocol::ThreadRolledBackEvent;
 use pretty_assertions::assert_eq;
 
+use matrix_test_macro as matrix;
 fn user_msg(text: &str) -> ResponseItem {
     ResponseItem::Message {
         id: None,
@@ -137,7 +138,7 @@ fn truncates_rollout_from_start_applies_thread_rollback_markers() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn ignores_session_prefix_messages_when_truncating_rollout_from_start() {
     let (session, turn_context) = make_session_and_context().await;
     let mut items = session.build_initial_context(&turn_context).await;

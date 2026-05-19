@@ -56,9 +56,10 @@ use wiremock::matchers::method;
 use wiremock::matchers::path;
 use wiremock::matchers::query_param;
 
+use matrix_test_macro as matrix;
 const DEFAULT_TIMEOUT: Duration = Duration::from_secs(10);
 
-#[tokio::test]
+#[matrix::test]
 async fn plugin_read_rejects_missing_read_source() -> Result<()> {
     let codex_home = TempDir::new()?;
     let mut mcp = McpProcess::new(codex_home.path()).await?;
@@ -87,7 +88,7 @@ async fn plugin_read_rejects_missing_read_source() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn plugin_read_rejects_multiple_read_sources() -> Result<()> {
     let codex_home = TempDir::new()?;
     let mut mcp = McpProcess::new(codex_home.path()).await?;
@@ -118,7 +119,7 @@ async fn plugin_read_rejects_multiple_read_sources() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn plugin_read_reads_remote_plugin_details_when_remote_plugin_is_disabled() -> Result<()> {
     let codex_home = TempDir::new()?;
     let server = MockServer::start().await;
@@ -217,7 +218,7 @@ plugins = true
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn plugin_read_returns_share_context_for_shared_remote_plugin() -> Result<()> {
     let codex_home = TempDir::new()?;
     let server = MockServer::start().await;
@@ -370,7 +371,7 @@ async fn plugin_read_returns_share_context_for_shared_remote_plugin() -> Result<
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn plugin_read_reads_remote_plugin_details_when_remote_plugin_enabled() -> Result<()> {
     let codex_home = TempDir::new()?;
     let server = MockServer::start().await;
@@ -523,7 +524,7 @@ async fn plugin_read_reads_remote_plugin_details_when_remote_plugin_enabled() ->
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn plugin_skill_read_reads_remote_skill_contents_when_remote_plugin_enabled() -> Result<()> {
     let codex_home = TempDir::new()?;
     let server = MockServer::start().await;
@@ -587,7 +588,7 @@ async fn plugin_skill_read_reads_remote_skill_contents_when_remote_plugin_enable
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn plugin_read_maps_missing_remote_plugin_to_invalid_request() -> Result<()> {
     let codex_home = TempDir::new()?;
     let server = MockServer::start().await;
@@ -638,7 +639,7 @@ async fn plugin_read_maps_missing_remote_plugin_to_invalid_request() -> Result<(
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn plugin_read_rejects_remote_marketplace_when_plugins_are_disabled() -> Result<()> {
     let codex_home = TempDir::new()?;
     let server = MockServer::start().await;
@@ -690,7 +691,7 @@ remote_plugin = true
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn plugin_read_rejects_invalid_remote_plugin_name() -> Result<()> {
     let codex_home = TempDir::new()?;
     write_remote_plugin_catalog_config(codex_home.path(), "https://example.invalid/backend-api/")?;
@@ -721,7 +722,7 @@ async fn plugin_read_rejects_invalid_remote_plugin_name() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn plugin_read_returns_canonical_openai_curated_marketplace_name() -> Result<()> {
     let codex_home = TempDir::new()?;
     let repo_root = TempDir::new()?;
@@ -779,7 +780,7 @@ enabled = true
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn plugin_read_returns_share_context_for_shared_local_plugin() -> Result<()> {
     let codex_home = TempDir::new()?;
     let repo_root = TempDir::new()?;
@@ -918,7 +919,7 @@ async fn plugin_read_returns_share_context_for_shared_local_plugin() -> Result<(
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn plugin_read_keeps_remote_version_when_share_principals_are_missing() -> Result<()> {
     let codex_home = TempDir::new()?;
     let repo_root = TempDir::new()?;
@@ -1019,7 +1020,7 @@ async fn plugin_read_keeps_remote_version_when_share_principals_are_missing() ->
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn plugin_read_falls_back_to_local_share_context_without_remote_auth() -> Result<()> {
     let codex_home = TempDir::new()?;
     let repo_root = TempDir::new()?;
@@ -1072,7 +1073,7 @@ async fn plugin_read_falls_back_to_local_share_context_without_remote_auth() -> 
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn plugin_read_fails_on_malformed_share_mapping() -> Result<()> {
     let codex_home = TempDir::new()?;
     let repo_root = TempDir::new()?;
@@ -1121,7 +1122,7 @@ async fn plugin_read_fails_on_malformed_share_mapping() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn plugin_read_returns_plugin_details_with_bundle_contents() -> Result<()> {
     let codex_home = TempDir::new()?;
     let repo_root = TempDir::new()?;
@@ -1397,7 +1398,7 @@ enabled = false
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn plugin_read_returns_app_needs_auth() -> Result<()> {
     let connectors = vec![
         AppInfo {
@@ -1489,7 +1490,7 @@ async fn plugin_read_returns_app_needs_auth() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn plugin_read_accepts_legacy_string_default_prompt() -> Result<()> {
     let codex_home = TempDir::new()?;
     let repo_root = TempDir::new()?;
@@ -1555,7 +1556,7 @@ async fn plugin_read_accepts_legacy_string_default_prompt() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn plugin_read_describes_uninstalled_git_source_without_cloning() -> Result<()> {
     let codex_home = TempDir::new()?;
     let repo_root = TempDir::new()?;
@@ -1625,7 +1626,7 @@ async fn plugin_read_describes_uninstalled_git_source_without_cloning() -> Resul
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn plugin_read_returns_invalid_request_when_plugin_is_missing() -> Result<()> {
     let codex_home = TempDir::new()?;
     let repo_root = TempDir::new()?;
@@ -1676,7 +1677,7 @@ async fn plugin_read_returns_invalid_request_when_plugin_is_missing() -> Result<
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn plugin_read_returns_invalid_request_when_plugin_manifest_is_missing() -> Result<()> {
     let codex_home = TempDir::new()?;
     let repo_root = TempDir::new()?;

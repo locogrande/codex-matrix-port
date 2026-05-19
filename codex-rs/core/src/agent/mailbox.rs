@@ -73,6 +73,7 @@ impl MailboxReceiver {
 
 #[cfg(test)]
 mod tests {
+    use matrix_test_macro as matrix;
     use super::*;
     use pretty_assertions::assert_eq;
 
@@ -91,7 +92,7 @@ mod tests {
         )
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn mailbox_assigns_monotonic_sequence_numbers() {
         let (mailbox, _receiver) = Mailbox::new();
         let mut seq_rx = mailbox.subscribe();
@@ -115,7 +116,7 @@ mod tests {
         assert_eq!(seq_b, 2);
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn mailbox_drains_in_delivery_order() {
         let (mailbox, mut receiver) = Mailbox::new();
         let mail_one = make_mail(
@@ -138,7 +139,7 @@ mod tests {
         assert!(!receiver.has_pending());
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn mailbox_tracks_pending_trigger_turn_mail() {
         let (mailbox, mut receiver) = Mailbox::new();
 

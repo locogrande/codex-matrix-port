@@ -12,7 +12,8 @@ use codex_uds::UnixListener;
 use tokio::io::AsyncReadExt;
 use tokio::io::AsyncWriteExt;
 
-#[tokio::test]
+use matrix_test_macro as matrix;
+#[matrix::test]
 async fn pipes_stdin_and_stdout_through_socket() -> anyhow::Result<()> {
     // This test intentionally avoids `read_to_end()` on the server side because
     // waiting for EOF can race with socket half-close behavior on slower runners.

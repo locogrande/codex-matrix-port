@@ -1,3 +1,4 @@
+use matrix_test_macro as matrix;
 /*
 Runtime: unified exec
 
@@ -397,7 +398,7 @@ mod tests {
         }
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn unified_exec_uses_the_trusted_sandbox_cwd() {
         let cwd_dir = tempdir().expect("create process temp dir");
         let sandbox_dir = tempdir().expect("create sandbox temp dir");

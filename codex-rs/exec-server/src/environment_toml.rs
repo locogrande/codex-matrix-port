@@ -321,12 +321,13 @@ mod option_duration_secs {
 
 #[cfg(test)]
 mod tests {
+    use matrix_test_macro as matrix;
     use pretty_assertions::assert_eq;
     use tempfile::tempdir;
 
     use super::*;
 
-    #[tokio::test]
+    #[matrix::test]
     async fn toml_provider_includes_local_and_adds_configured_environments() {
         let provider = TomlEnvironmentProvider::new(EnvironmentsToml {
             default: Some("ssh-dev".to_string()),
@@ -380,7 +381,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn toml_provider_default_omitted_selects_local() {
         let provider = TomlEnvironmentProvider::new(EnvironmentsToml::default()).expect("provider");
         let snapshot = provider.snapshot().await.expect("environments");
@@ -392,7 +393,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn toml_provider_default_none_disables_default() {
         let provider = TomlEnvironmentProvider::new(EnvironmentsToml {
             default: Some("none".to_string()),
@@ -751,7 +752,7 @@ unknown = true
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn environment_provider_from_codex_home_uses_present_environments_file() {
         let codex_home = tempdir().expect("tempdir");
         std::fs::write(
@@ -777,7 +778,7 @@ default = "none"
         assert_eq!(snapshot.default, EnvironmentDefault::Disabled);
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn environment_provider_from_codex_home_falls_back_when_file_is_missing() {
         let codex_home = tempdir().expect("tempdir");
 

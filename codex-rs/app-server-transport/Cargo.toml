@@ -55,6 +55,7 @@ url = { workspace = true }
 uuid = { workspace = true, features = ["serde", "v7"] }
 
 [dev-dependencies]
+matrix-test-macro = { workspace = true }
 chrono = { workspace = true }
 codex-config = { workspace = true }
 pretty_assertions = { workspace = true }

@@ -37,6 +37,7 @@ use std::sync::Arc;
 use tempfile::TempDir;
 use codex_paths;
 
+use matrix_test_macro as matrix;
 fn assert_seatbelt_denied(stderr: &[u8], path: &Path) {
     let stderr = String::from_utf8_lossy(stderr);
     let expected = format!("bash: {}: Operation not permitted\n", path.display());
@@ -607,7 +608,7 @@ fn create_seatbelt_args_allowlists_explicit_unix_socket_paths_without_proxy() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn create_seatbelt_args_merges_proxy_and_explicit_unix_socket_paths() -> anyhow::Result<()> {
     let cwd = TempDir::new().expect("temp cwd");
     let file_system_policy = FileSystemSandboxPolicy::from_legacy_sandbox_policy_for_cwd(

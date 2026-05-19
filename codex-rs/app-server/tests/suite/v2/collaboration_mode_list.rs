@@ -17,12 +17,13 @@ use codex_app_server_protocol::RequestId;
 use codex_core::test_support::builtin_collaboration_mode_presets;
 use tokio::time::timeout;
 
+use matrix_test_macro as matrix;
 // Bazel CI can spend tens of seconds starting app-server subprocesses or
 // processing list RPCs under load.
 const DEFAULT_TIMEOUT: Duration = Duration::from_secs(60);
 
 /// Confirms the server returns the default collaboration mode presets in a stable order.
-#[tokio::test]
+#[matrix::test]
 async fn list_collaboration_modes_returns_presets() -> Result<()> {
     let codex_home = TempDir::new()?;
     let mut mcp = McpProcess::new(codex_home.path()).await?;

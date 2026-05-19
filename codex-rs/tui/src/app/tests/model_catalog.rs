@@ -5,6 +5,7 @@ use codex_protocol::openai_models::ModelAvailabilityNux;
 use pretty_assertions::assert_eq;
 use tokio::sync::mpsc::unbounded_channel;
 
+use matrix_test_macro as matrix;
 fn all_model_presets() -> Vec<ModelPreset> {
     crate::legacy_core::test_support::all_model_presets().clone()
 }
@@ -37,7 +38,7 @@ fn model_migration_copy_to_plain_text(copy: &crate::model_migration::ModelMigrat
     s
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn model_migration_prompt_only_shows_for_deprecated_models() {
     let seen = BTreeMap::new();
     assert!(should_show_model_migration_prompt(
@@ -174,7 +175,7 @@ fn select_model_availability_nux_returns_none_when_all_models_are_exhausted() {
     assert_eq!(selected, None);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn prepare_startup_tooltip_override_persists_model_availability_nux_count() {
     let codex_home = tempdir().expect("temp codex home");
     let mut config = ConfigBuilder::default()
@@ -214,7 +215,7 @@ async fn prepare_startup_tooltip_override_persists_model_availability_nux_count(
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn accepted_model_migration_persists_target_default_reasoning_effort() {
     let codex_home = tempdir().expect("temp codex home");
     let mut config = ConfigBuilder::default()
@@ -269,7 +270,7 @@ async fn accepted_model_migration_persists_target_default_reasoning_effort() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn model_migration_prompt_respects_hide_flag_and_self_target() {
     let mut seen = BTreeMap::new();
     seen.insert("gpt-5.2".to_string(), "gpt-5.4".to_string());
@@ -287,7 +288,7 @@ async fn model_migration_prompt_respects_hide_flag_and_self_target() {
     ));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn model_migration_prompt_skips_when_target_missing_or_hidden() {
     let mut available = all_model_presets();
     let mut current = available
@@ -331,7 +332,7 @@ async fn model_migration_prompt_skips_when_target_missing_or_hidden() {
     assert!(target_preset_for_upgrade(&with_hidden_target, "gpt-5.4").is_none());
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn model_migration_prompt_shows_for_hidden_model() {
     let codex_home = tempdir().expect("temp codex home");
     let config = ConfigBuilder::default()

@@ -24,13 +24,14 @@ use codex_app_server_protocol::TurnStartParams;
 use codex_app_server_protocol::UserInput;
 use core_test_support::responses;
 use std::collections::BTreeMap;
+use matrix_test_macro as matrix;
 #[cfg(unix)]
 use tokio::io::AsyncWriteExt;
 use tokio::time::timeout;
 
 const DEFAULT_TIMEOUT: Duration = Duration::from_secs(60);
 
-#[tokio::test]
+#[matrix::test]
 async fn external_agent_config_import_sends_completion_notification_for_sync_only_import()
 -> Result<()> {
     let codex_home = TempDir::new()?;
@@ -69,7 +70,7 @@ async fn external_agent_config_import_sends_completion_notification_for_sync_onl
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn external_agent_config_import_sends_completion_notification_for_local_plugins() -> Result<()>
 {
     let codex_home = TempDir::new()?;
@@ -180,7 +181,7 @@ async fn external_agent_config_import_sends_completion_notification_for_local_pl
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn external_agent_config_import_sends_completion_notification_after_pending_plugins_finish()
 -> Result<()> {
     let codex_home = TempDir::new()?;
@@ -242,7 +243,7 @@ async fn external_agent_config_import_sends_completion_notification_after_pendin
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn external_agent_config_import_creates_session_rollouts() -> Result<()> {
     let server = create_mock_responses_server_repeating_assistant("follow-up answer").await;
     let codex_home = TempDir::new()?;
@@ -514,7 +515,7 @@ async fn external_agent_config_import_accepts_detected_session_payload_after_res
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn external_agent_config_import_skips_already_imported_session_versions() -> Result<()> {
     let server = create_mock_responses_server_repeating_assistant("unused").await;
     let codex_home = TempDir::new()?;

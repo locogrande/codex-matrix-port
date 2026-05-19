@@ -21,6 +21,7 @@ use crate::extension::MemoriesExtension;
 use crate::extension::MemoriesExtensionConfig;
 use crate::local::LocalMemoriesBackend;
 
+use matrix_test_macro as matrix;
 #[test]
 fn tools_are_not_contributed_without_thread_config() {
     let extension = MemoriesExtension;
@@ -76,7 +77,7 @@ fn tools_are_contributed_when_enabled() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn prompt_contribution_uses_memory_summary_when_enabled() {
     let tempdir = tempfile::tempdir().expect("tempdir");
     let memories_dir = tempdir.path().join(codex_paths::MEMORIES_DIR);
@@ -110,7 +111,7 @@ async fn prompt_contribution_uses_memory_summary_when_enabled() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn read_tool_reads_memory_file() {
     let tempdir = tempfile::tempdir().expect("tempdir");
     let memory_root = tempdir.path().join(codex_paths::MEMORIES_DIR);
@@ -153,7 +154,7 @@ async fn read_tool_reads_memory_file() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn search_tool_accepts_multiple_queries() {
     let tempdir = tempfile::tempdir().expect("tempdir");
     let memory_root = tempdir.path().join(codex_paths::MEMORIES_DIR);
@@ -221,7 +222,7 @@ async fn search_tool_accepts_multiple_queries() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn search_tool_accepts_windowed_all_match_mode() {
     let tempdir = tempfile::tempdir().expect("tempdir");
     let memory_root = tempdir.path().join(codex_paths::MEMORIES_DIR);
@@ -276,7 +277,7 @@ async fn search_tool_accepts_windowed_all_match_mode() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn search_tool_rejects_legacy_single_query() {
     let tempdir = tempfile::tempdir().expect("tempdir");
     let memory_root = tempdir.path().join(codex_paths::MEMORIES_DIR);

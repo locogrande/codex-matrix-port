@@ -4,7 +4,8 @@
 use super::*;
 use pretty_assertions::assert_eq;
 
-#[tokio::test]
+use matrix_test_macro as matrix;
+#[matrix::test]
 async fn exec_approval_emits_proposed_command_and_decision_history() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
 
@@ -145,7 +146,7 @@ fn app_server_exec_approval_request_preserves_permissions_context() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn network_exec_approval_history_describes_session_host_allowance() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     let request = exec_approval_request_from_params(
@@ -186,7 +187,7 @@ async fn network_exec_approval_history_describes_session_host_allowance() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn network_exec_approval_history_describes_one_time_host_allowance() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     let request = exec_approval_request_from_params(
@@ -227,7 +228,7 @@ async fn network_exec_approval_history_describes_one_time_host_allowance() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn network_exec_approval_history_describes_canceled_host_request() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     let request = exec_approval_request_from_params(
@@ -312,7 +313,7 @@ fn app_server_request_permissions_preserves_file_system_permissions() {
     assert_eq!(request.cwd, Some(cwd));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn exec_approval_uses_approval_id_when_present() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
 
@@ -357,7 +358,7 @@ async fn exec_approval_uses_approval_id_when_present() {
     assert!(found, "expected ExecApproval op to be sent");
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn exec_approval_decision_truncates_multiline_and_long_commands() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
 

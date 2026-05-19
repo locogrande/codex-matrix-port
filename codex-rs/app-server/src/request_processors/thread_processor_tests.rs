@@ -37,6 +37,7 @@ mod thread_list_cwd_filter_tests {
 }
 
 mod thread_processor_behavior_tests {
+    use matrix_test_macro as matrix;
     async fn forked_from_id_from_rollout(path: &Path) -> Option<String> {
         codex_core::read_session_meta_line(path)
             .await
@@ -562,7 +563,7 @@ mod thread_processor_behavior_tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn derive_config_from_params_uses_session_thread_config_model_provider() -> Result<()> {
         let temp_dir = TempDir::new()?;
         let session_provider = ModelProviderInfo {
@@ -873,7 +874,7 @@ mod thread_processor_behavior_tests {
         Ok(())
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn read_summary_from_rollout_returns_empty_preview_when_no_user_message() -> Result<()> {
         use codex_protocol::protocol::RolloutItem;
         use codex_protocol::protocol::RolloutLine;
@@ -929,7 +930,7 @@ mod thread_processor_behavior_tests {
         Ok(())
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn read_summary_from_rollout_preserves_agent_nickname() -> Result<()> {
         use codex_protocol::protocol::RolloutItem;
         use codex_protocol::protocol::RolloutLine;
@@ -979,7 +980,7 @@ mod thread_processor_behavior_tests {
         Ok(())
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn read_summary_from_rollout_preserves_forked_from_id() -> Result<()> {
         use codex_protocol::protocol::RolloutItem;
         use codex_protocol::protocol::RolloutLine;
@@ -1017,7 +1018,7 @@ mod thread_processor_behavior_tests {
         Ok(())
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn aborting_pending_request_clears_pending_state() -> Result<()> {
         let thread_id = ThreadId::from_string("bfd12a78-5900-467b-9bc5-d3d35df08191")?;
         let connection_id = ConnectionId(7);
@@ -1119,7 +1120,7 @@ mod thread_processor_behavior_tests {
         Ok(())
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn removing_thread_state_clears_listener_and_active_turn_history() -> Result<()> {
         let manager = ThreadStateManager::new();
         let thread_id = ThreadId::from_string("ad7f0408-99b8-4f6e-a46f-bd0eec433370")?;
@@ -1162,7 +1163,7 @@ mod thread_processor_behavior_tests {
         Ok(())
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn removing_auto_attached_connection_preserves_listener_for_other_connections()
     -> Result<()> {
         let manager = ThreadStateManager::new();
@@ -1213,7 +1214,7 @@ mod thread_processor_behavior_tests {
         Ok(())
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn adding_connection_to_thread_updates_has_connections_watcher() -> Result<()> {
         let manager = ThreadStateManager::new();
         let thread_id = ThreadId::from_string("ad7f0408-99b8-4f6e-a46f-bd0eec433370")?;
@@ -1264,7 +1265,7 @@ mod thread_processor_behavior_tests {
         Ok(())
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn closed_connection_cannot_be_reintroduced_by_auto_subscribe() -> Result<()> {
         let manager = ThreadStateManager::new();
         let thread_id = ThreadId::from_string("ad7f0408-99b8-4f6e-a46f-bd0eec433370")?;
@@ -1288,7 +1289,7 @@ mod thread_processor_behavior_tests {
         Ok(())
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn first_attestation_capable_connection_for_thread_only_uses_thread_subscribers()
     -> Result<()> {
         let manager = ThreadStateManager::new();

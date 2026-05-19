@@ -32,7 +32,8 @@ use tokio::sync::Mutex;
 use tokio::sync::watch;
 use tokio::time::timeout;
 
-#[tokio::test]
+use matrix_test_macro as matrix;
+#[matrix::test]
 async fn forward_events_cancelled_while_send_blocked_shuts_down_delegate() {
     let (tx_events, rx_events) = bounded(1);
     let (tx_sub, rx_sub) = bounded(SUBMISSION_CHANNEL_CAPACITY);
@@ -109,7 +110,7 @@ async fn forward_events_cancelled_while_send_blocked_shuts_down_delegate() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn forward_ops_preserves_submission_trace_context() {
     let (tx_sub, rx_sub) = bounded(SUBMISSION_CHANNEL_CAPACITY);
     let (_tx_events, rx_events) = bounded(SUBMISSION_CHANNEL_CAPACITY);
@@ -153,7 +154,7 @@ async fn forward_ops_preserves_submission_trace_context() {
         .expect("forward_ops join error");
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn run_codex_thread_interactive_respects_pre_cancelled_spawn() {
     let (parent_session, parent_ctx, _rx_events) =
         crate::session::tests::make_session_and_context_with_rx().await;
@@ -179,7 +180,7 @@ async fn run_codex_thread_interactive_respects_pre_cancelled_spawn() {
     assert!(matches!(result, Err(CodexErr::TurnAborted)));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn handle_request_permissions_uses_tool_call_id_for_round_trip() {
     let (parent_session, parent_ctx, rx_events) =
         crate::session::tests::make_session_and_context_with_rx().await;
@@ -274,7 +275,7 @@ async fn handle_request_permissions_uses_tool_call_id_for_round_trip() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn handle_exec_approval_uses_call_id_for_guardian_review_and_approval_id_for_reply() {
     let (parent_session, parent_ctx, rx_events) =
         crate::session::tests::make_session_and_context_with_rx().await;
@@ -387,7 +388,7 @@ async fn handle_exec_approval_uses_call_id_for_guardian_review_and_approval_id_f
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn delegated_mcp_guardian_abort_returns_synthetic_decline_answer() {
     let (parent_session, parent_ctx, _rx_events) =
         crate::session::tests::make_session_and_context_with_rx().await;

@@ -11,6 +11,7 @@ use codex_config::record_user_marketplace;
 use codex_core_plugins::installed_marketplaces::marketplace_install_root;
 use tokio::time::timeout;
 
+use matrix_test_macro as matrix;
 const DEFAULT_TIMEOUT: Duration = Duration::from_secs(10);
 
 fn configured_marketplace_update() -> MarketplaceConfigUpdate<'static> {
@@ -42,7 +43,7 @@ fn canonicalize_path_with_existing_parent(path: &std::path::Path) -> Result<std:
     Ok(parent.canonicalize()?.join(file_name))
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn marketplace_remove_deletes_config_and_installed_root() -> Result<()> {
     let codex_home = TempDir::new()?;
     record_user_marketplace(codex_home.path(), "debug", &configured_marketplace_update())?;
@@ -83,7 +84,7 @@ async fn marketplace_remove_deletes_config_and_installed_root() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn marketplace_remove_rejects_unknown_marketplace() -> Result<()> {
     let codex_home = TempDir::new()?;
 

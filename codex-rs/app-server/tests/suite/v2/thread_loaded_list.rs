@@ -10,9 +10,10 @@ use codex_app_server_protocol::ThreadStartParams;
 use codex_app_server_protocol::ThreadStartResponse;
 use tokio::time::timeout;
 
+use matrix_test_macro as matrix;
 const DEFAULT_READ_TIMEOUT: std::time::Duration = std::time::Duration::from_secs(10);
 
-#[tokio::test]
+#[matrix::test]
 async fn thread_loaded_list_returns_loaded_thread_ids() -> Result<()> {
     let server = create_mock_responses_server_repeating_assistant("Done").await;
     let codex_home = TempDir::new()?;
@@ -42,7 +43,7 @@ async fn thread_loaded_list_returns_loaded_thread_ids() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn thread_loaded_list_paginates() -> Result<()> {
     let server = create_mock_responses_server_repeating_assistant("Done").await;
     let codex_home = TempDir::new()?;

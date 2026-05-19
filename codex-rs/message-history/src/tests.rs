@@ -5,7 +5,8 @@ use std::fs::File;
 use std::io::Write;
 use tempfile::TempDir;
 
-#[tokio::test]
+use matrix_test_macro as matrix;
+#[matrix::test]
 async fn lookup_reads_history_entries() {
     let temp_dir = TempDir::new().expect("create temp dir");
     let history_path = temp_dir.path().join(HISTORY_FILENAME);
@@ -41,7 +42,7 @@ async fn lookup_reads_history_entries() {
     assert_eq!(second_entry, entries[1]);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn lookup_uses_stable_log_id_after_appends() {
     let temp_dir = TempDir::new().expect("create temp dir");
     let history_path = temp_dir.path().join(HISTORY_FILENAME);
@@ -84,7 +85,7 @@ async fn lookup_uses_stable_log_id_after_appends() {
     assert_eq!(fetched, appended);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn append_entry_trims_history_when_beyond_max_bytes() {
     let codex_home = TempDir::new().expect("create temp dir");
     let mut history = History::default();
@@ -126,7 +127,7 @@ async fn append_entry_trims_history_when_beyond_max_bytes() {
     assert!(std::fs::metadata(&history_path).expect("metadata").len() <= limit_bytes);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn append_entry_trims_history_to_soft_cap() {
     let codex_home = TempDir::new().expect("create temp dir");
     let mut history = History::default();

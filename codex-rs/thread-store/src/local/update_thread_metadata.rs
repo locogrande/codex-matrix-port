@@ -28,6 +28,7 @@ use crate::ThreadStoreResult;
 use crate::UpdateThreadMetadataParams;
 use crate::local::read_thread;
 
+use matrix_test_macro as matrix;
 struct ResolvedRolloutPath {
     path: PathBuf,
     archived: bool,
@@ -634,7 +635,7 @@ mod tests {
     use crate::local::test_support::write_archived_session_file;
     use crate::local::test_support::write_session_file;
 
-    #[tokio::test]
+    #[matrix::test]
     async fn update_thread_metadata_sets_name_on_active_rollout_and_indexes_name() {
         let home = TempDir::new().expect("temp dir");
         let store = LocalThreadStore::new(test_config(home.path()), /*state_db*/ None);
@@ -661,7 +662,7 @@ mod tests {
         assert_eq!(latest_name.as_deref(), Some("A sharper name"));
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn update_thread_metadata_sets_memory_mode_on_active_rollout() {
         let home = TempDir::new().expect("temp dir");
         let config = test_config(home.path());
@@ -701,7 +702,7 @@ mod tests {
         assert_eq!(memory_mode.as_deref(), Some("disabled"));
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn update_thread_metadata_preserves_memory_mode_when_updating_git_info() {
         let home = TempDir::new().expect("temp dir");
         let config = test_config(home.path());
@@ -770,7 +771,7 @@ mod tests {
         assert_eq!(memory_mode.as_deref(), Some("disabled"));
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn update_thread_metadata_uses_live_rollout_path_for_external_resume() {
         let home = TempDir::new().expect("temp dir");
         let external_home = TempDir::new().expect("external temp dir");
@@ -811,7 +812,7 @@ mod tests {
         assert_eq!(appended["payload"]["memory_mode"], "disabled");
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn update_thread_metadata_sets_git_info() {
         let home = TempDir::new().expect("temp dir");
         let config = test_config(home.path());
@@ -854,7 +855,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn update_thread_metadata_partially_updates_git_info() {
         let home = TempDir::new().expect("temp dir");
         let config = test_config(home.path());
@@ -912,7 +913,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn update_thread_metadata_clears_git_info_fields() {
         let home = TempDir::new().expect("temp dir");
         let config = test_config(home.path());
@@ -1083,7 +1084,7 @@ mod tests {
         assert_eq!(git_info.repository_url, None);
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn update_thread_metadata_rejects_mismatched_session_meta_id() {
         let home = TempDir::new().expect("temp dir");
         let store = LocalThreadStore::new(test_config(home.path()), /*state_db*/ None);
@@ -1115,7 +1116,7 @@ mod tests {
         assert!(err.to_string().contains("metadata id mismatch"));
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn update_thread_metadata_applies_combined_explicit_patch() {
         let home = TempDir::new().expect("temp dir");
         let config = test_config(home.path());
@@ -1208,7 +1209,7 @@ mod tests {
         }));
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn metadata_patch_applies_title_over_existing_name() {
         let home = TempDir::new().expect("temp dir");
         let config = test_config(home.path());
@@ -1251,7 +1252,7 @@ mod tests {
         assert_eq!(thread.name.as_deref(), Some("Derived first message"));
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn metadata_patch_applies_latest_preview_and_first_user_message() {
         let home = TempDir::new().expect("temp dir");
         let config = test_config(home.path());
@@ -1309,7 +1310,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn observed_metadata_rejects_unknown_thread_without_rollout() {
         let home = TempDir::new().expect("temp dir");
         let config = test_config(home.path());
@@ -1347,7 +1348,7 @@ mod tests {
         assert!(metadata.is_none());
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn update_thread_metadata_recreates_missing_archived_sqlite_row_as_archived() {
         let home = TempDir::new().expect("temp dir");
         let config = test_config(home.path());
@@ -1387,7 +1388,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn observed_metadata_normalizes_cwd_for_list_filters() {
         let home = TempDir::new().expect("temp dir");
         let config = test_config(home.path());
@@ -1451,7 +1452,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn update_thread_metadata_keeps_archived_thread_archived_in_sqlite() {
         let home = TempDir::new().expect("temp dir");
         let config = test_config(home.path());
@@ -1514,7 +1515,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn update_thread_metadata_keeps_live_archived_thread_archived_in_sqlite() {
         let home = TempDir::new().expect("temp dir");
         let config = test_config(home.path());

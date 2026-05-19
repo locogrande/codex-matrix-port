@@ -443,6 +443,7 @@ fn send_result(
 
 #[cfg(test)]
 mod tests {
+    use matrix_test_macro as matrix;
     use std::collections::HashMap;
     use std::time::Duration;
 
@@ -469,7 +470,7 @@ mod tests {
         }
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn terminate_execution_stops_cpu_bound_module() {
         let (event_tx, mut event_rx) = mpsc::unbounded_channel();
         let (_runtime_tx, _runtime_control_tx, runtime_terminate_handle) = spawn_runtime(
@@ -509,7 +510,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn pending_mode_freezes_runtime_commands_until_resume() {
         let (event_tx, mut event_rx) = mpsc::unbounded_channel();
         let (runtime_tx, runtime_control_tx, _runtime_terminate_handle) = spawn_runtime(

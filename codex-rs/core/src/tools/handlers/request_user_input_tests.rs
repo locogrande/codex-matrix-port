@@ -11,7 +11,8 @@ use serde_json::json;
 use std::sync::Arc;
 use tokio::sync::Mutex;
 
-#[tokio::test]
+use matrix_test_macro as matrix;
+#[matrix::test]
 async fn multi_agent_v2_request_user_input_rejects_subagent_threads() {
     let (session, mut turn) = make_session_and_context().await;
     turn.session_source = SessionSource::SubAgent(SubAgentSource::ThreadSpawn {

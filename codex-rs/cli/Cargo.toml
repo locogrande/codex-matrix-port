@@ -84,6 +84,7 @@ tracing-subscriber = { workspace = true }
 codex_windows_sandbox = { package = "codex-windows-sandbox", path = "../windows-sandbox-rs" }
 
 [dev-dependencies]
+matrix-test-macro = { workspace = true }
 codex-test-support = { workspace = true }
 assert_cmd = { workspace = true }
 assert_matches = { workspace = true }

@@ -51,11 +51,12 @@ use tokio::net::TcpListener;
 use tokio::task::JoinHandle;
 use tokio::time::timeout;
 
+use matrix_test_macro as matrix;
 // Bazel CI can spend tens of seconds starting app-server subprocesses or
 // processing app-list RPCs under load.
 const DEFAULT_TIMEOUT: Duration = Duration::from_secs(60);
 
-#[tokio::test]
+#[matrix::test]
 async fn list_apps_returns_empty_when_connectors_disabled() -> Result<()> {
     let codex_home = TempDir::new()?;
     let mut mcp = McpProcess::new(codex_home.path()).await?;
@@ -84,7 +85,7 @@ async fn list_apps_returns_empty_when_connectors_disabled() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn list_apps_returns_empty_with_api_key_auth() -> Result<()> {
     let connectors = vec![AppInfo {
         id: "beta".to_string(),
@@ -146,7 +147,7 @@ async fn list_apps_returns_empty_with_api_key_auth() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn list_apps_returns_empty_when_workspace_codex_plugins_disabled() -> Result<()> {
     let connectors = vec![AppInfo {
         id: "beta".to_string(),
@@ -208,7 +209,7 @@ async fn list_apps_returns_empty_when_workspace_codex_plugins_disabled() -> Resu
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn list_apps_uses_thread_feature_flag_when_thread_id_is_provided() -> Result<()> {
     let connectors = vec![AppInfo {
         id: "beta".to_string(),
@@ -311,7 +312,7 @@ connectors = false
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn list_apps_reports_is_enabled_from_config() -> Result<()> {
     let connectors = vec![AppInfo {
         id: "beta".to_string(),
@@ -387,7 +388,7 @@ enabled = false
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn list_apps_emits_updates_and_returns_after_both_lists_load() -> Result<()> {
     let alpha_branding = Some(AppBranding {
         category: Some("PRODUCTIVITY".to_string()),
@@ -560,7 +561,7 @@ async fn list_apps_emits_updates_and_returns_after_both_lists_load() -> Result<(
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn list_apps_waits_for_accessible_data_before_emitting_directory_updates() -> Result<()> {
     let connectors = vec![
         AppInfo {
@@ -685,7 +686,7 @@ async fn list_apps_waits_for_accessible_data_before_emitting_directory_updates()
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn list_apps_does_not_emit_empty_interim_updates() -> Result<()> {
     let connectors = vec![AppInfo {
         id: "alpha".to_string(),
@@ -775,7 +776,7 @@ async fn list_apps_does_not_emit_empty_interim_updates() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn list_apps_paginates_results() -> Result<()> {
     let connectors = vec![
         AppInfo {
@@ -918,7 +919,7 @@ async fn list_apps_paginates_results() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn list_apps_force_refetch_preserves_previous_cache_on_failure() -> Result<()> {
     let connectors = vec![AppInfo {
         id: "beta".to_string(),
@@ -1022,7 +1023,7 @@ async fn list_apps_force_refetch_preserves_previous_cache_on_failure() -> Result
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn list_apps_force_refetch_patches_updates_from_cached_snapshots() -> Result<()> {
     let initial_connectors = vec![
         AppInfo {
@@ -1263,7 +1264,7 @@ async fn list_apps_force_refetch_patches_updates_from_cached_snapshots() -> Resu
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn experimental_feature_enablement_set_refreshes_apps_list_when_apps_turn_on() -> Result<()> {
     let initial_connectors = vec![AppInfo {
         id: "alpha".to_string(),

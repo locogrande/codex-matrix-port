@@ -56,6 +56,7 @@ use tokio::net::TcpListener;
 use tokio::task::JoinHandle;
 use tokio::time::timeout;
 
+use matrix_test_macro as matrix;
 const DEFAULT_READ_TIMEOUT: Duration = Duration::from_secs(10);
 const TEST_SERVER_NAME: &str = "tool_server";
 const TEST_TOOL_NAME: &str = "echo_tool";
@@ -155,7 +156,7 @@ url = "{mcp_server_url}/mcp"
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn mcp_server_tool_call_returns_error_for_unknown_thread() -> Result<()> {
     let codex_home = TempDir::new()?;
     let mut mcp = McpProcess::new(codex_home.path()).await?;

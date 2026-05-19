@@ -32,6 +32,7 @@ use tokio_tungstenite::WebSocketStream;
 use tokio_tungstenite::accept_async;
 use tokio_tungstenite::tungstenite::Message;
 
+use matrix_test_macro as matrix;
 const CLIENT_NAME: &str = "test-exec-server-client";
 const HTTP_REQUEST_METHOD: &str = "http/request";
 const HTTP_REQUEST_BODY_DELTA_METHOD: &str = "http/request/bodyDelta";
@@ -43,7 +44,7 @@ const OVERFLOWING_BODY_DELTA_FRAMES: u64 = 1_024;
 
 /// What this tests: the buffered HTTP helper always sends a buffered
 /// `http/request`, even when a caller accidentally provides streaming flags.
-#[tokio::test]
+#[matrix::test]
 async fn http_request_forces_buffered_request_params() -> Result<()> {
     // Phase 1: start a fake WebSocket exec-server so the test covers the
     // public client connection path without depending on the HTTP runner.
@@ -110,7 +111,7 @@ async fn http_request_forces_buffered_request_params() -> Result<()> {
 /// What this tests: streamed executor HTTP response frames are routed by the
 /// client's generated request id, delivered in sequence, and concatenated by
 /// the caller.
-#[tokio::test]
+#[matrix::test]
 async fn http_response_body_stream_uses_generated_ids_and_receives_ordered_deltas() -> Result<()> {
     // Phase 1: script two requests. The caller supplies reusable ids, but the
     // client replaces them with connection-local ids on the wire.
@@ -271,7 +272,7 @@ async fn http_response_body_stream_uses_generated_ids_and_receives_ordered_delta
 
 /// What this tests: dropping a body stream with a queued terminal frame removes
 /// the old route while the next stream gets a fresh generated id.
-#[tokio::test]
+#[matrix::test]
 async fn http_response_body_stream_drops_queued_terminal_before_next_generated_id() -> Result<()> {
     // Phase 1: send terminal EOF before the header response so the public body
     // stream starts with EOF already queued but unread.
@@ -391,7 +392,7 @@ async fn http_response_body_stream_drops_queued_terminal_before_next_generated_i
 
 /// What this tests: cancelling a streaming HTTP request while it is waiting for
 /// headers drops its route, and a later stream gets a fresh generated id.
-#[tokio::test]
+#[matrix::test]
 async fn http_response_body_stream_ignores_late_deltas_after_cancelled_request() -> Result<()> {
     // Phase 1: coordinate cancellation after the fake server observes the
     // first request but before it returns headers. The server later sends a
@@ -521,7 +522,7 @@ async fn http_response_body_stream_ignores_late_deltas_after_cancelled_request()
 
 /// What this tests: dropping a returned body stream before EOF removes its
 /// route and prevents stale body deltas from reaching the next stream.
-#[tokio::test]
+#[matrix::test]
 async fn http_response_body_stream_ignores_late_deltas_after_drop() -> Result<()> {
     // Phase 1: script two requests. The first returns only headers; after the
     // client drops its body receiver, the server sends a stale body delta.
@@ -673,7 +674,7 @@ async fn http_response_body_stream_ignores_late_deltas_after_drop() -> Result<()
 
 /// What this tests: an in-flight streamed HTTP body is failed when the shared
 /// JSON-RPC transport disconnects before a terminal body frame.
-#[tokio::test]
+#[matrix::test]
 async fn http_response_body_stream_fails_when_transport_disconnects() -> Result<()> {
     // Phase 1: return response headers for a streaming request, then drop the
     // fake server transport without sending EOF.
@@ -741,7 +742,7 @@ async fn http_response_body_stream_fails_when_transport_disconnects() -> Result<
 
 /// What this tests: transport disconnect still records a terminal stream
 /// failure even when the client-side body-delta queue is already full.
-#[tokio::test]
+#[matrix::test]
 async fn http_response_body_stream_reports_disconnect_when_queue_is_full() -> Result<()> {
     // Phase 1: fill the queued body-delta route exactly to capacity before the
     // response headers arrive, then drop the transport without sending EOF.
@@ -833,7 +834,7 @@ async fn http_response_body_stream_reports_disconnect_when_queue_is_full() -> Re
 
 /// What this tests: body-delta backpressure closes the public body stream as
 /// an error rather than letting callers accept a truncated body as clean EOF.
-#[tokio::test]
+#[matrix::test]
 async fn http_response_body_stream_reports_backpressure_truncation() -> Result<()> {
     // Phase 1: send enough body frames before headers to overflow the bounded
     // client-side route while the public request future is still pending.

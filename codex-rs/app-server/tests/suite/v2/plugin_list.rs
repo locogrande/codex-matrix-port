@@ -31,6 +31,7 @@ use wiremock::matchers::method;
 use wiremock::matchers::path;
 use wiremock::matchers::query_param;
 
+use matrix_test_macro as matrix;
 const DEFAULT_TIMEOUT: Duration = Duration::from_secs(30);
 const TEST_CURATED_PLUGIN_SHA: &str = "0123456789abcdef0123456789abcdef01234567";
 const STARTUP_REMOTE_PLUGIN_SYNC_MARKER_FILE: &str = ".tmp/app-server-remote-plugin-sync-v1";
@@ -64,7 +65,7 @@ plugins = true
     )
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn plugin_list_skips_invalid_marketplace_file_and_reports_error() -> Result<()> {
     let codex_home = TempDir::new()?;
     let repo_root = TempDir::new()?;
@@ -122,7 +123,7 @@ async fn plugin_list_skips_invalid_marketplace_file_and_reports_error() -> Resul
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn plugin_list_rejects_relative_cwds() -> Result<()> {
     let codex_home = TempDir::new()?;
     let mut mcp = McpProcess::new(codex_home.path()).await?;
@@ -148,7 +149,7 @@ async fn plugin_list_rejects_relative_cwds() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn plugin_list_keeps_valid_marketplaces_when_another_marketplace_fails_to_load() -> Result<()>
 {
     let codex_home = TempDir::new()?;
@@ -270,7 +271,7 @@ async fn plugin_list_keeps_valid_marketplaces_when_another_marketplace_fails_to_
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn plugin_list_returns_empty_when_workspace_codex_plugins_disabled() -> Result<()> {
     let codex_home = TempDir::new()?;
     let repo_root = TempDir::new()?;
@@ -354,7 +355,7 @@ async fn plugin_list_returns_empty_when_workspace_codex_plugins_disabled() -> Re
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn plugin_list_reuses_cached_workspace_codex_plugins_setting() -> Result<()> {
     let codex_home = TempDir::new()?;
     let repo_root = TempDir::new()?;
@@ -442,7 +443,7 @@ async fn plugin_list_reuses_cached_workspace_codex_plugins_setting() -> Result<(
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn plugin_list_uses_alternate_discoverable_manifest_and_keeps_undiscoverable_plugins()
 -> Result<()> {
     let codex_home = TempDir::new()?;
@@ -587,7 +588,7 @@ async fn plugin_list_uses_alternate_discoverable_manifest_and_keeps_undiscoverab
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn plugin_list_accepts_omitted_cwds() -> Result<()> {
     let codex_home = TempDir::new()?;
     std::fs::create_dir_all(codex_home.path().join(".agents/plugins"))?;
@@ -634,7 +635,7 @@ async fn plugin_list_accepts_omitted_cwds() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn plugin_list_returns_share_context_for_shared_local_plugin() -> Result<()> {
     let codex_home = TempDir::new()?;
     let repo_root = TempDir::new()?;
@@ -707,7 +708,7 @@ async fn plugin_list_returns_share_context_for_shared_local_plugin() -> Result<(
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn plugin_list_includes_install_and_enabled_state_from_config() -> Result<()> {
     let codex_home = TempDir::new()?;
     let repo_root = TempDir::new()?;
@@ -842,7 +843,7 @@ enabled = false
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn plugin_list_uses_home_config_for_enabled_state() -> Result<()> {
     let codex_home = TempDir::new()?;
     std::fs::create_dir_all(codex_home.path().join(".agents/plugins"))?;
@@ -946,7 +947,7 @@ enabled = false
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn plugin_list_returns_plugin_interface_with_absolute_asset_paths() -> Result<()> {
     let codex_home = TempDir::new()?;
     let repo_root = TempDir::new()?;
@@ -1080,7 +1081,7 @@ async fn plugin_list_returns_plugin_interface_with_absolute_asset_paths() -> Res
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn plugin_list_accepts_legacy_string_default_prompt() -> Result<()> {
     let codex_home = TempDir::new()?;
     let repo_root = TempDir::new()?;
@@ -1147,7 +1148,7 @@ async fn plugin_list_accepts_legacy_string_default_prompt() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn plugin_list_returns_installed_git_source_interface_from_cache() -> Result<()> {
     let codex_home = TempDir::new()?;
     let repo_root = TempDir::new()?;
@@ -1265,7 +1266,7 @@ enabled = true
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn app_server_startup_remote_plugin_sync_runs_once() -> Result<()> {
     let codex_home = TempDir::new()?;
     let server = MockServer::start().await;
@@ -1353,7 +1354,7 @@ async fn app_server_startup_remote_plugin_sync_runs_once() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn app_server_startup_sync_downloads_remote_installed_plugin_bundles() -> Result<()> {
     let codex_home = TempDir::new()?;
     let server = MockServer::start().await;
@@ -1399,7 +1400,7 @@ async fn app_server_startup_sync_downloads_remote_installed_plugin_bundles() -> 
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn plugin_list_sync_upgrades_and_removes_remote_installed_plugin_bundles() -> Result<()> {
     let codex_home = TempDir::new()?;
     let server = MockServer::start().await;
@@ -1481,7 +1482,7 @@ async fn plugin_list_sync_upgrades_and_removes_remote_installed_plugin_bundles()
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn plugin_list_includes_remote_marketplaces_when_remote_plugin_enabled() -> Result<()> {
     let codex_home = TempDir::new()?;
     let server = MockServer::start().await;
@@ -1662,7 +1663,7 @@ async fn plugin_list_includes_remote_marketplaces_when_remote_plugin_enabled() -
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn plugin_list_does_not_append_global_remote_when_marketplace_kinds_are_explicit()
 -> Result<()> {
     let codex_home = TempDir::new()?;
@@ -1707,7 +1708,7 @@ async fn plugin_list_does_not_append_global_remote_when_marketplace_kinds_are_ex
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn plugin_list_fetches_workspace_directory_kind_without_remote_plugin_flag() -> Result<()> {
     let codex_home = TempDir::new()?;
     let server = MockServer::start().await;
@@ -1794,7 +1795,7 @@ async fn plugin_list_fetches_workspace_directory_kind_without_remote_plugin_flag
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn plugin_list_fetches_shared_with_me_kind() -> Result<()> {
     let codex_home = TempDir::new()?;
     let server = MockServer::start().await;
@@ -1994,7 +1995,7 @@ async fn plugin_list_fetches_shared_with_me_kind() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn plugin_list_omits_shared_with_me_kind_when_plugin_sharing_disabled() -> Result<()> {
     let codex_home = TempDir::new()?;
     let server = MockServer::start().await;
@@ -2053,7 +2054,7 @@ plugin_sharing = false
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn plugin_list_marks_remote_plugin_disabled_by_admin() -> Result<()> {
     let codex_home = TempDir::new()?;
     let server = MockServer::start().await;
@@ -2188,7 +2189,7 @@ async fn plugin_list_marks_remote_plugin_disabled_by_admin() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn plugin_list_remote_marketplace_replaces_local_marketplace_with_same_name() -> Result<()> {
     let codex_home = TempDir::new()?;
     let server = MockServer::start().await;
@@ -2315,7 +2316,7 @@ async fn plugin_list_remote_marketplace_replaces_local_marketplace_with_same_nam
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn plugin_list_does_not_fetch_remote_marketplaces_when_plugins_disabled() -> Result<()> {
     let codex_home = TempDir::new()?;
     let server = MockServer::start().await;
@@ -2363,7 +2364,7 @@ remote_plugin = true
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn plugin_list_fetches_featured_plugin_ids_without_chatgpt_auth() -> Result<()> {
     let codex_home = TempDir::new()?;
     let server = MockServer::start().await;
@@ -2401,7 +2402,7 @@ async fn plugin_list_fetches_featured_plugin_ids_without_chatgpt_auth() -> Resul
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn plugin_list_uses_warmed_featured_plugin_ids_cache_on_first_request() -> Result<()> {
     let codex_home = TempDir::new()?;
     let server = MockServer::start().await;

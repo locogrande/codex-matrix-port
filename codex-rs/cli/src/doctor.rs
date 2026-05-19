@@ -64,6 +64,7 @@ use http::HeaderValue;
 use serde::Serialize;
 use supports_color::Stream;
 
+use matrix_test_macro as matrix;
 mod background;
 mod output;
 mod progress;
@@ -2945,7 +2946,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn run_async_check_notifies_progress() {
         let progress_impl = Arc::new(RecordingProgress::default());
         let progress: Arc<dyn DoctorProgress> = progress_impl.clone();
@@ -3101,7 +3102,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn mcp_check_ignores_disabled_servers() {
         let disabled_server: McpServerConfig = toml::from_str(
             r#"
@@ -3133,7 +3134,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn mcp_check_warns_for_optional_http_reachability() {
         let optional_server: McpServerConfig = toml::from_str(
             r#"
@@ -3155,7 +3156,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn mcp_check_fails_required_remote_stdio_env_var() {
         let command = toml::Value::String(
             std::env::current_exe()
@@ -3395,7 +3396,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn provider_reachability_route_404_fails_bad_base_url_path() {
         let listener = TcpListener::bind("127.0.0.1:0").expect("bind test listener");
         let addr = listener.local_addr().expect("listener address");
@@ -3436,7 +3437,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn provider_reachability_route_401_keeps_reachability_ok() {
         let listener = TcpListener::bind("127.0.0.1:0").expect("bind test listener");
         let addr = listener.local_addr().expect("listener address");
@@ -3497,7 +3498,7 @@ mod tests {
         assert_eq!(stats.error, None);
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn http_probe_treats_http_status_as_reachable() {
         let listener = TcpListener::bind("127.0.0.1:0").expect("bind test listener");
         let addr = listener.local_addr().expect("listener address");
@@ -3518,7 +3519,7 @@ mod tests {
         assert_eq!(status, Ok("HTTP 405".to_string()));
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn mcp_http_probe_falls_back_to_get_when_head_times_out() {
         let listener = TcpListener::bind("127.0.0.1:0").expect("bind test listener");
         let addr = listener.local_addr().expect("listener address");
@@ -3551,7 +3552,7 @@ mod tests {
         assert_eq!(status, Ok("HTTP 405".to_string()));
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn mcp_check_fails_required_missing_stdio_command() {
         let required_server: McpServerConfig = toml::from_str(
             r#"

@@ -4,7 +4,8 @@ use pretty_assertions::assert_eq;
 use tempfile::tempdir;
 use tokio::fs as tokio_fs;
 
-#[tokio::test]
+use matrix_test_macro as matrix;
+#[matrix::test]
 async fn build_memory_tool_developer_instructions_renders_embedded_template() {
     let temp = tempdir().unwrap();
     let codex_home = AbsolutePathBuf::from_absolute_path(temp.path()).unwrap();

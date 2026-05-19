@@ -43,6 +43,7 @@ use wiremock::matchers::path;
 use wiremock::matchers::query_param;
 use codex_paths;
 
+use matrix_test_macro as matrix;
 const MAX_CAPABILITY_SUMMARY_DESCRIPTION_LEN: usize = 1024;
 
 fn write_plugin_with_version(
@@ -148,7 +149,7 @@ async fn load_config(codex_home: &Path, cwd: &Path) -> PluginsConfigInput {
     load_plugins_config_input(codex_home, cwd).await
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn load_plugins_loads_default_skills_and_mcp_servers() {
     let codex_home = TempDir::new().unwrap();
     let plugin_root = codex_home
@@ -267,7 +268,7 @@ async fn load_plugins_loads_default_skills_and_mcp_servers() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn load_plugins_applies_plugin_mcp_server_policy() {
     let codex_home = TempDir::new().unwrap();
     let plugin_root = codex_home
@@ -335,7 +336,7 @@ approval_mode = "approve"
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn remote_installed_cache_adds_plugin_skill_roots_without_remote_plugin_flag() {
     let codex_home = TempDir::new().unwrap();
     let plugin_base = codex_home
@@ -367,7 +368,7 @@ plugins = true
     assert_eq!(outcome.plugins()[0].config_name, "linear@chatgpt-global");
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn remote_installed_cache_ignores_plugins_missing_local_cache() {
     let codex_home = TempDir::new().unwrap();
     write_file(
@@ -391,7 +392,7 @@ remote_plugin = true
     assert_eq!(outcome, PluginLoadOutcome::default());
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn load_plugins_resolves_disabled_skill_names_against_loaded_plugin_skills() {
     let codex_home = TempDir::new().unwrap();
     let plugin_root = codex_home
@@ -432,7 +433,7 @@ enabled = true
     assert!(outcome.capability_summaries().is_empty());
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn load_plugins_ignores_unknown_disabled_skill_names() {
     let codex_home = TempDir::new().unwrap();
     let plugin_root = codex_home
@@ -476,7 +477,7 @@ enabled = true
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn plugin_telemetry_metadata_uses_default_mcp_config_path() {
     let codex_home = TempDir::new().unwrap();
     let plugin_root = codex_home
@@ -521,7 +522,7 @@ async fn plugin_telemetry_metadata_uses_default_mcp_config_path() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn capability_summary_sanitizes_plugin_descriptions_to_one_line() {
     let codex_home = TempDir::new().unwrap();
     let plugin_root = codex_home
@@ -557,7 +558,7 @@ async fn capability_summary_sanitizes_plugin_descriptions_to_one_line() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn capability_summary_truncates_overlong_plugin_descriptions() {
     let codex_home = TempDir::new().unwrap();
     let plugin_root = codex_home
@@ -596,7 +597,7 @@ async fn capability_summary_truncates_overlong_plugin_descriptions() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn load_plugins_uses_manifest_configured_component_paths() {
     let codex_home = TempDir::new().unwrap();
     let plugin_root = codex_home
@@ -711,7 +712,7 @@ async fn load_plugins_uses_manifest_configured_component_paths() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn load_plugins_ignores_manifest_component_paths_without_dot_slash() {
     let codex_home = TempDir::new().unwrap();
     let plugin_root = codex_home
@@ -823,7 +824,7 @@ async fn load_plugins_ignores_manifest_component_paths_without_dot_slash() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn load_plugins_preserves_disabled_plugins_without_effective_contributions() {
     let codex_home = TempDir::new().unwrap();
     let plugin_root = codex_home
@@ -877,7 +878,7 @@ async fn load_plugins_preserves_disabled_plugins_without_effective_contributions
     assert!(outcome.effective_mcp_servers().is_empty());
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn effective_apps_dedupes_connector_ids_across_plugins() {
     let codex_home = TempDir::new().unwrap();
     let plugin_a_root = codex_home
@@ -1052,7 +1053,7 @@ fn capability_index_filters_inactive_and_zero_capability_plugins() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn load_plugins_returns_empty_when_feature_disabled() {
     let codex_home = TempDir::new().unwrap();
     let plugin_root = codex_home
@@ -1083,7 +1084,7 @@ async fn load_plugins_returns_empty_when_feature_disabled() {
     assert_eq!(outcome, PluginLoadOutcome::default());
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn plugins_for_config_reloads_when_plugin_hooks_enablement_changes() {
     let codex_home = TempDir::new().unwrap();
     let plugin_root = codex_home
@@ -1138,7 +1139,7 @@ async fn plugins_for_config_reloads_when_plugin_hooks_enablement_changes() {
     assert_eq!(with_plugin_hooks.effective_plugin_hook_sources().len(), 1);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn load_plugins_rejects_invalid_plugin_keys() {
     let codex_home = TempDir::new().unwrap();
     let plugin_root = codex_home
@@ -1178,7 +1179,7 @@ async fn load_plugins_rejects_invalid_plugin_keys() {
     assert!(outcome.effective_mcp_servers().is_empty());
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn install_plugin_updates_config_with_relative_path_and_plugin_key() {
     let tmp = tempfile::tempdir().unwrap();
     let repo_root = tmp.path().join("repo");
@@ -1232,7 +1233,7 @@ async fn install_plugin_updates_config_with_relative_path_and_plugin_key() {
     assert!(config.contains("enabled = true"));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn install_openai_curated_plugin_uses_short_sha_cache_version() {
     let tmp = tempfile::tempdir().unwrap();
     let curated_root = curated_plugins_repo_path(tmp.path());
@@ -1268,7 +1269,7 @@ async fn install_openai_curated_plugin_uses_short_sha_cache_version() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn install_plugin_uses_manifest_version_for_non_curated_plugins() {
     let tmp = tempfile::tempdir().unwrap();
     let repo_root = tmp.path().join("repo");
@@ -1322,7 +1323,7 @@ async fn install_plugin_uses_manifest_version_for_non_curated_plugins() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn install_plugin_supports_git_subdir_marketplace_sources() {
     let tmp = tempfile::tempdir().unwrap();
     let repo_root = tmp.path().join("marketplace");
@@ -1378,7 +1379,7 @@ async fn install_plugin_supports_git_subdir_marketplace_sources() {
     assert!(installed_path.join(codex_paths::PLUGIN_JSON).is_file());
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn install_plugin_supports_relative_git_subdir_marketplace_sources() {
     let tmp = tempfile::tempdir().unwrap();
     let repo_root = tmp.path().join("marketplace");
@@ -1429,7 +1430,7 @@ async fn install_plugin_supports_relative_git_subdir_marketplace_sources() {
     assert!(installed_path.join(codex_paths::PLUGIN_JSON).is_file());
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn uninstall_plugin_removes_cache_and_config_entry() {
     let tmp = tempfile::tempdir().unwrap();
     write_plugin(
@@ -1466,7 +1467,7 @@ enabled = true
     assert!(!config.contains(r#"[plugins."sample-plugin@debug"]"#));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn list_marketplaces_includes_enabled_state() {
     let tmp = tempfile::tempdir().unwrap();
     let repo_root = tmp.path().join("repo");
@@ -1586,7 +1587,7 @@ enabled = false
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn list_marketplaces_returns_empty_when_feature_disabled() {
     let tmp = tempfile::tempdir().unwrap();
     let repo_root = tmp.path().join("repo");
@@ -1627,7 +1628,7 @@ enabled = true
     assert_eq!(marketplaces, Vec::new());
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn list_marketplaces_excludes_plugins_with_explicit_empty_products() {
     let tmp = tempfile::tempdir().unwrap();
     let repo_root = tmp.path().join("repo");
@@ -1704,7 +1705,7 @@ plugins = true
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn read_plugin_for_config_returns_plugins_disabled_when_feature_disabled() {
     let tmp = tempfile::tempdir().unwrap();
     let repo_root = tmp.path().join("repo");
@@ -1753,7 +1754,7 @@ enabled = true
     assert!(matches!(err, MarketplaceError::PluginsDisabled));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn read_plugin_for_config_uses_user_layer_skill_settings_only() {
     let tmp = tempfile::tempdir().unwrap();
     let repo_root = tmp.path().join("repo");
@@ -1818,7 +1819,7 @@ enabled = false
     assert!(outcome.plugin.disabled_skill_paths.is_empty());
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn read_plugin_for_config_uninstalled_git_source_requires_install_without_cloning() {
     let tmp = tempfile::tempdir().unwrap();
     let repo_root = tmp.path().join("repo");
@@ -1893,7 +1894,7 @@ plugins = true
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn read_plugin_for_config_installed_git_source_reads_from_cache_without_cloning() {
     let tmp = tempfile::tempdir().unwrap();
     let repo_root = tmp.path().join("repo");
@@ -2049,7 +2050,7 @@ enabled = false
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn list_marketplaces_installed_git_source_reads_metadata_from_cache_without_cloning() {
     let tmp = tempfile::tempdir().unwrap();
     let repo_root = tmp.path().join("repo");
@@ -2160,7 +2161,7 @@ enabled = true
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn sync_plugins_from_remote_returns_default_when_feature_disabled() {
     let tmp = tempfile::tempdir().unwrap();
     write_file(
@@ -2179,7 +2180,7 @@ plugins = false
     assert_eq!(outcome, RemotePluginSyncResult::default());
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn list_marketplaces_includes_curated_repo_marketplace() {
     let tmp = tempfile::tempdir().unwrap();
     let curated_root = curated_plugins_repo_path(tmp.path());
@@ -2254,7 +2255,7 @@ plugins = true
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn list_marketplaces_includes_installed_marketplace_roots() {
     let tmp = tempfile::tempdir().unwrap();
     let marketplace_root = marketplace_install_root(tmp.path()).join("debug");
@@ -2326,7 +2327,7 @@ source = "/tmp/debug"
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn list_marketplaces_uses_config_when_known_registry_is_malformed() {
     let tmp = tempfile::tempdir().unwrap();
     let marketplace_root = marketplace_install_root(tmp.path()).join("debug");
@@ -2390,7 +2391,7 @@ source = "/tmp/debug"
     assert_eq!(marketplace.plugins[0].id, "sample@debug");
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn list_marketplaces_ignores_installed_roots_missing_from_config() {
     let tmp = tempfile::tempdir().unwrap();
     let marketplace_root = marketplace_install_root(tmp.path()).join("debug");
@@ -2443,7 +2444,7 @@ plugins = true
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn list_marketplaces_uses_first_duplicate_plugin_entry() {
     let tmp = tempfile::tempdir().unwrap();
     let repo_a_root = tmp.path().join("repo-a");
@@ -2586,7 +2587,7 @@ enabled = false
     assert_eq!(duplicate_plugin_count, 1);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn list_marketplaces_marks_configured_plugin_uninstalled_when_cache_is_missing() {
     let tmp = tempfile::tempdir().unwrap();
     let repo_root = tmp.path().join("repo");
@@ -2665,7 +2666,7 @@ enabled = true
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn sync_plugins_from_remote_reconciles_cache_and_config() {
     let tmp = tempfile::tempdir().unwrap();
     let curated_root = curated_plugins_repo_path(tmp.path());
@@ -2785,7 +2786,7 @@ enabled = true
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn sync_plugins_from_remote_additive_only_keeps_existing_plugins() {
     let tmp = tempfile::tempdir().unwrap();
     let curated_root = curated_plugins_repo_path(tmp.path());
@@ -2881,7 +2882,7 @@ enabled = true
     assert!(config.contains("enabled = true"));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn sync_plugins_from_remote_ignores_unknown_remote_plugins() {
     let tmp = tempfile::tempdir().unwrap();
     let curated_root = curated_plugins_repo_path(tmp.path());
@@ -2938,7 +2939,7 @@ enabled = false
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn sync_plugins_from_remote_keeps_existing_plugins_when_install_fails() {
     let tmp = tempfile::tempdir().unwrap();
     let curated_root = curated_plugins_repo_path(tmp.path());
@@ -3005,7 +3006,7 @@ enabled = false
     assert!(config.contains("enabled = false"));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn sync_plugins_from_remote_uses_first_duplicate_local_plugin_entry() {
     let tmp = tempfile::tempdir().unwrap();
     let curated_root = curated_plugins_repo_path(tmp.path());
@@ -3090,7 +3091,7 @@ plugins = true
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn featured_plugin_ids_for_config_uses_restriction_product_query_param() {
     let tmp = tempfile::tempdir().unwrap();
     write_file(
@@ -3128,7 +3129,7 @@ plugins = true
     assert_eq!(featured_plugin_ids, vec!["chat-plugin".to_string()]);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn featured_plugin_ids_for_config_defaults_query_param_to_codex() {
     let tmp = tempfile::tempdir().unwrap();
     write_file(
@@ -3645,7 +3646,7 @@ enabled = true
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn load_plugins_ignores_project_config_files() {
     let codex_home = TempDir::new().unwrap();
     let project_root = codex_home.path().join("project");

@@ -25,6 +25,7 @@ use http::HeaderMap;
 use http::HeaderValue;
 use http::StatusCode;
 
+use matrix_test_macro as matrix;
 fn assert_path_ends_with(requests: &[Request], suffix: &str) {
     assert_eq!(requests.len(), 1);
     let url = &requests[0].url;
@@ -248,7 +249,7 @@ data: {"id":"resp-1","output":[{"type":"message","role":"assistant","content":[{
     }
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn responses_client_uses_responses_path() -> Result<()> {
     let state = RecordingState::default();
     let transport = RecordingTransport::new(state.clone());
@@ -269,7 +270,7 @@ async fn responses_client_uses_responses_path() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn streaming_client_adds_auth_headers() -> Result<()> {
     let state = RecordingState::default();
     let transport = RecordingTransport::new(state.clone());
@@ -310,7 +311,7 @@ async fn streaming_client_adds_auth_headers() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn streaming_client_retries_on_transport_error() -> Result<()> {
     let transport = FlakyTransport::new();
 
@@ -348,7 +349,7 @@ async fn streaming_client_retries_on_transport_error() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn streaming_client_retries_on_transient_auth_error() -> Result<()> {
     let state = RecordingState::default();
     let transport = RecordingTransport::new(state.clone());
@@ -373,7 +374,7 @@ async fn streaming_client_retries_on_transient_auth_error() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn streaming_client_does_not_retry_auth_build_error() -> Result<()> {
     let state = RecordingState::default();
     let transport = RecordingTransport::new(state.clone());
@@ -407,7 +408,7 @@ async fn streaming_client_does_not_retry_auth_build_error() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn azure_default_store_attaches_ids_and_headers() -> Result<()> {
     let state = RecordingState::default();
     let transport = RecordingTransport::new(state.clone());

@@ -872,6 +872,7 @@ async fn handle_server_notification(
 
 #[cfg(test)]
 mod tests {
+    use matrix_test_macro as matrix;
     use codex_app_server_protocol::JSONRPCMessage;
     use codex_app_server_protocol::JSONRPCNotification;
     use codex_app_server_protocol::JSONRPCResponse;
@@ -940,7 +941,7 @@ mod tests {
     }
 
     #[cfg(not(windows))]
-    #[tokio::test]
+    #[matrix::test]
     async fn connect_stdio_command_initializes_json_rpc_client() {
         let client = ExecServerClient::connect_stdio_command(StdioExecServerConnectArgs {
             command: StdioExecServerCommand {
@@ -963,7 +964,7 @@ mod tests {
     }
 
     #[cfg(not(windows))]
-    #[tokio::test]
+    #[matrix::test]
     async fn connect_for_transport_initializes_stdio_command() {
         let client = ExecServerClient::connect_for_transport(
             ExecServerTransportParams::StdioCommand {
@@ -986,7 +987,7 @@ mod tests {
     }
 
     #[cfg(windows)]
-    #[tokio::test]
+    #[matrix::test]
     async fn connect_stdio_command_initializes_json_rpc_client_on_windows() {
         let client = ExecServerClient::connect_stdio_command(StdioExecServerConnectArgs {
             command: StdioExecServerCommand {
@@ -1010,7 +1011,7 @@ mod tests {
     }
 
     #[cfg(unix)]
-    #[tokio::test]
+    #[matrix::test]
     async fn dropping_stdio_client_terminates_spawned_process() {
         let tempdir = tempfile::tempdir().expect("tempdir should be created");
         let pid_file = tempdir.path().join("server.pid");
@@ -1057,7 +1058,7 @@ mod tests {
     }
 
     #[cfg(unix)]
-    #[tokio::test]
+    #[matrix::test]
     async fn malformed_stdio_message_terminates_spawned_process() {
         let tempdir = tempfile::tempdir().expect("tempdir should be created");
         let pid_file = tempdir.path().join("server.pid");
@@ -1127,7 +1128,7 @@ mod tests {
         format!("'{}'", value.replace('\'', "'\\''"))
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn process_events_are_delivered_in_seq_order_when_notifications_are_reordered() {
         let (client_stdin, server_reader) = duplex(1 << 20);
         let (mut server_writer, client_stdout) = duplex(1 << 20);
@@ -1270,7 +1271,7 @@ mod tests {
         server.await.expect("server task should finish");
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn transport_disconnect_fails_sessions_and_rejects_new_sessions() {
         let (client_stdin, server_reader) = duplex(1 << 20);
         let (mut server_writer, client_stdout) = duplex(1 << 20);
@@ -1356,7 +1357,7 @@ mod tests {
         server.await.expect("server task should finish");
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn wake_notifications_do_not_block_other_sessions() {
         let (client_stdin, server_reader) = duplex(1 << 20);
         let (mut server_writer, client_stdout) = duplex(1 << 20);

@@ -3,6 +3,7 @@ use crate::bottom_pane::preview_line_for_title_items;
 use pretty_assertions::assert_eq;
 use ratatui::text::Line;
 
+use matrix_test_macro as matrix;
 fn line_text(line: Line<'static>) -> String {
     line.spans
         .into_iter()
@@ -58,7 +59,7 @@ fn cache_project_root(chat: &mut ChatWidget, root_name: &str) {
     });
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn status_surface_preview_lines_live_only_snapshot() {
     let (mut chat, _rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     cache_project_root(&mut chat, "preview-live-root");
@@ -84,7 +85,7 @@ async fn status_surface_preview_lines_live_only_snapshot() {
     assert_chatwidget_snapshot!("status_surface_previews_live_only", snapshot);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn status_line_setup_popup_live_only_snapshot() {
     let (mut chat, _rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     cache_project_root(&mut chat, "preview-live-root");
@@ -102,7 +103,7 @@ async fn status_line_setup_popup_live_only_snapshot() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn status_surface_preview_lines_hardcoded_only_snapshot() {
     let (mut chat, _rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
 
@@ -125,7 +126,7 @@ async fn status_surface_preview_lines_hardcoded_only_snapshot() {
     assert_chatwidget_snapshot!("status_surface_previews_hardcoded_only", snapshot);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn thread_title_falls_back_to_thread_id_when_unnamed() {
     let (mut chat, _rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     let thread_id = ThreadId::new();
@@ -141,7 +142,7 @@ async fn thread_title_falls_back_to_thread_id_when_unnamed() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn status_line_setup_popup_hardcoded_only_snapshot() {
     let (mut chat, _rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     chat.config.tui_status_line = Some(vec![
@@ -156,7 +157,7 @@ async fn status_line_setup_popup_hardcoded_only_snapshot() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn status_surface_preview_lines_mixed_snapshot() {
     let (mut chat, _rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     chat.status_line_branch = Some("feature/mixed-preview".to_string());
@@ -179,7 +180,7 @@ async fn status_surface_preview_lines_mixed_snapshot() {
     assert_chatwidget_snapshot!("status_surface_previews_mixed", snapshot);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn status_line_setup_popup_mixed_snapshot() {
     let (mut chat, _rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     chat.status_line_branch = Some("feature/mixed-preview".to_string());
@@ -196,7 +197,7 @@ async fn status_line_setup_popup_mixed_snapshot() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn terminal_title_setup_popup_live_only_snapshot() {
     let (mut chat, _rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     cache_project_root(&mut chat, "preview-live-root");
@@ -216,7 +217,7 @@ async fn terminal_title_setup_popup_live_only_snapshot() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn terminal_title_setup_popup_hardcoded_only_snapshot() {
     let (mut chat, _rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     chat.config.tui_terminal_title = Some(vec![
@@ -231,7 +232,7 @@ async fn terminal_title_setup_popup_hardcoded_only_snapshot() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn terminal_title_setup_popup_mixed_snapshot() {
     let (mut chat, _rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     chat.thread_name = Some("Mixed preview thread".to_string());
@@ -247,7 +248,7 @@ async fn terminal_title_setup_popup_mixed_snapshot() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn missing_project_root_uses_different_status_and_title_preview_sources() {
     let (mut chat, _rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
 
@@ -258,7 +259,7 @@ async fn missing_project_root_uses_different_status_and_title_preview_sources() 
     assert_eq!(title_preview, "project");
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn terminal_title_preview_uses_title_truncation_for_live_values() {
     let (mut chat, _rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     let long_thread = "This thread title is intentionally much longer than forty-eight characters";

@@ -17,6 +17,7 @@ use std::sync::Mutex;
 use tempfile::tempdir;
 use tracing_opentelemetry::OpenTelemetrySpanExt;
 
+use matrix_test_macro as matrix;
 fn test_tracing_subscriber() -> impl tracing::Subscriber + Send + Sync {
     let provider = SdkTracerProvider::builder().build();
     let tracer = provider.tracer("codex-exec-tests");
@@ -267,7 +268,7 @@ fn lagged_event_warning_message_is_explicit() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn resume_lookup_model_providers_filters_only_last_lookup() {
     let codex_home = tempdir().expect("create temp codex home");
     let cwd = tempdir().expect("create temp cwd");
@@ -406,7 +407,7 @@ fn canceled_mcp_server_elicitation_response_uses_cancel_action() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn thread_start_params_include_review_policy_when_review_policy_is_manual_only() {
     let codex_home = tempdir().expect("create temp codex home");
     let cwd = tempdir().expect("create temp cwd");
@@ -435,7 +436,7 @@ async fn thread_start_params_include_review_policy_when_review_policy_is_manual_
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn thread_start_params_include_review_policy_when_auto_review_is_enabled() {
     let codex_home = tempdir().expect("create temp codex home");
     let cwd = tempdir().expect("create temp cwd");
@@ -470,7 +471,7 @@ fn active_profile_selection_uses_profile_id_only() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn thread_lifecycle_params_include_legacy_sandbox_when_no_active_profile() {
     let codex_home = tempdir().expect("create temp codex home");
     let cwd = tempdir().expect("create temp cwd");
@@ -501,7 +502,7 @@ async fn thread_lifecycle_params_include_legacy_sandbox_when_no_active_profile()
     assert_eq!(resume_params.permissions, None);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn session_configured_from_thread_response_uses_review_policy_from_response() {
     let codex_home = tempdir().expect("create temp codex home");
     let cwd = tempdir().expect("create temp cwd");
@@ -527,7 +528,7 @@ async fn session_configured_from_thread_response_uses_review_policy_from_respons
     assert_eq!(event.approvals_reviewer, ApprovalsReviewer::AutoReview);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn session_configured_from_thread_response_uses_permission_profile_from_config() {
     let codex_home = tempdir().expect("create temp codex home");
     let cwd = tempdir().expect("create temp cwd");

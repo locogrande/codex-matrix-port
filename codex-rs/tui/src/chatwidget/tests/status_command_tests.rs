@@ -1,7 +1,8 @@
 use super::*;
 use assert_matches::assert_matches;
 
-#[tokio::test]
+use matrix_test_macro as matrix;
+#[matrix::test]
 async fn status_command_renders_immediately_and_refreshes_rate_limits_for_chatgpt_auth() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     set_chatgpt_auth(&mut chat);
@@ -27,7 +28,7 @@ async fn status_command_renders_immediately_and_refreshes_rate_limits_for_chatgp
     pretty_assertions::assert_eq!(request_id, 0);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn status_command_refresh_updates_cached_limits_for_future_status_outputs() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     set_chatgpt_auth(&mut chat);
@@ -62,7 +63,7 @@ async fn status_command_refresh_updates_cached_limits_for_future_status_outputs(
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn status_command_renders_immediately_without_rate_limit_refresh() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
 
@@ -76,7 +77,7 @@ async fn status_command_renders_immediately_without_rate_limit_refresh() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn status_command_uses_catalog_default_reasoning_when_config_empty() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(Some("gpt-5.4")).await;
     chat.config.model_reasoning_effort = None;
@@ -95,7 +96,7 @@ async fn status_command_uses_catalog_default_reasoning_when_config_empty() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn status_command_renders_instruction_sources_from_thread_session() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     chat.instruction_source_paths = vec![chat.config.cwd.join("AGENTS.md")];
@@ -118,7 +119,7 @@ async fn status_command_renders_instruction_sources_from_thread_session() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn status_command_overlapping_refreshes_update_matching_cells_only() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     set_chatgpt_auth(&mut chat);

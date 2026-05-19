@@ -1,6 +1,7 @@
 use super::*;
 use pretty_assertions::assert_eq;
 
+use matrix_test_macro as matrix;
 #[test]
 fn startup_waiting_gate_is_only_for_fresh_or_exit_session_selection() {
     assert_eq!(
@@ -132,7 +133,7 @@ fn startup_waiting_gate_not_applied_for_resume_or_fork_session_selection() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn ignore_same_thread_resume_reports_noop_for_current_thread() {
     let (mut app, mut app_event_rx, _op_rx) = make_test_app_with_channels().await;
     let thread_id = ThreadId::new();
@@ -162,7 +163,7 @@ async fn ignore_same_thread_resume_reports_noop_for_current_thread() {
     )));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn ignore_same_thread_resume_allows_reattaching_displayed_inactive_thread() {
     let mut app = make_test_app().await;
     let thread_id = ThreadId::new();

@@ -15,6 +15,7 @@ use codex_paths;
 
 use crate::operations::run_git_for_status;
 
+use matrix_test_macro as matrix;
 const BASELINE_COMMIT_MESSAGE: &str =
     "Initialize Codex git baseline\n\nCo-authored-by: Codex <noreply@openai.com>";
 
@@ -549,7 +550,7 @@ mod tests {
         String::from_utf8_lossy(&output.stdout).to_string()
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn reset_creates_fresh_baseline() {
         let home = TempDir::new().expect("tempdir");
         let root = home.path().join("repo");
@@ -567,7 +568,7 @@ mod tests {
         assert_eq!(git_stdout(&root, &["ls-files"]), "MEMORY.md\n");
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn ensure_recovers_from_unborn_repository() {
         let home = TempDir::new().expect("tempdir");
         let root = home.path().join("repo");
@@ -586,7 +587,7 @@ mod tests {
     }
 
     #[cfg(unix)]
-    #[tokio::test]
+    #[matrix::test]
     async fn write_index_ignores_configured_hooks_path() {
         use std::os::unix::fs::PermissionsExt;
 
@@ -630,7 +631,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn diff_reports_added_modified_and_deleted_files() {
         let home = TempDir::new().expect("tempdir");
         let root = home.path().join("repo");
@@ -689,7 +690,7 @@ mod tests {
         assert!(diff.unified_diff.contains("-important stale evidence"));
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn reset_drops_previous_history() {
         let home = TempDir::new().expect("tempdir");
         let root = home.path().join("repo");
@@ -708,7 +709,7 @@ mod tests {
         assert!(!diff.has_changes());
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn status_scan_does_not_write_added_file_blobs() {
         let home = TempDir::new().expect("tempdir");
         let root = home.path().join("repo");
@@ -729,7 +730,7 @@ mod tests {
     }
 
     #[cfg(unix)]
-    #[tokio::test]
+    #[matrix::test]
     async fn reports_executable_bit_changes_as_modified() {
         use std::os::unix::fs::PermissionsExt;
 

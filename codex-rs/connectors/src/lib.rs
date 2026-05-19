@@ -462,6 +462,7 @@ fn normalize_connector_value(value: Option<&str>) -> Option<String> {
 
 #[cfg(test)]
 mod tests {
+    use matrix_test_macro as matrix;
     use super::*;
     use pretty_assertions::assert_eq;
     use std::sync::Arc;
@@ -508,7 +509,7 @@ mod tests {
         }
     }
 
-    #[tokio::test]
+    #[matrix::test]
     #[expect(
         clippy::await_holding_invalid_type,
         reason = "test serializes access to the shared connector cache for its full duration"
@@ -553,7 +554,7 @@ mod tests {
         Ok(())
     }
 
-    #[tokio::test]
+    #[matrix::test]
     #[expect(
         clippy::await_holding_invalid_type,
         reason = "test serializes access to the shared connector cache for its full duration"
@@ -631,7 +632,7 @@ mod tests {
         Ok(())
     }
 
-    #[tokio::test]
+    #[matrix::test]
     #[expect(
         clippy::await_holding_invalid_type,
         reason = "test serializes access to the shared connector cache for its full duration"
@@ -670,7 +671,7 @@ mod tests {
         Ok(())
     }
 
-    #[tokio::test]
+    #[matrix::test]
     #[expect(
         clippy::await_holding_invalid_type,
         reason = "test serializes access to the shared connector cache for its full duration"
@@ -737,7 +738,7 @@ mod tests {
         Ok(())
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn cached_directory_connectors_drops_stale_disk_schema() -> anyhow::Result<()> {
         let _cache_guard = CONNECTOR_DIRECTORY_CACHE_TEST_LOCK.lock().await;
 
@@ -759,7 +760,7 @@ mod tests {
         Ok(())
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn list_directory_connectors_omits_tier_for_all_pages() -> anyhow::Result<()> {
         let requested_paths: Arc<Mutex<Vec<String>>> = Arc::new(Mutex::new(Vec::new()));
         let paths = Arc::clone(&requested_paths);

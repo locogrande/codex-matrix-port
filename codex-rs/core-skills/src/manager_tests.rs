@@ -20,6 +20,7 @@ use std::sync::Arc;
 use tempfile::TempDir;
 use codex_paths;
 
+use matrix_test_macro as matrix;
 fn write_user_skill(codex_home: &TempDir, dir: &str, name: &str, description: &str) {
     let skill_dir = codex_home.path().join("skills").join(dir);
     fs::create_dir_all(&skill_dir).unwrap();
@@ -186,7 +187,7 @@ fn new_with_disabled_bundled_skills_removes_stale_cached_system_skills() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn skills_for_config_reuses_cache_for_same_effective_config() {
     let codex_home = tempfile::tempdir().expect("tempdir");
     let cwd = tempfile::tempdir().expect("tempdir");
@@ -213,7 +214,7 @@ async fn skills_for_config_reuses_cache_for_same_effective_config() {
     assert_eq!(outcome2.skills, outcome1.skills);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn skills_for_config_disables_plugin_skills_by_name() {
     let codex_home = tempfile::tempdir().expect("tempdir");
     let cwd = tempfile::tempdir().expect("tempdir");
@@ -265,7 +266,7 @@ async fn skills_for_config_disables_plugin_skills_by_name() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn skills_for_cwd_loads_repo_and_user_roots_with_local_fs() {
     let codex_home = tempfile::tempdir().expect("tempdir");
     let cwd = tempfile::tempdir().expect("tempdir");
@@ -328,7 +329,7 @@ async fn skills_for_cwd_loads_repo_and_user_roots_with_local_fs() {
     assert!(loaded_names.contains("repo-skill"));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn skills_for_cwd_without_fs_skips_repo_roots() {
     let codex_home = tempfile::tempdir().expect("tempdir");
     let cwd = tempfile::tempdir().expect("tempdir");
@@ -387,7 +388,7 @@ async fn skills_for_cwd_without_fs_skips_repo_roots() {
     assert!(!loaded_names.contains("repo-skill"));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn skills_for_config_excludes_bundled_skills_when_disabled_in_config() {
     let codex_home = tempfile::tempdir().expect("tempdir");
     let cwd = tempfile::tempdir().expect("tempdir");
@@ -429,7 +430,7 @@ async fn skills_for_config_excludes_bundled_skills_when_disabled_in_config() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn skills_for_cwd_uses_cached_result_until_force_reload() {
     let codex_home = tempfile::tempdir().expect("tempdir");
     let cwd = tempfile::tempdir().expect("tempdir");
@@ -632,7 +633,7 @@ fn disabled_paths_for_skills_allows_name_selector_to_override_path_selector() {
 }
 
 #[cfg_attr(windows, ignore)]
-#[tokio::test]
+#[matrix::test]
 async fn skills_for_config_ignores_cwd_cache_when_session_flags_reenable_skill() {
     let codex_home = tempfile::tempdir().expect("tempdir");
     let cwd = tempfile::tempdir().expect("tempdir");

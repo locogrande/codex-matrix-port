@@ -7,6 +7,7 @@ use codex_config::types::SessionPickerViewMode;
 use codex_protocol::config_types::ServiceTier;
 use codex_protocol::openai_models::ReasoningEffort;
 use pretty_assertions::assert_eq;
+use matrix_test_macro as matrix;
 #[cfg(unix)]
 use std::os::unix::fs::symlink;
 use tempfile::tempdir;
@@ -1339,7 +1340,7 @@ fn blocking_set_path_updates_notifications() {
     assert_eq!(notifications, Some(false));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn async_builder_set_model_persists() {
     let tmp = tempdir().expect("tmpdir");
     let codex_home = tmp.path().to_path_buf();
@@ -1391,7 +1392,7 @@ model_reasoning_effort = "high"
     assert_eq!(contents, initial_expected);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn blocking_set_asynchronous_helpers_available() {
     let tmp = tempdir().expect("tmpdir");
     let codex_home = tmp.path().to_path_buf();

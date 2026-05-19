@@ -43,4 +43,5 @@ unicode-width = { workspace = true }
 workspace = true
 
 [dev-dependencies]
+matrix-test-macro = { workspace = true }
 pretty_assertions = { workspace = true }

@@ -9,7 +9,8 @@ use codex_protocol::permissions::FileSystemSpecialPath;
 use codex_protocol::permissions::NetworkSandboxPolicy;
 use pretty_assertions::assert_eq;
 
-#[tokio::test]
+use matrix_test_macro as matrix;
+#[matrix::test]
 async fn resumed_initial_messages_render_history() {
     let (mut chat, mut rx, _ops) = make_chatwidget_manual(/*model_override*/ None).await;
 
@@ -72,7 +73,7 @@ async fn resumed_initial_messages_render_history() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn replayed_user_message_preserves_text_elements_and_local_images() {
     let (mut chat, mut rx, _ops) = make_chatwidget_manual(/*model_override*/ None).await;
 
@@ -147,7 +148,7 @@ async fn replayed_user_message_preserves_text_elements_and_local_images() {
     assert!(stored_remote_image_urls.is_empty());
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn replayed_user_message_preserves_remote_image_urls() {
     let (mut chat, mut rx, _ops) = make_chatwidget_manual(/*model_override*/ None).await;
 
@@ -215,7 +216,7 @@ async fn replayed_user_message_preserves_remote_image_urls() {
     assert_eq!(stored_remote_image_urls, remote_image_urls);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn session_configured_syncs_widget_config_permissions_and_cwd() {
     let (mut chat, _rx, _ops) = make_chatwidget_manual(/*model_override*/ None).await;
 
@@ -309,7 +310,7 @@ async fn session_configured_syncs_widget_config_permissions_and_cwd() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn session_configured_preserves_profile_workspace_roots() {
     let (mut chat, _rx, _ops) = make_chatwidget_manual(/*model_override*/ None).await;
 
@@ -361,7 +362,7 @@ async fn session_configured_preserves_profile_workspace_roots() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn session_configured_external_sandbox_keeps_external_runtime_policy() {
     let (mut chat, _rx, _ops) = make_chatwidget_manual(/*model_override*/ None).await;
 
@@ -403,7 +404,7 @@ async fn session_configured_external_sandbox_keeps_external_runtime_policy() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn replayed_user_message_with_only_remote_images_renders_history_cell() {
     let (mut chat, mut rx, _ops) = make_chatwidget_manual(/*model_override*/ None).await;
 
@@ -459,7 +460,7 @@ async fn replayed_user_message_with_only_remote_images_renders_history_cell() {
     assert_eq!(stored_remote_image_urls, remote_image_urls);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn replayed_user_message_with_only_local_images_renders_history_cell() {
     let (mut chat, mut rx, _ops) = make_chatwidget_manual(/*model_override*/ None).await;
 
@@ -515,7 +516,7 @@ async fn replayed_user_message_with_only_local_images_renders_history_cell() {
     assert_eq!(stored_local_images, local_images);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn forked_thread_history_line_includes_name_and_id_snapshot() {
     let (chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     let mut chat = chat;
@@ -545,7 +546,7 @@ async fn forked_thread_history_line_includes_name_and_id_snapshot() {
     assert_chatwidget_snapshot!("forked_thread_history_line", combined);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn forked_thread_history_line_without_name_shows_id_once_snapshot() {
     let (chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     let mut chat = chat;
@@ -574,7 +575,7 @@ async fn forked_thread_history_line_without_name_shows_id_once_snapshot() {
     assert_chatwidget_snapshot!("forked_thread_history_line_without_name", combined);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn app_server_forked_thread_history_line_uses_app_server_title_snapshot() {
     let (chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     let mut chat = chat;
@@ -614,7 +615,7 @@ async fn app_server_forked_thread_history_line_uses_app_server_title_snapshot() 
     assert_chatwidget_snapshot!("app_server_forked_thread_history_line", combined);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn app_server_forked_thread_history_line_without_app_server_name_ignores_local_snapshot() {
     let (chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     let mut chat = chat;
@@ -656,7 +657,7 @@ async fn app_server_forked_thread_history_line_without_app_server_name_ignores_l
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn thread_snapshot_replay_preserves_agent_message_during_review_mode() {
     let (mut chat, mut rx, _ops) = make_chatwidget_manual(/*model_override*/ None).await;
 
@@ -675,7 +676,7 @@ async fn thread_snapshot_replay_preserves_agent_message_during_review_mode() {
     assert!(lines_to_single_string(&inserted[0]).contains("Review progress update"));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn replayed_retryable_app_server_error_keeps_turn_running() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
 
@@ -721,7 +722,7 @@ async fn replayed_retryable_app_server_error_keeps_turn_running() {
     assert_eq!(status.details(), None);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn replayed_thread_closed_notification_does_not_exit_tui() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
 
@@ -735,7 +736,7 @@ async fn replayed_thread_closed_notification_does_not_exit_tui() {
     assert_matches!(rx.try_recv(), Err(TryRecvError::Empty));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn replayed_reasoning_item_hides_raw_reasoning_when_disabled() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     chat.config.show_raw_agent_reasoning = false;
@@ -781,7 +782,7 @@ async fn replayed_reasoning_item_hides_raw_reasoning_when_disabled() {
     assert!(!rendered.contains("Raw reasoning"));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn replayed_reasoning_item_shows_raw_reasoning_when_enabled() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     chat.config.show_raw_agent_reasoning = true;
@@ -826,7 +827,7 @@ async fn replayed_reasoning_item_shows_raw_reasoning_when_enabled() {
     assert!(rendered.contains("Raw reasoning"));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn live_reasoning_summary_is_not_rendered_twice_when_item_completes() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     chat.show_welcome_banner = false;
@@ -883,7 +884,7 @@ async fn live_reasoning_summary_is_not_rendered_twice_when_item_completes() {
     assert_eq!(rendered.matches("Summary only").count(), 1);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn thread_snapshot_replayed_turn_started_marks_task_running() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
 
@@ -898,7 +899,7 @@ async fn thread_snapshot_replayed_turn_started_marks_task_running() {
     assert_eq!(status.header(), "Working");
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn replayed_in_progress_turn_marks_task_running() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
 
@@ -925,7 +926,7 @@ async fn replayed_in_progress_turn_marks_task_running() {
     assert_eq!(status.header(), "Working");
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn replayed_stream_error_does_not_set_retry_status_or_status_indicator() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     chat.set_status_header("Idle".to_string());
@@ -947,7 +948,7 @@ async fn replayed_stream_error_does_not_set_retry_status_or_status_indicator() {
     assert!(chat.bottom_pane.status_widget().is_none());
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn thread_snapshot_replayed_stream_recovery_restores_previous_status_header() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
 
@@ -973,7 +974,7 @@ async fn thread_snapshot_replayed_stream_recovery_restores_previous_status_heade
     assert!(chat.status_state.retry_status_header.is_none());
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn stream_recovery_restores_previous_status_header() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     handle_turn_started(&mut chat, "turn-1");

@@ -21,6 +21,7 @@ use wiremock::ResponseTemplate;
 use wiremock::matchers::method;
 use wiremock::matchers::path;
 
+use matrix_test_macro as matrix;
 #[derive(Clone, Default)]
 struct DummyAuth;
 
@@ -45,7 +46,7 @@ fn provider(base_url: &str) -> Provider {
     }
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn models_client_hits_models_endpoint() {
     let server = MockServer::start().await;
     let base_url = format!("{}/api/codex", server.uri());

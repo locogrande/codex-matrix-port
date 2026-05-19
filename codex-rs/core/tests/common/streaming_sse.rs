@@ -10,6 +10,7 @@ use tokio::sync::Mutex as TokioMutex;
 use tokio::sync::Notify;
 use tokio::sync::oneshot;
 
+use matrix_test_macro as matrix;
 /// Streaming SSE chunk payload gated by a per-chunk signal.
 #[derive(Debug)]
 pub struct StreamingSseChunk {
@@ -360,7 +361,7 @@ mod tests {
             .expect("write request");
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn get_models_returns_empty_list() {
         let (server, _) = start_streaming_sse_server(Vec::new()).await;
         let mut stream = connect(server.uri()).await;
@@ -387,7 +388,7 @@ mod tests {
         server.shutdown().await;
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn post_responses_streams_in_order_and_closes() {
         let chunks = vec![
             StreamingSseChunk {
@@ -423,7 +424,7 @@ mod tests {
         server.shutdown().await;
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn none_gate_streams_immediately() {
         let chunks = vec![StreamingSseChunk {
             gate: None,
@@ -444,7 +445,7 @@ mod tests {
         server.shutdown().await;
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn post_responses_with_no_queue_returns_500() {
         let (server, _) = start_streaming_sse_server(Vec::new()).await;
         let mut stream = connect(server.uri()).await;
@@ -461,7 +462,7 @@ mod tests {
         server.shutdown().await;
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn gated_chunks_wait_for_signal_and_preserve_order() {
         let (gate_one_tx, gate_one_rx) = oneshot::channel();
         let (gate_two_tx, gate_two_rx) = oneshot::channel();
@@ -513,7 +514,7 @@ mod tests {
         server.shutdown().await;
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn multiple_responses_are_fifo_and_completion_timestamps_monotonic() {
         let first_chunks = vec![StreamingSseChunk {
             gate: None,
@@ -557,7 +558,7 @@ mod tests {
         server.shutdown().await;
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn unknown_route_returns_404() {
         let (server, _) = start_streaming_sse_server(Vec::new()).await;
         let mut stream = connect(server.uri()).await;
@@ -574,7 +575,7 @@ mod tests {
         server.shutdown().await;
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn malformed_request_returns_400() {
         let (server, _) = start_streaming_sse_server(Vec::new()).await;
         let mut stream = connect(server.uri()).await;
@@ -587,7 +588,7 @@ mod tests {
         server.shutdown().await;
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn responses_post_drains_request_body() {
         let response_body = r#"event: response.completed
 data: {"type":"response.completed","response":{"id":"resp-1"}}
@@ -625,7 +626,7 @@ data: {"type":"response.completed","response":{"id":"resp-1"}}
         server.shutdown().await;
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn read_http_request_returns_after_header_terminator() {
         let listener = TcpListener::bind("127.0.0.1:0")
             .await
@@ -666,7 +667,7 @@ data: {"type":"response.completed","response":{"id":"resp-1"}}
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn take_next_stream_consumes_in_lockstep() {
         let (first_tx, first_rx) = oneshot::channel();
         let (second_tx, second_rx) = oneshot::channel();
@@ -700,7 +701,7 @@ data: {"type":"response.completed","response":{"id":"resp-1"}}
         assert!(third.is_none());
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn shutdown_terminates_accept_loop() {
         let (server, _) = start_streaming_sse_server(Vec::new()).await;
         let shutdown = timeout(Duration::from_millis(200), server.shutdown()).await;

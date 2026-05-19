@@ -568,6 +568,7 @@ WHERE job_id = ?
 
 #[cfg(test)]
 mod tests {
+    use matrix_test_macro as matrix;
     use super::*;
     use crate::runtime::test_support::unique_temp_dir;
     use pretty_assertions::assert_eq;
@@ -612,7 +613,7 @@ mod tests {
         Ok((job_id, item_id, thread_id))
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn report_agent_job_item_result_completes_item_atomically() -> anyhow::Result<()> {
         let codex_home = unique_temp_dir();
         let runtime = StateRuntime::init(codex_home, "test-provider".to_string()).await?;
@@ -652,7 +653,7 @@ mod tests {
         Ok(())
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn report_agent_job_item_result_rejects_late_reports() -> anyhow::Result<()> {
         let codex_home = unique_temp_dir();
         let runtime = StateRuntime::init(codex_home, "test-provider".to_string()).await?;

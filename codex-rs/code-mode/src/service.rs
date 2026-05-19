@@ -677,6 +677,7 @@ fn terminate_paused_runtime(
 
 #[cfg(test)]
 mod tests {
+    use matrix_test_macro as matrix;
     use std::collections::HashMap;
     use std::sync::Arc;
     use std::sync::atomic::AtomicU64;
@@ -732,7 +733,7 @@ mod tests {
         })
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn synchronous_exit_returns_successfully() {
         let service = CodeModeService::new();
 
@@ -758,7 +759,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn execute_to_pending_returns_completed_for_synchronous_results() {
         let service = CodeModeService::new();
 
@@ -784,7 +785,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn execute_to_pending_returns_once_the_runtime_is_quiescent() {
         let service = CodeModeService::new();
 
@@ -829,7 +830,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn execute_to_pending_identifies_tool_calls_in_paused_frontier() {
         let service = CodeModeService::new();
 
@@ -883,7 +884,7 @@ await Promise.all([
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn execute_to_pending_excludes_delayed_timeout_tool_calls_until_wait() {
         let service = CodeModeService::new();
 
@@ -972,7 +973,7 @@ await Promise.all([
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn wait_to_pending_returns_after_resumed_runtime_becomes_quiescent_again() {
         let service = CodeModeService::new();
 
@@ -1051,7 +1052,7 @@ await new Promise(() => {});
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn wait_to_pending_returns_completed_after_resumed_runtime_finishes() {
         let service = CodeModeService::new();
 
@@ -1115,7 +1116,7 @@ text("done");
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn v8_console_is_not_exposed_on_global_this() {
         let service = CodeModeService::new();
 
@@ -1141,7 +1142,7 @@ text("done");
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn date_locale_string_formats_with_icu_data() {
         let service = CodeModeService::new();
 
@@ -1181,7 +1182,7 @@ text(value);
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn intl_date_time_format_formats_with_icu_data() {
         let service = CodeModeService::new();
 
@@ -1220,7 +1221,7 @@ text(formatter.format(new Date("2025-01-02T03:04:05Z")));
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn output_helpers_return_undefined() {
         let service = CodeModeService::new();
 
@@ -1263,7 +1264,7 @@ text(JSON.stringify(returnsUndefined));
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn image_helper_accepts_raw_mcp_image_block_with_original_detail() {
         let service = CodeModeService::new();
 
@@ -1298,7 +1299,7 @@ image({
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn image_helper_second_arg_overrides_explicit_object_detail() {
         let service = CodeModeService::new();
 
@@ -1334,7 +1335,7 @@ image(
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn image_helper_second_arg_overrides_raw_mcp_image_detail() {
         let service = CodeModeService::new();
 
@@ -1372,7 +1373,7 @@ image(
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn image_helper_rejects_unsupported_detail() {
         let service = CodeModeService::new();
 
@@ -1402,7 +1403,7 @@ image({
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn image_helper_rejects_raw_mcp_result_container() {
         let service = CodeModeService::new();
 
@@ -1441,7 +1442,7 @@ image({
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn wait_reports_missing_cell_separately_from_runtime_results() {
         let service = CodeModeService::new();
 
@@ -1465,7 +1466,7 @@ image({
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn terminate_waits_for_runtime_shutdown_before_responding() {
         let inner = test_inner();
         let (event_tx, event_rx) = mpsc::unbounded_channel();

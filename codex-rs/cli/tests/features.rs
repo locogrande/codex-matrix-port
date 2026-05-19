@@ -2,6 +2,7 @@ use codex_test_support::prelude::*;
 
 use predicates::str::contains;
 
+use matrix_test_macro as matrix;
 fn codex_command(codex_home: &Path) -> Result<assert_cmd::Command> {
     let mut cmd = assert_cmd::Command::new(codex_utils_cargo_bin::cargo_bin("codex")?);
     cmd.env("CODEX_HOME", codex_home);
@@ -36,7 +37,7 @@ fn strict_config_is_not_supported_for_cloud_command() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn features_enable_writes_feature_flag_to_config() -> Result<()> {
     let codex_home = TempDir::new()?;
 
@@ -53,7 +54,7 @@ async fn features_enable_writes_feature_flag_to_config() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn features_disable_writes_feature_flag_to_config() -> Result<()> {
     let codex_home = TempDir::new()?;
 
@@ -70,7 +71,7 @@ async fn features_disable_writes_feature_flag_to_config() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn features_enable_under_development_feature_prints_warning() -> Result<()> {
     let codex_home = TempDir::new()?;
 
@@ -85,7 +86,7 @@ async fn features_enable_under_development_feature_prints_warning() -> Result<()
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn features_list_is_sorted_alphabetically_by_feature_name() -> Result<()> {
     let codex_home = TempDir::new()?;
 

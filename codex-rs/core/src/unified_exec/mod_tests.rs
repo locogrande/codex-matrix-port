@@ -21,6 +21,7 @@ use std::sync::Arc;
 use tokio::time::Duration;
 use tokio::time::Instant;
 
+use matrix_test_macro as matrix;
 async fn test_session_and_turn() -> (Arc<Session>, Arc<TurnContext>) {
     let (session, turn) = make_session_and_context().await;
     (Arc::new(session), Arc::new(turn))
@@ -320,7 +321,7 @@ async fn multi_unified_exec_sessions() -> anyhow::Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn unified_exec_timeouts() -> anyhow::Result<()> {
     skip_if_sandbox!(Ok(()));
 
@@ -405,7 +406,7 @@ async fn unified_exec_pause_blocks_yield_timeout() -> anyhow::Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 #[ignore] // Ignored while we have a better way to test this.
 async fn requests_with_large_timeout_are_capped() -> anyhow::Result<()> {
     let (session, turn) = test_session_and_turn().await;
@@ -425,7 +426,7 @@ async fn requests_with_large_timeout_are_capped() -> anyhow::Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 #[ignore] // Ignored while we have a better way to test this.
 async fn completed_commands_do_not_persist_sessions() -> anyhow::Result<()> {
     let (session, turn) = test_session_and_turn().await;

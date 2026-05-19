@@ -43,9 +43,10 @@ use codex_thread_store::InMemoryThreadStore;
 use tokio::time::timeout;
 use uuid::Uuid;
 
+use matrix_test_macro as matrix;
 const DEFAULT_READ_TIMEOUT: std::time::Duration = std::time::Duration::from_secs(10);
 
-#[tokio::test]
+#[matrix::test]
 async fn thread_start_with_non_local_thread_store_does_not_create_local_persistence() -> Result<()>
 {
     let server = create_mock_responses_server_repeating_assistant("Done").await;

@@ -76,6 +76,7 @@ use codex_paths;
 use super::analytics::mount_analytics_capture;
 use super::analytics::wait_for_analytics_event;
 
+use matrix_test_macro as matrix;
 #[cfg(windows)]
 const DEFAULT_READ_TIMEOUT: std::time::Duration = std::time::Duration::from_secs(25);
 #[cfg(not(windows))]
@@ -196,7 +197,7 @@ async fn received_response_input_images(server: &wiremock::MockServer) -> Result
     Ok(input_images)
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn turn_start_sends_originator_header() -> Result<()> {
     let responses = vec![create_final_assistant_message_sse_response("Done")?];
     let server = create_mock_responses_server_sequence_unchecked(responses).await;
@@ -272,7 +273,7 @@ async fn turn_start_sends_originator_header() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn turn_start_emits_user_message_item_with_text_elements() -> Result<()> {
     let responses = vec![create_final_assistant_message_sse_response("Done")?];
     let server = create_mock_responses_server_sequence_unchecked(responses).await;
@@ -359,7 +360,7 @@ async fn turn_start_emits_user_message_item_with_text_elements() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn turn_start_emits_thread_scoped_warning_notification_for_trimmed_skills() -> Result<()> {
     let responses = vec![create_final_assistant_message_sse_response("Done")?];
     let server = create_mock_responses_server_sequence_unchecked(responses).await;
@@ -464,7 +465,7 @@ async fn turn_start_emits_thread_scoped_warning_notification_for_trimmed_skills(
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn turn_start_sends_service_tier_id_to_model_request() -> Result<()> {
     let server = responses::start_mock_server().await;
     let body = responses::sse(vec![
@@ -534,7 +535,7 @@ async fn turn_start_sends_service_tier_id_to_model_request() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn thread_start_omits_empty_instruction_overrides_from_model_request() -> Result<()> {
     let server = responses::start_mock_server().await;
     let body = responses::sse(vec![
@@ -624,7 +625,7 @@ async fn thread_start_omits_empty_instruction_overrides_from_model_request() -> 
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn turn_start_tracks_turn_event_analytics() -> Result<()> {
     let responses = vec![create_final_assistant_message_sse_response("Done")?];
     let server = create_mock_responses_server_sequence_unchecked(responses).await;
@@ -712,7 +713,7 @@ async fn turn_start_tracks_turn_event_analytics() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn turn_start_accepts_text_at_limit_with_mention_item() -> Result<()> {
     let responses = vec![create_final_assistant_message_sse_response("Done")?];
     let server = create_mock_responses_server_sequence_unchecked(responses).await;
@@ -774,7 +775,7 @@ async fn turn_start_accepts_text_at_limit_with_mention_item() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn turn_start_rejects_combined_oversized_text_input() -> Result<()> {
     let codex_home = TempDir::new()?;
     create_config_toml(
@@ -849,7 +850,7 @@ async fn turn_start_rejects_combined_oversized_text_input() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn turn_start_rejects_invalid_permission_selection_before_starting_turn() -> Result<()> {
     let codex_home = TempDir::new()?;
     create_config_toml(
@@ -919,7 +920,7 @@ async fn turn_start_rejects_invalid_permission_selection_before_starting_turn() 
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn turn_start_rejects_unknown_environment_before_starting_turn() -> Result<()> {
     let server = create_mock_responses_server_repeating_assistant("Done").await;
     let codex_home = TempDir::new()?;
@@ -982,7 +983,7 @@ async fn turn_start_rejects_unknown_environment_before_starting_turn() -> Result
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn turn_start_emits_notifications_and_accepts_model_override() -> Result<()> {
     // Provide a mock server and config so model wiring is valid.
     // Three Codex turns hit the mock model (session start + two turn/start calls).
@@ -1124,7 +1125,7 @@ async fn turn_start_emits_notifications_and_accepts_model_override() -> Result<(
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn turn_start_accepts_collaboration_mode_override_v2() -> Result<()> {
     skip_if_no_network!(Ok(()));
 
@@ -1208,7 +1209,7 @@ async fn turn_start_accepts_collaboration_mode_override_v2() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn turn_start_uses_thread_feature_overrides_for_request_user_input_tool_description_v2()
 -> Result<()> {
     skip_if_no_network!(Ok(()));
@@ -1293,7 +1294,7 @@ async fn turn_start_uses_thread_feature_overrides_for_request_user_input_tool_de
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn turn_start_accepts_personality_override_v2() -> Result<()> {
     skip_if_no_network!(Ok(()));
 
@@ -1369,7 +1370,7 @@ async fn turn_start_accepts_personality_override_v2() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn turn_start_change_personality_mid_thread_v2() -> Result<()> {
     skip_if_no_network!(Ok(()));
 
@@ -1480,7 +1481,7 @@ async fn turn_start_change_personality_mid_thread_v2() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn turn_start_uses_migrated_pragmatic_personality_without_override_v2() -> Result<()> {
     skip_if_no_network!(Ok(()));
 
@@ -1570,7 +1571,7 @@ async fn turn_start_uses_migrated_pragmatic_personality_without_override_v2() ->
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn turn_start_defaults_local_image_detail_to_high() -> Result<()> {
     let input_images = run_local_image_turn(/*detail*/ None).await?;
 
@@ -1583,7 +1584,7 @@ async fn turn_start_defaults_local_image_detail_to_high() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn turn_start_forwards_custom_local_image_detail() -> Result<()> {
     let input_images = run_local_image_turn(Some(ImageDetail::Original)).await?;
 
@@ -1596,7 +1597,7 @@ async fn turn_start_forwards_custom_local_image_detail() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn turn_start_exec_approval_toggle_v2() -> Result<()> {
     skip_if_no_network!(Ok(()));
 
@@ -1751,7 +1752,7 @@ async fn turn_start_exec_approval_toggle_v2() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn turn_start_exec_approval_decline_v2() -> Result<()> {
     skip_if_no_network!(Ok(()));
 
@@ -1895,7 +1896,7 @@ async fn turn_start_exec_approval_decline_v2() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn turn_start_updates_sandbox_and_cwd_between_turns_v2() -> Result<()> {
     skip_if_no_network!(Ok(()));
 
@@ -2064,7 +2065,7 @@ async fn turn_start_updates_sandbox_and_cwd_between_turns_v2() -> Result<()> {
 }
 
 #[cfg(unix)]
-#[tokio::test]
+#[matrix::test]
 async fn turn_start_permission_profile_rebinds_runtime_workspace_roots_between_turns() -> Result<()>
 {
     skip_if_no_network!(Ok(()));
@@ -2209,7 +2210,7 @@ stream_max_retries = 0
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn turn_start_resolves_sticky_thread_local_environment_and_turn_overrides() -> Result<()> {
     let tmp = TempDir::new()?;
     let codex_home = tmp.path().join("codex_home");
@@ -2361,7 +2362,7 @@ fn environment_params(
     .transpose()
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn turn_start_file_change_approval_v2() -> Result<()> {
     skip_if_no_network!(Ok(()));
 
@@ -2529,7 +2530,7 @@ async fn turn_start_file_change_approval_v2() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn turn_start_does_not_stream_apply_patch_change_updates_without_feature_v2() -> Result<()> {
     skip_if_no_network!(Ok(()));
 
@@ -2626,7 +2627,7 @@ async fn turn_start_does_not_stream_apply_patch_change_updates_without_feature_v
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn turn_start_streams_apply_patch_change_updates_v2() -> Result<()> {
     skip_if_no_network!(Ok(()));
 
@@ -2784,7 +2785,7 @@ async fn turn_start_streams_apply_patch_change_updates_v2() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn turn_start_emits_spawn_agent_item_with_model_metadata_v2() -> Result<()> {
     skip_if_no_network!(Ok(()));
 
@@ -2978,7 +2979,7 @@ async fn turn_start_emits_spawn_agent_item_with_model_metadata_v2() -> Result<()
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn turn_start_emits_spawn_agent_item_with_effective_role_model_metadata_v2() -> Result<()> {
     skip_if_no_network!(Ok(()));
 
@@ -3161,7 +3162,7 @@ config_file = "./custom-role.toml"
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn turn_start_file_change_approval_accept_for_session_persists_v2() -> Result<()> {
     skip_if_no_network!(Ok(()));
 
@@ -3342,7 +3343,7 @@ async fn turn_start_file_change_approval_accept_for_session_persists_v2() -> Res
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn turn_start_file_change_approval_decline_v2() -> Result<()> {
     skip_if_no_network!(Ok(()));
 
@@ -3496,7 +3497,7 @@ async fn turn_start_file_change_approval_decline_v2() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 #[cfg_attr(windows, ignore = "process id reporting differs on Windows")]
 async fn command_execution_notifications_include_process_id() -> Result<()> {
     skip_if_no_network!(Ok(()));
@@ -3633,7 +3634,7 @@ async fn command_execution_notifications_include_process_id() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn turn_start_with_elevated_override_does_not_persist_project_trust() -> Result<()> {
     let responses = vec![create_final_assistant_message_sse_response("Done")?];
     let server = create_mock_responses_server_sequence_unchecked(responses).await;

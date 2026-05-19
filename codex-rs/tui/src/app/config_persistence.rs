@@ -7,6 +7,7 @@
 use super::*;
 use codex_paths;
 
+use matrix_test_macro as matrix;
 impl App {
     pub(super) async fn rebuild_config_for_cwd(&self, cwd: PathBuf) -> Result<Config> {
         let mut overrides = self.harness_overrides.clone();
@@ -595,7 +596,7 @@ mod tests {
     use pretty_assertions::assert_eq;
     use tempfile::tempdir;
 
-    #[tokio::test]
+    #[matrix::test]
     async fn update_reasoning_effort_updates_collaboration_mode() {
         let mut app = make_test_app().await;
         app.chat_widget
@@ -613,7 +614,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn refresh_in_memory_config_from_disk_loads_latest_apps_state() -> Result<()> {
         let mut app = make_test_app().await;
         let codex_home = tempdir()?;
@@ -652,7 +653,7 @@ mod tests {
         Ok(())
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn refresh_in_memory_config_from_disk_best_effort_keeps_current_config_on_error()
     -> Result<()> {
         let mut app = make_test_app().await;
@@ -668,7 +669,7 @@ mod tests {
         Ok(())
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn refresh_in_memory_config_from_disk_uses_active_chat_widget_cwd() -> Result<()> {
         let mut app = make_test_app().await;
         let original_cwd = app.config.cwd.clone();
@@ -706,7 +707,7 @@ mod tests {
         Ok(())
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn refresh_in_memory_config_from_disk_updates_resize_reflow_config() -> Result<()> {
         let mut app = make_test_app().await;
         let codex_home = tempdir()?;
@@ -728,7 +729,7 @@ terminal_resize_reflow_max_rows = 9000
         Ok(())
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn rebuild_config_for_resume_or_fallback_uses_current_config_on_same_cwd_error()
     -> Result<()> {
         let mut app = make_test_app().await;
@@ -746,7 +747,7 @@ terminal_resize_reflow_max_rows = 9000
         Ok(())
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn rebuild_config_for_resume_or_fallback_errors_when_cwd_changes() -> Result<()> {
         let mut app = make_test_app().await;
         let codex_home = tempdir()?;
@@ -764,7 +765,7 @@ terminal_resize_reflow_max_rows = 9000
         Ok(())
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn sync_tui_theme_selection_updates_chat_widget_config_copy() {
         let mut app = make_test_app().await;
 
@@ -777,7 +778,7 @@ terminal_resize_reflow_max_rows = 9000
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn sync_tui_pet_selection_updates_chat_widget_config_copy() {
         let mut app = make_test_app().await;
 
@@ -790,7 +791,7 @@ terminal_resize_reflow_max_rows = 9000
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn sync_tui_pet_disabled_updates_chat_widget_config_copy() {
         let mut app = make_test_app().await;
 

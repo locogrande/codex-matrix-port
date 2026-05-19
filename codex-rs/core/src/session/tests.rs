@@ -171,6 +171,7 @@ use std::path::PathBuf;
 use std::sync::Arc;
 use std::time::Duration as StdDuration;
 
+use matrix_test_macro as matrix;
 mod guardian_tests;
 
 struct InstructionsTestCase {
@@ -259,7 +260,7 @@ fn skill_message(text: &str) -> ResponseItem {
     }
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn regular_turn_emits_turn_started_without_waiting_for_startup_prewarm() {
     let (sess, tc, rx) = make_session_and_context_with_rx().await;
     let (_tx, startup_prewarm_rx) = tokio::sync::oneshot::channel::<()>();
@@ -295,7 +296,7 @@ async fn regular_turn_emits_turn_started_without_waiting_for_startup_prewarm() {
     sess.abort_all_tasks(TurnAbortReason::Interrupted).await;
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn request_mcp_server_elicitation_auto_accepts_when_auto_deny_is_enabled() {
     let (session, turn_context, rx) = make_session_and_context_with_rx().await;
     session
@@ -338,7 +339,7 @@ async fn request_mcp_server_elicitation_auto_accepts_when_auto_deny_is_enabled()
     assert!(rx.try_recv().is_err());
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn interrupting_regular_turn_waiting_on_startup_prewarm_emits_turn_aborted() {
     let (sess, tc, rx) = make_session_and_context_with_rx().await;
     let (_tx, startup_prewarm_rx) = tokio::sync::oneshot::channel::<()>();
@@ -665,7 +666,7 @@ fn validated_network_policy_amendment_host_rejects_mismatch() {
     assert!(message.contains("does not match approved host"));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn start_managed_network_proxy_applies_execpolicy_network_rules() -> anyhow::Result<()> {
     let permission_profile = PermissionProfile::workspace_write();
     let spec = crate::config::NetworkProxySpec::from_config_and_constraints(
@@ -700,7 +701,7 @@ async fn start_managed_network_proxy_applies_execpolicy_network_rules() -> anyho
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn start_managed_network_proxy_ignores_invalid_execpolicy_network_rules() -> anyhow::Result<()>
 {
     let permission_profile = PermissionProfile::workspace_write();
@@ -745,7 +746,7 @@ async fn start_managed_network_proxy_ignores_invalid_execpolicy_network_rules() 
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn managed_network_proxy_decider_survives_full_access_start() -> anyhow::Result<()> {
     let full_access_permission_profile = PermissionProfile::Disabled;
     let spec = crate::config::NetworkProxySpec::from_config_and_constraints(
@@ -813,7 +814,7 @@ async fn managed_network_proxy_decider_survives_full_access_start() -> anyhow::R
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn new_turn_refreshes_managed_network_proxy_for_sandbox_change() -> anyhow::Result<()> {
     let (mut session, _turn_context) = make_session_and_context().await;
     let initial_permission_profile = PermissionProfile::workspace_write();
@@ -900,7 +901,7 @@ async fn new_turn_refreshes_managed_network_proxy_for_sandbox_change() -> anyhow
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn danger_full_access_turns_do_not_expose_managed_network_proxy() -> anyhow::Result<()> {
     let network_spec = crate::config::NetworkProxySpec::from_config_and_constraints(
         NetworkProxyConfig::default(),
@@ -925,7 +926,7 @@ async fn danger_full_access_turns_do_not_expose_managed_network_proxy() -> anyho
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn danger_full_access_tool_attempts_do_not_enforce_managed_network() -> anyhow::Result<()> {
     #[derive(Default)]
     struct ProbeToolRuntime {
@@ -1038,7 +1039,7 @@ async fn danger_full_access_tool_attempts_do_not_enforce_managed_network() -> an
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn workspace_write_turns_continue_to_expose_managed_network_proxy() -> anyhow::Result<()> {
     let permission_profile = PermissionProfile::workspace_write();
     let network_spec = crate::config::NetworkProxySpec::from_config_and_constraints(
@@ -1064,7 +1065,7 @@ async fn workspace_write_turns_continue_to_expose_managed_network_proxy() -> any
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn user_shell_commands_do_not_inherit_managed_network_proxy() -> anyhow::Result<()> {
     let permission_profile = PermissionProfile::workspace_write();
     let network_spec = crate::config::NetworkProxySpec::from_config_and_constraints(
@@ -1114,7 +1115,7 @@ async fn user_shell_commands_do_not_inherit_managed_network_proxy() -> anyhow::R
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn get_base_instructions_no_user_content() {
     let prompt_with_apply_patch_instructions =
         include_str!("../../prompt_with_apply_patch_instructions.md");
@@ -1170,7 +1171,7 @@ async fn get_base_instructions_no_user_content() {
     }
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn reload_user_config_layer_updates_effective_apps_config() {
     let (session, _turn_context) = make_session_and_context().await;
     let codex_home = session.codex_home().await;
@@ -1203,7 +1204,7 @@ async fn reload_user_config_layer_updates_effective_apps_config() {
     assert_eq!(app.destructive_enabled, Some(false));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn reload_user_config_layer_updates_base_and_selected_profile_layers() {
     let (session, _turn_context) = make_session_and_context().await;
     let codex_home = session.codex_home().await;
@@ -1267,7 +1268,7 @@ async fn reload_user_config_layer_updates_base_and_selected_profile_layers() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn reload_user_config_layer_refreshes_hooks() -> anyhow::Result<()> {
     let session = make_session_with_config(|config| {
         config
@@ -1339,7 +1340,7 @@ async fn reload_user_config_layer_refreshes_hooks() -> anyhow::Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn refresh_runtime_config_refreshes_hooks() -> anyhow::Result<()> {
     let (session, _turn_context) = make_session_and_context().await;
     {
@@ -1412,7 +1413,7 @@ async fn refresh_runtime_config_refreshes_hooks() -> anyhow::Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn reload_user_config_layer_updates_effective_tool_suggest_config() {
     let (session, _turn_context) = make_session_and_context().await;
     let codex_home = session.codex_home().await;
@@ -1441,7 +1442,7 @@ disabled_tools = [
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn refresh_runtime_config_updates_runtime_refreshable_fields_and_keeps_session_static_settings()
  {
     let (session, _turn_context) = make_session_and_context().await;
@@ -1608,7 +1609,7 @@ fn collect_explicit_app_ids_from_skill_items_skips_plain_mentions_with_skill_con
     assert_eq!(connector_ids, HashSet::<String>::new());
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn reconstruct_history_matches_live_compactions() {
     let (session, turn_context) = make_session_and_context().await;
     let (rollout_items, expected) = sample_rollout(&session, &turn_context).await;
@@ -1621,7 +1622,7 @@ async fn reconstruct_history_matches_live_compactions() {
     assert_eq!(expected, reconstructed.history);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn reconstruct_history_uses_replacement_history_verbatim() {
     let (session, turn_context) = make_session_and_context().await;
     let summary_item = ResponseItem::Message {
@@ -1655,7 +1656,7 @@ async fn reconstruct_history_uses_replacement_history_verbatim() {
     assert_eq!(reconstructed.history, replacement_history);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn record_initial_history_reconstructs_resumed_transcript() {
     let (session, turn_context) = make_session_and_context().await;
     let (rollout_items, expected) = sample_rollout(&session, &turn_context).await;
@@ -1672,7 +1673,7 @@ async fn record_initial_history_reconstructs_resumed_transcript() {
     assert_eq!(expected, history.raw_items());
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn record_initial_history_new_defers_initial_context_until_first_turn() {
     let (session, _turn_context) = make_session_and_context().await;
 
@@ -1684,7 +1685,7 @@ async fn record_initial_history_new_defers_initial_context_until_first_turn() {
     assert_eq!(session.previous_turn_settings().await, None);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn resumed_history_injects_initial_context_on_first_context_update_only() {
     let (session, turn_context) = make_session_and_context().await;
     let (rollout_items, mut expected) = sample_rollout(&session, &turn_context).await;
@@ -1717,7 +1718,7 @@ async fn resumed_history_injects_initial_context_on_first_context_update_only() 
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn record_initial_history_seeds_token_info_from_rollout() {
     let (session, turn_context) = make_session_and_context().await;
     let (mut rollout_items, _expected) = sample_rollout(&session, &turn_context).await;
@@ -1794,7 +1795,7 @@ async fn record_initial_history_seeds_token_info_from_rollout() {
     assert_eq!(actual, Some(info2));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn recompute_token_usage_uses_session_base_instructions() {
     let (session, turn_context) = make_session_and_context().await;
 
@@ -1834,7 +1835,7 @@ async fn recompute_token_usage_uses_session_base_instructions() {
     assert_eq!(actual_tokens, expected_tokens.max(0));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn recompute_token_usage_updates_model_context_window() {
     let (session, mut turn_context) = make_session_and_context().await;
 
@@ -1856,7 +1857,7 @@ async fn recompute_token_usage_updates_model_context_window() {
     assert_eq!(actual.model_context_window, Some(128_000));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn record_token_usage_info_notifies_extension_contributors() {
     struct SessionTokenUsageMarker;
     struct ThreadTokenUsageMarker;
@@ -1971,7 +1972,7 @@ async fn record_token_usage_info_notifies_extension_contributors() {
     assert_eq!(expected, actual);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn config_change_contributor_observes_effective_config_changes() {
     struct SessionConfigMarker;
     struct ThreadConfigMarker;
@@ -2098,7 +2099,7 @@ disabled_tools = [
     assert_eq!(expected, actual);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn record_initial_history_reconstructs_forked_transcript() {
     let (session, turn_context) = make_session_and_context().await;
     let (rollout_items, expected) = sample_rollout(&session, &turn_context).await;
@@ -2311,7 +2312,7 @@ async fn fork_startup_context_then_first_turn_diff_snapshot() -> anyhow::Result<
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn record_initial_history_forked_hydrates_previous_turn_settings() {
     let (session, turn_context) = make_session_and_context().await;
     let previous_model = "forked-rollout-model";
@@ -2393,7 +2394,7 @@ async fn record_initial_history_forked_hydrates_previous_turn_settings() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn thread_rollback_drops_last_turn_from_history() {
     let (mut sess, tc, rx) = make_session_and_context_with_rx().await;
     let rollout_path = attach_thread_persistence(
@@ -2460,7 +2461,7 @@ async fn thread_rollback_drops_last_turn_from_history() {
     }));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn thread_rollback_clears_history_when_num_turns_exceeds_existing_turns() {
     let (mut sess, tc, rx) = make_session_and_context_with_rx().await;
     attach_thread_persistence(
@@ -2490,7 +2491,7 @@ async fn thread_rollback_clears_history_when_num_turns_exceeds_existing_turns() 
     assert_eq!(initial_context, history.raw_items());
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn thread_rollback_fails_without_persisted_thread_history() {
     let (sess, tc, rx) = make_session_and_context_with_rx().await;
 
@@ -2512,7 +2513,7 @@ async fn thread_rollback_fails_without_persisted_thread_history() {
     assert_eq!(sess.clone_history().await.raw_items(), initial_context);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn thread_rollback_recomputes_previous_turn_settings_and_reference_context_from_replay() {
     let (mut sess, tc, rx) = make_session_and_context_with_rx().await;
     attach_thread_persistence(
@@ -2628,7 +2629,7 @@ async fn thread_rollback_recomputes_previous_turn_settings_and_reference_context
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn thread_rollback_restores_cleared_reference_context_item_after_compaction() {
     let (mut sess, tc, rx) = make_session_and_context_with_rx().await;
     attach_thread_persistence(
@@ -2738,7 +2739,7 @@ async fn thread_rollback_restores_cleared_reference_context_item_after_compactio
     assert!(sess.reference_context_item().await.is_none());
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn thread_rollback_persists_marker_and_replays_cumulatively() {
     let (mut sess, tc, rx) = make_session_and_context_with_rx().await;
     let rollout_path = attach_thread_persistence(
@@ -2855,7 +2856,7 @@ async fn thread_rollback_persists_marker_and_replays_cumulatively() {
     assert_eq!(rollback_markers, 2);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn thread_rollback_fails_when_turn_in_progress() {
     let (sess, tc, rx) = make_session_and_context_with_rx().await;
 
@@ -2876,7 +2877,7 @@ async fn thread_rollback_fails_when_turn_in_progress() {
     assert_eq!(initial_context, history.raw_items());
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn thread_rollback_fails_when_num_turns_is_zero() {
     let (sess, tc, rx) = make_session_and_context_with_rx().await;
 
@@ -2897,7 +2898,7 @@ async fn thread_rollback_fails_when_num_turns_is_zero() {
     assert_eq!(initial_context, history.raw_items());
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn set_rate_limits_retains_previous_credits() {
     let codex_home = tempfile::tempdir().expect("create temp dir");
     let config = build_test_config(codex_home.path()).await;
@@ -3001,7 +3002,7 @@ async fn set_rate_limits_retains_previous_credits() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn set_rate_limits_updates_plan_type_when_present() {
     let codex_home = tempfile::tempdir().expect("create temp dir");
     let config = build_test_config(codex_home.path()).await;
@@ -3133,7 +3134,7 @@ fn prefers_structured_content_when_present() {
     assert_eq!(expected, got);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn includes_timed_out_message() {
     let exec = ExecToolCallOutput {
         exit_code: 0,
@@ -3153,7 +3154,7 @@ async fn includes_timed_out_message() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn turn_context_with_model_updates_model_fields() {
     let (session, mut turn_context) = make_session_and_context().await;
     turn_context.reasoning_effort = Some(ReasoningEffortConfig::Minimal);
@@ -3443,7 +3444,7 @@ fn get_service_tier_does_not_default_non_enterprise_or_disabled_fast_mode() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn session_settings_null_service_tier_update_clears_service_tier() {
     let session_configuration = make_session_configuration_for_tests().await;
 
@@ -3457,7 +3458,7 @@ async fn session_settings_null_service_tier_update_clears_service_tier() {
     assert_eq!(updated.service_tier, None);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn session_settings_legacy_fast_service_tier_update_uses_priority_request_value() {
     let session_configuration = make_session_configuration_for_tests().await;
 
@@ -3540,7 +3541,7 @@ fn turn_environments_for_tests(
     }
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn session_configuration_apply_preserves_profile_file_system_policy_on_cwd_only_update() {
     let mut session_configuration = make_session_configuration_for_tests().await;
     let workspace = tempfile::tempdir().expect("create temp dir");
@@ -3595,7 +3596,7 @@ async fn session_configuration_apply_preserves_profile_file_system_policy_on_cwd
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn session_configuration_apply_permission_profile_preserves_existing_deny_read_entries() {
     let mut session_configuration = make_session_configuration_for_tests().await;
     let cwd = tempfile::tempdir().expect("create temp dir");
@@ -3650,7 +3651,7 @@ async fn session_configuration_apply_permission_profile_preserves_existing_deny_
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn session_configuration_apply_permission_profile_accepts_direct_write_roots() {
     let mut session_configuration = make_session_configuration_for_tests().await;
     let cwd = tempfile::tempdir().expect("create cwd");
@@ -3696,7 +3697,7 @@ async fn session_configuration_apply_permission_profile_accepts_direct_write_roo
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn session_configuration_apply_rebinds_symbolic_profile_to_updated_workspace_roots() {
     let mut session_configuration = make_session_configuration_for_tests().await;
     let old_root = tempfile::tempdir().expect("create old root");
@@ -3739,7 +3740,7 @@ async fn session_configuration_apply_rebinds_symbolic_profile_to_updated_workspa
     assert_eq!(updated.profile_workspace_roots(), &[profile_root]);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn session_configuration_apply_retargets_implicit_workspace_root_on_cwd_update() {
     let mut session_configuration = make_session_configuration_for_tests().await;
     let old_root = tempfile::tempdir().expect("create old root");
@@ -3784,7 +3785,7 @@ async fn session_configuration_apply_retargets_implicit_workspace_root_on_cwd_up
 }
 
 #[cfg_attr(windows, ignore)]
-#[tokio::test]
+#[matrix::test]
 async fn new_default_turn_uses_config_aware_skills_for_role_overrides() {
     let (session, _turn_context) = make_session_and_context().await;
     let parent_config = session.get_config().await;
@@ -3869,7 +3870,7 @@ enabled = false
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn session_configuration_apply_retargets_legacy_workspace_root_on_cwd_update() {
     let mut session_configuration = make_session_configuration_for_tests().await;
     let workspace = tempfile::tempdir().expect("create temp dir");
@@ -3919,7 +3920,7 @@ async fn session_configuration_apply_retargets_legacy_workspace_root_on_cwd_upda
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn session_configuration_apply_preserves_absolute_cwd_write_root_on_cwd_update() {
     let mut session_configuration = make_session_configuration_for_tests().await;
     let workspace = tempfile::tempdir().expect("create temp dir");
@@ -3979,7 +3980,7 @@ async fn session_configuration_apply_preserves_absolute_cwd_write_root_on_cwd_up
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn session_update_settings_does_not_rewrite_sticky_environment_cwds() {
     let (session, turn_context) = make_session_and_context().await;
     #[allow(deprecated)]
@@ -4011,7 +4012,7 @@ async fn session_update_settings_does_not_rewrite_sticky_environment_cwds() {
     assert_eq!(next_turn.config.cwd, updated_cwd);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn relative_cwd_update_without_environments_resolves_under_session_cwd() {
     let (session, _turn_context) = make_session_and_context().await;
     let original_cwd = {
@@ -4035,7 +4036,7 @@ async fn relative_cwd_update_without_environments_resolves_under_session_cwd() {
     assert!(state.session_configuration.environments.is_empty());
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn cwd_update_does_not_rewrite_sticky_environment_cwd() {
     let (session, _turn_context) = make_session_and_context().await;
     let (original_cwd, environment_cwd) = {
@@ -4067,7 +4068,7 @@ async fn cwd_update_does_not_rewrite_sticky_environment_cwd() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn absolute_cwd_update_with_turn_environment_is_allowed() {
     let (session, _turn_context, _rx) = make_session_and_context_with_rx().await;
     let absolute_cwd = {
@@ -4098,7 +4099,7 @@ async fn absolute_cwd_update_with_turn_environment_is_allowed() {
     assert_eq!(turn_context.environments.turn_environments.len(), 1);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn session_new_fails_when_zsh_fork_enabled_without_zsh_path() {
     let codex_home = tempfile::tempdir().expect("create temp dir");
     let mut config = build_test_config(codex_home.path()).await;
@@ -4652,7 +4653,7 @@ async fn make_session_with_history_source_and_agent_control_and_rx(
     Ok((session, rx_event))
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn resumed_root_session_uses_thread_id_as_session_id() {
     let thread_id = ThreadId::new();
     let (session, rx_event) = make_session_with_history_source_and_agent_control_and_rx(
@@ -4678,7 +4679,7 @@ async fn resumed_root_session_uses_thread_id_as_session_id() {
     assert_eq!(event.thread_id, thread_id);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn resumed_subagent_session_keeps_inherited_session_id() {
     let parent_thread_id = ThreadId::new();
     let parent_session_id = SessionId::from(parent_thread_id);
@@ -4713,7 +4714,7 @@ async fn resumed_subagent_session_keeps_inherited_session_id() {
     assert_eq!(event.thread_id, thread_id);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn notify_request_permissions_response_ignores_unmatched_call_id() {
     let (session, _turn_context) = make_session_and_context().await;
     *session.active_turn.lock().await = Some(ActiveTurn::default());
@@ -4737,7 +4738,7 @@ async fn notify_request_permissions_response_ignores_unmatched_call_id() {
     assert_eq!(session.granted_turn_permissions().await, None);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn record_granted_request_permissions_for_turn_uses_originating_turn() {
     let (session, _turn_context) = make_session_and_context().await;
     let originating_active_turn = ActiveTurn::default();
@@ -4773,7 +4774,7 @@ async fn record_granted_request_permissions_for_turn_uses_originating_turn() {
     assert_eq!(session.granted_turn_permissions().await, None);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn enable_strict_auto_review_for_turn_uses_originating_turn() {
     let (session, _turn_context) = make_session_and_context().await;
     let originating_active_turn = ActiveTurn::default();
@@ -4834,7 +4835,7 @@ fn strict_auto_review_session_scope_grants_no_permissions() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn request_permissions_emits_event_when_granular_policy_allows_requests() {
     let (session, mut turn_context, rx) = make_session_and_context_with_rx().await;
     *session.active_turn.lock().await = Some(ActiveTurn::default());
@@ -4912,7 +4913,7 @@ async fn request_permissions_emits_event_when_granular_policy_allows_requests() 
     assert_eq!(response, Some(expected_response));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn request_permissions_response_materializes_session_cwd_grants_before_recording() {
     let (session, mut turn_context, rx) = make_session_and_context_with_rx().await;
     *session.active_turn.lock().await = Some(ActiveTurn::default());
@@ -5009,7 +5010,7 @@ async fn request_permissions_response_materializes_session_cwd_grants_before_rec
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn request_permissions_is_auto_denied_when_granular_policy_blocks_tool_requests() {
     let (session, mut turn_context, rx) = make_session_and_context_with_rx().await;
     *session.active_turn.lock().await = Some(ActiveTurn::default());
@@ -5063,7 +5064,7 @@ async fn request_permissions_is_auto_denied_when_granular_policy_blocks_tool_req
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn submit_with_id_captures_current_span_trace_context() {
     let (session, _turn_context) = make_session_and_context().await;
     let (tx_sub, rx_sub) = async_channel::bounded(1);
@@ -5109,7 +5110,7 @@ async fn submit_with_id_captures_current_span_trace_context() {
     assert_eq!(submitted.trace, Some(expected_trace));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn new_default_turn_captures_current_span_trace_id() {
     let (session, _turn_context) = make_session_and_context().await;
 
@@ -5260,7 +5261,7 @@ fn op_kind_distinguishes_turn_ops() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn user_turn_updates_approvals_reviewer() {
     let (session, turn_context, _rx) = make_session_and_context_with_rx().await;
     let config = session.get_config().await;
@@ -5297,7 +5298,7 @@ async fn user_turn_updates_approvals_reviewer() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn turn_environments_set_primary_environment() {
     let (session, _turn_context, _rx) = make_session_and_context_with_rx().await;
     let selected_cwd =
@@ -5335,7 +5336,7 @@ async fn turn_environments_set_primary_environment() {
     assert_eq!(turn_context.config.cwd.as_path(), selected_cwd.as_path());
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn default_turn_overlays_session_cwd_onto_stored_thread_environments() {
     let (session, _turn_context, _rx) = make_session_and_context_with_rx().await;
     let session_cwd = session.get_config().await.cwd.clone();
@@ -5368,7 +5369,7 @@ async fn default_turn_overlays_session_cwd_onto_stored_thread_environments() {
     assert_eq!(turn_context.config.cwd, session_cwd);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn default_turn_honors_empty_stored_thread_environments() {
     let (session, _turn_context, _rx) = make_session_and_context_with_rx().await;
     let session_cwd = session.get_config().await.cwd.clone();
@@ -5389,7 +5390,7 @@ async fn default_turn_honors_empty_stored_thread_environments() {
     assert_eq!(turn_context.environments.turn_environments.len(), 0);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn primary_environment_uses_first_turn_environment() {
     let (_session, mut turn_context) = make_session_and_context().await;
     let first_environment = turn_context.environments.turn_environments[0].clone();
@@ -5430,7 +5431,7 @@ async fn primary_environment_uses_first_turn_environment() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn empty_turn_environments_clear_primary_environment() {
     let (session, _turn_context, _rx) = make_session_and_context_with_rx().await;
 
@@ -5453,7 +5454,7 @@ async fn empty_turn_environments_clear_primary_environment() {
     assert_eq!(turn_context.config.cwd, session.get_config().await.cwd);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn unknown_turn_environment_returns_error() {
     let (session, _turn_context, _rx) = make_session_and_context_with_rx().await;
     let original_configuration = {
@@ -5488,7 +5489,7 @@ async fn unknown_turn_environment_returns_error() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn duplicate_turn_environment_returns_error_without_mutating_session() {
     let (session, _turn_context, _rx) = make_session_and_context_with_rx().await;
     let original_configuration = {
@@ -5529,7 +5530,7 @@ async fn duplicate_turn_environment_returns_error_without_mutating_session() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn spawn_task_turn_span_inherits_dispatch_trace_context() {
     struct TraceCaptureTask {
         captured_trace: Arc<std::sync::Mutex<Option<W3cTraceContext>>>,
@@ -5629,7 +5630,7 @@ async fn spawn_task_turn_span_inherits_dispatch_trace_context() {
 }
 
 #[cfg(debug_assertions)]
-#[tokio::test]
+#[matrix::test]
 async fn shutdown_complete_does_not_append_to_thread_store_after_shutdown() {
     let (mut session, _turn_context) = make_session_and_context().await;
     let store = Arc::new(codex_thread_store::InMemoryThreadStore::default());
@@ -5674,7 +5675,7 @@ async fn shutdown_complete_does_not_append_to_thread_store_after_shutdown() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn submission_loop_channel_close_emits_thread_stop_lifecycle() {
     struct SessionStopMarker;
     struct ThreadStopMarker;
@@ -5721,7 +5722,7 @@ async fn submission_loop_channel_close_emits_thread_stop_lifecycle() {
     assert_eq!(1, calls.load(std::sync::atomic::Ordering::SeqCst));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn submission_loop_channel_close_aborts_active_turn_before_thread_stop_lifecycle() {
     struct LifecycleRecorder {
         calls: Arc<std::sync::Mutex<Vec<&'static str>>>,
@@ -5793,7 +5794,7 @@ async fn submission_loop_channel_close_aborts_active_turn_before_thread_stop_lif
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn shutdown_and_wait_allows_multiple_waiters() {
     let (session, _turn_context) = make_session_and_context().await;
     let (tx_sub, rx_sub) = async_channel::bounded(4);
@@ -5831,7 +5832,7 @@ async fn shutdown_and_wait_allows_multiple_waiters() {
         .expect("second shutdown waiter");
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn shutdown_and_wait_waits_when_shutdown_is_already_in_progress() {
     let (session, _turn_context) = make_session_and_context().await;
     let (tx_sub, rx_sub) = async_channel::bounded(4);
@@ -5868,7 +5869,7 @@ async fn shutdown_and_wait_waits_when_shutdown_is_already_in_progress() {
         .expect("shutdown waiter");
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn shutdown_and_wait_shuts_down_cached_guardian_subagent() {
     let (parent_session, parent_turn_context) = make_session_and_context().await;
     let parent_session = Arc::new(parent_session);
@@ -5925,7 +5926,7 @@ async fn shutdown_and_wait_shuts_down_cached_guardian_subagent() {
         .expect("guardian subagent should receive a shutdown op");
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn cached_guardian_subagent_exposes_its_rollout_path() {
     let (parent_session, _parent_turn_context) = make_session_and_context().await;
     let parent_session = Arc::new(parent_session);
@@ -5957,7 +5958,7 @@ async fn cached_guardian_subagent_exposes_its_rollout_path() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn shutdown_and_wait_shuts_down_tracked_ephemeral_guardian_review() {
     let (parent_session, parent_turn_context) = make_session_and_context().await;
     let parent_session = Arc::new(parent_session);
@@ -6351,7 +6352,7 @@ pub(crate) async fn make_session_and_context_with_rx() -> (
     make_session_and_context_with_dynamic_tools_and_rx(Vec::new()).await
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn refresh_mcp_servers_is_deferred_until_next_turn() {
     let (session, turn_context) = make_session_and_context().await;
     let old_token = session.mcp_startup_cancellation_token().await;
@@ -6393,7 +6394,7 @@ async fn refresh_mcp_servers_is_deferred_until_next_turn() {
     assert!(!new_token.is_cancelled());
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn spawn_task_does_not_update_previous_turn_settings_for_non_run_turn_tasks() {
     let (sess, tc, _rx) = make_session_and_context_with_rx().await;
     sess.set_previous_turn_settings(/*previous_turn_settings*/ None)
@@ -6417,7 +6418,7 @@ async fn spawn_task_does_not_update_previous_turn_settings_for_non_run_turn_task
     assert_eq!(sess.previous_turn_settings().await, None);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn build_settings_update_items_emits_environment_item_for_network_changes() {
     let (session, previous_context) = make_session_and_context().await;
     let previous_context = Arc::new(previous_context);
@@ -6479,7 +6480,7 @@ async fn build_settings_update_items_emits_environment_item_for_network_changes(
     ));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn environment_context_uses_session_shell_when_environment_shell_is_absent() {
     let (mut session, mut turn_context) = make_session_and_context().await;
     session.services.user_shell = Arc::new(crate::shell::Shell {
@@ -6520,7 +6521,7 @@ async fn environment_context_uses_session_shell_when_environment_shell_is_absent
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn build_settings_update_items_emits_environment_item_for_time_changes() {
     let (session, previous_context) = make_session_and_context().await;
     let previous_context = Arc::new(previous_context);
@@ -6546,7 +6547,7 @@ async fn build_settings_update_items_emits_environment_item_for_time_changes() {
     assert!(environment_update.contains("<timezone>Europe/Berlin</timezone>"));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn build_settings_update_items_omits_environment_item_when_disabled() {
     let (session, previous_context) = make_session_and_context().await;
     let previous_context = Arc::new(previous_context);
@@ -6575,7 +6576,7 @@ async fn build_settings_update_items_omits_environment_item_when_disabled() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn build_settings_update_items_emits_realtime_start_when_session_becomes_live() {
     let (session, previous_context) = make_session_and_context().await;
     let previous_context = Arc::new(previous_context);
@@ -6603,7 +6604,7 @@ async fn build_settings_update_items_emits_realtime_start_when_session_becomes_l
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn build_settings_update_items_emits_realtime_end_when_session_stops_being_live() {
     let (session, mut previous_context) = make_session_and_context().await;
     previous_context.realtime_active = true;
@@ -6631,7 +6632,7 @@ async fn build_settings_update_items_emits_realtime_end_when_session_stops_being
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn build_settings_update_items_uses_previous_turn_settings_for_realtime_end() {
     let (session, previous_context) = make_session_and_context().await;
     let mut previous_context_item = previous_context.to_turn_context_item();
@@ -6664,7 +6665,7 @@ async fn build_settings_update_items_uses_previous_turn_settings_for_realtime_en
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn build_initial_context_uses_previous_realtime_state() {
     let (session, mut turn_context) = make_session_and_context().await;
     turn_context.realtime_active = true;
@@ -6744,7 +6745,7 @@ fn prompt_extension_test_registry()
     Arc::new(builder.build())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn build_initial_context_includes_prompt_fragments_from_extensions() {
     let (mut session, turn_context) = make_session_and_context().await;
     session.services.extensions = prompt_extension_test_registry();
@@ -6765,7 +6766,7 @@ async fn build_initial_context_includes_prompt_fragments_from_extensions() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn build_initial_context_omits_prompt_fragments_without_extension_state() {
     let (mut session, turn_context) = make_session_and_context().await;
     session.services.extensions = prompt_extension_test_registry();
@@ -6782,7 +6783,7 @@ async fn build_initial_context_omits_prompt_fragments_without_extension_state() 
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn build_initial_context_adds_multi_agent_v2_root_usage_hint_as_developer_message() {
     let (session, turn_context) =
         make_multi_agent_v2_usage_hint_test_session(/*enable_multi_agent_v2*/ true).await;
@@ -6804,7 +6805,7 @@ async fn build_initial_context_adds_multi_agent_v2_root_usage_hint_as_developer_
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn build_initial_context_adds_multi_agent_v2_subagent_usage_hint_as_developer_message() {
     let (session, mut turn_context) =
         make_multi_agent_v2_usage_hint_test_session(/*enable_multi_agent_v2*/ true).await;
@@ -6842,7 +6843,7 @@ async fn build_initial_context_adds_multi_agent_v2_subagent_usage_hint_as_develo
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn build_initial_context_omits_multi_agent_v2_usage_hints_when_feature_disabled() {
     let (session, turn_context) =
         make_multi_agent_v2_usage_hint_test_session(/*enable_multi_agent_v2*/ false).await;
@@ -6861,7 +6862,7 @@ async fn build_initial_context_omits_multi_agent_v2_usage_hints_when_feature_dis
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn configured_multi_agent_v2_usage_hint_texts_use_effective_enabled_feature_state() {
     let (mut session, _turn_context) =
         make_multi_agent_v2_usage_hint_test_session(/*enable_multi_agent_v2*/ false).await;
@@ -6882,7 +6883,7 @@ async fn configured_multi_agent_v2_usage_hint_texts_use_effective_enabled_featur
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn configured_multi_agent_v2_usage_hint_texts_omit_effectively_disabled_feature() {
     let (mut session, _turn_context) =
         make_multi_agent_v2_usage_hint_test_session(/*enable_multi_agent_v2*/ true).await;
@@ -6895,7 +6896,7 @@ async fn configured_multi_agent_v2_usage_hint_texts_omit_effectively_disabled_fe
     assert_eq!(hint_texts, Vec::<String>::new());
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn build_initial_context_omits_default_image_save_location_with_image_history() {
     let (session, turn_context) = make_session_and_context().await;
     session
@@ -6920,7 +6921,7 @@ async fn build_initial_context_omits_default_image_save_location_with_image_hist
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn build_initial_context_omits_default_image_save_location_without_image_history() {
     let (session, turn_context) = make_session_and_context().await;
 
@@ -6935,7 +6936,7 @@ async fn build_initial_context_omits_default_image_save_location_without_image_h
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn build_initial_context_trims_skill_metadata_from_context_window_budget() {
     let (session, mut turn_context) = make_session_and_context().await;
     let mut outcome = SkillLoadOutcome::default();
@@ -7085,7 +7086,7 @@ fn emit_thread_start_skill_metrics_records_description_truncated_chars_without_o
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn build_initial_context_emits_thread_start_skill_warning_on_repeated_builds() {
     let (session, turn_context, rx) = make_session_and_context_with_rx().await;
     let mut turn_context = Arc::into_inner(turn_context).expect("sole turn context owner");
@@ -7140,7 +7141,7 @@ async fn build_initial_context_emits_thread_start_skill_warning_on_repeated_buil
     ));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn handle_output_item_done_records_image_save_history_message() {
     let (session, turn_context) = make_session_and_context().await;
     let session = Arc::new(session);
@@ -7195,7 +7196,7 @@ async fn handle_output_item_done_records_image_save_history_message() {
     let _ = std::fs::remove_file(&expected_saved_path);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn handle_output_item_done_skips_image_save_message_when_save_fails() {
     let (session, turn_context) = make_session_and_context().await;
     let session = Arc::new(session);
@@ -7232,7 +7233,7 @@ async fn handle_output_item_done_skips_image_save_message_when_save_fails() {
     assert!(!expected_saved_path.exists());
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn build_initial_context_uses_previous_turn_settings_for_realtime_end() {
     let (session, turn_context) = make_session_and_context().await;
     let previous_turn_settings = PreviousTurnSettings {
@@ -7253,7 +7254,7 @@ async fn build_initial_context_uses_previous_turn_settings_for_realtime_end() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn build_initial_context_restates_realtime_start_when_reference_context_is_missing() {
     let (session, mut turn_context) = make_session_and_context().await;
     turn_context.realtime_active = true;
@@ -7292,7 +7293,7 @@ fn file_system_policy_with_unreadable_glob(turn_context: &TurnContext) -> FileSy
     policy
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn turn_context_item_omits_legacy_equivalent_file_system_sandbox_policy() {
     let (_session, turn_context) = make_session_and_context().await;
 
@@ -7305,7 +7306,7 @@ async fn turn_context_item_omits_legacy_equivalent_file_system_sandbox_policy() 
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn turn_context_item_stores_split_file_system_sandbox_policy_when_different() {
     let (_session, mut turn_context) = make_session_and_context().await;
     let file_system_sandbox_policy = file_system_policy_with_unreadable_glob(&turn_context);
@@ -7327,7 +7328,7 @@ async fn turn_context_item_stores_split_file_system_sandbox_policy_when_differen
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn record_context_updates_and_set_reference_context_item_injects_full_context_when_baseline_missing()
  {
     let (session, turn_context) = make_session_and_context().await;
@@ -7346,7 +7347,7 @@ async fn record_context_updates_and_set_reference_context_item_injects_full_cont
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn record_context_updates_and_set_reference_context_item_reinjects_full_context_after_clear()
 {
     let (session, turn_context) = make_session_and_context().await;
@@ -7385,7 +7386,7 @@ async fn record_context_updates_and_set_reference_context_item_reinjects_full_co
     assert_eq!(history.raw_items().to_vec(), expected_history);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn record_context_updates_and_set_reference_context_item_persists_baseline_without_emitting_diffs()
  {
     let (mut session, previous_context) = make_session_and_context().await;
@@ -7444,7 +7445,7 @@ async fn record_context_updates_and_set_reference_context_item_persists_baseline
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn record_context_updates_and_set_reference_context_item_persists_split_file_system_policy_to_rollout()
  {
     let (mut session, mut turn_context) = make_session_and_context().await;
@@ -7478,7 +7479,7 @@ async fn record_context_updates_and_set_reference_context_item_persists_split_fi
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn build_initial_context_prepends_model_switch_message() {
     let (session, turn_context) = make_session_and_context().await;
     let previous_turn_settings = PreviousTurnSettings {
@@ -7501,7 +7502,7 @@ async fn build_initial_context_prepends_model_switch_message() {
     assert!(text.contains("<model_switch>"));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn record_context_updates_and_set_reference_context_item_persists_full_reinjection_to_rollout()
  {
     let (mut session, previous_context) = make_session_and_context().await;
@@ -7562,7 +7563,7 @@ async fn record_context_updates_and_set_reference_context_item_persists_full_rei
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn run_user_shell_command_does_not_set_reference_context_item() {
     let (session, _turn_context, rx) = make_session_and_context_with_rx().await;
     {
@@ -7592,7 +7593,7 @@ async fn run_user_shell_command_does_not_set_reference_context_item() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn realtime_conversation_list_voices_emits_builtin_list() {
     let (session, _turn_context, rx) = make_session_and_context_with_rx().await;
 
@@ -7822,7 +7823,7 @@ async fn abort_regular_task_emits_turn_aborted_only() {
     assert!(rx.try_recv().is_err());
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn abort_gracefully_emits_turn_aborted_only() {
     let (sess, tc, rx) = make_session_and_context_with_rx().await;
     let input = vec![UserInput::Text {
@@ -7970,7 +7971,7 @@ async fn task_finish_emits_turn_item_lifecycle_for_leftover_pending_user_input()
     ));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn steer_input_requires_active_turn() {
     let (sess, _tc, _rx) = make_session_and_context_with_rx().await;
     let input = vec![UserInput::Text {
@@ -7988,7 +7989,7 @@ async fn steer_input_requires_active_turn() {
     assert!(matches!(err, SteerInputError::NoActiveTurn(_)));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn steer_input_enforces_expected_turn_id() {
     let (sess, tc, _rx) = make_session_and_context_with_rx().await;
     let input = vec![UserInput::Text {
@@ -8029,7 +8030,7 @@ async fn steer_input_enforces_expected_turn_id() {
     }
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn steer_input_rejects_non_regular_turns() {
     for (task_kind, turn_kind) in [
         (TaskKind::Review, NonSteerableTurnKind::Review),
@@ -8070,7 +8071,7 @@ async fn steer_input_rejects_non_regular_turns() {
     }
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn steer_input_returns_active_turn_id() {
     let (sess, tc, _rx) = make_session_and_context_with_rx().await;
     let input = vec![UserInput::Text {
@@ -8104,7 +8105,7 @@ async fn steer_input_returns_active_turn_id() {
     assert!(sess.has_pending_input().await);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn prepend_pending_input_keeps_older_tail_ahead_of_newer_input() {
     let (sess, tc, _rx) = make_session_and_context_with_rx().await;
     let input = vec![UserInput::Text {
@@ -8163,7 +8164,7 @@ async fn prepend_pending_input_keeps_older_tail_ahead_of_newer_input() {
     assert_eq!(sess.get_pending_input().await, vec![later, newer]);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn queued_response_items_for_next_turn_move_into_next_active_turn() {
     let (sess, tc, _rx) = make_session_and_context_with_rx().await;
     let queued_item = ResponseInputItem::Message {
@@ -8190,7 +8191,7 @@ async fn queued_response_items_for_next_turn_move_into_next_active_turn() {
     assert_eq!(sess.get_pending_input().await, vec![queued_item]);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn idle_interrupt_does_not_wake_queued_next_turn_items() {
     let (sess, _tc, _rx) = make_session_and_context_with_rx().await;
     let queued_item = ResponseInputItem::Message {
@@ -8210,7 +8211,7 @@ async fn idle_interrupt_does_not_wake_queued_next_turn_items() {
     assert!(sess.has_queued_response_items_for_next_turn().await);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn abort_empty_active_turn_preserves_pending_input() {
     let (sess, _tc, _rx) = make_session_and_context_with_rx().await;
     let pending_item = ResponseInputItem::Message {
@@ -8239,7 +8240,7 @@ async fn abort_empty_active_turn_preserves_pending_input() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn interrupt_accounts_active_goal_before_pausing() -> anyhow::Result<()> {
     let (sess, tc, _rx, _codex_home) = make_goal_session_and_context_with_rx().await;
     sess.set_thread_goal(
@@ -8522,7 +8523,7 @@ async fn goal_test_state_db(sess: &Session) -> anyhow::Result<crate::StateDbHand
         .await
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn budget_limited_accounting_steers_active_turn_without_aborting() -> anyhow::Result<()> {
     let (sess, tc, rx, _codex_home) = make_goal_session_and_context_with_rx().await;
     sess.set_thread_goal(
@@ -8915,7 +8916,7 @@ async fn completed_goal_accounts_current_turn_tokens_before_tool_response() -> a
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn queue_only_mailbox_mail_waits_for_next_turn_after_answer_boundary() {
     let (sess, tc, _rx) = make_session_and_context_with_rx().await;
     let communication = InterAgentCommunication::new(
@@ -8952,7 +8953,7 @@ async fn queue_only_mailbox_mail_waits_for_next_turn_after_answer_boundary() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn trigger_turn_mailbox_mail_waits_for_next_turn_after_answer_boundary() {
     let (sess, tc, _rx) = make_session_and_context_with_rx().await;
     sess.spawn_task(
@@ -8984,7 +8985,7 @@ async fn trigger_turn_mailbox_mail_waits_for_next_turn_after_answer_boundary() {
     assert!(sess.has_trigger_turn_mailbox_items().await);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn steered_input_reopens_mailbox_delivery_for_current_turn() {
     let (sess, tc, _rx) = make_session_and_context_with_rx().await;
     let communication = InterAgentCommunication::new(
@@ -9029,7 +9030,7 @@ async fn steered_input_reopens_mailbox_delivery_for_current_turn() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn stale_defer_mailbox_delivery_does_not_override_steered_input() {
     let (sess, tc, _rx) = make_session_and_context_with_rx().await;
     let communication = InterAgentCommunication::new(
@@ -9076,7 +9077,7 @@ async fn stale_defer_mailbox_delivery_does_not_override_steered_input() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn tool_calls_reopen_mailbox_delivery_for_current_turn() {
     let (sess, tc, _rx) = make_session_and_context_with_rx().await;
     let communication = InterAgentCommunication::new(
@@ -9201,7 +9202,7 @@ async fn abort_review_task_emits_exited_then_aborted_and_records_history() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 #[expect(
     clippy::await_holding_invalid_type,
     reason = "test builds a router from session-owned MCP manager state"
@@ -9425,7 +9426,7 @@ async fn sample_rollout(
     )
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn create_goal_tool_rejects_existing_goal() {
     let (session, turn_context, _rx, _codex_home) = make_goal_session_and_context_with_rx().await;
     let tracker = Arc::new(tokio::sync::Mutex::new(TurnDiffTracker::new()));
@@ -9487,7 +9488,7 @@ async fn create_goal_tool_rejects_existing_goal() {
     assert_eq!(goal.token_budget, Some(123));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn update_goal_tool_rejects_pausing_goal() {
     let (session, turn_context, _rx, _codex_home) = make_goal_session_and_context_with_rx().await;
     let tracker = Arc::new(tokio::sync::Mutex::new(TurnDiffTracker::new()));
@@ -9548,7 +9549,7 @@ async fn update_goal_tool_rejects_pausing_goal() {
     assert_eq!(goal.status, ThreadGoalStatus::Active);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn update_goal_tool_marks_goal_complete() {
     let (session, turn_context, _rx, _codex_home) = make_goal_session_and_context_with_rx().await;
     let tracker = Arc::new(tokio::sync::Mutex::new(TurnDiffTracker::new()));
@@ -9602,7 +9603,7 @@ async fn update_goal_tool_marks_goal_complete() {
     assert_eq!(goal.status, ThreadGoalStatus::Complete);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn rejects_escalated_permissions_when_policy_not_on_request() {
     use crate::exec_policy::ExecApprovalRequest;
     use crate::sandboxing::SandboxPermissions;
@@ -9695,7 +9696,7 @@ async fn rejects_escalated_permissions_when_policy_not_on_request() {
         ExecApprovalRequirement::Skip { .. }
     ));
 }
-#[tokio::test]
+#[matrix::test]
 async fn unified_exec_rejects_escalated_permissions_when_policy_not_on_request() {
     use crate::sandboxing::SandboxPermissions;
     use crate::turn_diff_tracker::TurnDiffTracker;
@@ -9743,7 +9744,7 @@ async fn unified_exec_rejects_escalated_permissions_when_policy_not_on_request()
     pretty_assertions::assert_eq!(output, expected);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn session_start_hooks_only_load_from_trusted_project_layers() -> std::io::Result<()> {
     let temp = tempfile::tempdir()?;
     let codex_home = temp.path().join("home");
@@ -9790,7 +9791,7 @@ async fn session_start_hooks_only_load_from_trusted_project_layers() -> std::io:
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn session_start_hooks_require_project_trust_without_config_toml() -> std::io::Result<()> {
     let temp = tempfile::tempdir()?;
     let project_root = temp.path().join("project");

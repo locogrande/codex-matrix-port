@@ -139,6 +139,7 @@ async fn build_uploaded_local_argument_value(
 
 #[cfg(test)]
 mod tests {
+    use matrix_test_macro as matrix;
     use super::*;
     use crate::session::tests::make_session_and_context;
     use codex_utils_absolute_path::AbsolutePathBuf;
@@ -146,7 +147,7 @@ mod tests {
     use std::sync::Arc;
     use tempfile::tempdir;
 
-    #[tokio::test]
+    #[matrix::test]
     async fn openai_file_argument_rewrite_requires_declared_file_params() {
         let (session, turn_context) = make_session_and_context().await;
         let arguments = Some(serde_json::json!({
@@ -165,7 +166,7 @@ mod tests {
         assert_eq!(rewritten, arguments);
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn build_uploaded_local_argument_value_uploads_local_file_path() {
         use wiremock::Mock;
         use wiremock::MockServer;
@@ -249,7 +250,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn rewrite_argument_value_for_openai_files_rewrites_scalar_path() {
         use wiremock::Mock;
         use wiremock::MockServer;
@@ -331,7 +332,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn rewrite_argument_value_for_openai_files_rewrites_array_paths() {
         use wiremock::Mock;
         use wiremock::MockServer;
@@ -458,7 +459,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn rewrite_mcp_tool_arguments_for_openai_files_surfaces_upload_failures() {
         let (mut session, turn_context) = make_session_and_context().await;
         session.services.auth_manager = crate::test_support::auth_manager_from_auth(

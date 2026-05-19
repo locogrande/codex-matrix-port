@@ -37,6 +37,7 @@ rama-tcp = { version = "=0.3.0-alpha.4", features = ["http"] }
 rama-tls-rustls = { version = "=0.3.0-alpha.4", features = ["http"] }
 
 [dev-dependencies]
+matrix-test-macro = { workspace = true }
 pretty_assertions = { workspace = true }
 tempfile = { workspace = true }
 

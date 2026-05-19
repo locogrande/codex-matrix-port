@@ -6,6 +6,7 @@ use codex_protocol::items::AgentMessageContent;
 use pretty_assertions::assert_eq;
 use std::sync::Arc;
 
+use matrix_test_macro as matrix;
 struct RewriteAgentMessageContributor;
 
 impl TurnItemContributor for RewriteAgentMessageContributor {
@@ -37,7 +38,7 @@ fn assistant_output_text(text: &str) -> ResponseItem {
     }
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn plan_mode_uses_contributed_turn_item_for_last_agent_message() {
     let (mut session, turn_context) = crate::session::tests::make_session_and_context().await;
     let mut builder = codex_extension_api::ExtensionRegistryBuilder::new();

@@ -1,3 +1,4 @@
+use matrix_test_macro as matrix;
 /*
 This module implements the remote app-server client transport.
 
@@ -996,7 +997,7 @@ fn websocket_close_error_is_already_closed(err: &TungsteniteError) -> bool {
 mod tests {
     use super::*;
 
-    #[tokio::test]
+    #[matrix::test]
     async fn shutdown_tolerates_worker_exit_after_command_is_queued() {
         let (command_tx, mut command_rx) = mpsc::channel(1);
         let (_event_tx, event_rx) = mpsc::unbounded_channel::<AppServerEvent>();

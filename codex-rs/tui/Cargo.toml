@@ -153,6 +153,7 @@ arboard = { workspace = true }
 
 
 [dev-dependencies]
+matrix-test-macro = { workspace = true }
 codex-test-support = { workspace = true }
 codex-cli = { workspace = true }
 codex-mcp = { workspace = true }

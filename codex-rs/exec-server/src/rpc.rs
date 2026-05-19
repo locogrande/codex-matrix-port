@@ -25,6 +25,7 @@ use crate::connection::JsonRpcConnection;
 use crate::connection::JsonRpcConnectionEvent;
 use crate::connection::JsonRpcTransport;
 
+use matrix_test_macro as matrix;
 #[derive(Debug)]
 pub(crate) enum RpcCallError {
     /// The underlying JSON-RPC transport closed before this call completed.
@@ -572,7 +573,7 @@ mod tests {
         }
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn rpc_client_matches_out_of_order_responses_by_request_id() {
         let (client_stdin, server_reader) = tokio::io::duplex(4096);
         let (mut server_writer, client_stdout) = tokio::io::duplex(4096);

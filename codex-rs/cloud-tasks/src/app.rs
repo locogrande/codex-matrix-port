@@ -1,6 +1,7 @@
 use std::time::Duration;
 use std::time::Instant;
 
+use matrix_test_macro as matrix;
 // Environment filter data models for the TUI
 #[derive(Clone, Debug, Default)]
 pub struct EnvironmentRow {
@@ -487,7 +488,7 @@ mod tests {
         }
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn load_tasks_uses_env_parameter() {
         // Arrange: env-specific task titles
         let mut by_env = std::collections::HashMap::new();

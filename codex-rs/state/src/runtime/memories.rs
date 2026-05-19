@@ -1274,6 +1274,7 @@ ON CONFLICT(kind, job_key) DO UPDATE SET
 
 #[cfg(test)]
 mod tests {
+    use matrix_test_macro as matrix;
     use super::JOB_KIND_MEMORY_CONSOLIDATE_GLOBAL;
     use super::JOB_KIND_MEMORY_STAGE1;
     use super::MEMORY_CONSOLIDATION_JOB_KEY;
@@ -1306,7 +1307,7 @@ mod tests {
             .expect("age phase2 success beyond cooldown");
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn stage1_claim_skips_when_up_to_date() {
         let codex_home = unique_temp_dir();
         let runtime = StateRuntime::init(codex_home.clone(), "test-provider".to_string())
@@ -1374,7 +1375,7 @@ mod tests {
         let _ = tokio::fs::remove_dir_all(codex_home).await;
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn stage1_running_stale_can_be_stolen_but_fresh_running_is_skipped() {
         let codex_home = unique_temp_dir();
         let runtime = StateRuntime::init(codex_home.clone(), "test-provider".to_string())
@@ -1429,7 +1430,7 @@ mod tests {
         let _ = tokio::fs::remove_dir_all(codex_home).await;
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn stage1_concurrent_claim_for_same_thread_is_conflict_safe() {
         let codex_home = unique_temp_dir();
         let runtime = StateRuntime::init(codex_home.clone(), "test-provider".to_string())
@@ -1497,7 +1498,7 @@ mod tests {
         let _ = tokio::fs::remove_dir_all(codex_home).await;
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn stage1_concurrent_claims_respect_running_cap() {
         let codex_home = unique_temp_dir();
         let runtime = StateRuntime::init(codex_home.clone(), "test-provider".to_string())
@@ -1565,7 +1566,7 @@ mod tests {
         let _ = tokio::fs::remove_dir_all(codex_home).await;
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn claim_stage1_jobs_filters_by_age_idle_and_current_thread() {
         let codex_home = unique_temp_dir();
         let runtime = StateRuntime::init(codex_home.clone(), "test-provider".to_string())
@@ -1655,7 +1656,7 @@ mod tests {
         let _ = tokio::fs::remove_dir_all(codex_home).await;
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn claim_stage1_jobs_prefilters_threads_with_up_to_date_memory() {
         let codex_home = unique_temp_dir();
         let runtime = StateRuntime::init(codex_home.clone(), "test-provider".to_string())
@@ -1754,7 +1755,7 @@ mod tests {
         let _ = tokio::fs::remove_dir_all(codex_home).await;
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn claim_stage1_jobs_skips_threads_with_disabled_memory_mode() {
         let codex_home = unique_temp_dir();
         let runtime = StateRuntime::init(codex_home.clone(), "test-provider".to_string())
@@ -1825,7 +1826,7 @@ mod tests {
         let _ = tokio::fs::remove_dir_all(codex_home).await;
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn clear_memory_data_clears_rows_and_preserves_thread_memory_modes() {
         let codex_home = unique_temp_dir();
         let runtime = StateRuntime::init(codex_home.clone(), "test-provider".to_string())
@@ -1934,7 +1935,7 @@ mod tests {
         let _ = tokio::fs::remove_dir_all(codex_home).await;
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn claim_stage1_jobs_enforces_global_running_cap() {
         let codex_home = unique_temp_dir();
         let runtime = StateRuntime::init(codex_home.clone(), "test-provider".to_string())
@@ -2061,7 +2062,7 @@ WHERE kind = 'memory_stage1'
         let _ = tokio::fs::remove_dir_all(codex_home).await;
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn claim_stage1_jobs_processes_two_full_batches_across_startup_passes() {
         let codex_home = unique_temp_dir();
         let runtime = StateRuntime::init(codex_home.clone(), "test-provider".to_string())
@@ -2148,7 +2149,7 @@ WHERE kind = 'memory_stage1'
         let _ = tokio::fs::remove_dir_all(codex_home).await;
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn stage1_output_cascades_on_thread_delete() {
         let codex_home = unique_temp_dir();
         let runtime = StateRuntime::init(codex_home.clone(), "test-provider".to_string())
@@ -2218,7 +2219,7 @@ WHERE kind = 'memory_stage1'
         let _ = tokio::fs::remove_dir_all(codex_home).await;
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn mark_stage1_job_succeeded_no_output_skips_phase2_when_output_was_already_absent() {
         let codex_home = unique_temp_dir();
         let runtime = StateRuntime::init(codex_home.clone(), "test-provider".to_string())
@@ -2293,7 +2294,7 @@ WHERE kind = 'memory_stage1'
         let _ = tokio::fs::remove_dir_all(codex_home).await;
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn mark_stage1_job_succeeded_no_output_enqueues_phase2_when_deleting_output() {
         let codex_home = unique_temp_dir();
         let runtime = StateRuntime::init(codex_home.clone(), "test-provider".to_string())
@@ -2418,7 +2419,7 @@ WHERE kind = 'memory_stage1'
         let _ = tokio::fs::remove_dir_all(codex_home).await;
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn stage1_retry_exhaustion_does_not_block_newer_watermark() {
         let codex_home = unique_temp_dir();
         let runtime = StateRuntime::init(codex_home.clone(), "test-provider".to_string())
@@ -2514,7 +2515,7 @@ WHERE kind = 'memory_stage1'
         let _ = tokio::fs::remove_dir_all(codex_home).await;
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn phase2_global_lock_respects_success_cooldown() {
         let codex_home = unique_temp_dir();
         let runtime = StateRuntime::init(codex_home.clone(), "test-provider".to_string())
@@ -2576,7 +2577,7 @@ WHERE kind = 'memory_stage1'
         let _ = tokio::fs::remove_dir_all(codex_home).await;
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn phase2_global_lock_can_be_claimed_after_retry_budget_is_exhausted() {
         let codex_home = unique_temp_dir();
         let runtime = StateRuntime::init(codex_home.clone(), "test-provider".to_string())
@@ -2646,7 +2647,7 @@ WHERE kind = 'memory_stage1'
         let _ = tokio::fs::remove_dir_all(codex_home).await;
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn list_stage1_outputs_for_global_returns_latest_outputs() {
         let codex_home = unique_temp_dir();
         let runtime = StateRuntime::init(codex_home.clone(), "test-provider".to_string())
@@ -2749,7 +2750,7 @@ WHERE kind = 'memory_stage1'
         let _ = tokio::fs::remove_dir_all(codex_home).await;
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn list_stage1_outputs_for_global_skips_empty_payloads() {
         let codex_home = unique_temp_dir();
         let runtime = StateRuntime::init(codex_home.clone(), "test-provider".to_string())
@@ -2818,7 +2819,7 @@ VALUES (?, ?, ?, ?, ?)
         let _ = tokio::fs::remove_dir_all(codex_home).await;
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn list_stage1_outputs_for_global_skips_polluted_threads() {
         let codex_home = unique_temp_dir();
         let runtime = StateRuntime::init(codex_home.clone(), "test-provider".to_string())
@@ -2886,7 +2887,7 @@ VALUES (?, ?, ?, ?, ?)
         let _ = tokio::fs::remove_dir_all(codex_home).await;
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn get_phase2_input_selection_returns_current_selected_rows() {
         let codex_home = unique_temp_dir();
         let runtime = StateRuntime::init(codex_home.clone(), "test-provider".to_string())
@@ -3001,7 +3002,7 @@ VALUES (?, ?, ?, ?, ?)
         let _ = tokio::fs::remove_dir_all(codex_home).await;
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn get_phase2_input_selection_excludes_polluted_previous_selection() {
         let codex_home = unique_temp_dir();
         let runtime = StateRuntime::init(codex_home.clone(), "test-provider".to_string())
@@ -3094,7 +3095,7 @@ VALUES (?, ?, ?, ?, ?)
         let _ = tokio::fs::remove_dir_all(codex_home).await;
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn mark_thread_memory_mode_polluted_enqueues_phase2_for_selected_threads() {
         let codex_home = unique_temp_dir();
         let runtime = StateRuntime::init(codex_home.clone(), "test-provider".to_string())
@@ -3183,7 +3184,7 @@ VALUES (?, ?, ?, ?, ?)
         let _ = tokio::fs::remove_dir_all(codex_home).await;
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn get_phase2_input_selection_returns_regenerated_selected_rows() {
         let codex_home = unique_temp_dir();
         let runtime = StateRuntime::init(codex_home.clone(), "test-provider".to_string())
@@ -3302,7 +3303,7 @@ VALUES (?, ?, ?, ?, ?)
         let _ = tokio::fs::remove_dir_all(codex_home).await;
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn get_phase2_input_selection_uses_current_ranking_after_refreshes() {
         let codex_home = unique_temp_dir();
         let runtime = StateRuntime::init(codex_home.clone(), "test-provider".to_string())
@@ -3445,7 +3446,7 @@ VALUES (?, ?, ?, ?, ?)
         let _ = tokio::fs::remove_dir_all(codex_home).await;
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn mark_global_phase2_job_succeeded_updates_selected_snapshot_timestamp() {
         let codex_home = unique_temp_dir();
         let runtime = StateRuntime::init(codex_home.clone(), "test-provider".to_string())
@@ -3595,7 +3596,7 @@ VALUES (?, ?, ?, ?, ?)
         let _ = tokio::fs::remove_dir_all(codex_home).await;
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn mark_global_phase2_job_succeeded_only_marks_exact_selected_snapshots() {
         let codex_home = unique_temp_dir();
         let runtime = StateRuntime::init(codex_home.clone(), "test-provider".to_string())
@@ -3715,7 +3716,7 @@ VALUES (?, ?, ?, ?, ?)
         let _ = tokio::fs::remove_dir_all(codex_home).await;
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn record_stage1_output_usage_updates_usage_metadata() {
         let codex_home = unique_temp_dir();
         let runtime = StateRuntime::init(codex_home.clone(), "test-provider".to_string())
@@ -3834,7 +3835,7 @@ VALUES (?, ?, ?, ?, ?)
         let _ = tokio::fs::remove_dir_all(codex_home).await;
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn get_phase2_input_selection_prioritizes_usage_count_then_recent_usage() {
         let codex_home = unique_temp_dir();
         let runtime = StateRuntime::init(codex_home.clone(), "test-provider".to_string())
@@ -3930,7 +3931,7 @@ VALUES (?, ?, ?, ?, ?)
         let _ = tokio::fs::remove_dir_all(codex_home).await;
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn get_phase2_input_selection_excludes_stale_used_memories_but_keeps_fresh_never_used() {
         let codex_home = unique_temp_dir();
         let runtime = StateRuntime::init(codex_home.clone(), "test-provider".to_string())
@@ -4026,7 +4027,7 @@ VALUES (?, ?, ?, ?, ?)
         let _ = tokio::fs::remove_dir_all(codex_home).await;
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn get_phase2_input_selection_prefers_recent_thread_updates_over_recent_generation() {
         let codex_home = unique_temp_dir();
         let runtime = StateRuntime::init(codex_home.clone(), "test-provider".to_string())
@@ -4112,7 +4113,7 @@ VALUES (?, ?, ?, ?, ?)
         let _ = tokio::fs::remove_dir_all(codex_home).await;
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn prune_stage1_outputs_for_retention_prunes_stale_unselected_rows_only() {
         let codex_home = unique_temp_dir();
         let runtime = StateRuntime::init(codex_home.clone(), "test-provider".to_string())
@@ -4254,7 +4255,7 @@ VALUES (?, ?, ?, ?, ?)
         let _ = tokio::fs::remove_dir_all(codex_home).await;
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn prune_stage1_outputs_for_retention_respects_batch_limit() {
         let codex_home = unique_temp_dir();
         let runtime = StateRuntime::init(codex_home.clone(), "test-provider".to_string())
@@ -4332,7 +4333,7 @@ VALUES (?, ?, ?, ?, ?)
         let _ = tokio::fs::remove_dir_all(codex_home).await;
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn mark_stage1_job_succeeded_enqueues_global_consolidation() {
         let codex_home = unique_temp_dir();
         let runtime = StateRuntime::init(codex_home.clone(), "test-provider".to_string())
@@ -4427,7 +4428,7 @@ VALUES (?, ?, ?, ?, ?)
         let _ = tokio::fs::remove_dir_all(codex_home).await;
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn phase2_global_lock_allows_only_one_fresh_runner() {
         let codex_home = unique_temp_dir();
         let runtime = StateRuntime::init(codex_home.clone(), "test-provider".to_string())
@@ -4460,7 +4461,7 @@ VALUES (?, ?, ?, ?, ?)
         let _ = tokio::fs::remove_dir_all(codex_home).await;
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn phase2_global_lock_creates_missing_job_row() {
         let codex_home = unique_temp_dir();
         let runtime = StateRuntime::init(codex_home.clone(), "test-provider".to_string())
@@ -4510,7 +4511,7 @@ VALUES (?, ?, ?, ?, ?)
         let _ = tokio::fs::remove_dir_all(codex_home).await;
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn phase2_global_lock_stale_lease_allows_takeover() {
         let codex_home = unique_temp_dir();
         let runtime = StateRuntime::init(codex_home.clone(), "test-provider".to_string())
@@ -4585,7 +4586,7 @@ VALUES (?, ?, ?, ?, ?)
         let _ = tokio::fs::remove_dir_all(codex_home).await;
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn enqueue_global_consolidation_keeps_phase2_input_watermark_monotonic() {
         let codex_home = unique_temp_dir();
         let runtime = StateRuntime::init(codex_home.clone(), "test-provider".to_string())
@@ -4649,7 +4650,7 @@ VALUES (?, ?, ?, ?, ?)
         let _ = tokio::fs::remove_dir_all(codex_home).await;
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn phase2_failure_fallback_updates_unowned_running_job() {
         let codex_home = unique_temp_dir();
         let runtime = StateRuntime::init(codex_home.clone(), "test-provider".to_string())

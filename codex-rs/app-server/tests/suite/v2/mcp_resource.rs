@@ -42,6 +42,7 @@ use tokio::net::TcpListener;
 use tokio::task::JoinHandle;
 use tokio::time::timeout;
 
+use matrix_test_macro as matrix;
 const DEFAULT_READ_TIMEOUT: Duration = Duration::from_secs(10);
 const TEST_RESOURCE_URI: &str = "test://codex/resource";
 const TEST_BLOB_RESOURCE_URI: &str = "test://codex/resource.bin";
@@ -179,7 +180,7 @@ apps = true
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn mcp_resource_read_returns_error_for_unknown_thread() -> Result<()> {
     let codex_home = TempDir::new()?;
     let loader_overrides = LoaderOverrides::without_managed_config_for_tests();

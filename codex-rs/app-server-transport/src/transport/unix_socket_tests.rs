@@ -21,6 +21,7 @@ use tokio_tungstenite::tungstenite::Bytes;
 use tokio_tungstenite::tungstenite::Message as WebSocketMessage;
 use tokio_util::sync::CancellationToken;
 
+use matrix_test_macro as matrix;
 #[test]
 fn listen_unix_socket_parses_as_unix_socket_transport() {
     assert_eq!(
@@ -52,7 +53,7 @@ fn listen_unix_socket_accepts_relative_custom_path() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn control_socket_acceptor_upgrades_and_forwards_websocket_text_messages_and_pings() {
     let temp_dir = tempfile::TempDir::new().expect("temp dir");
     let socket_path = test_socket_path(temp_dir.path());
@@ -141,7 +142,7 @@ async fn control_socket_acceptor_upgrades_and_forwards_websocket_text_messages_a
 }
 
 #[cfg(unix)]
-#[tokio::test]
+#[matrix::test]
 async fn control_socket_file_is_private_after_bind() {
     use std::os::unix::fs::PermissionsExt;
 

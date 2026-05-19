@@ -32,5 +32,6 @@ tracing = { workspace = true, features = ["log"] }
 wiremock = { workspace = true }
 
 [dev-dependencies]
+matrix-test-macro = { workspace = true }
 assert_matches = { workspace = true }
 pretty_assertions = { workspace = true }

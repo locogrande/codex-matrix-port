@@ -107,7 +107,7 @@ command = "{command}"
     .await
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn cli_overrides_resolve_relative_paths_against_cwd() -> std::io::Result<()> {
     let codex_home = tempdir().expect("tempdir");
     let cwd_dir = tempdir().expect("tempdir");
@@ -131,7 +131,7 @@ async fn cli_overrides_resolve_relative_paths_against_cwd() -> std::io::Result<(
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn returns_config_error_for_invalid_user_config_toml() {
     let tmp = tempdir().expect("tempdir");
     let contents = r#"model = "gpt-4"
@@ -158,7 +158,7 @@ invalid = ["#;
     assert_eq!(config_error, &expected_config_error);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn ignore_user_config_keeps_empty_user_layer() -> std::io::Result<()> {
     let tmp = tempdir().expect("tempdir");
     std::fs::write(
@@ -195,7 +195,7 @@ invalid = ["#,
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn ignore_rules_marks_config_stack_for_exec_policy_rule_skip() -> std::io::Result<()> {
     let tmp = tempdir().expect("tempdir");
     let cwd = AbsolutePathBuf::try_from(tmp.path()).expect("cwd");
@@ -218,7 +218,7 @@ async fn ignore_rules_marks_config_stack_for_exec_policy_rule_skip() -> std::io:
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn returns_config_error_for_invalid_managed_config_toml() {
     let tmp = tempdir().expect("tempdir");
     let managed_path = tmp.path().join("managed_config.toml");
@@ -248,7 +248,7 @@ invalid = ["#;
     assert_eq!(config_error, &expected_config_error);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn returns_config_error_for_schema_error_in_user_config() {
     let tmp = tempdir().expect("tempdir");
     let contents = "model_context_window = \"not_a_number\"";
@@ -270,7 +270,7 @@ async fn returns_config_error_for_schema_error_in_user_config() {
     assert_eq!(config_error, &expected_config_error);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn top_level_allow_managed_hooks_only_in_user_config_does_not_enable_requirements_policy()
 -> std::io::Result<()> {
     let tmp = tempdir().expect("tempdir");
@@ -298,7 +298,7 @@ async fn top_level_allow_managed_hooks_only_in_user_config_does_not_enable_requi
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn hooks_allow_managed_hooks_only_in_user_config_does_not_enable_requirements_policy()
 -> std::io::Result<()> {
     let tmp = tempdir().expect("tempdir");
@@ -340,7 +340,7 @@ command = "python3 /tmp/user-hook.py"
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn strict_config_rejects_unknown_user_config_key() {
     let tmp = tempdir().expect("tempdir");
     let contents = r#"model = "gpt-5"
@@ -364,7 +364,7 @@ unknown_key = true"#;
     assert_eq!(config_error, &expected_config_error);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn strict_config_rejects_unknown_cli_override_key() {
     let tmp = tempdir().expect("tempdir");
 
@@ -387,7 +387,7 @@ async fn strict_config_rejects_unknown_cli_override_key() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn strict_config_rejects_unknown_cli_override_key_with_relative_path_override() {
     let tmp = tempdir().expect("tempdir");
     let instructions_path = tmp.path().join("instructions.md");
@@ -415,7 +415,7 @@ async fn strict_config_rejects_unknown_cli_override_key_with_relative_path_overr
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn strict_config_rejects_unknown_feature_cli_override_key() {
     let tmp = tempdir().expect("tempdir");
 
@@ -435,7 +435,7 @@ async fn strict_config_rejects_unknown_feature_cli_override_key() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn strict_config_rejects_unknown_feature_user_config_key() {
     let tmp = tempdir().expect("tempdir");
     let contents = r#"[features]
@@ -498,7 +498,7 @@ collaboration_modes = "true""#;
     assert_eq!(error.range.start.column, value_column);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn merges_managed_config_layer_on_top() {
     let tmp = tempdir().expect("tempdir");
     let managed_path = tmp.path().join("managed_config.toml");
@@ -552,7 +552,7 @@ extra = true
     assert_eq!(nested.get("extra"), Some(&TomlValue::Boolean(true)));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn returns_empty_when_all_layers_missing() {
     let tmp = tempdir().expect("tempdir");
     let managed_path = tmp.path().join("managed_config.toml");
@@ -615,7 +615,7 @@ async fn returns_empty_when_all_layers_missing() {
     }
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn selected_user_config_file_layers_over_base_user_config() {
     let tmp = tempdir().expect("tempdir");
     let managed_path = tmp.path().join("managed_config.toml");
@@ -687,7 +687,7 @@ approval_policy = "on-failure"
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn includes_thread_config_layers_in_stack() -> anyhow::Result<()> {
     let tmp = tempdir()?;
     let cwd_dir = tmp.path().join("project");
@@ -746,7 +746,7 @@ async fn includes_thread_config_layers_in_stack() -> anyhow::Result<()> {
 }
 
 #[cfg(target_os = "macos")]
-#[tokio::test]
+#[matrix::test]
 async fn managed_preferences_take_highest_precedence() {
     use base64::Engine;
 
@@ -817,7 +817,7 @@ flag = false
 }
 
 #[cfg(target_os = "macos")]
-#[tokio::test]
+#[matrix::test]
 async fn managed_preferences_expand_home_directory_in_workspace_write_roots() -> anyhow::Result<()>
 {
     use base64::Engine;
@@ -866,7 +866,7 @@ writable_roots = ["~/code"]
 }
 
 #[cfg(target_os = "macos")]
-#[tokio::test]
+#[matrix::test]
 async fn managed_preferences_requirements_are_applied() -> anyhow::Result<()> {
     use base64::Engine;
 
@@ -922,7 +922,7 @@ allowed_sandbox_modes = ["read-only"]
 }
 
 #[cfg(target_os = "macos")]
-#[tokio::test]
+#[matrix::test]
 async fn managed_preferences_requirements_take_precedence() -> anyhow::Result<()> {
     use base64::Engine;
 
@@ -1071,7 +1071,7 @@ personality = true
 }
 
 #[cfg(target_os = "macos")]
-#[tokio::test]
+#[matrix::test]
 async fn cloud_requirements_take_precedence_over_mdm_requirements() -> anyhow::Result<()> {
     use base64::Engine;
 
@@ -1350,7 +1350,7 @@ deny_read = ["./sensitive/**/*.txt"]
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn load_config_layers_includes_cloud_requirements() -> anyhow::Result<()> {
     let tmp = tempdir()?;
     let codex_home = tmp.path().join("home");
@@ -1409,7 +1409,7 @@ async fn load_config_layers_includes_cloud_requirements() -> anyhow::Result<()> 
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn load_config_layers_can_ignore_managed_requirements() -> anyhow::Result<()> {
     let tmp = tempdir()?;
     let codex_home = tmp.path().join("home");
@@ -1467,7 +1467,7 @@ async fn load_config_layers_can_ignore_managed_requirements() -> anyhow::Result<
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn load_config_layers_includes_cloud_hook_requirements() -> anyhow::Result<()> {
     let tmp = tempdir()?;
     let codex_home = tmp.path().join("home");
@@ -1523,7 +1523,7 @@ async fn load_config_layers_includes_cloud_hook_requirements() -> anyhow::Result
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn load_config_layers_applies_matching_remote_sandbox_config() -> anyhow::Result<()> {
     let tmp = tempdir()?;
     let codex_home = tmp.path().join("home");
@@ -1569,7 +1569,7 @@ async fn load_config_layers_applies_matching_remote_sandbox_config() -> anyhow::
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn load_config_layers_fails_when_cloud_requirements_loader_fails() -> anyhow::Result<()> {
     let tmp = tempdir()?;
     let codex_home = tmp.path().join("home");
@@ -1600,7 +1600,7 @@ async fn load_config_layers_fails_when_cloud_requirements_loader_fails() -> anyh
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn project_layers_prefer_closest_cwd() -> std::io::Result<()> {
     let tmp = tempdir()?;
     let project_root = tmp.path().join("project");
@@ -1667,7 +1667,7 @@ async fn project_layers_prefer_closest_cwd() -> std::io::Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn linked_worktree_project_layers_keep_worktree_config_but_use_root_repo_hooks()
 -> std::io::Result<()> {
     let tmp = tempdir()?;
@@ -1770,7 +1770,7 @@ async fn linked_worktree_project_layers_keep_worktree_config_but_use_root_repo_h
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn linked_worktree_project_layers_use_root_repo_hooks_without_worktree_config_toml()
 -> std::io::Result<()> {
     let tmp = tempdir()?;
@@ -1828,7 +1828,7 @@ async fn linked_worktree_project_layers_use_root_repo_hooks_without_worktree_con
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn nested_project_root_markers_do_not_redirect_regular_repo_hooks() -> std::io::Result<()> {
     let tmp = tempdir()?;
     let repo_root = tmp.path().join("repo");
@@ -1921,7 +1921,7 @@ fn project_hook_command(layer: &ConfigLayerEntry) -> Option<&str> {
         .as_str()
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn project_paths_resolve_relative_to_dot_codex_and_override_in_order() -> std::io::Result<()>
 {
     let tmp = tempdir()?;
@@ -1977,7 +1977,7 @@ model_instructions_file = "child.txt"
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn cli_override_model_instructions_file_sets_base_instructions() -> std::io::Result<()> {
     let tmp = tempdir()?;
     let codex_home = tmp.path().join("home");
@@ -2013,7 +2013,7 @@ async fn cli_override_model_instructions_file_sets_base_instructions() -> std::i
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn inline_instructions_set_base_instructions() -> std::io::Result<()> {
     let tmp = tempdir()?;
     let codex_home = tmp.path().join("home");
@@ -2037,7 +2037,7 @@ async fn inline_instructions_set_base_instructions() -> std::io::Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn project_layer_is_added_when_dot_codex_exists_without_config_toml() -> std::io::Result<()> {
     let tmp = tempdir()?;
     let project_root = tmp.path().join("project");
@@ -2083,7 +2083,7 @@ async fn project_layer_is_added_when_dot_codex_exists_without_config_toml() -> s
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn codex_home_is_not_loaded_as_project_layer_from_home_dir() -> std::io::Result<()> {
     let tmp = tempdir()?;
     let home_dir = tmp.path().join("home");
@@ -2126,7 +2126,7 @@ async fn codex_home_is_not_loaded_as_project_layer_from_home_dir() -> std::io::R
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn codex_home_within_project_tree_is_not_double_loaded() -> std::io::Result<()> {
     let tmp = tempdir()?;
     let project_root = tmp.path().join("project");
@@ -2203,7 +2203,7 @@ async fn codex_home_within_project_tree_is_not_double_loaded() -> std::io::Resul
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn project_layers_disabled_when_untrusted_or_unknown() -> std::io::Result<()> {
     let tmp = tempdir()?;
     let project_root = tmp.path().join("project");
@@ -2326,7 +2326,7 @@ profile = "ignored"
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn project_layer_ignores_unsupported_config_keys() -> std::io::Result<()> {
     let tmp = tempdir()?;
     let project_root = tmp.path().join("project");
@@ -2445,7 +2445,7 @@ wire_api = "responses"
 }
 
 #[cfg(unix)]
-#[tokio::test]
+#[matrix::test]
 async fn project_trust_does_not_match_configured_alias_for_canonical_cwd() -> std::io::Result<()> {
     let tmp = tempdir()?;
     let project_root = tmp.path().join("project");
@@ -2506,7 +2506,7 @@ async fn project_trust_does_not_match_configured_alias_for_canonical_cwd() -> st
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn cli_override_can_update_project_local_mcp_server_when_project_is_trusted()
 -> std::io::Result<()> {
     let tmp = tempdir()?;
@@ -2555,7 +2555,7 @@ enabled = false
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn cli_override_for_disabled_project_local_mcp_server_returns_invalid_transport()
 -> std::io::Result<()> {
     let tmp = tempdir()?;
@@ -2597,7 +2597,7 @@ enabled = false
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn invalid_project_config_ignored_when_untrusted_or_unknown() -> std::io::Result<()> {
     let tmp = tempdir()?;
     let project_root = tmp.path().join("project");
@@ -2683,7 +2683,7 @@ async fn invalid_project_config_ignored_when_untrusted_or_unknown() -> std::io::
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn project_layer_without_config_toml_is_disabled_when_untrusted_or_unknown()
 -> std::io::Result<()> {
     let tmp = tempdir()?;
@@ -2749,7 +2749,7 @@ async fn project_layer_without_config_toml_is_disabled_when_untrusted_or_unknown
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn cli_overrides_with_relative_paths_do_not_break_trust_check() -> std::io::Result<()> {
     let tmp = tempdir()?;
     let project_root = tmp.path().join("project");
@@ -2787,7 +2787,7 @@ async fn cli_overrides_with_relative_paths_do_not_break_trust_check() -> std::io
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn project_root_markers_supports_alternate_markers() -> std::io::Result<()> {
     let tmp = tempdir()?;
     let project_root = tmp.path().join("project");
@@ -2856,6 +2856,7 @@ async fn project_root_markers_supports_alternate_markers() -> std::io::Result<()
 }
 
 mod requirements_exec_policy_tests {
+    use matrix_test_macro as matrix;
     use crate::exec_policy::load_exec_policy;
     use codex_app_server_protocol::ConfigLayerSource;
     use codex_config::ConfigLayerEntry;
@@ -3096,7 +3097,7 @@ prefix_rules = []
         Ok(())
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn loads_requirements_exec_policy_without_rules_files() -> anyhow::Result<()> {
         let temp_dir = tempdir()?;
         let requirements = requirements_from_toml(
@@ -3128,7 +3129,7 @@ prefix_rules = []
         Ok(())
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn merges_requirements_exec_policy_with_file_rules() -> anyhow::Result<()> {
         let temp_dir = tempdir()?;
         let policy_dir = temp_dir.path().join("rules");

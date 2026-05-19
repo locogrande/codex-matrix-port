@@ -14,11 +14,12 @@ use core_test_support::responses;
 use core_test_support::skip_if_no_network;
 use tokio::time::timeout;
 
+use matrix_test_macro as matrix;
 // Bazel CI can spend tens of seconds starting app-server subprocesses or
 // processing turn RPCs under load.
 const DEFAULT_READ_TIMEOUT: std::time::Duration = std::time::Duration::from_secs(60);
 
-#[tokio::test]
+#[matrix::test]
 async fn turn_start_forwards_client_metadata_to_responses_request_v2() -> Result<()> {
     skip_if_no_network!(Ok(()));
 
@@ -95,7 +96,7 @@ async fn turn_start_forwards_client_metadata_to_responses_request_v2() -> Result
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn turn_steer_updates_client_metadata_on_follow_up_responses_request_v2() -> Result<()> {
     skip_if_no_network!(Ok(()));
 
@@ -219,7 +220,7 @@ async fn turn_steer_updates_client_metadata_on_follow_up_responses_request_v2() 
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn turn_start_forwards_client_metadata_to_responses_websocket_request_body_v2() -> Result<()>
 {
     skip_if_no_network!(Ok(()));

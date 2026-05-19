@@ -49,6 +49,7 @@ use tempfile::tempdir;
 use tokio::time::timeout;
 use tokio_util::sync::CancellationToken;
 
+use matrix_test_macro as matrix;
 fn expect_text_output<T>(output: &T) -> String
 where
     T: ToolOutput + ?Sized,
@@ -68,7 +69,7 @@ where
     }
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn request_permissions_routes_to_guardian_when_reviewer_is_enabled() {
     let server = start_mock_server().await;
     let guardian_request_log = mount_sse_once(
@@ -158,7 +159,7 @@ async fn request_permissions_routes_to_guardian_when_reviewer_is_enabled() {
     assert!(guardian_request.body_contains_text("need network"));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn request_permissions_guardian_review_stops_when_cancelled() {
     let server = start_mock_server().await;
     let _guardian_request_log = mount_response_once(
@@ -249,7 +250,7 @@ async fn request_permissions_guardian_review_stops_when_cancelled() {
     assert_eq!(session.granted_turn_permissions().await, None);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn guardian_allows_shell_command_additional_permissions_requests_past_policy_validation() {
     let server = start_mock_server().await;
     let _request_log = mount_sse_once(
@@ -342,7 +343,7 @@ async fn guardian_allows_shell_command_additional_permissions_requests_past_poli
     assert!(output.contains("hi"));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn strict_auto_review_turn_grant_forces_guardian_for_shell_command_policy_skip() {
     let server = start_mock_server().await;
     let guardian_request_log = mount_sse_once(
@@ -439,7 +440,7 @@ async fn strict_auto_review_turn_grant_forces_guardian_for_shell_command_policy_
     assert!(guardian_request.body_contains_text("echo hi"));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn guardian_allows_unified_exec_additional_permissions_requests_past_policy_validation() {
     let (mut session, mut turn_context_raw) = make_session_and_context().await;
     turn_context_raw
@@ -489,7 +490,7 @@ async fn guardian_allows_unified_exec_additional_permissions_requests_past_polic
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn process_compacted_history_preserves_separate_guardian_developer_message() {
     let (session, mut turn_context) = make_session_and_context().await;
     let guardian_policy = crate::guardian::guardian_policy_prompt();
@@ -547,7 +548,7 @@ async fn process_compacted_history_preserves_separate_guardian_developer_message
     assert_eq!(developer_messages.last(), Some(&guardian_policy));
 }
 
-#[tokio::test]
+#[matrix::test]
 #[cfg(unix)]
 #[expect(
     clippy::await_holding_invalid_type,
@@ -616,7 +617,7 @@ async fn shell_command_allows_sticky_turn_permissions_without_inline_request_per
     }
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn guardian_subagent_does_not_inherit_parent_exec_policy_rules() {
     let codex_home = tempdir().expect("create codex home");
     let project_dir = tempdir().expect("create project dir");

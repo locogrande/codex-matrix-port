@@ -5,6 +5,7 @@ use codex_config::record_user_marketplace;
 use predicates::prelude::PredicateBooleanExt;
 use predicates::str::contains;
 
+use matrix_test_macro as matrix;
 fn codex_command(codex_home: &Path) -> Result<assert_cmd::Command> {
     let mut cmd = assert_cmd::Command::new(codex_utils_cargo_bin::cargo_bin("codex")?);
     cmd.env("CODEX_HOME", codex_home);
@@ -116,7 +117,7 @@ fn setup_configured_marketplace_with_malformed_manifest() -> Result<(TempDir, Te
     Ok((codex_home, source))
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn marketplace_list_shows_configured_marketplace_names() -> Result<()> {
     let (codex_home, source) = setup_local_marketplace()?;
 
@@ -130,7 +131,7 @@ async fn marketplace_list_shows_configured_marketplace_names() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn plugin_list_shows_plugins_grouped_by_marketplace() -> Result<()> {
     let (codex_home, _source) = setup_local_marketplace()?;
 
@@ -144,7 +145,7 @@ async fn plugin_list_shows_plugins_grouped_by_marketplace() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn plugin_list_excludes_unconfigured_repo_local_marketplaces() -> Result<()> {
     let (codex_home, source) = setup_unconfigured_local_marketplace()?;
 
@@ -158,7 +159,7 @@ async fn plugin_list_excludes_unconfigured_repo_local_marketplaces() -> Result<(
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn plugin_list_fails_when_configured_marketplace_snapshot_is_missing() -> Result<()> {
     let (codex_home, source) = setup_configured_marketplace_without_manifest()?;
 
@@ -178,7 +179,7 @@ async fn plugin_list_fails_when_configured_marketplace_snapshot_is_missing() -> 
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn plugin_add_and_remove_updates_installed_plugin_config() -> Result<()> {
     let (codex_home, _source) = setup_local_marketplace()?;
 
@@ -205,7 +206,7 @@ async fn plugin_add_and_remove_updates_installed_plugin_config() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn plugin_add_rejects_unconfigured_repo_local_marketplaces() -> Result<()> {
     let (codex_home, source) = setup_unconfigured_local_marketplace()?;
 
@@ -220,7 +221,7 @@ async fn plugin_add_rejects_unconfigured_repo_local_marketplaces() -> Result<()>
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn plugin_add_fails_when_configured_marketplace_snapshot_is_malformed() -> Result<()> {
     let (codex_home, _source) = setup_configured_marketplace_with_malformed_manifest()?;
 
@@ -238,7 +239,7 @@ async fn plugin_add_fails_when_configured_marketplace_snapshot_is_malformed() ->
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn plugin_add_reinstalls_from_configured_marketplace_snapshot() -> Result<()> {
     let (codex_home, _source) = setup_local_marketplace()?;
 
@@ -263,7 +264,7 @@ async fn plugin_add_reinstalls_from_configured_marketplace_snapshot() -> Result<
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn plugin_remove_works_after_marketplace_is_removed() -> Result<()> {
     let (codex_home, _source) = setup_local_marketplace()?;
 
@@ -291,7 +292,7 @@ async fn plugin_remove_works_after_marketplace_is_removed() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn plugin_add_rejects_cached_plugins_without_authorizing_marketplace_snapshot() -> Result<()>
 {
     let (codex_home, _source) = setup_local_marketplace()?;

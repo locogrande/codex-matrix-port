@@ -45,6 +45,7 @@ urlencoding = { workspace = true }
 webbrowser = { workspace = true }
 
 [dev-dependencies]
+matrix-test-macro = { workspace = true }
 codex-test-support = { workspace = true }
 anyhow = { workspace = true }
 core_test_support = { workspace = true }

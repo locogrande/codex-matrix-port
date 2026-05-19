@@ -11,6 +11,7 @@ use tokio::sync::Mutex;
 use tokio::sync::watch;
 use tokio::time;
 
+use matrix_test_macro as matrix;
 /// Opaque subscription token returned by `subscribe()`.
 #[derive(Clone, Copy, PartialEq, Eq, Hash, Debug)]
 pub struct Token(i32);
@@ -206,7 +207,7 @@ mod tests {
     use super::errors::ReadinessError;
     use assert_matches::assert_matches;
 
-    #[tokio::test]
+    #[matrix::test]
     async fn subscribe_and_mark_ready_roundtrip() -> Result<(), ReadinessError> {
         let flag = ReadinessFlag::new();
         let token = flag.subscribe().await?;
@@ -216,7 +217,7 @@ mod tests {
         Ok(())
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn subscribe_after_ready_returns_none() -> Result<(), ReadinessError> {
         let flag = ReadinessFlag::new();
         let token = flag.subscribe().await?;
@@ -226,7 +227,7 @@ mod tests {
         Ok(())
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn mark_ready_rejects_unknown_token() -> Result<(), ReadinessError> {
         let flag = ReadinessFlag::new();
         assert!(!flag.mark_ready(Token(42)).await?);
@@ -235,7 +236,7 @@ mod tests {
         Ok(())
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn wait_ready_unblocks_after_mark_ready() -> Result<(), ReadinessError> {
         let flag = Arc::new(ReadinessFlag::new());
         let token = flag.subscribe().await?;
@@ -252,7 +253,7 @@ mod tests {
         Ok(())
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn mark_ready_twice_uses_single_token() -> Result<(), ReadinessError> {
         let flag = ReadinessFlag::new();
         let token = flag.subscribe().await?;
@@ -262,7 +263,7 @@ mod tests {
         Ok(())
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn is_ready_without_subscribers_marks_flag_ready() -> Result<(), ReadinessError> {
         let flag = ReadinessFlag::new();
 
@@ -275,7 +276,7 @@ mod tests {
         Ok(())
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn subscribe_returns_error_when_lock_is_held() {
         let flag = Arc::new(ReadinessFlag::new());
         let (locked_tx, locked_rx) = std::sync::mpsc::channel();
@@ -309,7 +310,7 @@ mod tests {
             .expect("readiness lock thread should not panic");
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn subscribe_skips_zero_token() -> Result<(), ReadinessError> {
         let flag = ReadinessFlag::new();
         flag.next_id.store(0, Ordering::Relaxed);
@@ -320,7 +321,7 @@ mod tests {
         Ok(())
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn subscribe_avoids_duplicate_tokens() -> Result<(), ReadinessError> {
         let flag = ReadinessFlag::new();
         let token = flag.subscribe().await?;

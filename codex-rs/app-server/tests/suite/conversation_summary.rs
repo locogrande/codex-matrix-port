@@ -33,6 +33,7 @@ use codex_utils_absolute_path::AbsolutePathBuf;
 use tokio::time::timeout;
 use uuid::Uuid;
 
+use matrix_test_macro as matrix;
 const DEFAULT_READ_TIMEOUT: std::time::Duration = std::time::Duration::from_secs(10);
 const FILENAME_TS: &str = "2025-01-02T12-00-00";
 const META_RFC3339: &str = "2025-01-02T12:00:00Z";
@@ -107,7 +108,7 @@ async fn get_conversation_summary_by_thread_id_reads_rollout() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn get_conversation_summary_by_thread_id_reads_pathless_store_thread() -> Result<()> {
     let codex_home = TempDir::new()?;
     let store_id = Uuid::new_v4().to_string();

@@ -24,6 +24,7 @@ use serde_json::Value;
 use serde_json::json;
 use std::fs;
 
+use matrix_test_macro as matrix;
 fn collaboration_mode_for_model(model: String) -> CollaborationMode {
     CollaborationMode {
         mode: ModeKind::Default,
@@ -79,7 +80,7 @@ fn assert_no_matched_rules_invariant(output_item: &Value) {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn execpolicy_blocks_shell_invocation() -> Result<()> {
     let mut builder = test_codex().with_config(|config| {
         let policy_path = config.codex_home.join("rules").join("policy.rules");

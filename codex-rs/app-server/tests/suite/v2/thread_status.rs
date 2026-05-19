@@ -19,6 +19,7 @@ use codex_app_server_protocol::UserInput as V2UserInput;
 use tempfile::TempDir;
 use tokio::time::timeout;
 
+use matrix_test_macro as matrix;
 const DEFAULT_READ_TIMEOUT: std::time::Duration = std::time::Duration::from_secs(10);
 
 #[tokio::test(flavor = "multi_thread", worker_threads = 4)]
@@ -127,7 +128,7 @@ async fn thread_status_changed_emits_runtime_updates() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn thread_status_changed_can_be_opted_out() -> Result<()> {
     let codex_home = TempDir::new()?;
     let responses = vec![create_final_assistant_message_sse_response("done")?];

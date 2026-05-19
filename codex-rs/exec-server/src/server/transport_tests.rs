@@ -23,6 +23,7 @@ use crate::protocol::INITIALIZED_METHOD;
 use crate::protocol::InitializeParams;
 use crate::protocol::InitializeResponse;
 
+use matrix_test_macro as matrix;
 #[test]
 fn parse_listen_url_accepts_default_websocket_url() {
     let transport = parse_listen_url(DEFAULT_LISTEN_URL).expect("default listen URL should parse");
@@ -48,7 +49,7 @@ fn parse_listen_url_accepts_stdio_url() {
     assert_eq!(transport, ExecServerListenTransport::Stdio);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn stdio_listen_transport_serves_initialize() {
     let transport = parse_listen_url("stdio").expect("stdio listen URL should parse");
     let ExecServerListenTransport::Stdio = transport else {

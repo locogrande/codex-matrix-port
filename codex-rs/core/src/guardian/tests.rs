@@ -69,6 +69,7 @@ use std::time::Duration;
 use tempfile::TempDir;
 use tokio_util::sync::CancellationToken;
 
+use matrix_test_macro as matrix;
 fn fixed_guardian_parent_session_id() -> ThreadId {
     ThreadId::from_string("11111111-1111-4111-8111-111111111111")
         .expect("fixed parent session id should be a valid UUID")
@@ -968,7 +969,7 @@ fn guardian_request_target_item_id_omits_network_access_trigger_call_id() {
     assert_eq!(guardian_request_target_item_id(&network_access), None);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn cancelled_guardian_review_emits_terminal_abort_without_warning() {
     let (session, turn, rx) = crate::session::tests::make_session_and_context_with_rx().await;
     let cancel_token = CancellationToken::new();
@@ -1021,7 +1022,7 @@ fn guardian_timeout_message_distinguishes_timeout_from_policy_denial() {
     assert!(!message.contains("unacceptable risk"));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn routes_approval_to_guardian_requires_guardian_reviewer() {
     let (_session, mut turn) = crate::session::tests::make_session_and_context().await;
     let mut config = (*turn.config).clone();
@@ -1036,7 +1037,7 @@ async fn routes_approval_to_guardian_requires_guardian_reviewer() {
     assert!(routes_approval_to_guardian(&turn));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn routes_approval_to_guardian_allows_granular_review_policy() {
     let (_session, mut turn) = crate::session::tests::make_session_and_context().await;
     let mut config = (*turn.config).clone();
@@ -1371,7 +1372,7 @@ async fn guardian_review_request_layout_matches_model_visible_request_snapshot()
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn build_guardian_prompt_items_includes_parent_session_id() -> anyhow::Result<()> {
     let (session, _) = crate::session::tests::make_session_and_context().await;
     let prompt = build_guardian_prompt_items(
@@ -1914,7 +1915,7 @@ async fn guardian_review_surfaces_responses_api_errors_in_rejection_reason() -> 
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn guardian_parallel_reviews_fork_from_last_committed_trunk_history() -> anyhow::Result<()> {
     const TEST_STACK_SIZE_BYTES: usize = 4 * 1024 * 1024;
 
@@ -2147,7 +2148,7 @@ async fn guardian_parallel_reviews_fork_from_last_committed_trunk_history() -> a
         )),
     }
 }
-#[tokio::test]
+#[matrix::test]
 async fn guardian_review_session_config_preserves_parent_network_proxy() {
     let mut parent_config = test_config().await;
     let network = NetworkProxySpec::from_config_and_constraints(
@@ -2194,7 +2195,7 @@ async fn guardian_review_session_config_preserves_parent_network_proxy() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn guardian_review_session_config_clears_parent_developer_instructions() {
     let mut parent_config = test_config().await;
     parent_config.developer_instructions =
@@ -2215,7 +2216,7 @@ async fn guardian_review_session_config_clears_parent_developer_instructions() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn guardian_review_session_config_uses_live_network_proxy_state() {
     let mut parent_config = test_config().await;
     let mut parent_network = NetworkProxyConfig::default();
@@ -2259,7 +2260,7 @@ async fn guardian_review_session_config_uses_live_network_proxy_state() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn guardian_review_session_config_disables_mcp_apps_and_plugins() {
     let mut parent_config = test_config().await;
     let server: McpServerConfig =
@@ -2292,7 +2293,7 @@ async fn guardian_review_session_config_disables_mcp_apps_and_plugins() {
     assert!(!guardian_config.include_apps_instructions);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn guardian_review_session_config_allows_pinned_disabled_feature() {
     let mut parent_config = test_config().await;
     parent_config.features = ManagedFeatures::from_configured(
@@ -2319,7 +2320,7 @@ async fn guardian_review_session_config_allows_pinned_disabled_feature() {
     assert!(!guardian_config.include_apps_instructions);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn guardian_review_session_config_uses_parent_active_model_instead_of_hardcoded_slug() {
     let mut parent_config = test_config().await;
     parent_config.model = Some("configured-model".to_string());
@@ -2335,7 +2336,7 @@ async fn guardian_review_session_config_uses_parent_active_model_instead_of_hard
     assert_eq!(guardian_config.model, Some("active-model".to_string()));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn guardian_review_session_config_keeps_bedrock_provider_for_bedrock_gpt_5_4() {
     let mut parent_config = test_config().await;
     parent_config.model_provider_id = AMAZON_BEDROCK_PROVIDER_ID.to_string();
@@ -2364,7 +2365,7 @@ async fn guardian_review_session_config_keeps_bedrock_provider_for_bedrock_gpt_5
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn guardian_review_session_config_uses_requirements_guardian_policy_config() {
     let codex_home = tempfile::tempdir().expect("create temp dir");
     let workspace = tempfile::tempdir().expect("create temp dir");
@@ -2409,7 +2410,7 @@ async fn guardian_review_session_config_uses_requirements_guardian_policy_config
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn guardian_review_session_config_uses_default_guardian_policy_without_requirements_override()
 {
     let codex_home = tempfile::tempdir().expect("create temp dir");

@@ -8,9 +8,10 @@ use codex_app_server_protocol::ModelProviderCapabilitiesReadResponse;
 use codex_app_server_protocol::RequestId;
 use tokio::time::timeout;
 
+use matrix_test_macro as matrix;
 const DEFAULT_TIMEOUT: Duration = Duration::from_secs(30);
 
-#[tokio::test]
+#[matrix::test]
 async fn read_default_provider_capabilities() -> Result<()> {
     let codex_home = TempDir::new()?;
     let mut mcp = McpProcess::new(codex_home.path()).await?;
@@ -35,7 +36,7 @@ async fn read_default_provider_capabilities() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn read_amazon_bedrock_provider_capabilities() -> Result<()> {
     let codex_home = TempDir::new()?;
     std::fs::write(

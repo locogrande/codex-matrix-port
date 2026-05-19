@@ -41,6 +41,7 @@ use std::collections::BTreeMap;
 use std::path::PathBuf;
 use std::sync::Arc;
 
+use matrix_test_macro as matrix;
 fn mcp_tool(name: &str, description: &str, input_schema: serde_json::Value) -> rmcp::model::Tool {
     rmcp::model::Tool {
         name: name.to_string().into(),
@@ -289,7 +290,7 @@ fn build_specs_with_inputs_for_test(
     .model_visible_specs()
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn get_memory_requires_feature_flag() {
     let config = test_config().await;
     let model_info = construct_model_info_offline("gpt-5.4", &config);
@@ -371,7 +372,7 @@ async fn assert_default_model_tools(
     assert_model_tools(model_slug, features, web_search_mode, &expected).await;
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn test_build_specs_gpt5_codex_default() {
     let features = Features::with_defaults();
     assert_default_model_tools(
@@ -396,7 +397,7 @@ async fn test_build_specs_gpt5_codex_default() {
     .await;
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn test_build_specs_gpt51_codex_default() {
     let features = Features::with_defaults();
     assert_default_model_tools(
@@ -421,7 +422,7 @@ async fn test_build_specs_gpt51_codex_default() {
     .await;
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn test_build_specs_gpt5_codex_unified_exec_web_search() {
     let mut features = Features::with_defaults();
     features.enable(Feature::UnifiedExec);
@@ -448,7 +449,7 @@ async fn test_build_specs_gpt5_codex_unified_exec_web_search() {
     .await;
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn test_build_specs_gpt51_codex_unified_exec_web_search() {
     let mut features = Features::with_defaults();
     features.enable(Feature::UnifiedExec);
@@ -475,7 +476,7 @@ async fn test_build_specs_gpt51_codex_unified_exec_web_search() {
     .await;
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn test_gpt_5_1_codex_max_defaults() {
     let features = Features::with_defaults();
     assert_default_model_tools(
@@ -500,7 +501,7 @@ async fn test_gpt_5_1_codex_max_defaults() {
     .await;
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn test_codex_5_1_mini_defaults() {
     let features = Features::with_defaults();
     assert_default_model_tools(
@@ -525,7 +526,7 @@ async fn test_codex_5_1_mini_defaults() {
     .await;
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn test_gpt_5_defaults() {
     let features = Features::with_defaults();
     assert_default_model_tools(
@@ -550,7 +551,7 @@ async fn test_gpt_5_defaults() {
     .await;
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn test_gpt_5_1_defaults() {
     let features = Features::with_defaults();
     assert_default_model_tools(
@@ -575,7 +576,7 @@ async fn test_gpt_5_1_defaults() {
     .await;
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn test_gpt_5_1_codex_max_unified_exec_web_search() {
     let mut features = Features::with_defaults();
     features.enable(Feature::UnifiedExec);
@@ -602,7 +603,7 @@ async fn test_gpt_5_1_codex_max_unified_exec_web_search() {
     .await;
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn test_build_specs_default_shell_present() {
     let config = test_config().await;
     let model_info = construct_model_info_offline("o3", &config);
@@ -634,7 +635,7 @@ async fn test_build_specs_default_shell_present() {
     assert_contains_tool_names(&tools, &subset);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn shell_zsh_fork_prefers_shell_command_over_unified_exec() {
     let config = test_config().await;
     let model_info = construct_model_info_offline("o3", &config);
@@ -698,7 +699,7 @@ async fn shell_zsh_fork_prefers_shell_command_over_unified_exec() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn spawn_agent_description_omits_usage_hint_when_disabled() {
     let tools_config = multi_agent_v2_tools_config()
         .await
@@ -722,7 +723,7 @@ async fn spawn_agent_description_omits_usage_hint_when_disabled() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn spawn_agent_description_uses_configured_usage_hint_text() {
     let tools_config = multi_agent_v2_tools_config()
         .await
@@ -749,7 +750,7 @@ async fn spawn_agent_description_uses_configured_usage_hint_text() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn multi_agent_v2_wait_agent_schema_uses_configured_timeouts() {
     let wait_agent_min_timeout_ms = Some(20_000);
     let wait_agent_max_timeout_ms = Some(120_000);
@@ -781,7 +782,7 @@ async fn multi_agent_v2_wait_agent_schema_uses_configured_timeouts() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn request_plugin_install_requires_apps_and_plugins_features() {
     let model_info = search_capable_model_info().await;
     let discoverable_tools = Some(vec![discoverable_connector(
@@ -827,7 +828,7 @@ async fn request_plugin_install_requires_apps_and_plugins_features() {
     }
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn search_tool_is_hidden_without_deferred_tools() {
     let model_info = search_capable_model_info().await;
     let mut features = Features::with_defaults();
@@ -858,7 +859,7 @@ async fn search_tool_is_hidden_without_deferred_tools() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn search_tool_description_falls_back_to_connector_name_without_description() {
     let model_info = search_capable_model_info().await;
     let mut features = Features::with_defaults();
@@ -906,7 +907,7 @@ async fn search_tool_description_falls_back_to_connector_name_without_descriptio
     assert!(!description.contains("- Calendar:"));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn test_mcp_tool_property_missing_type_defaults_to_string() {
     let config = test_config().await;
     let model_info = construct_model_info_offline("gpt-5.4", &config);
@@ -965,7 +966,7 @@ async fn test_mcp_tool_property_missing_type_defaults_to_string() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn test_mcp_tool_preserves_integer_schema() {
     let config = test_config().await;
     let model_info = construct_model_info_offline("gpt-5.4", &config);
@@ -1022,7 +1023,7 @@ async fn test_mcp_tool_preserves_integer_schema() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn test_mcp_tool_array_without_items_gets_default_string_items() {
     let config = test_config().await;
     let model_info = construct_model_info_offline("gpt-5.4", &config);
@@ -1082,7 +1083,7 @@ async fn test_mcp_tool_array_without_items_gets_default_string_items() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn test_mcp_tool_anyof_defaults_to_string() {
     let config = test_config().await;
     let model_info = construct_model_info_offline("gpt-5.4", &config);
@@ -1147,7 +1148,7 @@ async fn test_mcp_tool_anyof_defaults_to_string() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn test_get_openai_tools_mcp_tools_with_additional_properties_schema() {
     let config = test_config().await;
     let model_info = construct_model_info_offline("gpt-5.4", &config);
@@ -1258,7 +1259,7 @@ async fn test_get_openai_tools_mcp_tools_with_additional_properties_schema() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn code_mode_only_restricts_model_tools_to_exec_tools() {
     let mut features = Features::with_defaults();
     features.enable(Feature::CodeMode);
@@ -1273,7 +1274,7 @@ async fn code_mode_only_restricts_model_tools_to_exec_tools() {
     .await;
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn code_mode_only_can_expose_multi_agent_v2_as_normal_tools() {
     let config = test_config().await;
     let model_info = construct_model_info_offline("gpt-5.4", &config);
@@ -1342,7 +1343,7 @@ async fn code_mode_only_can_expose_multi_agent_v2_as_normal_tools() {
     assert!(!spawn_agent.description.contains("exec tool declaration"));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn code_mode_only_can_expose_namespaced_multi_agent_v2_as_normal_tools() {
     let config = test_config().await;
     let model_info = construct_model_info_offline("gpt-5.4", &config);

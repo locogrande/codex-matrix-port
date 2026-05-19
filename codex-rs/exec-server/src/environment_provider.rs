@@ -97,13 +97,14 @@ pub(crate) fn normalize_exec_server_url(exec_server_url: Option<String>) -> (Opt
 
 #[cfg(test)]
 mod tests {
+    use matrix_test_macro as matrix;
     use std::collections::HashMap;
 
     use pretty_assertions::assert_eq;
 
     use super::*;
 
-    #[tokio::test]
+    #[matrix::test]
     async fn default_provider_requests_local_environment_when_url_is_missing() {
         let provider = DefaultEnvironmentProvider::new(/*exec_server_url*/ None);
         let snapshot = provider.snapshot().await.expect("environments");
@@ -123,7 +124,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn default_provider_requests_local_environment_when_url_is_empty() {
         let provider = DefaultEnvironmentProvider::new(Some(String::new()));
         let snapshot = provider.snapshot().await.expect("environments");
@@ -143,7 +144,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn default_provider_omits_local_environment_for_none_value() {
         let provider = DefaultEnvironmentProvider::new(Some("none".to_string()));
         let snapshot = provider.snapshot().await.expect("environments");
@@ -160,7 +161,7 @@ mod tests {
         assert_eq!(default, EnvironmentDefault::Disabled);
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn default_provider_adds_remote_environment_for_websocket_url() {
         let provider = DefaultEnvironmentProvider::new(Some("ws://127.0.0.1:8765".to_string()));
         let snapshot = provider.snapshot().await.expect("environments");
@@ -185,7 +186,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn default_provider_normalizes_exec_server_url() {
         let provider = DefaultEnvironmentProvider::new(Some(" ws://127.0.0.1:8765 ".to_string()));
         let snapshot = provider.snapshot().await.expect("environments");

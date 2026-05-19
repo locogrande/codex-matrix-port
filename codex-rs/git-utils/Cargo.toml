@@ -34,6 +34,7 @@ ts-rs = { workspace = true, features = [
 walkdir = { workspace = true }
 
 [dev-dependencies]
+matrix-test-macro = { workspace = true }
 pretty_assertions = { workspace = true }
 
 [lib]

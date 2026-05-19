@@ -130,13 +130,14 @@ impl Stopwatch {
 
 #[cfg(test)]
 mod tests {
+    use matrix_test_macro as matrix;
     use super::Stopwatch;
     use tokio::time::Duration;
     use tokio::time::Instant;
     use tokio::time::sleep;
     use tokio::time::timeout;
 
-    #[tokio::test]
+    #[matrix::test]
     async fn cancellation_receiver_fires_after_limit() {
         let stopwatch = Stopwatch::new(Duration::from_millis(50));
         let token = stopwatch.cancellation_token();
@@ -145,7 +146,7 @@ mod tests {
         assert!(start.elapsed() >= Duration::from_millis(50));
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn pause_prevents_timeout_until_resumed() {
         let stopwatch = Stopwatch::new(Duration::from_millis(50));
         let token = stopwatch.cancellation_token();
@@ -172,7 +173,7 @@ mod tests {
         token.cancelled().await;
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn overlapping_pauses_only_resume_once() {
         let stopwatch = Stopwatch::new(Duration::from_millis(50));
         let token = stopwatch.cancellation_token();
@@ -223,7 +224,7 @@ mod tests {
         token.cancelled().await;
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn unlimited_stopwatch_never_cancels() {
         let stopwatch = Stopwatch::unlimited();
         let token = stopwatch.cancellation_token();

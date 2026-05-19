@@ -43,6 +43,7 @@ use codex_protocol::protocol::ThreadGoalStatus;
 use codex_protocol::protocol::ThreadGoalUpdatedEvent;
 use codex_protocol::protocol::UserMessageEvent;
 
+use matrix_test_macro as matrix;
 const NO_SOURCE_FILTER: &[SessionSource] = &[];
 const TEST_PROVIDER: &str = "test-provider";
 
@@ -222,7 +223,7 @@ async fn insert_state_db_thread(
 //     );
 // }
 
-#[tokio::test]
+#[matrix::test]
 async fn find_thread_path_falls_back_when_db_path_is_stale() {
     let temp = TempDir::new().unwrap();
     let home = temp.path();
@@ -257,7 +258,7 @@ async fn find_thread_path_falls_back_when_db_path_is_stale() {
     assert_state_db_rollout_path(home, thread_id, Some(fs_rollout_path.as_path())).await;
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn find_thread_path_falls_back_when_db_path_points_to_another_thread() {
     let temp = TempDir::new().unwrap();
     let home = temp.path();
@@ -302,7 +303,7 @@ async fn find_thread_path_falls_back_when_db_path_points_to_another_thread() {
     assert_state_db_rollout_path(home, thread_id, Some(fs_rollout_path.as_path())).await;
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn find_thread_path_repairs_missing_db_row_after_filesystem_fallback() {
     let temp = TempDir::new().unwrap();
     let home = temp.path();
@@ -335,7 +336,7 @@ async fn find_thread_path_repairs_missing_db_row_after_filesystem_fallback() {
     assert_state_db_rollout_path(home, thread_id, Some(fs_rollout_path.as_path())).await;
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn find_thread_path_accepts_existing_state_db_path_without_canonical_filename() {
     let temp = TempDir::new().unwrap();
     let home = temp.path();
@@ -649,7 +650,7 @@ fn write_session_file_with_meta_payload(
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn test_list_conversations_latest_first() {
     let temp = TempDir::new().unwrap();
     let home = temp.path();
@@ -784,7 +785,7 @@ async fn test_list_conversations_latest_first() {
     assert_eq!(page, expected);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn test_pagination_cursor() {
     let temp = TempDir::new().unwrap();
     let home = temp.path();
@@ -1024,7 +1025,7 @@ async fn test_pagination_cursor() {
     assert_eq!(page3, expected_page3);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn test_list_threads_scans_past_head_for_user_event() {
     let temp = TempDir::new().unwrap();
     let home = temp.path();
@@ -1052,7 +1053,7 @@ async fn test_list_threads_scans_past_head_for_user_event() {
     assert_eq!(page.items[0].thread_id, Some(thread_id_from_uuid(uuid)));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn test_list_threads_uses_goal_objective_as_preview() {
     let temp = TempDir::new().unwrap();
     let home = temp.path();
@@ -1089,7 +1090,7 @@ async fn test_list_threads_uses_goal_objective_as_preview() {
     assert_eq!(item.first_user_message, None);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn test_goal_first_thread_reads_later_user_message() {
     let temp = TempDir::new().unwrap();
     let home = temp.path();
@@ -1129,7 +1130,7 @@ async fn test_goal_first_thread_reads_later_user_message() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn test_get_thread_contents() {
     let temp = TempDir::new().unwrap();
     let home = temp.path();
@@ -1219,7 +1220,7 @@ async fn test_get_thread_contents() {
     assert_eq!(content, expected_content);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn test_base_instructions_missing_in_meta_defaults_to_null() {
     let temp = TempDir::new().unwrap();
     let home = temp.path();
@@ -1261,7 +1262,7 @@ async fn test_base_instructions_missing_in_meta_defaults_to_null() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn test_base_instructions_present_in_meta_is_preserved() {
     let temp = TempDir::new().unwrap();
     let home = temp.path();
@@ -1306,7 +1307,7 @@ async fn test_base_instructions_present_in_meta_is_preserved() {
     assert_eq!(base, Some(base_text));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn test_created_at_sort_uses_file_mtime_for_updated_at() -> Result<()> {
     let temp = TempDir::new().unwrap();
     let home = temp.path();
@@ -1360,7 +1361,7 @@ async fn test_created_at_sort_uses_file_mtime_for_updated_at() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn test_updated_at_uses_file_mtime() -> Result<()> {
     let temp = TempDir::new().unwrap();
     let home = temp.path();
@@ -1454,7 +1455,7 @@ async fn test_updated_at_uses_file_mtime() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn test_timestamp_only_cursor_skips_same_second_filesystem_ties() {
     let temp = TempDir::new().unwrap();
     let home = temp.path();
@@ -1584,7 +1585,7 @@ async fn test_timestamp_only_cursor_skips_same_second_filesystem_ties() {
     assert_eq!(page2, expected_page2);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn test_source_filter_excludes_non_matching_sessions() {
     let temp = TempDir::new().unwrap();
     let home = temp.path();
@@ -1659,7 +1660,7 @@ async fn test_source_filter_excludes_non_matching_sessions() {
     }));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn test_model_provider_filter_selects_only_matching_sessions() -> Result<()> {
     let temp = TempDir::new().unwrap();
     let home = temp.path();

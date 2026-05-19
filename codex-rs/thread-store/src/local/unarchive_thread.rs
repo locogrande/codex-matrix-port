@@ -102,6 +102,7 @@ pub(super) async fn unarchive_thread(
 
 #[cfg(test)]
 mod tests {
+    use matrix_test_macro as matrix;
     use chrono::Utc;
     use codex_protocol::ThreadId;
     use codex_protocol::protocol::SessionSource;
@@ -115,7 +116,7 @@ mod tests {
     use crate::local::test_support::test_config;
     use crate::local::test_support::write_archived_session_file;
 
-    #[tokio::test]
+    #[matrix::test]
     async fn unarchive_thread_restores_rollout_and_returns_updated_thread() {
         let home = TempDir::new().expect("temp dir");
         let store = LocalThreadStore::new(test_config(home.path()), /*state_db*/ None);
@@ -145,7 +146,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn unarchive_thread_updates_sqlite_metadata_when_present() {
         let home = TempDir::new().expect("temp dir");
         let config = test_config(home.path());

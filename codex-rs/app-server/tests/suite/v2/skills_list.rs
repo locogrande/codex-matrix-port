@@ -26,6 +26,7 @@ use wiremock::matchers::method;
 use wiremock::matchers::path;
 use wiremock::matchers::query_param;
 
+use matrix_test_macro as matrix;
 const DEFAULT_TIMEOUT: Duration = Duration::from_secs(30);
 const WATCHER_TIMEOUT: Duration = Duration::from_secs(20);
 
@@ -131,7 +132,7 @@ fn write_cached_remote_plugin_with_skill(
     Ok(skill_path)
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn skills_list_loads_remote_installed_plugin_skills_from_cache() -> Result<()> {
     let codex_home = TempDir::new()?;
     let cwd = TempDir::new()?;
@@ -312,7 +313,7 @@ async fn skills_list_loads_remote_installed_plugin_skills_from_cache() -> Result
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn skills_list_excludes_plugin_skills_when_workspace_codex_plugins_disabled() -> Result<()> {
     let codex_home = TempDir::new()?;
     let repo_root = TempDir::new()?;
@@ -377,7 +378,7 @@ async fn skills_list_excludes_plugin_skills_when_workspace_codex_plugins_disable
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn skills_list_skips_cwd_roots_when_environment_disabled() -> Result<()> {
     let codex_home = TempDir::new()?;
     let cwd = TempDir::new()?;
@@ -427,7 +428,7 @@ async fn skills_list_skips_cwd_roots_when_environment_disabled() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn skills_list_accepts_relative_cwds() -> Result<()> {
     let codex_home = TempDir::new()?;
     let relative_cwd = std::path::PathBuf::from("relative-cwd");
@@ -455,7 +456,7 @@ async fn skills_list_accepts_relative_cwds() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn skills_list_preserves_requested_cwd_order() -> Result<()> {
     let codex_home = TempDir::new()?;
     let first_cwd = TempDir::new()?;
@@ -492,7 +493,7 @@ async fn skills_list_preserves_requested_cwd_order() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn skills_list_uses_cached_result_until_force_reload() -> Result<()> {
     let codex_home = TempDir::new()?;
     let cwd = TempDir::new()?;
@@ -570,7 +571,7 @@ async fn skills_list_uses_cached_result_until_force_reload() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn skills_changed_notification_is_emitted_after_skill_change() -> Result<()> {
     let server = create_mock_responses_server_repeating_assistant("Done").await;
     let codex_home = TempDir::new()?;

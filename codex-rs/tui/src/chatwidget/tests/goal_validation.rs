@@ -3,6 +3,7 @@ use codex_protocol::protocol::MAX_THREAD_GOAL_OBJECTIVE_CHARS;
 use codex_protocol::user_input::MAX_USER_INPUT_TEXT_CHARS;
 use pretty_assertions::assert_eq;
 
+use matrix_test_macro as matrix;
 fn complete_turn_with_message(chat: &mut ChatWidget, turn_id: &str, message: Option<&str>) {
     if let Some(message) = message {
         complete_assistant_message(
@@ -54,7 +55,7 @@ fn rendered_insert_history(events: &[AppEvent]) -> String {
         .join("\n")
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn goal_slash_command_accepts_objective_at_limit() {
     let (mut chat, mut rx, mut op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     chat.set_feature_enabled(Feature::Goals, /*enabled*/ true);
@@ -79,7 +80,7 @@ async fn goal_slash_command_accepts_objective_at_limit() {
     assert_no_submit_op(&mut op_rx);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn goal_slash_command_accepts_multiline_objective_after_blank_first_line() {
     let (mut chat, mut rx, mut op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     chat.set_feature_enabled(Feature::Goals, /*enabled*/ true);
@@ -103,7 +104,7 @@ async fn goal_slash_command_accepts_multiline_objective_after_blank_first_line()
     assert_no_submit_op(&mut op_rx);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn goal_slash_command_rejects_oversized_objective() {
     let (mut chat, mut rx, mut op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     chat.set_feature_enabled(Feature::Goals, /*enabled*/ true);
@@ -129,7 +130,7 @@ async fn goal_slash_command_rejects_oversized_objective() {
     assert_no_submit_op(&mut op_rx);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn goal_slash_command_rejects_large_paste_using_expanded_length() {
     let (mut chat, mut rx, mut op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     chat.set_feature_enabled(Feature::Goals, /*enabled*/ true);
@@ -162,7 +163,7 @@ async fn goal_slash_command_rejects_large_paste_using_expanded_length() {
     assert_no_submit_op(&mut op_rx);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn goal_slash_command_giant_paste_uses_goal_specific_error() {
     let (mut chat, mut rx, mut op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     chat.set_feature_enabled(Feature::Goals, /*enabled*/ true);
@@ -190,7 +191,7 @@ async fn goal_slash_command_giant_paste_uses_goal_specific_error() {
     assert_no_submit_op(&mut op_rx);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn queued_goal_slash_command_rejects_oversized_objective_and_drains_next_input() {
     let (mut chat, mut rx, mut op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     chat.set_feature_enabled(Feature::Goals, /*enabled*/ true);

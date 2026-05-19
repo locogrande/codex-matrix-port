@@ -18,6 +18,7 @@ use crate::config_lock::validate_config_lock_replay;
 
 use super::SessionConfiguration;
 
+use matrix_test_macro as matrix;
 pub(crate) async fn validate_config_lock_if_configured(
     session_configuration: &SessionConfiguration,
 ) -> anyhow::Result<()> {
@@ -211,7 +212,7 @@ mod tests {
     use pretty_assertions::assert_eq;
     use std::sync::Arc;
 
-    #[tokio::test]
+    #[matrix::test]
     async fn lock_contains_prompts_and_materializes_features() {
         let mut sc = crate::session::tests::make_session_configuration_for_tests().await;
         sc.base_instructions = "resolved instructions".to_string();
@@ -273,7 +274,7 @@ mod tests {
         assert_eq!(lockfile.version, crate::config_lock::CONFIG_LOCK_VERSION);
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn lock_skips_session_values_when_model_catalog_fields_are_not_saved() {
         let mut sc = crate::session::tests::make_session_configuration_for_tests().await;
         let mut config = (*sc.original_config_do_not_use).clone();
@@ -299,7 +300,7 @@ mod tests {
         assert_eq!(lock.approvals_reviewer, None);
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn lock_validation_reports_config_diff() {
         let sc = crate::session::tests::make_session_configuration_for_tests().await;
         let expected = sc.to_config_lockfile_toml().expect("lock should serialize");
@@ -317,7 +318,7 @@ mod tests {
         assert!(message.contains("model = "), "{message}");
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn lock_validation_rejects_codex_version_mismatch_by_default() {
         let sc = crate::session::tests::make_session_configuration_for_tests().await;
         let mut expected = sc.to_config_lockfile_toml().expect("lock should serialize");
@@ -338,7 +339,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn lock_validation_can_ignore_codex_version_mismatch() {
         let sc = crate::session::tests::make_session_configuration_for_tests().await;
         let mut expected = sc.to_config_lockfile_toml().expect("lock should serialize");

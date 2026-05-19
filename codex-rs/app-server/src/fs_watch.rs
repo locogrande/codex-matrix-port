@@ -216,6 +216,7 @@ impl FsWatchManager {
 
 #[cfg(test)]
 mod tests {
+    use matrix_test_macro as matrix;
     use super::*;
     use codex_utils_absolute_path::AbsolutePathBuf;
     use pretty_assertions::assert_eq;
@@ -242,7 +243,7 @@ mod tests {
         )
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn watch_uses_client_id_and_tracks_the_owner_scoped_entry() {
         let temp_dir = TempDir::new().expect("temp dir");
         let head_path = temp_dir.path().join("HEAD");
@@ -274,7 +275,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn unwatch_is_scoped_to_the_connection_that_created_the_watch() {
         let temp_dir = TempDir::new().expect("temp dir");
         let head_path = temp_dir.path().join("HEAD");
@@ -319,7 +320,7 @@ mod tests {
         assert!(!manager.state.lock().await.entries.contains_key(&watch_key));
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn watch_rejects_duplicate_id_for_the_same_connection() {
         let temp_dir = TempDir::new().expect("temp dir");
         let head_path = temp_dir.path().join("HEAD");
@@ -354,7 +355,7 @@ mod tests {
         assert_eq!(manager.state.lock().await.entries.len(), 1);
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn connection_closed_removes_only_that_connections_watches() {
         let temp_dir = TempDir::new().expect("temp dir");
         let head_path = temp_dir.path().join("HEAD");

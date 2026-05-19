@@ -1,7 +1,8 @@
 use super::*;
 use pretty_assertions::assert_eq;
 
-#[tokio::test]
+use matrix_test_macro as matrix;
+#[matrix::test]
 async fn exec_approval_emits_proposed_command_and_decision_history() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
 
@@ -82,7 +83,7 @@ fn app_server_exec_approval_request_splits_shell_wrapped_command() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn exec_approval_uses_approval_id_when_present() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
 
@@ -127,7 +128,7 @@ async fn exec_approval_uses_approval_id_when_present() {
     assert!(found, "expected ExecApproval op to be sent");
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn exec_approval_decision_truncates_multiline_and_long_commands() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
 
@@ -214,7 +215,7 @@ async fn exec_approval_decision_truncates_multiline_and_long_commands() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn preamble_keeps_working_status_snapshot() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     chat.thread_id = Some(ThreadId::new());
@@ -244,7 +245,7 @@ async fn preamble_keeps_working_status_snapshot() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn unified_exec_begin_restores_status_indicator_after_preamble() {
     let (mut chat, _rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
 
@@ -261,7 +262,7 @@ async fn unified_exec_begin_restores_status_indicator_after_preamble() {
     assert_eq!(chat.bottom_pane.status_indicator_visible(), true);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn unified_exec_begin_restores_working_status_snapshot() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
 
@@ -286,7 +287,7 @@ async fn unified_exec_begin_restores_working_status_snapshot() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn exec_history_cell_shows_working_then_completed() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
 
@@ -316,7 +317,7 @@ async fn exec_history_cell_shows_working_then_completed() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn exec_history_cell_shows_working_then_failed() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
 
@@ -340,7 +341,7 @@ async fn exec_history_cell_shows_working_then_failed() {
     assert!(blob.to_lowercase().contains("bloop"), "expected error text");
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn exec_end_without_begin_uses_event_command() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     let command = vec![
@@ -382,7 +383,7 @@ async fn exec_end_without_begin_uses_event_command() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn exec_end_without_begin_does_not_flush_unrelated_running_exploring_cell() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     chat.on_task_started();
@@ -425,7 +426,7 @@ async fn exec_end_without_begin_does_not_flush_unrelated_running_exploring_cell(
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn exec_end_without_begin_flushes_completed_unrelated_exploring_cell() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     chat.on_task_started();
@@ -464,7 +465,7 @@ async fn exec_end_without_begin_flushes_completed_unrelated_exploring_cell() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn overlapping_exploring_exec_end_is_not_misclassified_as_orphan() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
 
@@ -496,7 +497,7 @@ async fn overlapping_exploring_exec_end_is_not_misclassified_as_orphan() {
     end_exec(&mut chat, begin_cat, "hello\n", "", /*exit_code*/ 0);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn exec_history_shows_unified_exec_startup_commands() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     chat.on_task_started();
@@ -529,7 +530,7 @@ async fn exec_history_shows_unified_exec_startup_commands() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn exec_history_shows_unified_exec_tool_calls() {
     let (mut chat, _rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     chat.on_task_started();
@@ -546,7 +547,7 @@ async fn exec_history_shows_unified_exec_tool_calls() {
     assert_eq!(blob, "• Explored\n  └ List ls\n");
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn unified_exec_unknown_end_with_active_exploring_cell_snapshot() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     chat.on_task_started();
@@ -575,7 +576,7 @@ async fn unified_exec_unknown_end_with_active_exploring_cell_snapshot() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn unified_exec_end_after_task_complete_is_suppressed() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     chat.on_task_started();
@@ -600,7 +601,7 @@ async fn unified_exec_end_after_task_complete_is_suppressed() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn unified_exec_interaction_after_task_complete_is_suppressed() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     chat.on_task_started();
@@ -617,7 +618,7 @@ async fn unified_exec_interaction_after_task_complete_is_suppressed() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn unified_exec_wait_after_final_agent_message_snapshot() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     handle_turn_started(&mut chat, "turn-1");
@@ -636,7 +637,7 @@ async fn unified_exec_wait_after_final_agent_message_snapshot() {
     assert_chatwidget_snapshot!("unified_exec_wait_after_final_agent_message", combined);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn unified_exec_wait_before_streamed_agent_message_snapshot() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     handle_turn_started(&mut chat, "turn-1");
@@ -660,7 +661,7 @@ async fn unified_exec_wait_before_streamed_agent_message_snapshot() {
     assert_chatwidget_snapshot!("unified_exec_wait_before_streamed_agent_message", combined);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn final_worked_for_uses_cumulative_turn_duration_snapshot() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     handle_turn_started(&mut chat, "turn-1");
@@ -693,7 +694,7 @@ async fn final_worked_for_uses_cumulative_turn_duration_snapshot() {
     assert_chatwidget_snapshot!("final_worked_for_uses_cumulative_turn_duration", combined);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn unified_exec_wait_status_header_updates_on_late_command_display() {
     let (mut chat, _rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     chat.on_task_started();
@@ -719,7 +720,7 @@ async fn unified_exec_wait_status_header_updates_on_late_command_display() {
     assert_eq!(status.details(), Some("sleep 5"));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn unified_exec_waiting_multiple_empty_snapshots() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     chat.on_task_started();
@@ -748,7 +749,7 @@ async fn unified_exec_waiting_multiple_empty_snapshots() {
     assert_chatwidget_snapshot!("unified_exec_waiting_multiple_empty_after", combined);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn unified_exec_wait_status_renders_command_in_single_details_row_snapshot() {
     let (mut chat, _rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     chat.on_task_started();
@@ -768,7 +769,7 @@ async fn unified_exec_wait_status_renders_command_in_single_details_row_snapshot
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn unified_exec_empty_then_non_empty_snapshot() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     chat.on_task_started();
@@ -785,7 +786,7 @@ async fn unified_exec_empty_then_non_empty_snapshot() {
     assert_chatwidget_snapshot!("unified_exec_empty_then_non_empty_after", combined);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn unified_exec_non_empty_then_empty_snapshots() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     chat.on_task_started();
@@ -828,7 +829,7 @@ async fn unified_exec_non_empty_then_empty_snapshots() {
     assert_chatwidget_snapshot!("unified_exec_non_empty_then_empty_after", combined);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn view_image_tool_call_adds_history_cell() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     let image_path = chat.config.cwd.join("example.png");
@@ -841,7 +842,7 @@ async fn view_image_tool_call_adds_history_cell() {
     assert_chatwidget_snapshot!("local_image_attachment_history_snapshot", combined);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn image_generation_call_adds_history_cell() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
 
@@ -862,7 +863,7 @@ async fn image_generation_call_adds_history_cell() {
     assert_chatwidget_snapshot!("image_generation_call_history_snapshot", combined);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn exec_history_extends_previous_when_consecutive() {
     let (mut chat, _rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
 
@@ -911,7 +912,7 @@ async fn exec_history_extends_previous_when_consecutive() {
     assert_chatwidget_snapshot!("exploring_step6_finish_cat_bar", active_blob(&chat));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn user_shell_command_renders_output_not_exploring() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
 
@@ -939,7 +940,7 @@ async fn user_shell_command_renders_output_not_exploring() {
     assert_chatwidget_snapshot!("user_shell_ls_output", blob);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn bang_shell_enter_while_task_running_submits_run_user_shell_command() {
     let (mut chat, mut rx, mut op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     let thread_id = ThreadId::new();
@@ -984,7 +985,7 @@ async fn bang_shell_enter_while_task_running_submits_run_user_shell_command() {
     assert_matches!(rx.try_recv(), Err(TryRecvError::Empty));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn user_message_during_user_shell_command_is_queued_not_steered() {
     let (mut chat, _rx, mut op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     chat.thread_id = Some(ThreadId::new());
@@ -1026,7 +1027,7 @@ async fn user_message_during_user_shell_command_is_queued_not_steered() {
     assert!(chat.input_queue.queued_user_messages.is_empty());
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn disabled_slash_command_while_task_running_snapshot() {
     // Build a chat widget and simulate an active task
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
@@ -1050,7 +1051,7 @@ async fn disabled_slash_command_while_task_running_snapshot() {
 //
 // Synthesizes an exec approval request to trigger the approval modal
 // and snapshots the visual output using the ratatui TestBackend.
-#[tokio::test]
+#[matrix::test]
 async fn approval_modal_exec_snapshot() -> anyhow::Result<()> {
     // Build a chat widget with manual channels to avoid spawning the agent.
     let (mut chat, _rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
@@ -1109,7 +1110,7 @@ async fn approval_modal_exec_snapshot() -> anyhow::Result<()> {
 
 // Snapshot test: command approval modal without a reason
 // Ensures spacing looks correct when no reason text is provided.
-#[tokio::test]
+#[matrix::test]
 async fn approval_modal_exec_without_reason_snapshot() -> anyhow::Result<()> {
     let (mut chat, _rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     chat.config
@@ -1152,7 +1153,7 @@ async fn approval_modal_exec_without_reason_snapshot() -> anyhow::Result<()> {
 
 // Snapshot test: approval modal with a proposed execpolicy prefix that is multi-line;
 // we should not offer adding it to execpolicy.
-#[tokio::test]
+#[matrix::test]
 async fn approval_modal_exec_multiline_prefix_hides_execpolicy_option_snapshot()
 -> anyhow::Result<()> {
     let (mut chat, _rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
@@ -1197,7 +1198,7 @@ async fn approval_modal_exec_multiline_prefix_hides_execpolicy_option_snapshot()
 }
 
 // Snapshot test: patch approval modal
-#[tokio::test]
+#[matrix::test]
 async fn approval_modal_patch_snapshot() -> anyhow::Result<()> {
     let (mut chat, _rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     chat.config
@@ -1237,7 +1238,7 @@ async fn approval_modal_patch_snapshot() -> anyhow::Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn interrupt_preserves_unified_exec_processes() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
 
@@ -1268,7 +1269,7 @@ async fn interrupt_preserves_unified_exec_processes() {
     let _ = drain_insert_history(&mut rx);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn interrupt_preserves_unified_exec_wait_streak_snapshot() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
 
@@ -1290,7 +1291,7 @@ async fn interrupt_preserves_unified_exec_wait_streak_snapshot() {
     assert_chatwidget_snapshot!("interrupt_preserves_unified_exec_wait_streak", snapshot);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn turn_complete_keeps_unified_exec_processes() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
 
@@ -1321,7 +1322,7 @@ async fn turn_complete_keeps_unified_exec_processes() {
     let _ = drain_insert_history(&mut rx);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn apply_patch_events_emit_history_cells() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
 
@@ -1385,7 +1386,7 @@ async fn apply_patch_events_emit_history_cells() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn apply_patch_manual_approval_adjusts_header() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
 
@@ -1427,7 +1428,7 @@ async fn apply_patch_manual_approval_adjusts_header() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn apply_patch_manual_flow_snapshot() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
 
@@ -1473,7 +1474,7 @@ async fn apply_patch_manual_flow_snapshot() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn apply_patch_approval_sends_op_with_call_id() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     // Simulate receiving an approval request with a distinct event id and call id.
@@ -1516,7 +1517,7 @@ async fn apply_patch_approval_sends_op_with_call_id() {
     assert!(found, "expected PatchApproval op to be sent");
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn apply_patch_full_flow_integration_like() {
     let (mut chat, mut rx, mut op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
 
@@ -1586,7 +1587,7 @@ async fn apply_patch_full_flow_integration_like() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn apply_patch_untrusted_shows_approval_modal() -> anyhow::Result<()> {
     let (mut chat, _rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     // Ensure approval policy is untrusted (OnRequest)
@@ -1637,7 +1638,7 @@ async fn apply_patch_untrusted_shows_approval_modal() -> anyhow::Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn apply_patch_request_omits_diff_summary_from_modal() -> anyhow::Result<()> {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
 

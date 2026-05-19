@@ -275,6 +275,7 @@ fn build_reqwest_client() -> reqwest::Client {
 
 #[cfg(test)]
 mod tests {
+    use matrix_test_macro as matrix;
     use super::*;
     use pretty_assertions::assert_eq;
     use reqwest::header::HeaderValue;
@@ -312,7 +313,7 @@ mod tests {
         format!("{}/backend-api", server.uri())
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn upload_local_file_returns_canonical_uri() {
         let server = MockServer::start().await;
         Mock::given(method("POST"))

@@ -366,6 +366,7 @@ fn is_retained_for_remote_compaction_v2(item: &ResponseItem) -> bool {
 
 #[cfg(test)]
 mod tests {
+    use matrix_test_macro as matrix;
     use super::*;
     use codex_protocol::models::ContentItem;
     use codex_protocol::models::MessagePhase;
@@ -434,7 +435,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn collect_compaction_output_accepts_additional_output_items() {
         let compaction = ResponseItem::Compaction {
             encrypted_content: "encrypted".to_string(),

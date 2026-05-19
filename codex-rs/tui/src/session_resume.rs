@@ -191,6 +191,7 @@ async fn read_rollout_resume_state(path: &Path) -> io::Result<RolloutResumeState
 
 #[cfg(test)]
 mod tests {
+    use matrix_test_macro as matrix;
     use super::*;
     use pretty_assertions::assert_eq;
     use tempfile::TempDir;
@@ -216,7 +217,7 @@ mod tests {
         std::fs::write(path, text)
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn rollout_resume_state_prefers_latest_turn_context() -> std::io::Result<()> {
         let temp_dir = TempDir::new()?;
         let thread_id = ThreadId::new();
@@ -257,7 +258,7 @@ mod tests {
         Ok(())
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn rollout_resume_state_falls_back_to_session_meta() -> std::io::Result<()> {
         let temp_dir = TempDir::new()?;
         let thread_id = ThreadId::new();
@@ -285,7 +286,7 @@ mod tests {
         Ok(())
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn rollout_resume_state_skips_malformed_lines() -> std::io::Result<()> {
         let temp_dir = TempDir::new()?;
         let thread_id = ThreadId::new();

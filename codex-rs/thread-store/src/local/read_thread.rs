@@ -407,6 +407,7 @@ fn parse_rfc3339_non_optional(value: &str) -> Option<DateTime<Utc>> {
 
 #[cfg(test)]
 mod tests {
+    use matrix_test_macro as matrix;
     use std::io::Write;
     use std::path::PathBuf;
 
@@ -426,7 +427,7 @@ mod tests {
     use crate::local::test_support::write_session_file;
     use crate::local::test_support::write_session_file_with_fork;
 
-    #[tokio::test]
+    #[matrix::test]
     async fn read_thread_returns_active_rollout_summary() {
         let home = TempDir::new().expect("temp dir");
         let store = LocalThreadStore::new(test_config(home.path()), /*state_db*/ None);
@@ -454,7 +455,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn read_thread_returns_rollout_path_summary() {
         let home = TempDir::new().expect("temp dir");
         let store = LocalThreadStore::new(test_config(home.path()), /*state_db*/ None);
@@ -484,7 +485,7 @@ mod tests {
         assert_eq!(thread.preview, "Hello from user");
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn read_thread_by_rollout_path_prefers_sqlite_git_info() {
         let home = TempDir::new().expect("temp dir");
         let config = test_config(home.path());
@@ -533,7 +534,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn read_thread_returns_archived_rollout_when_requested() {
         let home = TempDir::new().expect("temp dir");
         let store = LocalThreadStore::new(test_config(home.path()), /*state_db*/ None);
@@ -574,7 +575,7 @@ mod tests {
         assert!(thread.history.is_none());
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn read_thread_prefers_active_rollout_over_archived() {
         let home = TempDir::new().expect("temp dir");
         let store = LocalThreadStore::new(test_config(home.path()), /*state_db*/ None);
@@ -599,7 +600,7 @@ mod tests {
         assert_eq!(thread.preview, "Hello from user");
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn read_thread_returns_forked_from_id() {
         let home = TempDir::new().expect("temp dir");
         let store = LocalThreadStore::new(test_config(home.path()), /*state_db*/ None);
@@ -631,7 +632,7 @@ mod tests {
         assert_eq!(thread.forked_from_id, Some(parent_thread_id));
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn read_thread_applies_sqlite_thread_name() {
         let home = TempDir::new().expect("temp dir");
         let config = test_config(home.path());
@@ -671,7 +672,7 @@ mod tests {
         assert_eq!(thread.name, Some("Saved title".to_string()));
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn read_thread_preserves_rollout_cwd_when_sqlite_metadata_exists() {
         let home = TempDir::new().expect("temp dir");
         let config = test_config(home.path());
@@ -747,7 +748,7 @@ mod tests {
         assert_eq!(thread.cwd, rollout_cwd);
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn read_thread_uses_legacy_thread_name_when_sqlite_title_is_missing() {
         let home = TempDir::new().expect("temp dir");
         let store = LocalThreadStore::new(test_config(home.path()), /*state_db*/ None);
@@ -770,7 +771,7 @@ mod tests {
         assert_eq!(thread.name, Some("Legacy title".to_string()));
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn read_thread_uses_sqlite_metadata_for_rollout_without_user_preview() {
         let home = TempDir::new().expect("temp dir");
         let config = test_config(home.path());
@@ -839,7 +840,7 @@ mod tests {
         assert_eq!(history.items.len(), 1);
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn read_thread_falls_back_to_rollout_search_when_sqlite_path_is_stale() {
         let home = TempDir::new().expect("temp dir");
         let external = TempDir::new().expect("external temp dir");
@@ -888,7 +889,7 @@ mod tests {
         assert_eq!(history.items.len(), 2);
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn read_thread_falls_back_when_sqlite_path_points_to_another_thread() {
         let home = TempDir::new().expect("temp dir");
         let external = TempDir::new().expect("external temp dir");
@@ -935,7 +936,7 @@ mod tests {
         assert_eq!(history.items.len(), 2);
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn read_thread_uses_session_meta_for_rollout_without_user_preview_or_sqlite_metadata() {
         let home = TempDir::new().expect("temp dir");
         let store = LocalThreadStore::new(test_config(home.path()), /*state_db*/ None);
@@ -988,7 +989,7 @@ mod tests {
         assert_eq!(history.items.len(), 1);
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn read_thread_falls_back_to_sqlite_summary() {
         let home = TempDir::new().expect("temp dir");
         let external = TempDir::new().expect("external temp dir");
@@ -1050,7 +1051,7 @@ mod tests {
         assert!(thread.history.is_none());
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn read_thread_sqlite_fallback_respects_include_archived() {
         let home = TempDir::new().expect("temp dir");
         let external = TempDir::new().expect("external temp dir");
@@ -1107,7 +1108,7 @@ mod tests {
         assert!(thread.archived_at.is_some());
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn read_thread_sqlite_fallback_loads_archived_history() {
         let home = TempDir::new().expect("temp dir");
         let config = test_config(home.path());
@@ -1154,7 +1155,7 @@ mod tests {
         assert_eq!(history.items.len(), 2);
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn read_thread_fails_without_rollout() {
         let home = TempDir::new().expect("temp dir");
         let store = LocalThreadStore::new(test_config(home.path()), /*state_db*/ None);

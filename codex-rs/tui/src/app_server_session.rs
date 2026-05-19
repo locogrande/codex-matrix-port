@@ -121,6 +121,7 @@ use color_eyre::eyre::WrapErr;
 use std::collections::HashMap;
 use std::path::PathBuf;
 
+use matrix_test_macro as matrix;
 fn bootstrap_request_error(context: &'static str, err: TypedRequestError) -> color_eyre::Report {
     color_eyre::eyre::eyre!("{context}: {err}")
 }
@@ -1634,7 +1635,7 @@ mod tests {
             .expect("config should build")
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn thread_start_params_include_cwd_for_embedded_sessions() {
         let temp_dir = tempfile::tempdir().expect("tempdir");
         let config = ConfigBuilder::default()
@@ -1677,7 +1678,7 @@ mod tests {
         assert_eq!(params.thread_source, Some(ThreadSource::User));
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn thread_start_params_can_mark_clear_source() {
         let temp_dir = tempfile::tempdir().expect("tempdir");
         let config = build_config(&temp_dir).await;
@@ -1774,7 +1775,7 @@ mod tests {
         assert_eq!(permissions, Some(expected_permissions));
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn thread_lifecycle_params_omit_cwd_without_remote_override_for_remote_sessions() {
         let temp_dir = tempfile::tempdir().expect("tempdir");
         let config = build_config(&temp_dir).await;
@@ -1897,7 +1898,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn thread_lifecycle_params_forward_explicit_remote_cwd_override_for_remote_sessions() {
         let temp_dir = tempfile::tempdir().expect("tempdir");
         let config = build_config(&temp_dir).await;
@@ -1943,7 +1944,7 @@ mod tests {
         assert_eq!(fork.thread_source, Some(ThreadSource::User));
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn thread_lifecycle_params_forward_model_reasoning_and_service_tier() {
         let temp_dir = tempfile::tempdir().expect("tempdir");
         let mut config = build_config(&temp_dir).await;
@@ -1994,7 +1995,7 @@ mod tests {
         assert_eq!(fork.config, Some(expected_config));
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn config_request_overrides_preserve_implicit_personality_default() {
         let temp_dir = tempfile::tempdir().expect("tempdir");
         let mut config = build_config(&temp_dir).await;
@@ -2015,7 +2016,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn thread_fork_params_forward_instruction_overrides() {
         let temp_dir = tempfile::tempdir().expect("tempdir");
         let mut config = build_config(&temp_dir).await;
@@ -2037,7 +2038,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn resume_response_restores_turns_from_thread_items() {
         let temp_dir = tempfile::tempdir().expect("tempdir");
         let config = build_config(&temp_dir).await;
@@ -2158,7 +2159,7 @@ mod tests {
         assert_eq!(started.session.runtime_workspace_roots, Vec::new());
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn remote_thread_response_uses_legacy_sandbox_fallback() {
         let temp_dir = tempfile::tempdir().expect("tempdir");
         let config = build_config(&temp_dir).await;
@@ -2179,7 +2180,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn embedded_thread_response_uses_local_config_profile() {
         let temp_dir = tempfile::tempdir().expect("tempdir");
         let config = ConfigBuilder::default()
@@ -2204,7 +2205,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn session_configured_populates_history_metadata() {
         let temp_dir = tempfile::tempdir().expect("tempdir");
         let config = build_config(&temp_dir).await;
@@ -2248,7 +2249,7 @@ mod tests {
         assert_eq!(metadata.entry_count, 2);
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn session_configured_preserves_fork_source_thread_id() {
         let temp_dir = tempfile::tempdir().expect("tempdir");
         let config = build_config(&temp_dir).await;

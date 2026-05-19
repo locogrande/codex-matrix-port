@@ -1,3 +1,4 @@
+use matrix_test_macro as matrix;
 mod archive_thread;
 mod create_thread;
 mod helpers;
@@ -301,7 +302,7 @@ mod tests {
     use crate::local::test_support::write_archived_session_file;
     use crate::local::test_support::write_session_file;
 
-    #[tokio::test]
+    #[matrix::test]
     async fn live_writer_lifecycle_writes_and_closes() {
         let home = TempDir::new().expect("temp dir");
         let store = LocalThreadStore::new(test_config(home.path()), /*state_db*/ None);
@@ -350,7 +351,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn raw_append_items_does_not_update_sqlite_metadata() {
         // This pins the ThreadStore contract: raw appends are history-only. Callers that need
         // metadata updates must use LiveThread or call update_thread_metadata explicitly.
@@ -387,7 +388,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn live_thread_observes_appended_items_into_sqlite_metadata() {
         let home = TempDir::new().expect("temp dir");
         let config = test_config(home.path());
@@ -422,7 +423,7 @@ mod tests {
         assert_eq!(metadata.title, "observed append");
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn live_thread_shutdown_does_not_materialize_empty_thread_metadata() {
         let home = TempDir::new().expect("temp dir");
         let config = test_config(home.path());
@@ -458,7 +459,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn live_thread_shutdown_with_buffered_items_materializes_before_metadata_read() {
         let home = TempDir::new().expect("temp dir");
         let config = test_config(home.path());
@@ -502,7 +503,7 @@ mod tests {
         assert_eq!(metadata.rollout_path, rollout_path);
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn live_thread_resume_loads_history_before_observing_metadata() {
         let home = TempDir::new().expect("temp dir");
         let config = test_config(home.path());
@@ -556,7 +557,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn live_thread_resume_loads_history_from_explicit_external_rollout_path() {
         let home = TempDir::new().expect("temp dir");
         let external_home = TempDir::new().expect("external temp dir");
@@ -611,7 +612,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn create_thread_rejects_missing_cwd() {
         let home = TempDir::new().expect("temp dir");
         let store = LocalThreadStore::new(test_config(home.path()), /*state_db*/ None);
@@ -631,7 +632,7 @@ mod tests {
         ));
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn discard_thread_drops_unmaterialized_live_writer() {
         let home = TempDir::new().expect("temp dir");
         let store = LocalThreadStore::new(test_config(home.path()), /*state_db*/ None);
@@ -667,7 +668,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn resume_thread_reopens_live_writer_and_appends() {
         let home = TempDir::new().expect("temp dir");
         let config = test_config(home.path());
@@ -730,7 +731,7 @@ mod tests {
         assert_rollout_contains_message(rollout_path.as_path(), "after resume").await;
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn create_thread_rejects_duplicate_live_writer() {
         let home = TempDir::new().expect("temp dir");
         let store = LocalThreadStore::new(test_config(home.path()), /*state_db*/ None);
@@ -750,7 +751,7 @@ mod tests {
         assert!(err.to_string().contains("already has a live local writer"));
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn resume_thread_rejects_duplicate_live_writer() {
         let home = TempDir::new().expect("temp dir");
         let store = LocalThreadStore::new(test_config(home.path()), /*state_db*/ None);
@@ -779,7 +780,7 @@ mod tests {
         assert!(err.to_string().contains("already has a live local writer"));
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn resume_thread_rejects_missing_cwd() {
         let home = TempDir::new().expect("temp dir");
         let store = LocalThreadStore::new(test_config(home.path()), /*state_db*/ None);
@@ -807,7 +808,7 @@ mod tests {
         assert!(err.to_string().contains("requires a cwd"));
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn load_history_uses_live_writer_rollout_path() {
         let home = TempDir::new().expect("temp dir");
         let external_home = TempDir::new().expect("external temp dir");
@@ -856,7 +857,7 @@ mod tests {
         }));
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn read_thread_uses_live_writer_rollout_path_for_external_resume() {
         let home = TempDir::new().expect("temp dir");
         let external_home = TempDir::new().expect("external temp dir");
@@ -896,7 +897,7 @@ mod tests {
         }));
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn load_history_uses_live_writer_rollout_path_for_archived_source() {
         let home = TempDir::new().expect("temp dir");
         let store = LocalThreadStore::new(test_config(home.path()), /*state_db*/ None);
@@ -964,7 +965,7 @@ mod tests {
         }));
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn read_thread_by_rollout_path_includes_history() {
         let home = TempDir::new().expect("temp dir");
         let store = LocalThreadStore::new(test_config(home.path()), /*state_db*/ None);

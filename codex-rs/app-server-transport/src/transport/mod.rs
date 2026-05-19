@@ -257,6 +257,7 @@ fn serialize_outgoing_message(outgoing_message: OutgoingMessage) -> Option<Strin
 
 #[cfg(test)]
 mod tests {
+    use matrix_test_macro as matrix;
     use super::*;
     use codex_app_server_protocol::ConfigWarningNotification;
     use codex_app_server_protocol::JSONRPCNotification;
@@ -277,7 +278,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn enqueue_incoming_request_returns_overload_error_when_queue_is_full() {
         let connection_id = ConnectionId(42);
         let (transport_event_tx, mut transport_event_rx) = mpsc::channel(1);
@@ -338,7 +339,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn enqueue_incoming_response_waits_instead_of_dropping_when_queue_is_full() {
         let connection_id = ConnectionId(42);
         let (transport_event_tx, mut transport_event_rx) = mpsc::channel(1);
@@ -407,7 +408,7 @@ mod tests {
         }
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn enqueue_incoming_request_does_not_block_when_writer_queue_is_full() {
         let connection_id = ConnectionId(42);
         let (transport_event_tx, _transport_event_rx) = mpsc::channel(1);

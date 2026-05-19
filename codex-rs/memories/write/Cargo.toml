@@ -40,6 +40,7 @@ tracing = { workspace = true, features = ["log"] }
 uuid = { workspace = true, features = ["v4", "v5"] }
 
 [dev-dependencies]
+matrix-test-macro = { workspace = true }
 codex-models-manager = { workspace = true }
 core_test_support = { workspace = true }
 pretty_assertions = { workspace = true }

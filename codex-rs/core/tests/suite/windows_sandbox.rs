@@ -16,6 +16,7 @@ use core_test_support::PathExt;
 use serial_test::serial;
 use std::ffi::OsString;
 
+use matrix_test_macro as matrix;
 struct EnvVarGuard {
     key: &'static str,
     original: Option<OsString>,
@@ -57,7 +58,7 @@ fn stage_windows_sandbox_helpers() -> anyhow::Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 #[serial(codex_home)]
 async fn windows_restricted_token_rejects_exact_and_glob_deny_read_policy() -> anyhow::Result<()> {
     let temp_home = TempDir::new()?;
@@ -137,7 +138,7 @@ async fn windows_restricted_token_rejects_exact_and_glob_deny_read_policy() -> a
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 #[serial(codex_home)]
 async fn windows_elevated_enforces_exact_and_glob_deny_read_policy() -> anyhow::Result<()> {
     let temp_home = TempDir::new()?;

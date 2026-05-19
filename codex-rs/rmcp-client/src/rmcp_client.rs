@@ -74,6 +74,7 @@ use crate::utils::apply_default_headers;
 use crate::utils::build_default_headers;
 use codex_config::types::OAuthCredentialsStoreMode;
 
+use matrix_test_macro as matrix;
 enum PendingTransport {
     InProcess {
         transport: tokio::io::DuplexStream,
@@ -1073,7 +1074,7 @@ mod tests {
 
     use super::*;
 
-    #[tokio::test]
+    #[matrix::test]
     async fn active_time_timeout_pauses_while_elicitation_is_pending() {
         let pause_state = ElicitationPauseState::new();
         let pause = pause_state.enter();

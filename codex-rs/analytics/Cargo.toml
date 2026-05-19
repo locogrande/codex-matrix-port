@@ -30,5 +30,6 @@ tokio = { workspace = true, features = [
 tracing = { workspace = true, features = ["log"] }
 
 [dev-dependencies]
+matrix-test-macro = { workspace = true }
 codex-utils-absolute-path = { workspace = true }
 pretty_assertions = { workspace = true }

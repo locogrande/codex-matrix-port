@@ -12,6 +12,7 @@ use std::collections::HashMap;
 use tempfile::TempDir;
 use tokio::process::Command;
 
+use matrix_test_macro as matrix;
 fn test_mcp_turn_metadata_context() -> McpTurnMetadataContext<'static> {
     McpTurnMetadataContext {
         model: "gpt-5.4",
@@ -19,7 +20,7 @@ fn test_mcp_turn_metadata_context() -> McpTurnMetadataContext<'static> {
     }
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn build_turn_metadata_header_includes_has_changes_for_clean_repo() {
     let temp_dir = TempDir::new().expect("temp dir");
     let repo_path = temp_dir.path().join("repo-東京").abs();

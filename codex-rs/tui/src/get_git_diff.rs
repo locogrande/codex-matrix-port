@@ -122,6 +122,7 @@ async fn run_git_command(
 
 #[cfg(test)]
 mod tests {
+    use matrix_test_macro as matrix;
     use super::*;
     use crate::workspace_command::WorkspaceCommandError;
     use pretty_assertions::assert_eq;
@@ -131,7 +132,7 @@ mod tests {
     use std::pin::Pin;
     use std::sync::Mutex;
 
-    #[tokio::test]
+    #[matrix::test]
     async fn get_git_diff_returns_not_git_for_non_git_cwd() {
         let cwd = PathBuf::from("/workspace");
         let runner = FakeRunner::new(vec![response(
@@ -150,7 +151,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn get_git_diff_concatenates_tracked_and_untracked_diffs() {
         let cwd = PathBuf::from("/workspace");
         let runner = FakeRunner::new(vec![
@@ -207,7 +208,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn get_git_diff_accepts_diff_exit_code_one() {
         let cwd = PathBuf::from("/workspace");
         let runner = FakeRunner::new(vec![
@@ -233,7 +234,7 @@ mod tests {
         assert_eq!(result, Ok((true, "tracked\n".to_string())));
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn get_git_diff_rejects_unexpected_git_diff_status() {
         let cwd = PathBuf::from("/workspace");
         let runner = FakeRunner::new(vec![

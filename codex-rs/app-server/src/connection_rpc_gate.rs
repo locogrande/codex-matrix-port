@@ -66,6 +66,7 @@ impl Default for ConnectionRpcGate {
 
 #[cfg(test)]
 mod tests {
+    use matrix_test_macro as matrix;
     use super::*;
     use pretty_assertions::assert_eq;
     use std::sync::Arc;
@@ -75,7 +76,7 @@ mod tests {
     use tokio::time::Duration;
     use tokio::time::timeout;
 
-    #[tokio::test]
+    #[matrix::test]
     async fn run_executes_while_open() {
         let gate = ConnectionRpcGate::new();
         let ran = Arc::new(AtomicBool::new(/*v*/ false));
@@ -89,7 +90,7 @@ mod tests {
         assert!(ran.load(Ordering::Acquire));
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn run_drops_future_without_polling_after_shutdown() {
         let gate = ConnectionRpcGate::new();
         gate.shutdown().await;
@@ -105,7 +106,7 @@ mod tests {
         assert!(!gate.is_accepting().await);
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn shutdown_waits_for_started_run_to_finish() {
         let gate = Arc::new(ConnectionRpcGate::new());
         let (started_tx, started_rx) = oneshot::channel();
@@ -140,7 +141,7 @@ mod tests {
         assert_eq!(gate.inflight_count(), 0);
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn shutdown_drops_late_runs_while_waiting_for_inflight_work() {
         let gate = Arc::new(ConnectionRpcGate::new());
         let (started_tx, started_rx) = oneshot::channel();
@@ -182,7 +183,7 @@ mod tests {
         assert_eq!(gate.inflight_count(), 0);
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn run_is_counted_before_handler_body_continues() {
         let gate = Arc::new(ConnectionRpcGate::new());
         let (entered_tx, entered_rx) = oneshot::channel();

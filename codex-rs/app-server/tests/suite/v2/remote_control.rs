@@ -20,9 +20,10 @@ use tokio::sync::oneshot;
 use tokio::task::JoinHandle;
 use tokio::time::timeout;
 
+use matrix_test_macro as matrix;
 const DEFAULT_TIMEOUT: Duration = Duration::from_secs(10);
 
-#[tokio::test]
+#[matrix::test]
 async fn remote_control_disable_returns_disabled_status() -> Result<()> {
     let codex_home = TempDir::new()?;
     let mut mcp = McpProcess::new(codex_home.path()).await?;
@@ -43,7 +44,7 @@ async fn remote_control_disable_returns_disabled_status() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn remote_control_status_read_returns_disabled_status() -> Result<()> {
     let codex_home = TempDir::new()?;
     let mut mcp = McpProcess::new(codex_home.path()).await?;
@@ -64,7 +65,7 @@ async fn remote_control_status_read_returns_disabled_status() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn remote_control_enable_returns_connecting_status() -> Result<()> {
     let codex_home = TempDir::new()?;
     let _backend = BlockingRemoteControlBackend::start(codex_home.path()).await?;
@@ -86,7 +87,7 @@ async fn remote_control_enable_returns_connecting_status() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn remote_control_status_read_returns_connecting_status_after_enable() -> Result<()> {
     let codex_home = TempDir::new()?;
     let mut backend = BlockingRemoteControlBackend::start(codex_home.path()).await?;

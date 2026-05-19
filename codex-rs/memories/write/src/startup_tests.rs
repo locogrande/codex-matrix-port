@@ -27,7 +27,8 @@ use tokio::time::Duration;
 use tokio::time::Instant;
 use codex_paths;
 
-#[tokio::test]
+use matrix_test_macro as matrix;
+#[matrix::test]
 async fn memories_startup_phase2_tracks_workspace_diff_across_runs() -> anyhow::Result<()> {
     let server = start_mock_server().await;
     let home = Arc::new(TempDir::new()?);
@@ -115,7 +116,7 @@ async fn memories_startup_phase2_tracks_workspace_diff_across_runs() -> anyhow::
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn memories_startup_phase2_prunes_old_extension_resources() -> anyhow::Result<()> {
     let server = start_mock_server().await;
     let home = Arc::new(TempDir::new()?);
@@ -185,7 +186,7 @@ async fn memories_startup_phase2_prunes_old_extension_resources() -> anyhow::Res
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn memories_startup_phase2_prunes_old_extension_resources_without_stage1_input()
 -> anyhow::Result<()> {
     let server = start_mock_server().await;
@@ -236,7 +237,7 @@ async fn memories_startup_phase2_prunes_old_extension_resources_without_stage1_i
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn memories_startup_phase1_uses_live_thread_service_tier() -> anyhow::Result<()> {
     let server = start_mock_server().await;
     let home = Arc::new(TempDir::new()?);

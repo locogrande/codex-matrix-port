@@ -1,7 +1,8 @@
 use super::*;
 use pretty_assertions::assert_eq;
 
-#[tokio::test]
+use matrix_test_macro as matrix;
+#[matrix::test]
 async fn session_summary_skips_when_no_usage_or_resume_hint() {
     assert!(
         session_summary(
@@ -14,7 +15,7 @@ async fn session_summary_skips_when_no_usage_or_resume_hint() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn session_summary_skips_resume_hint_until_rollout_exists() {
     let usage = TokenUsage::default();
     let conversation = ThreadId::from_string("123e4567-e89b-12d3-a456-426614174000").unwrap();
@@ -32,7 +33,7 @@ async fn session_summary_skips_resume_hint_until_rollout_exists() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn session_summary_includes_resume_hint_for_persisted_rollout() {
     let usage = TokenUsage {
         input_tokens: 10,
@@ -62,7 +63,7 @@ async fn session_summary_includes_resume_hint_for_persisted_rollout() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn session_summary_uses_id_even_when_thread_has_name() {
     let usage = TokenUsage {
         input_tokens: 10,

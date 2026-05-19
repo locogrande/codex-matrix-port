@@ -260,6 +260,7 @@ pub(super) async fn enroll_remote_control_server(
 
 #[cfg(test)]
 mod tests {
+    use matrix_test_macro as matrix;
     use super::*;
     use crate::transport::remote_control::protocol::normalize_remote_control_url;
     use codex_state::StateRuntime;
@@ -281,7 +282,7 @@ mod tests {
             .expect("state runtime should initialize")
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn persisted_remote_control_enrollment_round_trips_by_target_and_account() {
         let codex_home = TempDir::new().expect("temp dir should create");
         let state_db = remote_control_state_runtime(&codex_home).await;
@@ -357,7 +358,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn clearing_persisted_remote_control_enrollment_removes_only_matching_entry() {
         let codex_home = TempDir::new().expect("temp dir should create");
         let state_db = remote_control_state_runtime(&codex_home).await;
@@ -432,7 +433,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn enroll_remote_control_server_parse_failure_includes_response_body() {
         let listener = TcpListener::bind("127.0.0.1:0")
             .await

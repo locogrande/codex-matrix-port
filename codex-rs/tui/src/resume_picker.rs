@@ -4,6 +4,7 @@ use std::path::Path;
 use std::path::PathBuf;
 use std::sync::Arc;
 
+use matrix_test_macro as matrix;
 mod transcript;
 
 use crate::app_server_session::AppServerSession;
@@ -4038,7 +4039,7 @@ mod tests {
         assert_eq!(picker_footer_percent(&state, /*list_height*/ 20), 100);
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn ctrl_o_toggles_density_without_typing_into_search() {
         let loader = page_only_loader(|_| {});
         let mut state = PickerState::new(
@@ -4060,7 +4061,7 @@ mod tests {
         assert_eq!(state.query, "pick");
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn ctrl_t_requests_selected_session_transcript() {
         let thread_id = ThreadId::new();
         let recorded_requests: Arc<Mutex<Vec<ThreadId>>> = Arc::new(Mutex::new(Vec::new()));
@@ -4103,7 +4104,7 @@ mod tests {
         ));
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn transcript_loading_consumes_picker_input() {
         let loader = page_only_loader(|_| {});
         let thread_id = ThreadId::new();
@@ -4157,7 +4158,7 @@ mod tests {
         assert_eq!(state.query, "");
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn transcript_loading_still_allows_ctrl_c_exit() {
         let loader = page_only_loader(|_| {});
         let mut state = PickerState::new(
@@ -4242,7 +4243,7 @@ mod tests {
         assert_snapshot!("resume_picker_transcript_loading_overlay", snapshot);
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn raw_ctrl_t_requests_selected_session_transcript() {
         let thread_id = ThreadId::new();
         let recorded_requests: Arc<Mutex<Vec<ThreadId>>> = Arc::new(Mutex::new(Vec::new()));
@@ -4279,7 +4280,7 @@ mod tests {
         assert_eq!(*recorded_requests.lock().unwrap(), vec![thread_id]);
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn ctrl_t_on_row_without_thread_id_shows_inline_error() {
         let loader = page_only_loader(|_| {});
         let mut state = PickerState::new(
@@ -4312,7 +4313,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn loaded_transcript_waits_for_loading_frame_before_opening_overlay() {
         use crate::history_cell::PlainHistoryCell;
 
@@ -4352,7 +4353,7 @@ mod tests {
         assert_eq!(state.pending_transcript_open, None);
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn cached_transcript_still_shows_loading_frame_before_opening_overlay() {
         use crate::history_cell::PlainHistoryCell;
 
@@ -4398,7 +4399,7 @@ mod tests {
         assert_eq!(state.pending_transcript_open, None);
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn ctrl_o_persists_density_preference() {
         let tmp = tempdir().expect("tmpdir");
         let loader = page_only_loader(|_| {});
@@ -4431,7 +4432,7 @@ session_picker_view = "dense"
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn ctrl_o_persists_density_preference_for_active_profile() {
         let tmp = tempdir().expect("tmpdir");
         let loader = page_only_loader(|_| {});
@@ -4464,7 +4465,7 @@ session_picker_view = "dense"
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn ctrl_o_keeps_toggled_density_when_persistence_fails() {
         let tmp = tempdir().expect("tmpdir");
         let codex_home_file = tmp.path().join("codex-home-file");
@@ -4499,7 +4500,7 @@ session_picker_view = "dense"
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn raw_ctrl_o_toggles_density_without_typing_into_search() {
         let loader = page_only_loader(|_| {});
         let mut state = PickerState::new(
@@ -4521,7 +4522,7 @@ session_picker_view = "dense"
         assert_eq!(state.query, "pick");
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn space_appends_to_search_query() {
         let loader = page_only_loader(|_| {});
         let mut state = PickerState::new(
@@ -4547,7 +4548,7 @@ session_picker_view = "dense"
         assert_eq!(state.expanded_thread_id, None);
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn ctrl_e_toggles_selected_session_expansion() {
         let thread_id = ThreadId::new();
         let recorded_requests: Arc<Mutex<Vec<ThreadId>>> = Arc::new(Mutex::new(Vec::new()));
@@ -4592,7 +4593,7 @@ session_picker_view = "dense"
         assert_eq!(state.expanded_thread_id, None);
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn raw_ctrl_e_toggles_selected_session_expansion() {
         let thread_id = ThreadId::new();
         let loader = page_only_loader(|_| {});
@@ -5320,7 +5321,7 @@ session_picker_view = "dense"
         assert_eq!(list_viewport_width(/*width*/ 3), 0);
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn toggle_sort_key_reloads_with_new_sort() {
         let recorded_requests: Arc<Mutex<Vec<PageLoadRequest>>> = Arc::new(Mutex::new(Vec::new()));
         let request_sink = recorded_requests.clone();
@@ -5358,7 +5359,7 @@ session_picker_view = "dense"
         assert_eq!(guard[1].sort_key, ThreadSortKey::CreatedAt);
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn default_filter_focus_arrows_reload_with_new_filter() {
         let recorded_requests: Arc<Mutex<Vec<PageLoadRequest>>> = Arc::new(Mutex::new(Vec::new()));
         let request_sink = recorded_requests.clone();
@@ -5392,7 +5393,7 @@ session_picker_view = "dense"
         assert_eq!(guard[1].cwd_filter, None);
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn all_filter_can_switch_back_to_cwd_when_cwd_candidate_exists() {
         let recorded_requests: Arc<Mutex<Vec<PageLoadRequest>>> = Arc::new(Mutex::new(Vec::new()));
         let request_sink = recorded_requests.clone();
@@ -5426,7 +5427,7 @@ session_picker_view = "dense"
         assert_eq!(guard[1].cwd_filter, Some(PathBuf::from("/tmp/project")));
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn filter_stays_all_when_no_cwd_candidate_exists() {
         let recorded_requests: Arc<Mutex<Vec<PageLoadRequest>>> = Arc::new(Mutex::new(Vec::new()));
         let request_sink = recorded_requests.clone();
@@ -5462,7 +5463,7 @@ session_picker_view = "dense"
         assert_eq!(guard[0].cwd_filter, None);
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn page_navigation_uses_view_rows() {
         let loader = page_only_loader(|_| {});
         let mut state = PickerState::new(
@@ -5521,7 +5522,7 @@ session_picker_view = "dense"
         assert_eq!(state.selected, 0);
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn page_and_jump_navigation_use_list_keymap() {
         let loader = page_only_loader(|_| {});
         let mut state = PickerState::new(
@@ -5583,7 +5584,7 @@ session_picker_view = "dense"
         assert_eq!(state.selected, 0);
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn ctrl_c_exits_even_when_cancel_is_remapped_to_ctrl_c() {
         let loader = page_only_loader(|_| {});
         let mut state = PickerState::new(
@@ -5604,7 +5605,7 @@ session_picker_view = "dense"
         assert!(matches!(selection, Some(SessionSelection::Exit)));
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn end_jumps_to_last_known_row_and_starts_loading_more() {
         let recorded_requests: Arc<Mutex<Vec<PageLoadRequest>>> = Arc::new(Mutex::new(Vec::new()));
         let request_sink = recorded_requests.clone();
@@ -5652,7 +5653,7 @@ session_picker_view = "dense"
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn enter_on_row_without_resolvable_thread_id_shows_inline_error() {
         let loader = page_only_loader(|_| {});
         let mut state = PickerState::new(
@@ -5691,7 +5692,7 @@ session_picker_view = "dense"
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn enter_on_pathless_thread_uses_thread_id() {
         let loader = page_only_loader(|_| {});
         let mut state = PickerState::new(
@@ -5937,7 +5938,7 @@ session_picker_view = "dense"
         assert!(!rendered.contains("public summary"));
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn moving_to_last_card_scrolls_when_cards_exceed_viewport() {
         let loader = page_only_loader(|_| {});
         let mut state = PickerState::new(
@@ -5979,7 +5980,7 @@ session_picker_view = "dense"
         assert_eq!(state.scroll_top, 2);
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn up_from_bottom_keeps_viewport_stable_when_card_remains_visible() {
         let loader = page_only_loader(|_| {});
         let mut state = PickerState::new(
@@ -6021,7 +6022,7 @@ session_picker_view = "dense"
         assert_eq!(state.selected, state.filtered_rows.len().saturating_sub(2));
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn up_scrolls_only_after_crossing_top_edge() {
         let loader = page_only_loader(|_| {});
         let mut state = PickerState::new(
@@ -6095,7 +6096,7 @@ session_picker_view = "dense"
         assert!(state.has_more_below(/*viewport_height*/ 5));
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn set_query_loads_until_match_and_respects_scan_cap() {
         let recorded_requests: Arc<Mutex<Vec<PageLoadRequest>>> = Arc::new(Mutex::new(Vec::new()));
         let request_sink = recorded_requests.clone();
@@ -6216,7 +6217,7 @@ session_picker_view = "dense"
         assert!(state.pagination.reached_scan_cap);
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn esc_with_empty_query_starts_fresh() {
         let loader = page_only_loader(|_| {});
         let mut state = PickerState::new(
@@ -6236,7 +6237,7 @@ session_picker_view = "dense"
         assert!(matches!(selection, Some(SessionSelection::StartFresh)));
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn esc_with_query_clears_search_and_preserves_selected_result() {
         let loader = page_only_loader(|_| {});
         let mut state = PickerState::new(

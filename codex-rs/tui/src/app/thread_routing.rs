@@ -1484,6 +1484,7 @@ impl App {
 
 #[cfg(test)]
 mod tests {
+    use matrix_test_macro as matrix;
     use super::*;
     use codex_protocol::models::ActivePermissionProfile;
     use codex_protocol::models::BUILT_IN_PERMISSION_PROFILE_WORKSPACE;
@@ -1501,7 +1502,7 @@ mod tests {
             .expect("config should build")
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn turn_permissions_use_active_profile_when_available() {
         let config = config_with_workspace_profile().await;
         let active_permission_profile = config.permissions.active_permission_profile();
@@ -1518,7 +1519,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn turn_permissions_preserve_server_snapshot_without_local_override() {
         let mut config = config_with_workspace_profile().await;
         config
@@ -1535,7 +1536,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn turn_permissions_send_legacy_sandbox_for_local_override() {
         let mut config = config_with_workspace_profile().await;
         let permission_profile = PermissionProfile::workspace_write();

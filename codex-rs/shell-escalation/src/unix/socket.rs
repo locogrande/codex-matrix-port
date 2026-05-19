@@ -411,6 +411,7 @@ impl AsyncDatagramSocket {
 
 #[cfg(test)]
 mod tests {
+    use matrix_test_macro as matrix;
     use super::*;
     use pretty_assertions::assert_eq;
     use serde::Deserialize;
@@ -434,7 +435,7 @@ mod tests {
         Ok(fds)
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn async_socket_round_trips_payload_and_fds() -> std::io::Result<()> {
         let (server, client) = AsyncSocket::pair()?;
         let payload = TestPayload {
@@ -459,7 +460,7 @@ mod tests {
         Ok(())
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn async_socket_handles_large_payload() -> std::io::Result<()> {
         let (server, client) = AsyncSocket::pair()?;
         let payload = vec![b'A'; 10_000];
@@ -470,7 +471,7 @@ mod tests {
         Ok(())
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn async_datagram_sockets_round_trip_messages() -> std::io::Result<()> {
         let (server, client) = AsyncDatagramSocket::pair()?;
         let data = b"datagram payload".to_vec();
@@ -510,7 +511,7 @@ mod tests {
         assert_eq!(std::io::ErrorKind::InvalidInput, err.kind());
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn receive_fails_when_peer_closes_before_header() {
         let (server, client) = AsyncSocket::pair().expect("failed to create socket pair");
         drop(client);

@@ -39,6 +39,7 @@ use crate::session::turn_context::TurnContext;
 use crate::tools::hook_names::HookToolName;
 use crate::tools::sandboxing::PermissionRequestPayload;
 
+use matrix_test_macro as matrix;
 pub(crate) struct HookRuntimeOutcome {
     pub should_stop: bool,
     pub additional_contexts: Vec<String>,
@@ -656,7 +657,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn hook_run_analytics_payload_uses_completed_turn_id() {
         let (_session, turn_context) = make_session_and_context().await;
         let completed = HookCompletedEvent {
@@ -675,7 +676,7 @@ mod tests {
         assert_eq!(hook.status, HookRunStatus::Blocked);
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn hook_run_analytics_payload_falls_back_to_turn_context_id() {
         let (_session, turn_context) = make_session_and_context().await;
         let completed = HookCompletedEvent {

@@ -37,9 +37,10 @@ use codex_features::Feature;
 use std::collections::BTreeMap;
 use tokio::time::timeout;
 
+use matrix_test_macro as matrix;
 const DEFAULT_READ_TIMEOUT: std::time::Duration = std::time::Duration::from_secs(10);
 
-#[tokio::test]
+#[matrix::test]
 async fn thread_shell_command_history_responses_exclude_persisted_command_executions() -> Result<()>
 {
     let tmp = TempDir::new()?;
@@ -179,7 +180,7 @@ async fn thread_shell_command_history_responses_exclude_persisted_command_execut
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn thread_shell_command_uses_existing_active_turn() -> Result<()> {
     let tmp = TempDir::new()?;
     let codex_home = tmp.path().join("codex_home");

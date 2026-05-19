@@ -22,6 +22,7 @@ use wiremock::matchers::path;
 use wiremock::matchers::query_param;
 use wiremock::matchers::query_param_is_missing;
 
+use matrix_test_macro as matrix;
 fn test_config(server: &MockServer) -> RemotePluginServiceConfig {
     RemotePluginServiceConfig {
         chatgpt_base_url: format!("{}/backend-api", server.uri()),
@@ -162,7 +163,7 @@ fn expected_plugin_interface() -> PluginInterface {
     }
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn save_remote_plugin_share_creates_workspace_plugin() {
     let codex_home = TempDir::new().unwrap();
     let temp_dir = TempDir::new().unwrap();
@@ -326,7 +327,7 @@ fn archive_plugin_for_upload_places_manifest_at_archive_root() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn save_remote_plugin_share_updates_existing_workspace_plugin() {
     let codex_home = TempDir::new().unwrap();
     let temp_dir = TempDir::new().unwrap();
@@ -394,7 +395,7 @@ async fn save_remote_plugin_share_updates_existing_workspace_plugin() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn update_remote_plugin_share_targets_updates_targets() {
     let server = MockServer::start().await;
     let config = test_config(&server);
@@ -488,7 +489,7 @@ async fn update_remote_plugin_share_targets_updates_targets() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn list_remote_plugin_shares_fetches_created_workspace_plugins() {
     let codex_home = TempDir::new().unwrap();
     let local_plugin_path =
@@ -664,7 +665,7 @@ async fn list_remote_plugin_shares_fetches_created_workspace_plugins() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn delete_remote_plugin_share_deletes_workspace_plugin() {
     let codex_home = TempDir::new().unwrap();
     let local_plugin_path =

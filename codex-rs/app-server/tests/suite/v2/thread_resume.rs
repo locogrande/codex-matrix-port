@@ -93,6 +93,7 @@ use super::analytics::mount_analytics_capture;
 use super::analytics::thread_initialized_event;
 use super::analytics::wait_for_analytics_payload;
 
+use matrix_test_macro as matrix;
 #[cfg(windows)]
 const DEFAULT_READ_TIMEOUT: std::time::Duration = std::time::Duration::from_secs(25);
 #[cfg(not(windows))]
@@ -133,7 +134,7 @@ async fn wait_for_responses_request_count(
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn thread_resume_rejects_unmaterialized_thread() -> Result<()> {
     let server = create_mock_responses_server_repeating_assistant("Done").await;
     let codex_home = TempDir::new()?;
@@ -180,7 +181,7 @@ async fn thread_resume_rejects_unmaterialized_thread() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn turn_start_updates_runtime_workspace_roots_for_loaded_thread() -> Result<()> {
     let server = create_mock_responses_server_repeating_assistant("Done").await;
     let codex_home = TempDir::new()?;
@@ -253,7 +254,7 @@ async fn turn_start_updates_runtime_workspace_roots_for_loaded_thread() -> Resul
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn thread_goal_get_rejects_unmaterialized_thread() -> Result<()> {
     let server = create_mock_responses_server_repeating_assistant("Done").await;
     let codex_home = TempDir::new()?;
@@ -307,7 +308,7 @@ async fn thread_goal_get_rejects_unmaterialized_thread() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn thread_resume_tracks_thread_initialized_analytics() -> Result<()> {
     let server = create_mock_responses_server_repeating_assistant("Done").await;
 
@@ -377,7 +378,7 @@ fn set_thread_source_on_fake_rollout(
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn thread_resume_returns_rollout_history() -> Result<()> {
     let server = create_mock_responses_server_repeating_assistant("Done").await;
     let codex_home = TempDir::new()?;
@@ -451,7 +452,7 @@ async fn thread_resume_returns_rollout_history() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn thread_resume_redacts_payloads_for_chatgpt_remote_clients() -> Result<()> {
     for client_name in ["codex_chatgpt_android_remote", "codex_chatgpt_ios_remote"] {
         let remote_thread = resume_redaction_fixture(Some(client_name)).await?;
@@ -648,7 +649,7 @@ fn append_resume_redaction_history(
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn thread_resume_can_skip_turns_for_metadata_only_resume() -> Result<()> {
     let server = create_mock_responses_server_repeating_assistant("Done").await;
     let codex_home = TempDir::new()?;
@@ -687,7 +688,7 @@ async fn thread_resume_can_skip_turns_for_metadata_only_resume() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn thread_resume_keeps_paused_goal_paused() -> Result<()> {
     let server = create_mock_responses_server_repeating_assistant("Done").await;
     let codex_home = TempDir::new()?;
@@ -791,7 +792,7 @@ async fn thread_resume_keeps_paused_goal_paused() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn thread_goal_set_preserves_budget_limited_same_objective() -> Result<()> {
     let server = create_mock_responses_server_repeating_assistant("Done").await;
     let codex_home = TempDir::new()?;
@@ -889,7 +890,7 @@ async fn thread_goal_set_preserves_budget_limited_same_objective() -> Result<()>
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn thread_goal_set_edits_objective_without_resetting_usage() -> Result<()> {
     let server = create_mock_responses_server_repeating_assistant("Done").await;
     let codex_home = TempDir::new()?;
@@ -985,7 +986,7 @@ async fn thread_goal_set_edits_objective_without_resetting_usage() -> Result<()>
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn thread_goal_clear_deletes_goal_and_notifies() -> Result<()> {
     let server = create_mock_responses_server_repeating_assistant("Done").await;
     let codex_home = TempDir::new()?;
@@ -1112,7 +1113,7 @@ async fn thread_goal_clear_deletes_goal_and_notifies() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn thread_resume_emits_restored_token_usage_before_next_turn() -> Result<()> {
     let server = create_mock_responses_server_repeating_assistant("Done").await;
     let codex_home = TempDir::new()?;
@@ -1165,7 +1166,7 @@ async fn thread_resume_emits_restored_token_usage_before_next_turn() -> Result<(
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn thread_resume_skips_restored_token_usage_when_turns_are_excluded() -> Result<()> {
     let server = create_mock_responses_server_repeating_assistant("Done").await;
     let codex_home = TempDir::new()?;
@@ -1239,7 +1240,7 @@ async fn thread_resume_skips_restored_token_usage_when_turns_are_excluded() -> R
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn thread_resume_token_usage_replay_ignores_stale_interrupted_tail_turn() -> Result<()> {
     let server = create_mock_responses_server_repeating_assistant("Done").await;
     let codex_home = TempDir::new()?;
@@ -1326,7 +1327,7 @@ async fn thread_resume_token_usage_replay_ignores_stale_interrupted_tail_turn() 
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn thread_resume_token_usage_replay_can_belong_to_interrupted_turn() -> Result<()> {
     let server = create_mock_responses_server_repeating_assistant("Done").await;
     let codex_home = TempDir::new()?;
@@ -1448,7 +1449,7 @@ async fn thread_resume_token_usage_replay_can_belong_to_interrupted_turn() -> Re
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn thread_resume_prefers_persisted_git_metadata_for_local_threads() -> Result<()> {
     let server = create_mock_responses_server_repeating_assistant("Done").await;
     let codex_home = TempDir::new()?;
@@ -1640,7 +1641,7 @@ stream_max_retries = 0
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn thread_resume_and_read_interrupt_incomplete_rollout_turn_when_thread_is_idle() -> Result<()>
 {
     let server = create_mock_responses_server_repeating_assistant("Done").await;
@@ -1757,7 +1758,7 @@ async fn thread_resume_and_read_interrupt_incomplete_rollout_turn_when_thread_is
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn thread_resume_without_overrides_does_not_change_updated_at_or_mtime() -> Result<()> {
     let server = create_mock_responses_server_repeating_assistant("Done").await;
     let codex_home = TempDir::new()?;
@@ -1829,7 +1830,7 @@ async fn thread_resume_without_overrides_does_not_change_updated_at_or_mtime() -
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn thread_resume_keeps_in_flight_turn_streaming() -> Result<()> {
     let server = create_mock_responses_server_repeating_assistant("Done").await;
     let codex_home = TempDir::new()?;
@@ -1923,7 +1924,7 @@ async fn thread_resume_keeps_in_flight_turn_streaming() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn thread_resume_rejects_history_when_thread_is_running() -> Result<()> {
     let server = responses::start_mock_server().await;
     let first_body = responses::sse(vec![
@@ -2039,7 +2040,7 @@ async fn thread_resume_rejects_history_when_thread_is_running() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn thread_resume_uses_path_over_thread_id_when_thread_is_running() -> Result<()> {
     let server = responses::start_mock_server().await;
     let first_body = responses::sse(vec![
@@ -2192,7 +2193,7 @@ async fn thread_resume_uses_path_over_thread_id_when_thread_is_running() -> Resu
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn thread_resume_rejoins_running_thread_even_with_override_mismatch() -> Result<()> {
     let server = responses::start_mock_server().await;
     let first_response = responses::sse_response(responses::sse(vec![
@@ -2304,7 +2305,7 @@ async fn thread_resume_rejoins_running_thread_even_with_override_mismatch() -> R
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn thread_resume_can_skip_turns_when_thread_is_running() -> Result<()> {
     let server = responses::start_mock_server().await;
     let _response_mock = responses::mount_sse_once(
@@ -2382,7 +2383,7 @@ async fn thread_resume_can_skip_turns_when_thread_is_running() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn thread_resume_replays_pending_command_execution_request_approval() -> Result<()> {
     let responses = vec![
         create_final_assistant_message_sse_response("seeded")?,
@@ -2518,7 +2519,7 @@ async fn thread_resume_replays_pending_command_execution_request_approval() -> R
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn thread_resume_replays_pending_file_change_request_approval() -> Result<()> {
     let tmp = TempDir::new()?;
     let codex_home = tmp.path().join("codex_home");
@@ -2684,7 +2685,7 @@ async fn thread_resume_replays_pending_file_change_request_approval() -> Result<
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn thread_resume_with_overrides_defers_updated_at_until_turn_start() -> Result<()> {
     let server = create_mock_responses_server_repeating_assistant("Done").await;
     let codex_home = TempDir::new()?;
@@ -2750,7 +2751,7 @@ async fn thread_resume_with_overrides_defers_updated_at_until_turn_start() -> Re
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn thread_resume_fails_when_required_mcp_server_fails_to_initialize() -> Result<()> {
     let server = create_mock_responses_server_repeating_assistant("Done").await;
     let codex_home = TempDir::new()?;
@@ -2788,7 +2789,7 @@ async fn thread_resume_fails_when_required_mcp_server_fails_to_initialize() -> R
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn thread_resume_surfaces_cloud_requirements_load_errors() -> Result<()> {
     let server = MockServer::start().await;
     Mock::given(method("GET"))
@@ -2880,7 +2881,7 @@ async fn thread_resume_surfaces_cloud_requirements_load_errors() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn thread_resume_uses_path_over_invalid_thread_id() -> Result<()> {
     let server = create_mock_responses_server_repeating_assistant("Done").await;
     let codex_home = TempDir::new()?;
@@ -2945,7 +2946,7 @@ async fn thread_resume_uses_path_over_invalid_thread_id() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn thread_resume_can_load_source_by_external_path() -> Result<()> {
     let server = create_mock_responses_server_repeating_assistant("Done").await;
     let codex_home = TempDir::new()?;
@@ -2991,7 +2992,7 @@ async fn thread_resume_can_load_source_by_external_path() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn thread_resume_supports_history_and_overrides() -> Result<()> {
     let server = create_mock_responses_server_repeating_assistant("Done").await;
     let codex_home = TempDir::new()?;
@@ -3119,7 +3120,7 @@ async fn start_materialized_thread_and_restart(
     })
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn thread_resume_accepts_personality_override() -> Result<()> {
     skip_if_no_network!(Ok(()));
 

@@ -276,6 +276,7 @@ fn track_descendants(kq: libc::c_int, root_pid: i32) -> HashSet<i32> {
 
 #[cfg(test)]
 mod tests {
+    use matrix_test_macro as matrix;
     use super::*;
     use std::process::Command;
     use std::process::Stdio;
@@ -315,7 +316,7 @@ mod tests {
     }
 
     #[cfg(target_os = "macos")]
-    #[tokio::test]
+    #[matrix::test]
     async fn pid_tracker_collects_spawned_children() {
         let tracker = PidTracker::new(std::process::id() as i32).expect("failed to create tracker");
 
@@ -343,7 +344,7 @@ mod tests {
     }
 
     #[cfg(target_os = "macos")]
-    #[tokio::test]
+    #[matrix::test]
     async fn pid_tracker_collects_bash_subshell_descendants() {
         let tracker = PidTracker::new(std::process::id() as i32).expect("failed to create tracker");
 

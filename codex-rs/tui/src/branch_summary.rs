@@ -10,6 +10,7 @@
 //! rather than a user-visible error. The status line can then render whichever pieces are available
 //! without blocking the rest of the UI.
 
+use matrix_test_macro as matrix;
 #[cfg(test)]
 use std::collections::VecDeque;
 use std::path::Path;
@@ -517,7 +518,7 @@ mod tests {
     use std::pin::Pin;
     use std::sync::Mutex;
 
-    #[tokio::test]
+    #[matrix::test]
     async fn branch_diff_stats_prefers_remote_default_ref_over_stale_local_branch() {
         let runner = FakeRunner::new(vec![
             response(
@@ -568,7 +569,7 @@ mod tests {
         assert!(runner.saw(&["git", "merge-base", "HEAD", "refs/remotes/origin/main"]));
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn open_pull_request_uses_current_branch_view_first() {
         let runner = FakeRunner::new(vec![response(
             &["gh", "pr", "view", "--json", "number,url,state"],
@@ -590,7 +591,7 @@ mod tests {
         assert!(!runner.saw(&["git", "rev-parse", "HEAD"]));
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn open_pull_request_falls_back_to_parent_repo_commit_lookup() {
         let runner = FakeRunner::new(vec![
             response(
