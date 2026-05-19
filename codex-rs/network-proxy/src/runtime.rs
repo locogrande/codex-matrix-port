@@ -37,7 +37,6 @@ use tracing::debug;
 use tracing::info;
 use tracing::warn;
 
-use matrix_test_macro as matrix;
 const MAX_BLOCKED_EVENTS: usize = 200;
 const DNS_LOOKUP_TIMEOUT: Duration = Duration::from_secs(2);
 const NETWORK_POLICY_VIOLATION_PREFIX: &str = "CODEX_NETWORK_POLICY_VIOLATION";
@@ -884,6 +883,7 @@ mod tests {
     use crate::state::NetworkProxyConstraints;
     use crate::state::build_config_state;
     use crate::state::validate_policy_against_constraints;
+    use matrix_test_macro as matrix;
     use pretty_assertions::assert_eq;
 
     fn strings(entries: &[&str]) -> Vec<String> {

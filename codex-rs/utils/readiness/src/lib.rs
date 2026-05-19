@@ -206,6 +206,7 @@ mod tests {
     use super::Token;
     use super::errors::ReadinessError;
     use assert_matches::assert_matches;
+    use matrix_test_macro as matrix;
 
     #[matrix::test]
     async fn subscribe_and_mark_ready_roundtrip() -> Result<(), ReadinessError> {

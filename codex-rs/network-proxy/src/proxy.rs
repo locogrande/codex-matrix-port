@@ -18,7 +18,6 @@ use std::sync::RwLock;
 use tokio::task::JoinHandle;
 use tracing::warn;
 
-use matrix_test_macro as matrix;
 #[derive(Debug, Clone, Parser)]
 #[command(name = "codex-network-proxy", about = "Codex network sandbox proxy")]
 pub struct Args {}
@@ -785,6 +784,7 @@ mod tests {
     use super::*;
     use crate::config::NetworkProxySettings;
     use crate::state::network_proxy_state_for_policy;
+    use matrix_test_macro as matrix;
     use pretty_assertions::assert_eq;
     use std::net::IpAddr;
     use std::net::Ipv4Addr;
