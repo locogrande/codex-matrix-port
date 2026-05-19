@@ -37,6 +37,7 @@ use std::path::Path;
 use tempfile::tempdir;
 use toml::Value as TomlValue;
 use codex_paths;
+use matrix_test_macro as matrix;
 
 fn config_error_from_io(err: &std::io::Error) -> &ConfigError {
     err.get_ref()
