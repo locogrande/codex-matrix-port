@@ -50,4 +50,5 @@ codex-test-support = { workspace = true }
 pretty_assertions = { workspace = true }
 
 [dev-dependencies]
+matrix-test-macro = { workspace = true }
 reqwest = { workspace = true }
