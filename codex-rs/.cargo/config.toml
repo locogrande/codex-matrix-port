@@ -1,0 +1,11 @@
+# Raise the main-thread stack reserve on Windows MSVC builds.
+# Default is 1 MB, which is insufficient for codex's debug-mode async
+# state machine (the future captured by codex_arg0::run_main_with_arg0_guard
+# embeds the full main-async-block enum and overflows on first __chkstk).
+# 8 MB matches typical Linux/macOS defaults.
+#
+# Linked to runtime/ipr/issues/escalated/<ticket>.json — voltmeter has no
+# probe-class today for "ported Rust binary launches without crash".
+
+[target.x86_64-pc-windows-msvc]
+rustflags = ["-C", "link-arg=/STACK:8388608"]
