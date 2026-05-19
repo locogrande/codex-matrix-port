@@ -1,6 +1,7 @@
 pub mod account;
 mod agent_path;
 pub mod auth;
+mod mapping_macros;
 mod session_id;
 mod thread_id;
 mod tool_name;

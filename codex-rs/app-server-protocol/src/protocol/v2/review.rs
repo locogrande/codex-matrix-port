@@ -1,9 +1,6 @@
 use super::Turn;
 use super::shared::v2_enum_from_core;
-use schemars::JsonSchema;
-use serde::Deserialize;
-use serde::Serialize;
-use ts_rs::TS;
+use crate::derives::*;
 
 v2_enum_from_core!(
     pub enum ReviewDelivery from codex_protocol::protocol::ReviewDelivery {

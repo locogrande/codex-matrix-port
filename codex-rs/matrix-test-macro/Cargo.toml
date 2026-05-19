@@ -1,0 +1,31 @@
+[package]
+name = "matrix-test-macro"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+# Layer-6 refactor pass F (May 2026): per-test setup boilerplate
+# (`#[tokio::test]` + tempdir + tracer span + Voltmeter probe) repeats
+# across thousands of test sites. This proc-macro crate provides a single
+# `#[matrix::test]` attribute that captures the common scaffold so future
+# passes can collapse 5-15 boilerplate lines per test to one attribute.
+#
+# Scope of this pass:
+#   * Scaffold the crate + macro (tokio::test passthrough + name binding).
+#   * Adopt the macro in a small beachhead of mechanically-safe call sites
+#     so adoption can grow in subsequent passes.
+#   * Future passes hang tracer-span / voltmeter-probe / tempdir injection
+#     off this same attribute without touching the call sites again.
+
+[lib]
+proc-macro = true
+test = false
+doctest = false
+
+[dependencies]
+proc-macro2 = "1"
+quote = "1"
+syn = { version = "2", features = ["full"] }
+
+[lints]
+workspace = true

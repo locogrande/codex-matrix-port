@@ -28,19 +28,11 @@ pub(super) struct EnrollRemoteServerResponse {
     pub(super) environment_id: String,
 }
 
-#[derive(Debug, Clone, PartialEq, Eq, Hash, Serialize, Deserialize)]
-#[serde(transparent)]
-pub struct ClientId(pub String);
-
-#[derive(Debug, Clone, PartialEq, Eq, Hash, Serialize, Deserialize)]
-#[serde(transparent)]
-pub struct StreamId(pub String);
-
-impl StreamId {
-    pub fn new_random() -> Self {
-        Self(uuid::Uuid::now_v7().to_string())
-    }
-}
+// `ClientId` and `StreamId` are canonical String newtypes; the
+// definitions live in `codex-common-types` so other transport-adjacent
+// crates can name them without taking a dependency on this transport.
+pub use codex_common_types::ClientId;
+pub use codex_common_types::StreamId;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(tag = "type", rename_all = "snake_case")]

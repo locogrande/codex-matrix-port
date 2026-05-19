@@ -1,6 +1,8 @@
+pub mod derives;
 mod experimental_api;
 mod export;
 mod jsonrpc_lite;
+mod mapping_macros;
 mod protocol;
 mod schema_fixtures;
 

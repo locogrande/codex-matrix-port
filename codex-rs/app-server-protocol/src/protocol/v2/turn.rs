@@ -15,13 +15,11 @@ use codex_protocol::user_input::ByteRange as CoreByteRange;
 use codex_protocol::user_input::TextElement as CoreTextElement;
 use codex_protocol::user_input::UserInput as CoreUserInput;
 use codex_utils_absolute_path::AbsolutePathBuf;
-use schemars::JsonSchema;
-use serde::Deserialize;
-use serde::Serialize;
+use crate::derives::*;
+use crate::mirror_from;
 use serde_json::Value as JsonValue;
 use std::collections::HashMap;
 use std::path::PathBuf;
-use ts_rs::TS;
 
 #[derive(Serialize, Deserialize, Debug, Clone, PartialEq, JsonSchema, TS)]
 #[serde(rename_all = "camelCase")]
@@ -178,23 +176,8 @@ pub struct ByteRange {
     pub end: usize,
 }
 
-impl From<CoreByteRange> for ByteRange {
-    fn from(value: CoreByteRange) -> Self {
-        Self {
-            start: value.start,
-            end: value.end,
-        }
-    }
-}
-
-impl From<ByteRange> for CoreByteRange {
-    fn from(value: ByteRange) -> Self {
-        Self {
-            start: value.start,
-            end: value.end,
-        }
-    }
-}
+mirror_from!(CoreByteRange => ByteRange { start, end });
+mirror_from!(ByteRange => CoreByteRange { start, end });
 
 #[derive(Serialize, Deserialize, Debug, Clone, PartialEq, JsonSchema, TS)]
 #[serde(rename_all = "camelCase")]
@@ -388,14 +371,9 @@ pub enum TurnPlanStepStatus {
     Completed,
 }
 
-impl From<CorePlanItemArg> for TurnPlanStep {
-    fn from(value: CorePlanItemArg) -> Self {
-        Self {
-            step: value.step,
-            status: value.status.into(),
-        }
-    }
-}
+mirror_from!(CorePlanItemArg => TurnPlanStep {
+    step, status: into,
+});
 
 impl From<CorePlanStepStatus> for TurnPlanStepStatus {
     fn from(value: CorePlanStepStatus) -> Self {

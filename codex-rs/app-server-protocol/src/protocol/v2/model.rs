@@ -1,14 +1,12 @@
 use super::shared::v2_enum_from_core;
+use crate::derives::*;
+use crate::mirror_from;
 use codex_protocol::openai_models::InputModality;
 use codex_protocol::openai_models::ModelAvailabilityNux as CoreModelAvailabilityNux;
 use codex_protocol::openai_models::ReasoningEffort;
 use codex_protocol::openai_models::default_input_modalities;
 use codex_protocol::protocol::ModelRerouteReason as CoreModelRerouteReason;
 use codex_protocol::protocol::ModelVerification as CoreModelVerification;
-use schemars::JsonSchema;
-use serde::Deserialize;
-use serde::Serialize;
-use ts_rs::TS;
 
 v2_enum_from_core!(
     pub enum ModelRerouteReason from CoreModelRerouteReason {
@@ -58,13 +56,7 @@ pub struct ModelAvailabilityNux {
     pub message: String,
 }
 
-impl From<CoreModelAvailabilityNux> for ModelAvailabilityNux {
-    fn from(value: CoreModelAvailabilityNux) -> Self {
-        Self {
-            message: value.message,
-        }
-    }
-}
+mirror_from!(CoreModelAvailabilityNux => ModelAvailabilityNux { message });
 
 #[derive(Serialize, Deserialize, Debug, Clone, PartialEq, JsonSchema, TS)]
 #[serde(rename_all = "camelCase")]

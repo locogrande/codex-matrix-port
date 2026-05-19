@@ -18,38 +18,25 @@ pub use conversation::*;
 pub use runtime::*;
 pub use session::*;
 
-/// Codex conversation/session UUID.
-pub type AgentThreadId = String;
-/// Stable multi-agent routing path such as `/root` or `/root/search_docs`.
-pub type AgentPath = String;
-/// Runtime submission/activation UUID. This is not a chat turn.
-pub type CodexTurnId = String;
-/// Reduced transcript item ID assigned by the trace reducer.
-pub type ConversationItemId = String;
-/// Local ID for one outbound upstream inference request.
-pub type InferenceCallId = String;
-/// Globally unique ID for one concrete MCP backend request.
-pub type McpCallId = String;
-/// Reducer-owned ID for one runtime tool-call object.
-pub type ToolCallId = String;
-/// Responses `call_id` / custom-tool call ID visible in inference payloads.
-pub type ModelVisibleCallId = String;
-/// Tool invocation ID assigned inside the code-mode JavaScript runtime.
-pub type CodeModeRuntimeToolId = String;
-/// Reducer-owned ID for one model-authored `exec` JavaScript cell.
-pub type CodeCellId = String;
-/// Process/session ID returned by Codex's terminal runtime.
-pub type TerminalId = String;
-/// Reducer-owned ID for one command/write/poll operation against a terminal.
-pub type TerminalOperationId = String;
-/// Reducer-owned ID for one installed conversation-history checkpoint.
-pub type CompactionId = String;
-/// Reducer-owned ID for one upstream request that computes a compaction.
-pub type CompactionRequestId = String;
-/// Reducer-owned ID for one information-flow edge.
-pub type EdgeId = String;
-/// Reducer-owned ID for request/log correlation metadata.
-pub type CorrelationId = String;
+// Canonical trace-id aliases live in `codex_common_types::trace_ids`.
+// Re-exported here so downstream consumers can keep saying e.g.
+// `rollout_trace::model::AgentThreadId`.
+pub use codex_common_types::trace_ids::AgentPath;
+pub use codex_common_types::trace_ids::AgentThreadId;
+pub use codex_common_types::trace_ids::CodeCellId;
+pub use codex_common_types::trace_ids::CodeModeRuntimeToolId;
+pub use codex_common_types::trace_ids::CodexTurnId;
+pub use codex_common_types::trace_ids::CompactionId;
+pub use codex_common_types::trace_ids::CompactionRequestId;
+pub use codex_common_types::trace_ids::ConversationItemId;
+pub use codex_common_types::trace_ids::CorrelationId;
+pub use codex_common_types::trace_ids::EdgeId;
+pub use codex_common_types::trace_ids::InferenceCallId;
+pub use codex_common_types::trace_ids::McpCallId;
+pub use codex_common_types::trace_ids::ModelVisibleCallId;
+pub use codex_common_types::trace_ids::TerminalId;
+pub use codex_common_types::trace_ids::TerminalOperationId;
+pub use codex_common_types::trace_ids::ToolCallId;
 
 /// Canonical reduced graph for one Codex rollout.
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]

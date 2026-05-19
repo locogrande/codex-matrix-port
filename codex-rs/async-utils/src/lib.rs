@@ -33,12 +33,13 @@ where
 #[cfg(test)]
 mod tests {
     use super::*;
+    use matrix_test_macro as matrix;
     use pretty_assertions::assert_eq;
     use std::time::Duration;
     use tokio::task;
     use tokio::time::sleep;
 
-    #[tokio::test]
+    #[matrix::test]
     async fn returns_ok_when_future_completes_first() {
         let token = CancellationToken::new();
         let value = async { 42 };
@@ -48,7 +49,7 @@ mod tests {
         assert_eq!(Ok(42), result);
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn returns_err_when_token_cancelled_first() {
         let token = CancellationToken::new();
         let token_clone = token.clone();
@@ -69,7 +70,7 @@ mod tests {
         assert_eq!(Err(CancelErr::Cancelled), result);
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn returns_err_when_token_already_cancelled() {
         let token = CancellationToken::new();
         token.cancel();

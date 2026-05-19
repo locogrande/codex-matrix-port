@@ -105,7 +105,7 @@ impl fmt::Display for ProfileV2NameParseError {
     }
 }
 
-impl std::error::Error for ProfileV2NameParseError {}
+codex_impl_macros::impl_std_error!(ProfileV2NameParseError);
 
 impl FromStr for ProfileV2Name {
     type Err = ProfileV2NameParseError;

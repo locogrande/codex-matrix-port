@@ -12,6 +12,7 @@ use std::str::FromStr;
 use std::time::Duration;
 use codex_paths;
 
+use codex_impl_macros::impl_from_str_via_serde_json;
 use strum_macros::EnumIter;
 
 use crate::AgentPath;
@@ -1096,29 +1097,9 @@ impl WritableRoot {
     }
 }
 
-impl FromStr for SandboxPolicy {
-    type Err = serde_json::Error;
-
-    fn from_str(s: &str) -> Result<Self, Self::Err> {
-        serde_json::from_str(s)
-    }
-}
-
-impl FromStr for FileSystemSandboxPolicy {
-    type Err = serde_json::Error;
-
-    fn from_str(s: &str) -> Result<Self, Self::Err> {
-        serde_json::from_str(s)
-    }
-}
-
-impl FromStr for NetworkSandboxPolicy {
-    type Err = serde_json::Error;
-
-    fn from_str(s: &str) -> Result<Self, Self::Err> {
-        serde_json::from_str(s)
-    }
-}
+impl_from_str_via_serde_json!(SandboxPolicy);
+impl_from_str_via_serde_json!(FileSystemSandboxPolicy);
+impl_from_str_via_serde_json!(NetworkSandboxPolicy);
 
 impl SandboxPolicy {
     /// Returns a policy with read-only disk access and no network.

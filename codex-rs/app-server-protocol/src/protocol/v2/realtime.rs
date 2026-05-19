@@ -3,11 +3,8 @@ use codex_protocol::protocol::RealtimeConversationVersion;
 use codex_protocol::protocol::RealtimeOutputModality;
 use codex_protocol::protocol::RealtimeVoice;
 use codex_protocol::protocol::RealtimeVoicesList;
-use schemars::JsonSchema;
-use serde::Deserialize;
-use serde::Serialize;
+use crate::derives::*;
 use serde_json::Value as JsonValue;
-use ts_rs::TS;
 
 /// EXPERIMENTAL - thread realtime audio chunk.
 #[derive(Serialize, Deserialize, Debug, Default, Clone, PartialEq, JsonSchema, TS)]

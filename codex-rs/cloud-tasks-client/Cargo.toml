@@ -19,6 +19,7 @@ async-trait = { workspace = true }
 chrono = { workspace = true, features = ["serde"] }
 codex-api = { workspace = true }
 codex-backend-client = { workspace = true }
+codex-common-types = { workspace = true }
 codex-git-utils = { workspace = true }
 serde = { workspace = true, features = ["derive"] }
 serde_json = { workspace = true }

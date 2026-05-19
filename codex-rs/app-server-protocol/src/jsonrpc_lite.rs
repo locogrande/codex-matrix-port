@@ -5,29 +5,16 @@ use codex_protocol::protocol::W3cTraceContext;
 use schemars::JsonSchema;
 use serde::Deserialize;
 use serde::Serialize;
-use std::fmt;
 use ts_rs::TS;
 
 pub const JSONRPC_VERSION: &str = "2.0";
 
-#[derive(
-    Debug, Clone, PartialEq, PartialOrd, Ord, Deserialize, Serialize, Hash, Eq, JsonSchema, TS,
-)]
-#[serde(untagged)]
-pub enum RequestId {
-    String(String),
-    #[ts(type = "number")]
-    Integer(i64),
-}
-
-impl fmt::Display for RequestId {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        match self {
-            Self::String(value) => f.write_str(value),
-            Self::Integer(value) => write!(f, "{value}"),
-        }
-    }
-}
+// Canonical `RequestId` lives in `codex-common-types`. The local
+// definition that used to be here was identical in shape (untagged enum
+// of `String` and `i64`) to the one in `codex-protocol::mcp`; pass E
+// folds both into a single source so wire-level interop is preserved by
+// construction.
+pub use codex_common_types::RequestId;
 
 pub type Result = serde_json::Value;
 

@@ -8,23 +8,10 @@ use serde::Deserialize;
 use serde::Serialize;
 use ts_rs::TS;
 
-/// ID of a request, which can be either a string or an integer.
-#[derive(Debug, Clone, PartialEq, Eq, Hash, Serialize, Deserialize, JsonSchema, TS)]
-#[serde(untagged)]
-pub enum RequestId {
-    String(String),
-    #[ts(type = "number")]
-    Integer(i64),
-}
-
-impl std::fmt::Display for RequestId {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        match self {
-            RequestId::String(s) => f.write_str(s),
-            RequestId::Integer(i) => i.fmt(f),
-        }
-    }
-}
+// Canonical `RequestId` lives in `codex-common-types`. Re-exported here
+// so existing callers such as `codex_protocol::mcp::RequestId` continue
+// to resolve.
+pub use codex_common_types::RequestId;
 
 /// Definition for a tool the client can call.
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize, JsonSchema, TS)]

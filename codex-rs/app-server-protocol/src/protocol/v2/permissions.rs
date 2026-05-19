@@ -16,14 +16,12 @@ use codex_protocol::protocol::NetworkAccess as CoreNetworkAccess;
 use codex_protocol::request_permissions::PermissionGrantScope as CorePermissionGrantScope;
 use codex_protocol::request_permissions::RequestPermissionProfile as CoreRequestPermissionProfile;
 use codex_utils_absolute_path::AbsolutePathBuf;
-use schemars::JsonSchema;
-use serde::Deserialize;
+use crate::derives::*;
+use crate::mirror_from;
 use serde::Deserializer;
-use serde::Serialize;
 use serde::Serializer;
 use std::num::NonZeroUsize;
 use std::path::PathBuf;
-use ts_rs::TS;
 
 v2_enum_from_core! {
     pub enum NetworkApprovalProtocol from CoreNetworkApprovalProtocol {
@@ -42,14 +40,9 @@ pub struct NetworkApprovalContext {
     pub protocol: NetworkApprovalProtocol,
 }
 
-impl From<CoreNetworkApprovalContext> for NetworkApprovalContext {
-    fn from(value: CoreNetworkApprovalContext) -> Self {
-        Self {
-            host: value.host,
-            protocol: value.protocol.into(),
-        }
-    }
-}
+mirror_from!(CoreNetworkApprovalContext => NetworkApprovalContext {
+    host, protocol: into,
+});
 
 #[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq, JsonSchema, TS)]
 #[serde(rename_all = "camelCase")]
@@ -133,21 +126,8 @@ pub struct AdditionalNetworkPermissions {
     pub enabled: Option<bool>,
 }
 
-impl From<CoreNetworkPermissions> for AdditionalNetworkPermissions {
-    fn from(value: CoreNetworkPermissions) -> Self {
-        Self {
-            enabled: value.enabled,
-        }
-    }
-}
-
-impl From<AdditionalNetworkPermissions> for CoreNetworkPermissions {
-    fn from(value: AdditionalNetworkPermissions) -> Self {
-        Self {
-            enabled: value.enabled,
-        }
-    }
-}
+mirror_from!(CoreNetworkPermissions => AdditionalNetworkPermissions { enabled });
+mirror_from!(AdditionalNetworkPermissions => CoreNetworkPermissions { enabled });
 
 #[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq, JsonSchema, TS)]
 #[serde(rename_all = "camelCase")]
@@ -271,14 +251,9 @@ pub struct FileSystemSandboxEntry {
     pub access: FileSystemAccessMode,
 }
 
-impl From<CoreFileSystemSandboxEntry> for FileSystemSandboxEntry {
-    fn from(value: CoreFileSystemSandboxEntry) -> Self {
-        Self {
-            path: value.path.into(),
-            access: value.access.into(),
-        }
-    }
-}
+mirror_from!(CoreFileSystemSandboxEntry => FileSystemSandboxEntry {
+    path: into, access: into,
+});
 
 impl From<FileSystemSandboxEntry> for CoreFileSystemSandboxEntry {
     fn from(value: FileSystemSandboxEntry) -> Self {
@@ -315,23 +290,8 @@ impl ActivePermissionProfile {
     }
 }
 
-impl From<CoreActivePermissionProfile> for ActivePermissionProfile {
-    fn from(value: CoreActivePermissionProfile) -> Self {
-        Self {
-            id: value.id,
-            extends: value.extends,
-        }
-    }
-}
-
-impl From<ActivePermissionProfile> for CoreActivePermissionProfile {
-    fn from(value: ActivePermissionProfile) -> Self {
-        Self {
-            id: value.id,
-            extends: value.extends,
-        }
-    }
-}
+mirror_from!(CoreActivePermissionProfile => ActivePermissionProfile { id, extends });
+mirror_from!(ActivePermissionProfile => CoreActivePermissionProfile { id, extends });
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct PermissionProfileSelectionParams {

@@ -9,6 +9,7 @@ use ts_rs::TS;
 use uuid::Uuid;
 
 use crate::ThreadId;
+use crate::mirror_from;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, TS, Hash)]
 #[ts(type = "string")]
@@ -52,11 +53,7 @@ impl From<SessionId> for String {
     }
 }
 
-impl From<ThreadId> for SessionId {
-    fn from(value: ThreadId) -> Self {
-        Self { uuid: value.uuid }
-    }
-}
+mirror_from!(ThreadId => SessionId { uuid });
 
 impl From<SessionId> for ThreadId {
     fn from(value: SessionId) -> Self {

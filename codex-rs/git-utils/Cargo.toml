@@ -11,6 +11,7 @@ workspace = true
 [dependencies]
 anyhow = { workspace = true }
 chrono = { workspace = true }
+codex-errors = { workspace = true }
 codex-file-system = { workspace = true }
 codex-protocol = { workspace = true }
 codex-utils-absolute-path = { workspace = true }

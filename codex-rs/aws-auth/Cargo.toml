@@ -22,5 +22,6 @@ http = { workspace = true }
 thiserror = { workspace = true }
 
 [dev-dependencies]
+matrix-test-macro = { workspace = true }
 pretty_assertions = { workspace = true }
 tokio = { workspace = true, features = ["macros", "rt-multi-thread"] }

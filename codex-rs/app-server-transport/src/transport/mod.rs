@@ -7,6 +7,7 @@ use crate::outgoing_message::QueuedOutgoingMessage;
 use codex_app_server_protocol::JSONRPCErrorError;
 use codex_app_server_protocol::JSONRPCMessage;
 use codex_core::config::find_codex_home;
+use codex_impl_macros::impl_std_error;
 use codex_utils_absolute_path::AbsolutePathBuf;
 use std::net::SocketAddr;
 use std::path::Path;
@@ -88,7 +89,7 @@ impl std::fmt::Display for AppServerTransportParseError {
     }
 }
 
-impl std::error::Error for AppServerTransportParseError {}
+impl_std_error!(AppServerTransportParseError);
 
 impl AppServerTransport {
     pub const DEFAULT_LISTEN_URL: &'static str = "stdio://";

@@ -1,0 +1,7 @@
+load("//:defs.bzl", "codex_rust_crate")
+
+codex_rust_crate(
+    name = "matrix-test-macro",
+    crate_name = "matrix_test_macro",
+    proc_macro = True,
+)

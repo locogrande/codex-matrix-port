@@ -1,3 +1,5 @@
+use crate::derives::*;
+use crate::mirror_from;
 use crate::protocol::common::AuthMode;
 use codex_experimental_api_macros::ExperimentalApi;
 use codex_protocol::account::PlanType;
@@ -6,11 +8,7 @@ use codex_protocol::protocol::CreditsSnapshot as CoreCreditsSnapshot;
 use codex_protocol::protocol::RateLimitReachedType as CoreRateLimitReachedType;
 use codex_protocol::protocol::RateLimitSnapshot as CoreRateLimitSnapshot;
 use codex_protocol::protocol::RateLimitWindow as CoreRateLimitWindow;
-use schemars::JsonSchema;
-use serde::Deserialize;
-use serde::Serialize;
 use std::collections::HashMap;
-use ts_rs::TS;
 
 #[derive(Serialize, Deserialize, Debug, Clone, PartialEq, JsonSchema, TS)]
 #[serde(tag = "type", rename_all = "camelCase")]
@@ -361,15 +359,9 @@ pub struct CreditsSnapshot {
     pub balance: Option<String>,
 }
 
-impl From<CoreCreditsSnapshot> for CreditsSnapshot {
-    fn from(value: CoreCreditsSnapshot) -> Self {
-        Self {
-            has_credits: value.has_credits,
-            unlimited: value.unlimited,
-            balance: value.balance,
-        }
-    }
-}
+mirror_from!(CoreCreditsSnapshot => CreditsSnapshot {
+    has_credits, unlimited, balance,
+});
 
 #[derive(Serialize, Deserialize, Debug, Clone, PartialEq, JsonSchema, TS)]
 #[serde(rename_all = "camelCase")]

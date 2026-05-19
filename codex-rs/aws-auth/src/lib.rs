@@ -140,6 +140,7 @@ mod tests {
 
     use aws_credential_types::Credentials;
     use aws_credential_types::provider::error::CredentialsError;
+    use matrix_test_macro as matrix;
     use pretty_assertions::assert_eq;
 
     use super::*;
@@ -173,7 +174,7 @@ mod tests {
         }
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn sign_adds_sigv4_headers_and_preserves_existing_headers() {
         let signed = test_context(/*session_token*/ None)
             .sign_at(
@@ -230,7 +231,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn sign_includes_session_token_when_credentials_have_one() {
         let signed = test_context(Some("session-token"))
             .sign_at(
@@ -246,7 +247,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn load_rejects_empty_service_name() {
         let err = AwsAuthContext::load(AwsAuthConfig {
             profile: None,

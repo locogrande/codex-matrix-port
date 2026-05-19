@@ -3,17 +3,15 @@ use super::HookEventName;
 use super::HookHandlerType;
 use super::HookSource;
 use super::HookTrustStatus;
+use crate::derives::*;
+use crate::mirror_from;
 use codex_protocol::protocol::SkillDependencies as CoreSkillDependencies;
 use codex_protocol::protocol::SkillInterface as CoreSkillInterface;
 use codex_protocol::protocol::SkillMetadata as CoreSkillMetadata;
 use codex_protocol::protocol::SkillScope as CoreSkillScope;
 use codex_protocol::protocol::SkillToolDependency as CoreSkillToolDependency;
 use codex_utils_absolute_path::AbsolutePathBuf;
-use schemars::JsonSchema;
-use serde::Deserialize;
-use serde::Serialize;
 use std::path::PathBuf;
-use ts_rs::TS;
 
 #[derive(Serialize, Deserialize, Debug, Clone, Default, PartialEq, JsonSchema, TS)]
 #[serde(rename_all = "camelCase")]
@@ -746,18 +744,9 @@ impl From<CoreSkillMetadata> for SkillMetadata {
     }
 }
 
-impl From<CoreSkillInterface> for SkillInterface {
-    fn from(value: CoreSkillInterface) -> Self {
-        Self {
-            display_name: value.display_name,
-            short_description: value.short_description,
-            brand_color: value.brand_color,
-            default_prompt: value.default_prompt,
-            icon_small: value.icon_small,
-            icon_large: value.icon_large,
-        }
-    }
-}
+mirror_from!(CoreSkillInterface => SkillInterface {
+    display_name, short_description, brand_color, default_prompt, icon_small, icon_large,
+});
 
 impl From<CoreSkillDependencies> for SkillDependencies {
     fn from(value: CoreSkillDependencies) -> Self {

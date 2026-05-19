@@ -19,13 +19,11 @@ use codex_protocol::protocol::ThreadGoalStatus as CoreThreadGoalStatus;
 use codex_protocol::protocol::TokenUsage as CoreTokenUsage;
 use codex_protocol::protocol::TokenUsageInfo as CoreTokenUsageInfo;
 use codex_utils_absolute_path::AbsolutePathBuf;
-use schemars::JsonSchema;
-use serde::Deserialize;
-use serde::Serialize;
+use crate::derives::*;
+use crate::mirror_from;
 use serde_json::Value as JsonValue;
 use std::collections::HashMap;
 use std::path::PathBuf;
-use ts_rs::TS;
 
 #[derive(Serialize, Deserialize, Debug, Clone, Copy, PartialEq, Eq, JsonSchema, TS)]
 #[serde(rename_all = "camelCase")]
@@ -1116,17 +1114,9 @@ pub struct TokenUsageBreakdown {
     pub reasoning_output_tokens: i64,
 }
 
-impl From<CoreTokenUsage> for TokenUsageBreakdown {
-    fn from(value: CoreTokenUsage) -> Self {
-        Self {
-            total_tokens: value.total_tokens,
-            input_tokens: value.input_tokens,
-            cached_input_tokens: value.cached_input_tokens,
-            output_tokens: value.output_tokens,
-            reasoning_output_tokens: value.reasoning_output_tokens,
-        }
-    }
-}
+mirror_from!(CoreTokenUsage => TokenUsageBreakdown {
+    total_tokens, input_tokens, cached_input_tokens, output_tokens, reasoning_output_tokens,
+});
 
 // Thread/Turn lifecycle notifications and item progress events
 #[derive(Serialize, Deserialize, Debug, Clone, PartialEq, JsonSchema, TS)]

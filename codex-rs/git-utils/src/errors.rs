@@ -31,5 +31,7 @@ pub enum GitToolingError {
     #[error(transparent)]
     Walkdir(#[from] WalkdirError),
     #[error(transparent)]
-    Io(#[from] std::io::Error),
+    Io(std::io::Error),
 }
+
+codex_errors::impl_io_from!(GitToolingError);

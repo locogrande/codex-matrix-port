@@ -1,7 +1,4 @@
-use schemars::JsonSchema;
-use serde::Deserialize;
-use serde::Serialize;
-use ts_rs::TS;
+use crate::derives::*;
 
 /// Current remote-control connection status and remote identity exposed to clients.
 #[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq, JsonSchema, TS)]

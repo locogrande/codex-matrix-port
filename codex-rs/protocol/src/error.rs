@@ -144,10 +144,12 @@ pub enum CodexErr {
     // -----------------------------------------------------------------
     // Automatic conversions for common external error types
     // -----------------------------------------------------------------
+    // Io/Json `From` impls are emitted via `codex_errors::impl_io_json_from!`
+    // below to keep the boilerplate in one place across the workspace.
     #[error(transparent)]
-    Io(#[from] io::Error),
+    Io(io::Error),
     #[error(transparent)]
-    Json(#[from] serde_json::Error),
+    Json(serde_json::Error),
     #[cfg(target_os = "linux")]
     #[error(transparent)]
     LandlockRuleset(#[from] landlock::RulesetError),
@@ -159,6 +161,8 @@ pub enum CodexErr {
     #[error("{0}")]
     EnvVar(EnvVarError),
 }
+
+codex_errors::impl_io_json_from!(CodexErr);
 
 impl From<CancelErr> for CodexErr {
     fn from(_: CancelErr) -> Self {
@@ -399,7 +403,7 @@ impl std::fmt::Display for UnexpectedResponseError {
     }
 }
 
-impl std::error::Error for UnexpectedResponseError {}
+codex_impl_macros::impl_std_error!(UnexpectedResponseError);
 
 fn truncate_with_ellipsis(text: &str, max_bytes: usize) -> String {
     if text.len() <= max_bytes {

@@ -3,8 +3,8 @@
 use serde::Deserialize;
 use serde::Serialize;
 
-/// Stable identifier for one raw payload inside a rollout bundle.
-pub type RawPayloadId = String;
+// Canonical alias lives in `codex_common_types::trace_ids`.
+pub use codex_common_types::trace_ids::RawPayloadId;
 
 /// Reference to a raw request/response/log payload.
 ///

@@ -138,8 +138,10 @@ pub enum MemoriesBackendError {
     #[error("all_within_lines.line_count must be a positive integer")]
     InvalidMatchWindow,
     #[error("I/O error while reading memories: {0}")]
-    Io(#[from] std::io::Error),
+    Io(std::io::Error),
 }
+
+codex_errors::impl_io_from!(MemoriesBackendError);
 
 impl MemoriesBackendError {
     pub fn invalid_path(path: impl Into<String>, reason: impl Into<String>) -> Self {

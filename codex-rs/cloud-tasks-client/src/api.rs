@@ -17,9 +17,9 @@ pub enum CloudTaskError {
     Msg(String),
 }
 
-#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
-#[serde(transparent)]
-pub struct TaskId(pub String);
+// Canonical String-newtype lives in `codex-common-types`; re-exported here
+// to keep the public API of this crate stable.
+pub use codex_common_types::TaskId;
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "kebab-case")]

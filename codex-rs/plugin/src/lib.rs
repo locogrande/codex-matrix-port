@@ -16,8 +16,10 @@ pub use plugin_id::PluginId;
 pub use plugin_id::PluginIdError;
 pub use plugin_id::validate_plugin_segment;
 
-#[derive(Debug, Clone, PartialEq, Eq, Hash)]
-pub struct AppConnectorId(pub String);
+// Canonical String-newtype lives in `codex-common-types`. The shared
+// version additionally derives serde/JsonSchema; the original local
+// definition was never serialised so this is a strict superset.
+pub use codex_common_types::AppConnectorId;
 
 #[derive(Debug, Clone, Default, PartialEq, Eq)]
 pub struct PluginCapabilitySummary {

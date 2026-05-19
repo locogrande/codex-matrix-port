@@ -1,3 +1,4 @@
+use crate::mirror_from;
 use crate::models::AdditionalPermissionProfile;
 use crate::models::FileSystemPermissions;
 use crate::models::NetworkPermissions;
@@ -28,23 +29,8 @@ impl RequestPermissionProfile {
     }
 }
 
-impl From<RequestPermissionProfile> for AdditionalPermissionProfile {
-    fn from(value: RequestPermissionProfile) -> Self {
-        Self {
-            network: value.network,
-            file_system: value.file_system,
-        }
-    }
-}
-
-impl From<AdditionalPermissionProfile> for RequestPermissionProfile {
-    fn from(value: AdditionalPermissionProfile) -> Self {
-        Self {
-            network: value.network,
-            file_system: value.file_system,
-        }
-    }
-}
+mirror_from!(RequestPermissionProfile => AdditionalPermissionProfile { network, file_system });
+mirror_from!(AdditionalPermissionProfile => RequestPermissionProfile { network, file_system });
 
 #[derive(Debug, Clone, Deserialize, Serialize, PartialEq, Eq, JsonSchema, TS)]
 pub struct RequestPermissionsArgs {

@@ -10,14 +10,11 @@ use codex_protocol::config_types::WebSearchMode;
 use codex_protocol::config_types::WebSearchToolConfig;
 use codex_protocol::openai_models::ReasoningEffort;
 use codex_utils_absolute_path::AbsolutePathBuf;
-use schemars::JsonSchema;
-use serde::Deserialize;
-use serde::Serialize;
+use crate::derives::*;
 use serde_json::Value as JsonValue;
 use std::collections::BTreeMap;
 use std::collections::HashMap;
 use std::path::PathBuf;
-use ts_rs::TS;
 
 #[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq, JsonSchema, TS)]
 #[serde(tag = "type", rename_all = "camelCase")]

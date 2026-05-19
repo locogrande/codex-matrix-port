@@ -15,6 +15,7 @@ workspace = true
 [dependencies]
 anyhow = { workspace = true }
 clap = { workspace = true, features = ["derive"] }
+codex-common-types = { workspace = true }
 codex-experimental-api-macros = { workspace = true }
 codex-protocol = { workspace = true }
 codex-shell-command = { workspace = true }

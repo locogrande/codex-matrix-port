@@ -30,14 +30,12 @@ use codex_protocol::protocol::GuardianUserAuthorization as CoreGuardianUserAutho
 use codex_protocol::protocol::PatchApplyStatus as CorePatchApplyStatus;
 use codex_protocol::protocol::ReviewDecision as CoreReviewDecision;
 use codex_utils_absolute_path::AbsolutePathBuf;
-use schemars::JsonSchema;
-use serde::Deserialize;
-use serde::Serialize;
+use crate::derives::*;
+use crate::mirror_from;
 use serde_json::Value as JsonValue;
 use serde_with::serde_as;
 use std::collections::HashMap;
 use std::path::PathBuf;
-use ts_rs::TS;
 
 #[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq, JsonSchema, TS)]
 #[serde(rename_all = "camelCase")]
@@ -150,16 +148,9 @@ pub struct MemoryCitationEntry {
     pub note: String,
 }
 
-impl From<CoreMemoryCitationEntry> for MemoryCitationEntry {
-    fn from(value: CoreMemoryCitationEntry) -> Self {
-        Self {
-            path: value.path,
-            line_start: value.line_start,
-            line_end: value.line_end,
-            note: value.note,
-        }
-    }
-}
+mirror_from!(CoreMemoryCitationEntry => MemoryCitationEntry {
+    path, line_start, line_end, note,
+});
 
 impl CommandAction {
     pub fn into_core(self) -> CoreParsedCommand {
@@ -858,14 +849,9 @@ impl From<CoreTurnItem> for ThreadItem {
     }
 }
 
-impl From<codex_protocol::items::HookPromptFragment> for HookPromptFragment {
-    fn from(value: codex_protocol::items::HookPromptFragment) -> Self {
-        Self {
-            text: value.text,
-            hook_run_id: value.hook_run_id,
-        }
-    }
-}
+mirror_from!(codex_protocol::items::HookPromptFragment => HookPromptFragment {
+    text, hook_run_id,
+});
 
 #[derive(Serialize, Deserialize, Debug, Clone, PartialEq, JsonSchema, TS)]
 #[serde(rename_all = "camelCase")]

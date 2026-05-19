@@ -111,8 +111,10 @@ pub enum IdTokenInfoError {
     #[error(transparent)]
     Base64(#[from] base64::DecodeError),
     #[error(transparent)]
-    Json(#[from] serde_json::Error),
+    Json(serde_json::Error),
 }
+
+codex_errors::impl_json_from!(IdTokenInfoError);
 
 fn decode_jwt_payload<T: DeserializeOwned>(jwt: &str) -> Result<T, IdTokenInfoError> {
     // JWT format: header.payload.signature

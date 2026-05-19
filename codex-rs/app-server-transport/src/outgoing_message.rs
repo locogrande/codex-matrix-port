@@ -1,10 +1,9 @@
-use std::fmt;
-
 use codex_app_server_protocol::JSONRPCErrorError;
 use codex_app_server_protocol::RequestId;
 use codex_app_server_protocol::Result;
 use codex_app_server_protocol::ServerNotification;
 use codex_app_server_protocol::ServerRequest;
+use codex_impl_macros::impl_display_via;
 use serde::Serialize;
 use tokio::sync::oneshot;
 
@@ -12,11 +11,7 @@ use tokio::sync::oneshot;
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
 pub struct ConnectionId(pub u64);
 
-impl fmt::Display for ConnectionId {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "{}", self.0)
-    }
-}
+impl_display_via!(ConnectionId, |s| s.0);
 
 /// Outgoing message from the server to the client.
 #[derive(Debug, Clone, Serialize)]

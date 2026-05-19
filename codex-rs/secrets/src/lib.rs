@@ -1,10 +1,10 @@
-use std::fmt;
 use std::path::Path;
 use std::path::PathBuf;
 use std::sync::Arc;
 
 use anyhow::Result;
 use codex_git_utils::get_git_repo_root;
+use codex_impl_macros::impl_display_via;
 use codex_keyring_store::DefaultKeyringStore;
 use codex_keyring_store::KeyringStore;
 use schemars::JsonSchema;
@@ -42,11 +42,7 @@ impl SecretName {
     }
 }
 
-impl fmt::Display for SecretName {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "{}", self.0)
-    }
-}
+impl_display_via!(SecretName, |s| s.0);
 
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
 pub enum SecretScope {

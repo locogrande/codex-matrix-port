@@ -6,12 +6,9 @@ use codex_protocol::protocol::SessionSource as CoreSessionSource;
 use codex_protocol::protocol::SubAgentSource as CoreSubAgentSource;
 use codex_protocol::protocol::ThreadSource as CoreThreadSource;
 use codex_utils_absolute_path::AbsolutePathBuf;
-use schemars::JsonSchema;
-use serde::Deserialize;
-use serde::Serialize;
+use crate::derives::*;
 use std::path::PathBuf;
 use thiserror::Error;
-use ts_rs::TS;
 
 #[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq, JsonSchema, TS)]
 #[serde(rename_all = "camelCase")]

@@ -110,6 +110,7 @@ fn internal_error(err: impl std::fmt::Display) -> AgentGraphStoreError {
 mod tests {
     use super::*;
     use codex_state::DirectionalThreadSpawnEdgeStatus;
+    use matrix_test_macro as matrix;
     use pretty_assertions::assert_eq;
     use tempfile::TempDir;
 
@@ -135,7 +136,7 @@ mod tests {
         }
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn local_store_upserts_and_lists_direct_children_with_status_filters() {
         let fixture = state_runtime().await;
         let state_db = fixture.state_db;
@@ -191,7 +192,7 @@ mod tests {
         assert_eq!(closed_children, vec![second_child_thread_id]);
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn local_store_updates_edge_status() {
         let fixture = state_runtime().await;
         let state_db = fixture.state_db;
@@ -225,7 +226,7 @@ mod tests {
         assert_eq!(closed_children, vec![child_thread_id]);
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn local_store_lists_descendants_breadth_first_with_status_filters() {
         let fixture = state_runtime().await;
         let state_db = fixture.state_db;

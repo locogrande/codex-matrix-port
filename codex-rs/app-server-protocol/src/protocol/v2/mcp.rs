@@ -1,4 +1,6 @@
 use super::shared::v2_enum_from_core;
+use crate::derives::*;
+use crate::mirror_from;
 use codex_protocol::approvals::ElicitationRequest as CoreElicitationRequest;
 use codex_protocol::items::McpToolCallError as CoreMcpToolCallError;
 use codex_protocol::mcp::CallToolResult as CoreMcpCallToolResult;
@@ -6,12 +8,8 @@ use codex_protocol::mcp::Resource as McpResource;
 pub use codex_protocol::mcp::ResourceContent as McpResourceContent;
 use codex_protocol::mcp::ResourceTemplate as McpResourceTemplate;
 use codex_protocol::mcp::Tool as McpTool;
-use schemars::JsonSchema;
-use serde::Deserialize;
-use serde::Serialize;
 use serde_json::Value as JsonValue;
 use std::collections::BTreeMap;
-use ts_rs::TS;
 
 v2_enum_from_core!(
     pub enum McpAuthStatus from codex_protocol::protocol::McpAuthStatus {
@@ -138,34 +136,15 @@ pub struct McpToolCallError {
     pub message: String,
 }
 
-impl From<CoreMcpCallToolResult> for McpServerToolCallResponse {
-    fn from(result: CoreMcpCallToolResult) -> Self {
-        Self {
-            content: result.content,
-            structured_content: result.structured_content,
-            is_error: result.is_error,
-            meta: result.meta,
-        }
-    }
-}
+mirror_from!(CoreMcpCallToolResult => McpServerToolCallResponse {
+    content, structured_content, is_error, meta,
+});
 
-impl From<CoreMcpCallToolResult> for McpToolCallResult {
-    fn from(result: CoreMcpCallToolResult) -> Self {
-        Self {
-            content: result.content,
-            structured_content: result.structured_content,
-            meta: result.meta,
-        }
-    }
-}
+mirror_from!(CoreMcpCallToolResult => McpToolCallResult {
+    content, structured_content, meta,
+});
 
-impl From<CoreMcpToolCallError> for McpToolCallError {
-    fn from(error: CoreMcpToolCallError) -> Self {
-        Self {
-            message: error.message,
-        }
-    }
-}
+mirror_from!(CoreMcpToolCallError => McpToolCallError { message });
 
 #[derive(Serialize, Deserialize, Debug, Clone, PartialEq, JsonSchema, TS)]
 #[serde(rename_all = "camelCase")]
