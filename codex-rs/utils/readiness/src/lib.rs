@@ -11,7 +11,6 @@ use tokio::sync::Mutex;
 use tokio::sync::watch;
 use tokio::time;
 
-use matrix_test_macro as matrix;
 /// Opaque subscription token returned by `subscribe()`.
 #[derive(Clone, Copy, PartialEq, Eq, Hash, Debug)]
 pub struct Token(i32);
