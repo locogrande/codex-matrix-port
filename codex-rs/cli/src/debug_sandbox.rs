@@ -500,7 +500,6 @@ async fn spawn_debug_sandbox_child(
 
 #[cfg(target_os = "windows")]
 mod windows_stdio_bridge {
-    use matrix_test_macro as matrix;
     use std::io::Read;
     use std::io::Write;
 
@@ -570,6 +569,7 @@ mod windows_stdio_bridge {
     mod tests {
         use std::sync::Mutex;
 
+        use matrix_test_macro as matrix;
         use pretty_assertions::assert_eq;
 
         use super::*;
