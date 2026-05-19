@@ -26,11 +26,12 @@ use wiremock::matchers::header;
 use wiremock::matchers::method;
 use wiremock::matchers::path;
 
+use matrix_test_macro as matrix;
 const DEFAULT_READ_TIMEOUT: std::time::Duration = std::time::Duration::from_secs(10);
 const INVALID_REQUEST_ERROR_CODE: i64 = -32600;
 const INTERNAL_ERROR_CODE: i64 = -32603;
 
-#[tokio::test]
+#[matrix::test]
 async fn get_account_rate_limits_requires_auth() -> Result<()> {
     let codex_home = TempDir::new()?;
 
@@ -55,7 +56,7 @@ async fn get_account_rate_limits_requires_auth() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn get_account_rate_limits_requires_chatgpt_auth() -> Result<()> {
     let codex_home = TempDir::new()?;
 
@@ -82,7 +83,7 @@ async fn get_account_rate_limits_requires_chatgpt_auth() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn get_account_rate_limits_returns_snapshot() -> Result<()> {
     let codex_home = TempDir::new()?;
     write_chatgpt_auth(
@@ -231,7 +232,7 @@ async fn get_account_rate_limits_returns_snapshot() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn send_add_credits_nudge_email_requires_auth() -> Result<()> {
     let codex_home = TempDir::new()?;
 
@@ -260,7 +261,7 @@ async fn send_add_credits_nudge_email_requires_auth() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn send_add_credits_nudge_email_requires_chatgpt_auth() -> Result<()> {
     let codex_home = TempDir::new()?;
 
@@ -292,7 +293,7 @@ async fn send_add_credits_nudge_email_requires_chatgpt_auth() -> Result<()> {
 }
 
 #[cfg_attr(target_os = "windows", ignore = "covered by Linux and macOS CI")]
-#[tokio::test]
+#[matrix::test]
 async fn send_add_credits_nudge_email_posts_expected_body() -> Result<()> {
     let codex_home = TempDir::new()?;
     write_chatgpt_auth(
@@ -340,7 +341,7 @@ async fn send_add_credits_nudge_email_posts_expected_body() -> Result<()> {
 }
 
 #[cfg_attr(target_os = "windows", ignore = "covered by Linux and macOS CI")]
-#[tokio::test]
+#[matrix::test]
 async fn send_add_credits_nudge_email_maps_cooldown() -> Result<()> {
     let codex_home = TempDir::new()?;
     write_chatgpt_auth(
@@ -383,7 +384,7 @@ async fn send_add_credits_nudge_email_maps_cooldown() -> Result<()> {
 }
 
 #[cfg_attr(target_os = "windows", ignore = "covered by Linux and macOS CI")]
-#[tokio::test]
+#[matrix::test]
 async fn send_add_credits_nudge_email_surfaces_backend_failure() -> Result<()> {
     let codex_home = TempDir::new()?;
     write_chatgpt_auth(

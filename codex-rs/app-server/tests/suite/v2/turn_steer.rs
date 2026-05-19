@@ -27,9 +27,10 @@ use tokio::time::timeout;
 use super::analytics::mount_analytics_capture;
 use super::analytics::wait_for_analytics_event;
 
+use matrix_test_macro as matrix;
 const DEFAULT_READ_TIMEOUT: std::time::Duration = std::time::Duration::from_secs(10);
 
-#[tokio::test]
+#[matrix::test]
 async fn turn_steer_requires_active_turn() -> Result<()> {
     let tmp = TempDir::new()?;
     let codex_home = tmp.path().join("codex_home");
@@ -95,7 +96,7 @@ async fn turn_steer_requires_active_turn() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn turn_steer_rejects_oversized_text_input() -> Result<()> {
     #[cfg(target_os = "windows")]
     let shell_command = vec![
@@ -204,7 +205,7 @@ async fn turn_steer_rejects_oversized_text_input() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn turn_steer_returns_active_turn_id() -> Result<()> {
     #[cfg(target_os = "windows")]
     let shell_command = vec![

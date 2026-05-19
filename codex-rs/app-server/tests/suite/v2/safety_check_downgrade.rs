@@ -23,6 +23,7 @@ use core_test_support::skip_if_no_network;
 use tokio::time::timeout;
 use wiremock::ResponseTemplate;
 
+use matrix_test_macro as matrix;
 const DEFAULT_READ_TIMEOUT: std::time::Duration = std::time::Duration::from_secs(10);
 const REQUESTED_MODEL: &str = "gpt-5.4";
 const SERVER_MODEL: &str = "gpt-5.3-codex";
@@ -30,7 +31,7 @@ const TRUSTED_ACCESS_FOR_CYBER_VERIFICATION: &str = "trusted_access_for_cyber";
 const CYBER_POLICY_MESSAGE: &str =
     "This request has been flagged for potentially high-risk cyber activity.";
 
-#[tokio::test]
+#[matrix::test]
 async fn openai_model_header_mismatch_emits_model_rerouted_notification_v2() -> Result<()> {
     skip_if_no_network!(Ok(()));
 
@@ -94,7 +95,7 @@ async fn openai_model_header_mismatch_emits_model_rerouted_notification_v2() -> 
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn cyber_policy_response_emits_typed_error_notification_v2() -> Result<()> {
     skip_if_no_network!(Ok(()));
 
@@ -163,7 +164,7 @@ async fn cyber_policy_response_emits_typed_error_notification_v2() -> Result<()>
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn response_model_field_mismatch_emits_model_rerouted_notification_v2_when_header_matches_requested()
 -> Result<()> {
     skip_if_no_network!(Ok(()));
@@ -236,7 +237,7 @@ async fn response_model_field_mismatch_emits_model_rerouted_notification_v2_when
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn model_verification_emits_typed_notification_and_warning_v2() -> Result<()> {
     skip_if_no_network!(Ok(()));
 

@@ -21,6 +21,7 @@ use tokio::time::timeout;
 use tracing::debug;
 use tracing::trace;
 
+use matrix_test_macro as matrix;
 const X_REASONING_INCLUDED_HEADER: &str = "x-reasoning-included";
 const OPENAI_MODEL_HEADER: &str = "openai-model";
 const REQUEST_ID_HEADER: &str = "x-request-id";
@@ -632,7 +633,7 @@ mod tests {
         Duration::from_millis(1000)
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn parses_items_and_completed() {
         let item1 = json!({
             "type": "response.output_item.done",
@@ -698,7 +699,7 @@ mod tests {
         }
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn error_when_missing_completed() {
         let item1 = json!({
             "type": "response.output_item.done",
@@ -726,7 +727,7 @@ mod tests {
         }
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn parses_tool_search_call_items() {
         let events = run_sse(vec![
             json!({
@@ -762,7 +763,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn parses_tool_call_input_deltas() {
         let events = run_sse(vec![
             json!({
@@ -794,7 +795,7 @@ mod tests {
         assert_matches!(&events[1], ResponseEvent::Completed { .. });
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn emits_completed_without_stream_end() {
         let completed = json!({
             "type": "response.completed",
@@ -839,7 +840,7 @@ mod tests {
         }
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn error_when_error_event() {
         let raw_error = r#"{"type":"response.failed","sequence_number":3,"response":{"id":"resp_689bcf18d7f08194bf3440ba62fe05d803fee0cdac429894","object":"response","created_at":1755041560,"status":"failed","background":false,"error":{"code":"rate_limit_exceeded","message":"Rate limit reached for gpt-5.1 in organization org-AAA on tokens per min (TPM): Limit 30000, Used 22999, Requested 12528. Please try again in 11.054s. Visit https://platform.openai.com/account/rate-limits to learn more."}, "usage":null,"user":null,"metadata":{}}}"#;
 
@@ -861,7 +862,7 @@ mod tests {
         }
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn context_window_error_is_fatal() {
         let raw_error = r#"{"type":"response.failed","sequence_number":3,"response":{"id":"resp_5c66275b97b9baef1ed95550adb3b7ec13b17aafd1d2f11b","object":"response","created_at":1759510079,"status":"failed","background":false,"error":{"code":"context_length_exceeded","message":"Your input exceeds the context window of this model. Please adjust your input and try again."},"usage":null,"user":null,"metadata":{}}}"#;
 
@@ -874,7 +875,7 @@ mod tests {
         assert_matches!(events[0], Err(ApiError::ContextWindowExceeded));
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn context_window_error_with_newline_is_fatal() {
         let raw_error = r#"{"type":"response.failed","sequence_number":4,"response":{"id":"resp_fatal_newline","object":"response","created_at":1759510080,"status":"failed","background":false,"error":{"code":"context_length_exceeded","message":"Your input exceeds the context window of this model. Please adjust your input and try\nagain."},"usage":null,"user":null,"metadata":{}}}"#;
 
@@ -887,7 +888,7 @@ mod tests {
         assert_matches!(events[0], Err(ApiError::ContextWindowExceeded));
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn quota_exceeded_error_is_fatal() {
         let raw_error = r#"{"type":"response.failed","sequence_number":3,"response":{"id":"resp_fatal_quota","object":"response","created_at":1759771626,"status":"failed","background":false,"error":{"code":"insufficient_quota","message":"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors."},"incomplete_details":null}}"#;
 
@@ -900,7 +901,7 @@ mod tests {
         assert_matches!(events[0], Err(ApiError::QuotaExceeded));
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn cyber_policy_error_is_fatal() {
         let raw_error = r#"{"type":"response.failed","sequence_number":3,"response":{"id":"resp_fatal_cyber","object":"response","created_at":1759771626,"status":"failed","background":false,"error":{"code":"cyber_policy","message":"This request was flagged for cyber policy."},"incomplete_details":null}}"#;
 
@@ -918,7 +919,7 @@ mod tests {
         }
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn cyber_policy_error_uses_fallback_for_empty_message() {
         let raw_error = r#"{"type":"response.failed","sequence_number":3,"response":{"id":"resp_fatal_cyber","object":"response","created_at":1759771626,"status":"failed","background":false,"error":{"code":"cyber_policy","message":"   "},"incomplete_details":null}}"#;
 
@@ -939,7 +940,7 @@ mod tests {
         }
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn invalid_prompt_without_type_is_invalid_request() {
         let raw_error = r#"{"type":"response.failed","sequence_number":3,"response":{"id":"resp_invalid_prompt_no_type","object":"response","created_at":1759771628,"status":"failed","background":false,"error":{"code":"invalid_prompt","message":"Invalid prompt: we've limited access to this content for safety reasons."},"incomplete_details":null}}"#;
 
@@ -960,7 +961,7 @@ mod tests {
         }
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn table_driven_event_kinds() {
         struct TestCase {
             name: &'static str,
@@ -1038,7 +1039,7 @@ mod tests {
         }
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn spawn_response_stream_emits_header_events() {
         let mut headers = HeaderMap::new();
         headers.insert(REQUEST_ID_HEADER, HeaderValue::from_static("req-1"));
@@ -1074,7 +1075,7 @@ mod tests {
         }
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn spawn_response_stream_ignores_model_verification_header() {
         let mut headers = HeaderMap::new();
         headers.insert(
@@ -1111,7 +1112,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn process_sse_ignores_response_model_field_in_payload() {
         let events = run_sse(vec![
             json!({
@@ -1143,7 +1144,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn process_sse_emits_server_model_from_response_headers_payload() {
         let events = run_sse(vec![
             json!({
@@ -1180,7 +1181,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn process_sse_emits_model_verification_field() {
         let events = run_sse(vec![
             json!({

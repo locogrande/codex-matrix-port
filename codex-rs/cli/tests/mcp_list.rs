@@ -8,6 +8,7 @@ use predicates::str::contains;
 use serde_json::Value as JsonValue;
 use serde_json::json;
 
+use matrix_test_macro as matrix;
 fn codex_command(codex_home: &Path) -> Result<assert_cmd::Command> {
     let mut cmd = assert_cmd::Command::new(codex_utils_cargo_bin::cargo_bin("codex")?);
     cmd.env("CODEX_HOME", codex_home);
@@ -27,7 +28,7 @@ fn list_shows_empty_state() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn list_and_get_render_expected_output() -> Result<()> {
     let codex_home = TempDir::new()?;
 
@@ -135,7 +136,7 @@ async fn list_and_get_render_expected_output() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn get_disabled_server_shows_single_line() -> Result<()> {
     let codex_home = TempDir::new()?;
 

@@ -20,7 +20,8 @@ use wiremock::matchers::header;
 use wiremock::matchers::method;
 use wiremock::matchers::path;
 
-#[tokio::test]
+use matrix_test_macro as matrix;
+#[matrix::test]
 async fn startup_remote_plugin_sync_writes_marker_and_reconciles_state() {
     let tmp = tempdir().expect("tempdir");
     let curated_root = curated_plugins_repo_path(tmp.path());

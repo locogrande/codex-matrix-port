@@ -6,6 +6,7 @@ use std::fs;
 use tempfile::TempDir;
 use codex_paths;
 
+use matrix_test_macro as matrix;
 #[test]
 fn render_workspace_diff_file_bounds_large_diff() {
     let diff = GitBaselineDiff {
@@ -23,7 +24,7 @@ fn render_workspace_diff_file_bounds_large_diff() {
     assert!(rendered.ends_with("```\n"));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn reset_memory_workspace_baseline_removes_generated_diff() {
     let home = TempDir::new().expect("tempdir");
     let root = home.path().join(codex_paths::MEMORIES_DIR);
@@ -55,7 +56,7 @@ async fn reset_memory_workspace_baseline_removes_generated_diff() {
     assert_eq!(diff.changes, Vec::new());
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn prepare_memory_workspace_recovers_unusable_git_dir() {
     let home = TempDir::new().expect("tempdir");
     let root = home.path().join(codex_paths::MEMORIES_DIR);

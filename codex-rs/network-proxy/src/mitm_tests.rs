@@ -10,6 +10,7 @@ use rama_http::Method;
 use rama_http::Request;
 use rama_http::StatusCode;
 
+use matrix_test_macro as matrix;
 fn policy_ctx(
     app_state: Arc<NetworkProxyState>,
     mode: NetworkMode,
@@ -24,7 +25,7 @@ fn policy_ctx(
     }
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn mitm_policy_blocks_disallowed_method_and_records_telemetry() {
     let app_state = Arc::new(network_proxy_state_for_policy({
         let mut network = NetworkProxySettings::default();
@@ -63,7 +64,7 @@ async fn mitm_policy_blocks_disallowed_method_and_records_telemetry() {
     assert_eq!(blocked[0].port, Some(443));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn mitm_policy_rejects_host_mismatch() {
     let app_state = Arc::new(network_proxy_state_for_policy({
         let mut network = NetworkProxySettings::default();
@@ -92,7 +93,7 @@ async fn mitm_policy_rejects_host_mismatch() {
     assert_eq!(app_state.blocked_snapshot().await.unwrap().len(), 0);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn mitm_policy_rechecks_local_private_target_after_connect() {
     let app_state = Arc::new(network_proxy_state_for_policy({
         let mut network = NetworkProxySettings::default();

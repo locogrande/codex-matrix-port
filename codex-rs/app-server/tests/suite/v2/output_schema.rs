@@ -12,9 +12,10 @@ use core_test_support::responses;
 use core_test_support::skip_if_no_network;
 use tokio::time::timeout;
 
+use matrix_test_macro as matrix;
 const DEFAULT_READ_TIMEOUT: std::time::Duration = std::time::Duration::from_secs(10);
 
-#[tokio::test]
+#[matrix::test]
 async fn turn_start_accepts_output_schema_v2() -> Result<()> {
     skip_if_no_network!(Ok(()));
 
@@ -96,7 +97,7 @@ async fn turn_start_accepts_output_schema_v2() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn turn_start_output_schema_is_per_turn_v2() -> Result<()> {
     skip_if_no_network!(Ok(()));
 

@@ -30,6 +30,7 @@ use std::collections::HashSet;
 use std::sync::Arc;
 use tempfile::tempdir;
 
+use matrix_test_macro as matrix;
 fn annotations(destructive_hint: Option<bool>, open_world_hint: Option<bool>) -> ToolAnnotations {
     ToolAnnotations {
         destructive_hint,
@@ -167,7 +168,7 @@ fn accessible_connectors_from_mcp_tools_carries_plugin_display_names() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn refresh_accessible_connectors_cache_from_mcp_tools_writes_latest_installed_apps() {
     let codex_home = tempdir().expect("tempdir should succeed");
     let mut config = ConfigBuilder::default()
@@ -472,7 +473,7 @@ fn requirements_enabled_does_not_override_disabled_connector() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn cloud_requirements_disable_connector_overrides_user_apps_config() {
     let codex_home = tempdir().expect("tempdir should succeed");
     std::fs::write(
@@ -523,7 +524,7 @@ enabled = true
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn cloud_requirements_disable_connector_applies_without_user_apps_table() {
     let codex_home = tempdir().expect("tempdir should succeed");
     std::fs::write(codex_home.path().join(CONFIG_TOML_FILE), "").expect("write config");
@@ -567,7 +568,7 @@ async fn cloud_requirements_disable_connector_applies_without_user_apps_table() 
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn local_requirements_disable_connector_overrides_user_apps_config() {
     let codex_home = tempdir().expect("tempdir should succeed");
     let config_toml_path =
@@ -621,7 +622,7 @@ enabled = true
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn local_requirements_disable_connector_applies_without_user_apps_table() {
     let codex_home = tempdir().expect("tempdir should succeed");
     let mut config = ConfigBuilder::default()
@@ -663,7 +664,7 @@ async fn local_requirements_disable_connector_applies_without_user_apps_table() 
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn with_app_enabled_state_preserves_unrelated_disabled_connector() {
     let codex_home = tempdir().expect("tempdir should succeed");
     let mut config = ConfigBuilder::default()
@@ -801,7 +802,7 @@ fn managed_app_tool_approval_uses_raw_tool_name() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn cloud_requirements_tool_approval_overrides_user_apps_config() {
     let codex_home = tempdir().expect("tempdir should succeed");
     std::fs::write(
@@ -848,7 +849,7 @@ approval_mode = "prompt"
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn local_requirements_tool_approval_overrides_user_apps_config() {
     let codex_home = tempdir().expect("tempdir should succeed");
     let config_toml_path =
@@ -898,7 +899,7 @@ approval_mode = "prompt"
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn local_requirements_tool_approval_does_not_match_tool_title() {
     let codex_home = tempdir().expect("tempdir should succeed");
     let mut config = ConfigBuilder::default()
@@ -1174,7 +1175,7 @@ fn app_tool_policy_matches_prefix_stripped_tool_name_for_tool_config() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn tool_suggest_connector_ids_include_configured_tool_suggest_discoverables() {
     let codex_home = tempdir().expect("tempdir should succeed");
     std::fs::write(
@@ -1201,7 +1202,7 @@ discoverables = [
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn tool_suggest_connector_ids_exclude_disabled_tool_suggestions() {
     let codex_home = tempdir().expect("tempdir should succeed");
     std::fs::write(
@@ -1230,7 +1231,7 @@ disabled_tools = [
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn tool_suggest_uses_connector_id_fallback_when_directory_cache_is_empty() {
     let codex_home = tempdir().expect("tempdir should succeed");
     std::fs::write(

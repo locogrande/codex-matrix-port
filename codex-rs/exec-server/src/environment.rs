@@ -21,6 +21,7 @@ use crate::process::ExecBackend;
 use crate::remote_file_system::RemoteFileSystem;
 use crate::remote_process::RemoteProcess;
 
+use matrix_test_macro as matrix;
 pub const CODEX_EXEC_SERVER_URL_ENV_VAR: &str = "CODEX_EXEC_SERVER_URL";
 
 /// Owns the execution/filesystem environments available to the Codex runtime.
@@ -479,7 +480,7 @@ mod tests {
         .expect("runtime paths")
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn create_local_environment_does_not_connect() {
         let environment = Environment::create(/*exec_server_url*/ None, test_runtime_paths())
             .expect("create environment");
@@ -488,7 +489,7 @@ mod tests {
         assert!(!environment.is_remote());
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn environment_manager_normalizes_empty_url() {
         let manager =
             EnvironmentManager::create_for_tests(Some(String::new()), test_runtime_paths()).await;
@@ -506,7 +507,7 @@ mod tests {
         assert!(!environment.is_remote());
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn disabled_environment_manager_has_no_default_but_keeps_explicit_local_environment() {
         let manager = EnvironmentManager::disabled_for_tests(test_runtime_paths());
 
@@ -517,7 +518,7 @@ mod tests {
         assert!(manager.get_environment(REMOTE_ENVIRONMENT_ID).is_none());
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn environment_manager_reports_remote_url() {
         let manager = EnvironmentManager::create_for_tests(
             Some("ws://127.0.0.1:8765".to_string()),
@@ -542,7 +543,7 @@ mod tests {
         assert!(!manager.local_environment().is_remote());
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn environment_manager_default_environment_caches_environment() {
         let manager = EnvironmentManager::default_for_tests();
 
@@ -556,7 +557,7 @@ mod tests {
         ));
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn environment_manager_builds_from_provider() {
         let provider = TestEnvironmentProvider {
             snapshot: EnvironmentProviderSnapshot {
@@ -587,7 +588,7 @@ mod tests {
         assert!(!manager.local_environment().is_remote());
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn environment_manager_rejects_empty_environment_id() {
         let provider = TestEnvironmentProvider {
             snapshot: EnvironmentProviderSnapshot {
@@ -606,7 +607,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn environment_manager_rejects_provider_supplied_local_environment() {
         let provider = TestEnvironmentProvider {
             snapshot: EnvironmentProviderSnapshot {
@@ -628,7 +629,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn environment_manager_uses_explicit_provider_default() {
         let provider = TestEnvironmentProvider {
             snapshot: EnvironmentProviderSnapshot {
@@ -653,7 +654,7 @@ mod tests {
         assert!(manager.default_environment().expect("default").is_remote());
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn environment_manager_disables_provider_default() {
         let provider = TestEnvironmentProvider {
             snapshot: EnvironmentProviderSnapshot {
@@ -680,7 +681,7 @@ mod tests {
         ));
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn environment_manager_rejects_unknown_provider_default() {
         let provider = TestEnvironmentProvider {
             snapshot: EnvironmentProviderSnapshot {
@@ -703,7 +704,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn environment_manager_includes_local_for_default_provider_without_url() {
         let manager = EnvironmentManager::create_for_tests(
             /*exec_server_url*/ None,
@@ -723,7 +724,7 @@ mod tests {
         assert!(!environment.is_remote());
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn environment_manager_carries_local_runtime_paths() {
         let runtime_paths = test_runtime_paths();
         let manager = EnvironmentManager::create_for_tests(
@@ -747,7 +748,7 @@ mod tests {
         assert_eq!(environment.local_runtime_paths(), Some(&runtime_paths));
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn disabled_environment_manager_has_no_default_environment() {
         let manager = EnvironmentManager::disabled_for_tests(test_runtime_paths());
 
@@ -755,7 +756,7 @@ mod tests {
         assert_eq!(manager.default_environment_id(), None);
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn environment_manager_omits_default_provider_local_lookup_when_default_disabled() {
         let manager =
             EnvironmentManager::create_for_tests(Some("none".to_string()), test_runtime_paths())
@@ -768,14 +769,14 @@ mod tests {
         assert!(!manager.local_environment().is_remote());
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn get_environment_returns_none_for_unknown_id() {
         let manager = EnvironmentManager::default_for_tests();
 
         assert!(manager.get_environment("does-not-exist").is_none());
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn environment_manager_upserts_named_remote_environment() {
         let manager = EnvironmentManager::disabled_for_tests(test_runtime_paths());
 
@@ -800,7 +801,7 @@ mod tests {
         assert!(!Arc::ptr_eq(&first, &second));
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn environment_manager_rejects_empty_remote_environment_url() {
         let manager = EnvironmentManager::disabled_for_tests(test_runtime_paths());
 
@@ -814,7 +815,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn default_environment_has_ready_local_executor() {
         let environment = Environment::default_for_tests();
 
@@ -836,7 +837,7 @@ mod tests {
         assert_eq!(response.process.process_id().as_str(), "default-env-proc");
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn test_environment_rejects_sandboxed_filesystem_without_runtime_paths() {
         let environment = Environment::default_for_tests();
         let path = codex_utils_absolute_path::AbsolutePathBuf::from_absolute_path(

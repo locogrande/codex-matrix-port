@@ -211,13 +211,14 @@ fn session_thread_config_to_toml(
 
 #[cfg(test)]
 mod tests {
+    use matrix_test_macro as matrix;
     use codex_model_provider_info::ModelProviderInfo;
     use codex_model_provider_info::WireApi;
     use pretty_assertions::assert_eq;
 
     use super::*;
 
-    #[tokio::test]
+    #[matrix::test]
     async fn loader_returns_session_and_user_sources() {
         let loader = StaticThreadConfigLoader::new(vec![
             ThreadConfigSource::Session(SessionThreadConfig {
@@ -249,7 +250,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn loader_translates_sources_to_config_layers() {
         let loader = StaticThreadConfigLoader::new(vec![
             ThreadConfigSource::User(UserThreadConfig::default()),

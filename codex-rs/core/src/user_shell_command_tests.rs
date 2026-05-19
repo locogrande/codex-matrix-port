@@ -7,6 +7,7 @@ use codex_protocol::models::ContentItem;
 use pretty_assertions::assert_eq;
 use std::time::Duration;
 
+use matrix_test_macro as matrix;
 #[test]
 fn detects_user_shell_command_text_variants() {
     assert!(UserShellCommand::matches_text(
@@ -15,7 +16,7 @@ fn detects_user_shell_command_text_variants() {
     assert!(!UserShellCommand::matches_text("echo hi"));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn formats_basic_record() {
     let exec_output = ExecToolCallOutput {
         exit_code: 0,
@@ -39,7 +40,7 @@ async fn formats_basic_record() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn uses_aggregated_output_over_streams() {
     let exec_output = ExecToolCallOutput {
         exit_code: 42,

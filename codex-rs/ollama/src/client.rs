@@ -14,6 +14,7 @@ use crate::url::is_openai_compatible_base_url;
 use codex_core::config::Config;
 use codex_model_provider_info::ModelProviderInfo;
 use codex_model_provider_info::OLLAMA_OSS_PROVIDER_ID;
+use matrix_test_macro as matrix;
 #[cfg(test)]
 use codex_model_provider_info::WireApi;
 #[cfg(test)]
@@ -266,7 +267,7 @@ mod tests {
     use pretty_assertions::assert_eq;
 
     // Happy-path tests using a mock HTTP server; skip if sandbox network is disabled.
-    #[tokio::test]
+    #[matrix::test]
     async fn test_fetch_models_happy_path() {
         if std::env::var(codex_core::spawn::CODEX_SANDBOX_NETWORK_DISABLED_ENV_VAR).is_ok() {
             tracing::info!(
@@ -297,7 +298,7 @@ mod tests {
         assert!(models.contains(&"mistral".to_string()));
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn test_fetch_version() {
         if std::env::var(codex_core::spawn::CODEX_SANDBOX_NETWORK_DISABLED_ENV_VAR).is_ok() {
             tracing::info!(
@@ -333,7 +334,7 @@ mod tests {
         assert_eq!(version, Some(Version::new(0, 14, 1)));
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn test_probe_server_happy_path_openai_compat_and_native() {
         if std::env::var(codex_core::spawn::CODEX_SANDBOX_NETWORK_DISABLED_ENV_VAR).is_ok() {
             tracing::info!(
@@ -370,7 +371,7 @@ mod tests {
             .expect("probe OpenAI compat");
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn test_try_from_oss_provider_ok_when_server_running() {
         if std::env::var(codex_core::spawn::CODEX_SANDBOX_NETWORK_DISABLED_ENV_VAR).is_ok() {
             tracing::info!(
@@ -394,7 +395,7 @@ mod tests {
             .expect("client should be created when probe succeeds");
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn test_try_from_oss_provider_err_when_server_missing() {
         if std::env::var(codex_core::spawn::CODEX_SANDBOX_NETWORK_DISABLED_ENV_VAR).is_ok() {
             tracing::info!(

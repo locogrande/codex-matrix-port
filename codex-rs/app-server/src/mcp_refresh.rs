@@ -98,6 +98,7 @@ async fn queue_refresh(
 
 #[cfg(test)]
 mod tests {
+    use matrix_test_macro as matrix;
     use super::*;
     use crate::extensions::guardian_agent_spawner;
     use crate::extensions::thread_extensions;
@@ -123,7 +124,7 @@ mod tests {
     use std::sync::atomic::Ordering;
     use tempfile::TempDir;
 
-    #[tokio::test]
+    #[matrix::test]
     async fn strict_refresh_reports_thread_planning_failures() -> anyhow::Result<()> {
         let (_temp_dir, thread_manager, config_manager, _loader) = refresh_test_state().await?;
 
@@ -135,7 +136,7 @@ mod tests {
         Ok(())
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn best_effort_refresh_attempts_every_loaded_thread() -> anyhow::Result<()> {
         let (_temp_dir, thread_manager, config_manager, loader) = refresh_test_state().await?;
 

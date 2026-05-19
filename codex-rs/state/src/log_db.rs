@@ -44,6 +44,7 @@ use uuid::Uuid;
 use crate::LogEntry;
 use crate::StateRuntime;
 
+use matrix_test_macro as matrix;
 const LOG_QUEUE_CAPACITY: usize = 512;
 const LOG_BATCH_SIZE: usize = 128;
 const LOG_FLUSH_INTERVAL: Duration = Duration::from_secs(2);
@@ -544,7 +545,7 @@ mod tests {
         }
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn sqlite_feedback_logs_match_feedback_formatter_shape() {
         let codex_home = temp_codex_home();
         let runtime = StateRuntime::init(codex_home.clone(), "test-provider".to_string())
@@ -602,7 +603,7 @@ mod tests {
         let _ = tokio::fs::remove_dir_all(codex_home).await;
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn flush_persists_logs_for_query() {
         let codex_home = temp_codex_home();
         let runtime = StateRuntime::init(codex_home.clone(), "test-provider".to_string())
@@ -633,7 +634,7 @@ mod tests {
         let _ = tokio::fs::remove_dir_all(codex_home).await;
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn configured_batch_size_flushes_without_explicit_flush() {
         let codex_home = temp_codex_home();
         let runtime = StateRuntime::init(codex_home.clone(), "test-provider".to_string())
@@ -682,7 +683,7 @@ mod tests {
         let _ = tokio::fs::remove_dir_all(codex_home).await;
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn configured_flush_interval_persists_buffered_logs() {
         let codex_home = temp_codex_home();
         let runtime = StateRuntime::init(codex_home.clone(), "test-provider".to_string())
@@ -715,7 +716,7 @@ mod tests {
         let _ = tokio::fs::remove_dir_all(codex_home).await;
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn event_queue_drops_new_entries_when_full() {
         let (sender, mut receiver) = mpsc::channel(1);
         let layer = LogDbLayer {
@@ -735,7 +736,7 @@ mod tests {
         assert!(receiver.try_recv().is_err());
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn flush_waits_for_queue_capacity_and_receiver_processing() {
         let (sender, mut receiver) = mpsc::channel(1);
         let layer = LogDbLayer {

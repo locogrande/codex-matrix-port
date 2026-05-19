@@ -147,6 +147,7 @@ pub(crate) const DEFAULT_ENV_VARS: &[&str] =
 
 #[cfg(test)]
 mod tests {
+    use matrix_test_macro as matrix;
     use super::*;
     use pretty_assertions::assert_eq;
 
@@ -185,7 +186,7 @@ mod tests {
         }
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn create_env_honors_overrides() {
         let value = "custom".to_string();
         let expected = OsString::from(&value);

@@ -44,6 +44,7 @@ use tokio_tungstenite::tungstenite::http::HeaderValue;
 use tokio_tungstenite::tungstenite::http::header::AUTHORIZATION;
 use tokio_tungstenite::tungstenite::http::header::ORIGIN;
 
+use matrix_test_macro as matrix;
 // macOS and Windows CI can spend tens of seconds starting the app-server test
 // binary under Bazel before it accepts JSON-RPC or reports its websocket bind
 // address.
@@ -55,7 +56,7 @@ pub(super) const DEFAULT_READ_TIMEOUT: Duration = Duration::from_secs(10);
 pub(super) type WsClient = WebSocketStream<MaybeTlsStream<tokio::net::TcpStream>>;
 type HmacSha256 = Hmac<Sha256>;
 
-#[tokio::test]
+#[matrix::test]
 async fn websocket_transport_routes_per_connection_handshake_and_responses() -> Result<()> {
     let server = create_mock_responses_server_sequence_unchecked(Vec::new()).await;
     let codex_home = TempDir::new()?;
@@ -100,7 +101,7 @@ async fn websocket_transport_routes_per_connection_handshake_and_responses() -> 
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn websocket_transport_serves_health_endpoints_on_same_listener() -> Result<()> {
     let server = create_mock_responses_server_sequence_unchecked(Vec::new()).await;
     let codex_home = TempDir::new()?;
@@ -127,7 +128,7 @@ async fn websocket_transport_serves_health_endpoints_on_same_listener() -> Resul
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn websocket_transport_rejects_browser_origin_without_auth() -> Result<()> {
     let server = create_mock_responses_server_sequence_unchecked(Vec::new()).await;
     let codex_home = TempDir::new()?;
@@ -156,7 +157,7 @@ async fn websocket_transport_rejects_browser_origin_without_auth() -> Result<()>
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn websocket_transport_rejects_missing_and_invalid_capability_tokens() -> Result<()> {
     let server = create_mock_responses_server_sequence_unchecked(Vec::new()).await;
     let codex_home = TempDir::new()?;
@@ -188,7 +189,7 @@ async fn websocket_transport_rejects_missing_and_invalid_capability_tokens() -> 
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn websocket_transport_verifies_signed_short_lived_bearer_tokens() -> Result<()> {
     let server = create_mock_responses_server_sequence_unchecked(Vec::new()).await;
     let codex_home = TempDir::new()?;
@@ -285,7 +286,7 @@ async fn websocket_transport_verifies_signed_short_lived_bearer_tokens() -> Resu
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn websocket_transport_rejects_short_signed_bearer_secret_configuration() -> Result<()> {
     let server = create_mock_responses_server_sequence_unchecked(Vec::new()).await;
     let codex_home = TempDir::new()?;
@@ -317,7 +318,7 @@ async fn websocket_transport_rejects_short_signed_bearer_secret_configuration() 
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn websocket_transport_rejects_unauthenticated_non_loopback_startup() -> Result<()> {
     let server = create_mock_responses_server_sequence_unchecked(Vec::new()).await;
     let codex_home = TempDir::new()?;
@@ -339,7 +340,7 @@ async fn websocket_transport_rejects_unauthenticated_non_loopback_startup() -> R
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn websocket_disconnect_keeps_last_subscribed_thread_loaded_until_idle_timeout() -> Result<()>
 {
     let server = create_mock_responses_server_sequence_unchecked(Vec::new()).await;

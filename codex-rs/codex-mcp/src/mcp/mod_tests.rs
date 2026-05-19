@@ -14,6 +14,7 @@ use pretty_assertions::assert_eq;
 use std::collections::HashMap;
 use std::path::PathBuf;
 
+use matrix_test_macro as matrix;
 fn test_mcp_config(codex_home: PathBuf) -> McpConfig {
     McpConfig {
         chatgpt_base_url: "https://chatgpt.com".to_string(),
@@ -286,7 +287,7 @@ fn codex_apps_server_config_forwards_configured_product_sku_header() {
     }
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn effective_mcp_servers_preserve_user_servers_and_add_codex_apps() {
     let codex_home = tempfile::tempdir().expect("tempdir");
     let mut config = test_mcp_config(codex_home.path().to_path_buf());

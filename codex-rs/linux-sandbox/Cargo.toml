@@ -44,4 +44,5 @@ tokio = { workspace = true, features = [
 ] }
 
 [dev-dependencies]
+matrix-test-macro = { workspace = true }
 codex-test-support = { workspace = true }

@@ -173,6 +173,7 @@ fn map_fs_error(err: io::Error) -> JSONRPCErrorError {
 
 #[cfg(test)]
 mod tests {
+    use matrix_test_macro as matrix;
     use codex_protocol::protocol::NetworkAccess;
     use codex_protocol::protocol::SandboxPolicy;
     use codex_utils_absolute_path::AbsolutePathBuf;
@@ -183,7 +184,7 @@ mod tests {
     use crate::protocol::FsReadFileParams;
     use crate::protocol::FsWriteFileParams;
 
-    #[tokio::test]
+    #[matrix::test]
     async fn no_platform_sandbox_policies_do_not_require_configured_sandbox_helper() {
         let temp_dir = tempfile::tempdir().expect("tempdir");
         let runtime_paths = ExecServerRuntimePaths::new(

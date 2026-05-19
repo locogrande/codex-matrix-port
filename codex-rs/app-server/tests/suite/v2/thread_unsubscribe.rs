@@ -32,8 +32,9 @@ use core_test_support::streaming_sse::start_streaming_sse_server;
 use serde_json::json;
 use tokio::time::timeout;
 
+use matrix_test_macro as matrix;
 const DEFAULT_READ_TIMEOUT: std::time::Duration = std::time::Duration::from_secs(10);
-#[tokio::test]
+#[matrix::test]
 async fn thread_unsubscribe_keeps_thread_loaded_until_idle_timeout() -> Result<()> {
     let server = create_mock_responses_server_repeating_assistant("Done").await;
     let codex_home = TempDir::new()?;
@@ -82,7 +83,7 @@ async fn thread_unsubscribe_keeps_thread_loaded_until_idle_timeout() -> Result<(
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn thread_unsubscribe_during_turn_keeps_turn_running() -> Result<()> {
     let call_id = "deterministic-wait-call";
     let tool_name = "deterministic_wait";
@@ -239,7 +240,7 @@ async fn thread_unsubscribe_during_turn_keeps_turn_running() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn thread_unsubscribe_preserves_cached_status_before_idle_unload() -> Result<()> {
     let server = responses::start_mock_server().await;
     let _response_mock = responses::mount_sse_once(
@@ -329,7 +330,7 @@ async fn thread_unsubscribe_preserves_cached_status_before_idle_unload() -> Resu
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn thread_unsubscribe_reports_not_subscribed_before_idle_unload() -> Result<()> {
     let server = create_mock_responses_server_repeating_assistant("Done").await;
     let codex_home = TempDir::new()?;

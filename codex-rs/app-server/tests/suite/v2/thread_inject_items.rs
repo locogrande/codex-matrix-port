@@ -18,9 +18,10 @@ use core_test_support::responses;
 use serde_json::Value;
 use tokio::time::timeout;
 
+use matrix_test_macro as matrix;
 const DEFAULT_READ_TIMEOUT: std::time::Duration = std::time::Duration::from_secs(10);
 
-#[tokio::test]
+#[matrix::test]
 async fn thread_inject_items_adds_raw_response_items_to_thread_history() -> Result<()> {
     let server = responses::start_mock_server().await;
     let body = responses::sse(vec![
@@ -130,7 +131,7 @@ async fn thread_inject_items_adds_raw_response_items_to_thread_history() -> Resu
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn thread_inject_items_adds_raw_response_items_after_a_turn() -> Result<()> {
     let server = responses::start_mock_server().await;
     let first_body = responses::sse(vec![

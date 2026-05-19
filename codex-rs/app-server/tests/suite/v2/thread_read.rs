@@ -70,12 +70,13 @@ use std::io::Write;
 use tokio::time::timeout;
 use uuid::Uuid;
 
+use matrix_test_macro as matrix;
 #[cfg(windows)]
 const DEFAULT_READ_TIMEOUT: std::time::Duration = std::time::Duration::from_secs(25);
 #[cfg(not(windows))]
 const DEFAULT_READ_TIMEOUT: std::time::Duration = std::time::Duration::from_secs(10);
 
-#[tokio::test]
+#[matrix::test]
 async fn thread_read_returns_summary_without_turns() -> Result<()> {
     let server = create_mock_responses_server_repeating_assistant("Done").await;
     let codex_home = TempDir::new()?;
@@ -130,7 +131,7 @@ async fn thread_read_returns_summary_without_turns() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn thread_read_can_include_turns() -> Result<()> {
     let server = create_mock_responses_server_repeating_assistant("Done").await;
     let codex_home = TempDir::new()?;
@@ -192,7 +193,7 @@ async fn thread_read_can_include_turns() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn thread_turns_list_can_page_backward_and_forward() -> Result<()> {
     let server = create_mock_responses_server_repeating_assistant("Done").await;
     let codex_home = TempDir::new()?;
@@ -281,7 +282,7 @@ async fn thread_turns_list_can_page_backward_and_forward() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn thread_turns_list_supports_requested_items_view() -> Result<()> {
     let server = create_mock_responses_server_repeating_assistant("Done").await;
     let codex_home = TempDir::new()?;
@@ -349,7 +350,7 @@ async fn thread_turns_list_supports_requested_items_view() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn thread_turns_list_reads_store_history_without_rollout_path() -> Result<()> {
     let codex_home = TempDir::new()?;
     let thread_id = codex_protocol::ThreadId::from_string("00000000-0000-4000-8000-000000000123")?;
@@ -417,7 +418,7 @@ async fn thread_turns_list_reads_store_history_without_rollout_path() -> Result<
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn thread_read_loaded_include_turns_reads_store_history_without_rollout_path() -> Result<()> {
     let codex_home = TempDir::new()?;
     let store_id = Uuid::new_v4().to_string();
@@ -501,7 +502,7 @@ async fn thread_read_loaded_include_turns_reads_store_history_without_rollout_pa
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn thread_list_includes_store_thread_without_rollout_path() -> Result<()> {
     let codex_home = TempDir::new()?;
     let thread_id = codex_protocol::ThreadId::from_string("00000000-0000-4000-8000-000000000124")?;
@@ -579,7 +580,7 @@ async fn thread_list_includes_store_thread_without_rollout_path() -> Result<()> 
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn thread_read_can_return_archived_threads_by_id() -> Result<()> {
     let server = create_mock_responses_server_repeating_assistant("Done").await;
     let codex_home = TempDir::new()?;
@@ -627,7 +628,7 @@ async fn thread_read_can_return_archived_threads_by_id() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn thread_turns_list_rejects_cursor_when_anchor_turn_is_rolled_back() -> Result<()> {
     let server = create_mock_responses_server_repeating_assistant("Done").await;
     let codex_home = TempDir::new()?;
@@ -698,7 +699,7 @@ async fn thread_turns_list_rejects_cursor_when_anchor_turn_is_rolled_back() -> R
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn thread_read_returns_forked_from_id_for_forked_threads() -> Result<()> {
     let server = create_mock_responses_server_repeating_assistant("Done").await;
     let codex_home = TempDir::new()?;
@@ -748,7 +749,7 @@ async fn thread_read_returns_forked_from_id_for_forked_threads() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn thread_read_loaded_thread_returns_precomputed_path_before_materialization() -> Result<()> {
     let server = create_mock_responses_server_repeating_assistant("Done").await;
     let codex_home = TempDir::new()?;
@@ -797,7 +798,7 @@ async fn thread_read_loaded_thread_returns_precomputed_path_before_materializati
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn thread_name_set_is_reflected_in_read_list_and_resume() -> Result<()> {
     let server = create_mock_responses_server_repeating_assistant("Done").await;
     let codex_home = TempDir::new()?;
@@ -954,7 +955,7 @@ async fn thread_name_set_is_reflected_in_read_list_and_resume() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn thread_read_include_turns_rejects_unmaterialized_loaded_thread() -> Result<()> {
     let server = create_mock_responses_server_repeating_assistant("Done").await;
     let codex_home = TempDir::new()?;
@@ -1005,7 +1006,7 @@ async fn thread_read_include_turns_rejects_unmaterialized_loaded_thread() -> Res
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn thread_turns_list_rejects_unmaterialized_loaded_thread() -> Result<()> {
     let server = create_mock_responses_server_repeating_assistant("Done").await;
     let codex_home = TempDir::new()?;
@@ -1059,7 +1060,7 @@ async fn thread_turns_list_rejects_unmaterialized_loaded_thread() -> Result<()> 
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn thread_turns_items_list_returns_unsupported() -> Result<()> {
     let server = create_mock_responses_server_repeating_assistant("Done").await;
     let codex_home = TempDir::new()?;
@@ -1092,7 +1093,7 @@ async fn thread_turns_items_list_returns_unsupported() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn thread_read_reports_system_error_idle_flag_after_failed_turn() -> Result<()> {
     let server = responses::start_mock_server().await;
     let _response_mock = responses::mount_sse_once(

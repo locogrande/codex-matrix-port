@@ -13,6 +13,7 @@ use std::process::Output;
 use std::process::Stdio;
 use tokio::process::Command;
 
+use matrix_test_macro as matrix;
 const BWRAP_UNAVAILABLE_ERR: &str = "bubblewrap is unavailable: no system bwrap was found";
 const NETWORK_TIMEOUT_MS: u64 = 4_000;
 const MANAGED_PROXY_PERMISSION_ERR_SNIPPETS: &[&str] = &[
@@ -156,7 +157,7 @@ async fn run_linux_sandbox_direct(
     }
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn managed_proxy_mode_fails_closed_without_proxy_env() {
     if let Some(skip_reason) = managed_proxy_skip_reason().await {
         eprintln!("skipping managed proxy test: {skip_reason}");
@@ -183,7 +184,7 @@ async fn managed_proxy_mode_fails_closed_without_proxy_env() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn managed_proxy_mode_routes_through_bridge_and_blocks_direct_egress() {
     if let Some(skip_reason) = managed_proxy_skip_reason().await {
         eprintln!("skipping managed proxy test: {skip_reason}");
@@ -263,7 +264,7 @@ async fn managed_proxy_mode_routes_through_bridge_and_blocks_direct_egress() {
     assert_eq!(direct_egress_output.status.success(), false);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn managed_proxy_mode_denies_af_unix_creation_for_user_command() {
     if let Some(skip_reason) = managed_proxy_skip_reason().await {
         eprintln!("skipping managed proxy test: {skip_reason}");

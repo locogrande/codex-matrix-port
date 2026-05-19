@@ -193,6 +193,7 @@ fn discovery_paths(base_path: &str) -> Vec<String> {
 
 #[cfg(test)]
 mod tests {
+    use matrix_test_macro as matrix;
     use super::*;
     use axum::Json;
     use axum::Router;
@@ -271,7 +272,7 @@ mod tests {
         }
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn determine_auth_status_uses_bearer_token_when_authorization_header_present() {
         let status = determine_streamable_http_auth_status(
             "server",
@@ -290,7 +291,7 @@ mod tests {
         assert_eq!(status, McpAuthStatus::BearerToken);
     }
 
-    #[tokio::test]
+    #[matrix::test]
     #[serial(auth_status_env)]
     async fn determine_auth_status_uses_bearer_token_when_env_authorization_header_present() {
         let _guard = EnvVarGuard::set("CODEX_RMCP_CLIENT_AUTH_STATUS_TEST_TOKEN", "Bearer token");
@@ -311,7 +312,7 @@ mod tests {
         assert_eq!(status, McpAuthStatus::BearerToken);
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn discover_streamable_http_oauth_returns_normalized_scopes() {
         let server = spawn_oauth_discovery_server(serde_json::json!({
             "authorization_endpoint": "https://example.com/authorize",
@@ -335,7 +336,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn discover_streamable_http_oauth_ignores_empty_scopes() {
         let server = spawn_oauth_discovery_server(serde_json::json!({
             "authorization_endpoint": "https://example.com/authorize",
@@ -356,7 +357,7 @@ mod tests {
         assert_eq!(discovery.scopes_supported, None);
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn supports_oauth_login_does_not_require_scopes_supported() {
         let server = spawn_oauth_discovery_server(serde_json::json!({
             "authorization_endpoint": "https://example.com/authorize",

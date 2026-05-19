@@ -5,13 +5,14 @@ use codex_state::state_db_path;
 use predicates::str::contains;
 use sqlx::SqlitePool;
 
+use matrix_test_macro as matrix;
 fn codex_command(codex_home: &Path) -> Result<assert_cmd::Command> {
     let mut cmd = assert_cmd::Command::new(codex_utils_cargo_bin::cargo_bin("codex")?);
     cmd.env("CODEX_HOME", codex_home);
     Ok(cmd)
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn debug_clear_memories_resets_state_and_removes_memory_dir() -> Result<()> {
     let codex_home = TempDir::new()?;
     let runtime =

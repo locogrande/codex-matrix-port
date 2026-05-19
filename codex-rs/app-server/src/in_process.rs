@@ -723,6 +723,7 @@ async fn start_uninitialized(args: InProcessStartArgs) -> IoResult<InProcessClie
 
 #[cfg(test)]
 mod tests {
+    use matrix_test_macro as matrix;
     use super::*;
     use codex_app_server_protocol::ClientInfo;
     use codex_app_server_protocol::ConfigRequirementsReadResponse;
@@ -797,7 +798,7 @@ mod tests {
         start_test_client_with_capacity(session_source, DEFAULT_IN_PROCESS_CHANNEL_CAPACITY).await
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn in_process_start_initializes_and_handles_typed_v2_request() {
         let client = start_test_client(SessionSource::Cli).await;
         let response = client
@@ -818,7 +819,7 @@ mod tests {
             .expect("in-process runtime should shutdown cleanly");
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn in_process_start_uses_requested_session_source_for_thread_start() {
         for (requested_source, expected_source) in [
             (SessionSource::Cli, ApiSessionSource::Cli),
@@ -846,7 +847,7 @@ mod tests {
         }
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn in_process_start_clamps_zero_channel_capacity() {
         let client =
             start_test_client_with_capacity(SessionSource::Cli, /*channel_capacity*/ 0).await;

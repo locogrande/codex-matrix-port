@@ -673,6 +673,7 @@ fn command_no_longer_running_error(process_id: &InternalProcessId) -> JSONRPCErr
 
 #[cfg(test)]
 mod tests {
+    use matrix_test_macro as matrix;
     use std::collections::HashMap;
 
     use crate::error_code::INVALID_REQUEST_ERROR_CODE;
@@ -710,7 +711,7 @@ mod tests {
         )
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn windows_sandbox_streaming_exec_is_rejected() {
         let (tx, _rx) = mpsc::channel(1);
         let manager = CommandExecManager::default();
@@ -744,7 +745,7 @@ mod tests {
     }
 
     #[cfg(not(target_os = "windows"))]
-    #[tokio::test]
+    #[matrix::test]
     async fn windows_sandbox_non_streaming_exec_uses_execution_path() {
         let (tx, mut rx) = mpsc::channel(1);
         let manager = CommandExecManager::default();
@@ -793,7 +794,7 @@ mod tests {
     }
 
     #[cfg(not(target_os = "windows"))]
-    #[tokio::test]
+    #[matrix::test]
     async fn cancellation_expiration_keeps_process_alive_until_terminated() {
         let (tx, mut rx) = mpsc::channel(4);
         let manager = CommandExecManager::default();
@@ -877,7 +878,7 @@ mod tests {
     }
 
     #[cfg(not(target_os = "windows"))]
-    #[tokio::test]
+    #[matrix::test]
     async fn timeout_or_cancellation_reports_cancellation_without_timeout_exit_code() {
         let (tx, mut rx) = mpsc::channel(4);
         let manager = CommandExecManager::default();
@@ -946,7 +947,7 @@ mod tests {
         assert_ne!(response.exit_code, EXEC_TIMEOUT_EXIT_CODE);
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn windows_sandbox_process_ids_reject_write_requests() {
         let manager = CommandExecManager::default();
         let request_id = ConnectionRequestId {
@@ -982,7 +983,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn windows_sandbox_process_ids_reject_terminate_requests() {
         let manager = CommandExecManager::default();
         let request_id = ConnectionRequestId {
@@ -1016,7 +1017,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn dropped_control_request_is_reported_as_not_running() {
         let manager = CommandExecManager::default();
         let request_id = ConnectionRequestId {

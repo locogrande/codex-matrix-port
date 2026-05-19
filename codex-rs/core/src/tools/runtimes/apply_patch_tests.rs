@@ -14,6 +14,7 @@ use codex_sandboxing::policy_transforms::effective_network_sandbox_policy;
 use core_test_support::PathBufExt;
 use pretty_assertions::assert_eq;
 use std::collections::HashMap;
+use matrix_test_macro as matrix;
 fn test_turn_environment(environment_id: &str) -> crate::session::turn_context::TurnEnvironment {
     crate::session::turn_context::TurnEnvironment {
         environment_id: environment_id.to_string(),
@@ -47,7 +48,7 @@ fn wants_no_sandbox_approval_granular_respects_sandbox_flag() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn guardian_review_request_includes_patch_context() {
     let path = std::env::temp_dir()
         .join("guardian-apply-patch-test.txt")
@@ -86,7 +87,7 @@ async fn guardian_review_request_includes_patch_context() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn permission_request_payload_uses_apply_patch_hook_name_and_aliases() {
     let runtime = ApplyPatchRuntime::new();
     let path = std::env::temp_dir()
@@ -122,7 +123,7 @@ async fn permission_request_payload_uses_apply_patch_hook_name_and_aliases() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn approval_keys_include_environment_id() {
     let runtime = ApplyPatchRuntime::new();
     let path = std::env::temp_dir()
@@ -154,7 +155,7 @@ async fn approval_keys_include_environment_id() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn sandbox_cwd_uses_patch_action_cwd() {
     let runtime = ApplyPatchRuntime::new();
     let path = std::env::temp_dir()
@@ -176,7 +177,7 @@ async fn sandbox_cwd_uses_patch_action_cwd() {
     assert_eq!(runtime.sandbox_cwd(&req), Some(&req.action.cwd));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn file_system_sandbox_context_uses_active_attempt() {
     let path = std::env::temp_dir()
         .join("apply-patch-runtime-attempt.txt")
@@ -240,7 +241,7 @@ async fn file_system_sandbox_context_uses_active_attempt() {
     assert_eq!(sandbox.use_legacy_landlock, true);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn no_sandbox_attempt_has_no_file_system_context() {
     let path = std::env::temp_dir()
         .join("apply-patch-runtime-none.txt")

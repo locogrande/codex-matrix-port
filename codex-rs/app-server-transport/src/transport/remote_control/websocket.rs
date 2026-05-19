@@ -54,6 +54,7 @@ use tracing::error;
 use tracing::info;
 use tracing::warn;
 
+use matrix_test_macro as matrix;
 pub(super) const REMOTE_CONTROL_PROTOCOL_VERSION: &str = "3";
 pub(super) const REMOTE_CONTROL_ACCOUNT_ID_HEADER: &str = "chatgpt-account-id";
 pub(super) const REMOTE_CONTROL_INSTALLATION_ID_HEADER: &str = "x-codex-installation-id";
@@ -1345,7 +1346,7 @@ mod tests {
         }
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn connect_remote_control_websocket_includes_http_error_details() {
         let listener = TcpListener::bind("127.0.0.1:0")
             .await
@@ -1416,7 +1417,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn connect_remote_control_websocket_recovers_after_unauthorized_reload() {
         let listener = TcpListener::bind("127.0.0.1:0")
             .await
@@ -1505,7 +1506,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn connect_remote_control_websocket_recovers_after_unauthorized_enrollment() {
         let listener = TcpListener::bind("127.0.0.1:0")
             .await
@@ -1587,7 +1588,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn connect_remote_control_websocket_requires_sqlite_state_db() {
         let remote_control_target = normalize_remote_control_url("http://127.0.0.1:9/backend-api/")
             .expect("target should parse");
@@ -1623,7 +1624,7 @@ mod tests {
         assert_eq!(enrollment, None);
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn connect_remote_control_websocket_requires_chatgpt_auth() {
         let remote_control_target = normalize_remote_control_url("http://127.0.0.1:9/backend-api/")
             .expect("target should parse");
@@ -1684,7 +1685,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn run_remote_control_websocket_loop_shutdown_cancels_reconnect_backoff() {
         let listener = TcpListener::bind("127.0.0.1:0")
             .await
@@ -1732,7 +1733,7 @@ mod tests {
             .expect("websocket task should join");
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn publish_status_if_changed_sends_only_status_changes() {
         let (status_publisher, mut status_rx) = remote_control_status_channel();
 
@@ -1819,7 +1820,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn run_server_writer_inner_sends_periodic_ping_frames() {
         let (client_stream, mut server_stream) = connected_websocket_pair().await;
         let (websocket_writer, _websocket_reader) = client_stream.split();
@@ -1857,7 +1858,7 @@ mod tests {
             .expect("writer should stop cleanly");
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn run_server_writer_inner_assigns_contiguous_seq_ids_per_stream() {
         let (client_stream, mut server_stream) = connected_websocket_pair().await;
         let (websocket_writer, _websocket_reader) = client_stream.split();
@@ -1936,7 +1937,7 @@ mod tests {
             .expect("writer should stop cleanly");
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn run_websocket_reader_inner_times_out_without_pong_frames() {
         let (client_stream, _server_stream) = connected_websocket_pair().await;
         let (_websocket_writer, websocket_reader) = client_stream.split();

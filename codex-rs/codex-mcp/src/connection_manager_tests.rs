@@ -35,6 +35,7 @@ use std::collections::HashSet;
 use std::sync::Arc;
 use tempfile::tempdir;
 
+use matrix_test_macro as matrix;
 fn create_test_tool(server_name: &str, tool_name: &str) -> ToolInfo {
     let tool_namespace = format!("mcp__{server_name}__");
     ToolInfo {
@@ -223,7 +224,7 @@ fn elicitation_granular_policy_respects_never_and_config() {
     )));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn disabled_permissions_auto_accept_elicitation_with_empty_form_schema() {
     let manager = ElicitationRequestManager::new(
         AskForApproval::Never,
@@ -256,7 +257,7 @@ async fn disabled_permissions_auto_accept_elicitation_with_empty_form_schema() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn disabled_permissions_do_not_auto_accept_elicitation_with_requested_fields() {
     let manager = ElicitationRequestManager::new(
         AskForApproval::Never,
@@ -679,7 +680,7 @@ fn startup_cached_codex_apps_tools_loads_from_disk_cache() {
     assert_eq!(startup_tools[0].callable_name, "calendar_search");
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn list_all_tools_uses_startup_snapshot_while_client_is_pending() {
     let startup_tools = vec![create_test_tool(
         CODEX_APPS_MCP_SERVER_NAME,
@@ -715,7 +716,7 @@ async fn list_all_tools_uses_startup_snapshot_while_client_is_pending() {
     assert_eq!(tool.callable_name, "calendar_create_event");
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn list_all_tools_blocks_while_client_is_pending_without_startup_snapshot() {
     let pending_client = futures::future::pending::<Result<ManagedClient, StartupOutcomeError>>()
         .boxed()
@@ -740,7 +741,7 @@ async fn list_all_tools_blocks_while_client_is_pending_without_startup_snapshot(
     assert!(timeout_result.is_err());
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn list_all_tools_does_not_block_when_startup_snapshot_cache_hit_is_empty() {
     let pending_client = futures::future::pending::<Result<ManagedClient, StartupOutcomeError>>()
         .boxed()
@@ -766,7 +767,7 @@ async fn list_all_tools_does_not_block_when_startup_snapshot_cache_hit_is_empty(
     assert!(tools.is_empty());
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn list_all_tools_uses_startup_snapshot_when_client_startup_fails() {
     let startup_tools = vec![create_test_tool(
         CODEX_APPS_MCP_SERVER_NAME,
@@ -807,7 +808,7 @@ async fn list_all_tools_uses_startup_snapshot_when_client_startup_fails() {
     assert_eq!(tool.callable_name, "calendar_create_event");
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn list_all_tools_adds_server_metadata_to_cached_tools() {
     let server_name = "docs";
     let startup_tools = vec![create_test_tool(server_name, "search")];

@@ -57,6 +57,7 @@ use tokio_tungstenite::accept_hdr_async;
 use tokio_tungstenite::tungstenite;
 use tokio_util::sync::CancellationToken;
 
+use matrix_test_macro as matrix;
 const TEST_INSTALLATION_ID: &str = "11111111-1111-4111-8111-111111111111";
 
 fn remote_control_auth_manager() -> Arc<AuthManager> {
@@ -171,7 +172,7 @@ async fn expect_remote_control_status_snapshot(
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn remote_control_transport_manages_virtual_clients_and_routes_messages() {
     let listener = TcpListener::bind("127.0.0.1:0")
         .await
@@ -450,7 +451,7 @@ async fn remote_control_transport_manages_virtual_clients_and_routes_messages() 
     let _ = remote_task.await;
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn remote_control_transport_reconnects_after_disconnect() {
     let listener = TcpListener::bind("127.0.0.1:0")
         .await
@@ -537,7 +538,7 @@ async fn remote_control_transport_reconnects_after_disconnect() {
     let _ = remote_task.await;
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn remote_control_start_allows_remote_control_invalid_url_when_disabled() {
     let (transport_event_tx, _transport_event_rx) =
         mpsc::channel::<TransportEvent>(CHANNEL_CAPACITY);
@@ -564,7 +565,7 @@ async fn remote_control_start_allows_remote_control_invalid_url_when_disabled() 
         .expect("remote control task should join");
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn remote_control_start_allows_missing_auth_when_enabled() {
     let listener = TcpListener::bind("127.0.0.1:0")
         .await
@@ -607,7 +608,7 @@ async fn remote_control_start_allows_missing_auth_when_enabled() {
         .expect("remote control task should join");
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn remote_control_start_reports_missing_state_db_as_disabled_when_enabled() {
     let listener = TcpListener::bind("127.0.0.1:0")
         .await
@@ -663,7 +664,7 @@ async fn remote_control_start_reports_missing_state_db_as_disabled_when_enabled(
         .expect("remote control task should join");
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn remote_control_handle_enable_disable_stops_and_restarts_connections() {
     let listener = TcpListener::bind("127.0.0.1:0")
         .await
@@ -772,7 +773,7 @@ async fn remote_control_handle_enable_disable_stops_and_restarts_connections() {
     let _ = remote_task.await;
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn remote_control_transport_clears_outgoing_buffer_when_backend_acks() {
     let listener = TcpListener::bind("127.0.0.1:0")
         .await
@@ -949,7 +950,7 @@ async fn remote_control_transport_clears_outgoing_buffer_when_backend_acks() {
     let _ = remote_task.await;
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn remote_control_http_mode_enrolls_before_connecting() {
     let listener = TcpListener::bind("127.0.0.1:0")
         .await
@@ -1171,7 +1172,7 @@ async fn remote_control_http_mode_enrolls_before_connecting() {
     let _ = remote_task.await;
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn remote_control_http_mode_reuses_persisted_enrollment_before_reenrolling() {
     let listener = TcpListener::bind("127.0.0.1:0")
         .await
@@ -1240,7 +1241,7 @@ async fn remote_control_http_mode_reuses_persisted_enrollment_before_reenrolling
     let _ = remote_task.await;
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn remote_control_stdio_mode_waits_for_client_name_before_connecting() {
     let listener = TcpListener::bind("127.0.0.1:0")
         .await
@@ -1301,7 +1302,7 @@ async fn remote_control_stdio_mode_waits_for_client_name_before_connecting() {
     let _ = remote_task.await;
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn remote_control_waits_for_account_id_before_enrolling() {
     let listener = TcpListener::bind("127.0.0.1:0")
         .await
@@ -1383,7 +1384,7 @@ async fn remote_control_waits_for_account_id_before_enrolling() {
     let _ = remote_task.await;
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn remote_control_http_mode_clears_stale_persisted_enrollment_after_404() {
     let listener = TcpListener::bind("127.0.0.1:0")
         .await

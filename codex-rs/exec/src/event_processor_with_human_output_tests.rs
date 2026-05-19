@@ -27,6 +27,7 @@ use super::should_print_final_message_to_stdout;
 use super::should_print_final_message_to_tty;
 use crate::event_processor::EventProcessor;
 
+use matrix_test_macro as matrix;
 #[test]
 fn suppresses_final_stdout_message_when_both_streams_are_terminals() {
     assert!(!should_print_final_message_to_stdout(
@@ -174,7 +175,7 @@ fn summarizes_managed_read_only_permission_profile() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn config_summary_entries_include_runtime_workspace_roots() {
     let codex_home = tempfile::tempdir().expect("create codex home");
     let cwd = tempfile::tempdir().expect("create cwd");

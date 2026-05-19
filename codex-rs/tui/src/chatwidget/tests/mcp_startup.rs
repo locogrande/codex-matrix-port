@@ -1,6 +1,7 @@
 use super::*;
 use pretty_assertions::assert_eq;
 
+use matrix_test_macro as matrix;
 fn notify_mcp_status(chat: &mut ChatWidget, name: &str, status: McpServerStartupState) {
     chat.handle_server_notification(
         ServerNotification::McpServerStatusUpdated(McpServerStatusUpdatedNotification {
@@ -23,7 +24,7 @@ fn notify_mcp_status_error(chat: &mut ChatWidget, name: &str, error: &str) {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn mcp_startup_header_booting_snapshot() {
     let (mut chat, _rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     chat.show_welcome_banner = false;
@@ -42,7 +43,7 @@ async fn mcp_startup_header_booting_snapshot() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn mcp_startup_complete_does_not_clear_running_task() {
     let (mut chat, _rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
 
@@ -60,7 +61,7 @@ async fn mcp_startup_complete_does_not_clear_running_task() {
     assert_eq!(chat.status_state.current_status.header, "Working");
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn turn_start_preserves_active_mcp_startup_header() {
     let (mut chat, _rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     chat.set_mcp_startup_expected_servers(["schaltwerk".to_string()]);
@@ -79,7 +80,7 @@ async fn turn_start_preserves_active_mcp_startup_header() {
     assert_eq!(chat.status_state.current_status.header, "Working");
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn turn_start_replaces_idle_completed_mcp_startup_header() {
     let (mut chat, _rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     chat.set_mcp_startup_expected_servers(["schaltwerk".to_string()]);
@@ -99,7 +100,7 @@ async fn turn_start_replaces_idle_completed_mcp_startup_header() {
     assert_eq!(chat.status_state.current_status.header, "Working");
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn app_server_mcp_startup_failure_renders_warning_history() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     chat.show_welcome_banner = false;
@@ -165,7 +166,7 @@ async fn app_server_mcp_startup_failure_renders_warning_history() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn mcp_startup_failure_restores_running_status_header() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     chat.show_welcome_banner = false;
@@ -194,7 +195,7 @@ async fn mcp_startup_failure_restores_running_status_header() {
     assert_eq!(chat.status_state.current_status.header, "Working");
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn mcp_startup_complete_preserves_review_status() {
     let (mut chat, _rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     chat.show_welcome_banner = false;
@@ -241,7 +242,7 @@ async fn mcp_startup_complete_preserves_review_status() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn app_server_mcp_startup_lag_settles_startup_and_ignores_late_updates() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     chat.show_welcome_banner = false;
@@ -280,7 +281,7 @@ async fn app_server_mcp_startup_lag_settles_startup_and_ignores_late_updates() {
     assert!(!chat.bottom_pane.is_task_running());
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn app_server_mcp_startup_after_lag_can_settle_without_starting_updates() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     chat.show_welcome_banner = false;
@@ -311,7 +312,7 @@ async fn app_server_mcp_startup_after_lag_can_settle_without_starting_updates() 
     assert!(!chat.bottom_pane.is_task_running());
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn app_server_mcp_startup_after_lag_preserves_partial_terminal_only_round() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     chat.show_welcome_banner = false;
@@ -352,7 +353,7 @@ async fn app_server_mcp_startup_after_lag_preserves_partial_terminal_only_round(
     assert!(!chat.bottom_pane.is_task_running());
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn app_server_mcp_startup_next_round_discards_stale_terminal_updates() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     chat.show_welcome_banner = false;
@@ -396,7 +397,7 @@ async fn app_server_mcp_startup_next_round_discards_stale_terminal_updates() {
     assert!(!chat.bottom_pane.is_task_running());
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn app_server_mcp_startup_next_round_keeps_terminal_statuses_after_starting() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     chat.show_welcome_banner = false;
@@ -433,7 +434,7 @@ async fn app_server_mcp_startup_next_round_keeps_terminal_statuses_after_startin
     assert!(!chat.bottom_pane.is_task_running());
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn app_server_mcp_startup_next_round_with_empty_expected_servers_reactivates() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     chat.show_welcome_banner = false;
@@ -459,7 +460,7 @@ async fn app_server_mcp_startup_next_round_with_empty_expected_servers_reactivat
     assert!(!chat.bottom_pane.is_task_running());
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn app_server_mcp_startup_after_lag_includes_runtime_servers_with_expected_set() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     chat.show_welcome_banner = false;
@@ -488,7 +489,7 @@ async fn app_server_mcp_startup_after_lag_includes_runtime_servers_with_expected
     assert!(!chat.bottom_pane.is_task_running());
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn app_server_mcp_startup_next_round_after_lag_can_settle_without_starting_updates() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     chat.show_welcome_banner = false;

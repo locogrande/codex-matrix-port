@@ -21,11 +21,12 @@ use wiremock::matchers::method;
 use wiremock::matchers::path;
 use codex_paths;
 
+use matrix_test_macro as matrix;
 const ACCESS_TOKEN: &str = "access-token";
 const REFRESH_TOKEN: &str = "refresh-token";
 
 #[serial_test::serial(logout_revoke)]
-#[tokio::test]
+#[matrix::test]
 async fn logout_with_revoke_revokes_refresh_token_then_removes_auth() -> Result<()> {
     skip_if_no_network!(Ok(()));
 
@@ -75,7 +76,7 @@ async fn logout_with_revoke_revokes_refresh_token_then_removes_auth() -> Result<
 }
 
 #[serial_test::serial(logout_revoke)]
-#[tokio::test]
+#[matrix::test]
 async fn logout_with_revoke_removes_auth_when_revoke_fails() -> Result<()> {
     skip_if_no_network!(Ok(()));
 
@@ -112,7 +113,7 @@ async fn logout_with_revoke_removes_auth_when_revoke_fails() -> Result<()> {
 }
 
 #[serial_test::serial(logout_revoke)]
-#[tokio::test]
+#[matrix::test]
 async fn auth_manager_logout_with_revoke_uses_cached_auth() -> Result<()> {
     skip_if_no_network!(Ok(()));
 

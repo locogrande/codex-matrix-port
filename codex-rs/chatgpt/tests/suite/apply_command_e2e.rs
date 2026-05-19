@@ -4,6 +4,7 @@ use codex_utils_cargo_bin::find_resource;
 use tempfile::TempDir;
 use tokio::process::Command;
 
+use matrix_test_macro as matrix;
 /// Creates a temporary git repository with initial commit
 async fn create_temp_git_repo() -> anyhow::Result<TempDir> {
     let temp_dir = TempDir::new()?;
@@ -74,7 +75,7 @@ async fn mock_get_task_with_fixture() -> anyhow::Result<GetTaskResponse> {
     Ok(response)
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn test_apply_command_creates_fibonacci_file() {
     let temp_repo = create_temp_git_repo()
         .await
@@ -116,7 +117,7 @@ async fn test_apply_command_creates_fibonacci_file() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn test_apply_command_with_merge_conflicts() {
     let temp_repo = create_temp_git_repo()
         .await

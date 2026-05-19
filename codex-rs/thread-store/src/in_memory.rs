@@ -29,6 +29,7 @@ use crate::ThreadStoreError;
 use crate::ThreadStoreResult;
 use crate::UpdateThreadMetadataParams;
 
+use matrix_test_macro as matrix;
 static IN_MEMORY_THREAD_STORES: OnceLock<Mutex<HashMap<String, Arc<InMemoryThreadStore>>>> =
     OnceLock::new();
 
@@ -44,7 +45,7 @@ mod tests {
     use crate::SortDirection;
     use crate::StoredTurnItemsView;
 
-    #[tokio::test]
+    #[matrix::test]
     async fn default_turn_pagination_methods_return_unsupported() {
         let store = InMemoryThreadStore::default();
         let thread_id = ThreadId::default();

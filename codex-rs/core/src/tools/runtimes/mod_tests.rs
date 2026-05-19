@@ -6,6 +6,7 @@ use crate::shell::ShellType;
 use crate::shell_snapshot::ShellSnapshot;
 use crate::tools::sandboxing::SandboxAttempt;
 use crate::tools::sandboxing::managed_network_for_sandbox_permissions;
+use matrix_test_macro as matrix;
 #[cfg(target_os = "macos")]
 use codex_network_proxy::CODEX_PROXY_GIT_SSH_COMMAND_MARKER;
 use codex_network_proxy::ConfigReloader;
@@ -83,7 +84,7 @@ async fn test_network_proxy() -> anyhow::Result<NetworkProxy> {
         .await
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn explicit_escalation_prepares_exec_without_managed_network() -> anyhow::Result<()> {
     let proxy = test_network_proxy().await?;
     let dir = tempdir().expect("create temp dir");

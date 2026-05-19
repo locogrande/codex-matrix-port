@@ -14,9 +14,10 @@ use codex_protocol::ThreadId;
 use codex_state::StateRuntime;
 use tokio::time::timeout;
 
+use matrix_test_macro as matrix;
 const DEFAULT_READ_TIMEOUT: std::time::Duration = std::time::Duration::from_secs(10);
 
-#[tokio::test]
+#[matrix::test]
 async fn thread_memory_mode_set_updates_loaded_thread_state() -> Result<()> {
     let server = create_mock_responses_server_repeating_assistant("Done").await;
     let codex_home = TempDir::new()?;
@@ -58,7 +59,7 @@ async fn thread_memory_mode_set_updates_loaded_thread_state() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn thread_memory_mode_set_updates_stored_thread_state() -> Result<()> {
     let server = create_mock_responses_server_repeating_assistant("Done").await;
     let codex_home = TempDir::new()?;

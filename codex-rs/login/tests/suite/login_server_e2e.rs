@@ -13,6 +13,7 @@ use codex_login::run_login_server;
 use core_test_support::skip_if_no_network;
 use url::Url;
 
+use matrix_test_macro as matrix;
 const DEFAULT_LOGIN_PORT: u16 = 1455;
 const FALLBACK_LOGIN_PORT: u16 = 1457;
 const WORKSPACE_ID_ALLOWED: &str = "123e4567-e89b-42d3-a456-426614174000";
@@ -84,7 +85,7 @@ fn start_mock_issuer(chatgpt_account_id: &str) -> (SocketAddr, thread::JoinHandl
     (addr, handle)
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn end_to_end_login_flow_persists_auth_json() -> Result<()> {
     skip_if_no_network!(Ok(()));
 
@@ -163,7 +164,7 @@ async fn end_to_end_login_flow_persists_auth_json() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn creates_missing_codex_home_dir() -> Result<()> {
     skip_if_no_network!(Ok(()));
 
@@ -206,7 +207,7 @@ async fn creates_missing_codex_home_dir() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn login_server_includes_forced_workspaces_as_one_query_param() -> Result<()> {
     skip_if_no_network!(Ok(()));
 
@@ -247,7 +248,7 @@ async fn login_server_includes_forced_workspaces_as_one_query_param() -> Result<
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn forced_chatgpt_workspace_id_mismatch_blocks_login() -> Result<()> {
     skip_if_no_network!(Ok(()));
 
@@ -307,7 +308,7 @@ async fn forced_chatgpt_workspace_id_mismatch_blocks_login() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn oauth_access_denied_missing_entitlement_blocks_login_with_clear_error() -> Result<()> {
     skip_if_no_network!(Ok(()));
 
@@ -375,7 +376,7 @@ async fn oauth_access_denied_missing_entitlement_blocks_login_with_clear_error()
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn oauth_access_denied_unknown_reason_uses_generic_error_page() -> Result<()> {
     skip_if_no_network!(Ok(()));
 

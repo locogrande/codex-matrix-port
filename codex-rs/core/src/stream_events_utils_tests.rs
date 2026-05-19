@@ -31,6 +31,7 @@ use pretty_assertions::assert_eq;
 use std::sync::Arc;
 use tokio_util::sync::CancellationToken;
 
+use matrix_test_macro as matrix;
 fn assistant_output_text(text: &str) -> ResponseItem {
     assistant_output_text_with_phase(text, /*phase*/ None)
 }
@@ -124,7 +125,7 @@ fn external_context_pollution_items_exclude_local_tool_calls() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn handle_non_tool_response_item_strips_citations_from_assistant_message() {
     let (session, turn_context) = make_session_and_context().await;
     let item = assistant_output_text(
@@ -208,7 +209,7 @@ impl TurnItemContributor for RewriteAgentMessageContributor {
     }
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn handle_non_tool_response_item_runs_turn_item_contributors_only_when_requested() {
     let (mut session, turn_context) = make_session_and_context().await;
     let mut builder = codex_extension_api::ExtensionRegistryBuilder::new();
@@ -260,7 +261,7 @@ async fn handle_non_tool_response_item_runs_turn_item_contributors_only_when_req
     assert_eq!(text, "hello world");
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn handle_output_item_done_returns_contributed_last_agent_message() {
     let (mut session, turn_context) = make_session_and_context().await;
     let mut builder = codex_extension_api::ExtensionRegistryBuilder::new();
@@ -304,7 +305,7 @@ async fn handle_output_item_done_returns_contributed_last_agent_message() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn finalized_turn_item_defers_mailbox_for_contributed_visible_text() {
     let (mut session, turn_context) = make_session_and_context().await;
     let mut builder = codex_extension_api::ExtensionRegistryBuilder::new();
@@ -330,7 +331,7 @@ async fn finalized_turn_item_defers_mailbox_for_contributed_visible_text() {
     assert!(finalized.facts.defers_mailbox_delivery_to_next_turn);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn finalized_turn_item_keeps_mailbox_open_for_commentary_text() {
     let (mut session, turn_context) = make_session_and_context().await;
     let mut builder = codex_extension_api::ExtensionRegistryBuilder::new();
@@ -420,7 +421,7 @@ fn completed_item_defers_mailbox_delivery_for_image_generation_calls() {
     ));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn save_image_generation_result_saves_base64_to_png_in_codex_home() {
     let codex_home = tempfile::tempdir().expect("create codex home");
     let codex_home = codex_home.path().abs();
@@ -437,7 +438,7 @@ async fn save_image_generation_result_saves_base64_to_png_in_codex_home() {
     let _ = std::fs::remove_file(&saved_path);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn save_image_generation_result_rejects_data_url_payload() {
     let result = "data:image/jpeg;base64,Zm9v";
     let codex_home = tempfile::tempdir().expect("create codex home");
@@ -449,7 +450,7 @@ async fn save_image_generation_result_rejects_data_url_payload() {
     assert!(matches!(err, CodexErr::InvalidRequest(_)));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn save_image_generation_result_overwrites_existing_file() {
     let codex_home = tempfile::tempdir().expect("create codex home");
     let codex_home = codex_home.path().abs();
@@ -471,7 +472,7 @@ async fn save_image_generation_result_overwrites_existing_file() {
     let _ = std::fs::remove_file(&saved_path);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn save_image_generation_result_sanitizes_call_id_for_codex_home_output_path() {
     let codex_home = tempfile::tempdir().expect("create codex home");
     let codex_home = codex_home.path().abs();
@@ -487,7 +488,7 @@ async fn save_image_generation_result_sanitizes_call_id_for_codex_home_output_pa
     let _ = std::fs::remove_file(&saved_path);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn save_image_generation_result_rejects_non_standard_base64() {
     let codex_home = tempfile::tempdir().expect("create codex home");
     let codex_home = codex_home.path().abs();
@@ -497,7 +498,7 @@ async fn save_image_generation_result_rejects_non_standard_base64() {
     assert!(matches!(err, CodexErr::InvalidRequest(_)));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn save_image_generation_result_rejects_non_base64_data_urls() {
     let codex_home = tempfile::tempdir().expect("create codex home");
     let codex_home = codex_home.path().abs();

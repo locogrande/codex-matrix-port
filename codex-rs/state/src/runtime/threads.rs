@@ -1159,6 +1159,7 @@ fn metadata_preview(metadata: &crate::ThreadMetadata) -> &str {
 
 #[cfg(test)]
 mod tests {
+    use matrix_test_macro as matrix;
     use super::*;
     use crate::Anchor;
     use crate::DirectionalThreadSpawnEdgeStatus;
@@ -1172,7 +1173,7 @@ mod tests {
     use pretty_assertions::assert_eq;
     use std::path::PathBuf;
 
-    #[tokio::test]
+    #[matrix::test]
     async fn upsert_thread_keeps_creation_memory_mode_for_existing_rows() {
         let codex_home = unique_temp_dir();
         let runtime = StateRuntime::init(codex_home.clone(), "test-provider".to_string())
@@ -1210,7 +1211,7 @@ mod tests {
         assert_eq!(memory_mode, "disabled");
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn list_threads_updated_after_returns_oldest_changes_first() {
         let codex_home = unique_temp_dir();
         let runtime = StateRuntime::init(codex_home.clone(), "test-provider".to_string())
@@ -1294,7 +1295,7 @@ mod tests {
         assert_eq!(page.next_anchor, None);
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn list_threads_filters_by_cwd() {
         let codex_home = unique_temp_dir();
         let runtime = StateRuntime::init(codex_home.clone(), "test-provider".to_string())
@@ -1365,7 +1366,7 @@ mod tests {
         assert_eq!(page.items, Vec::new());
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn apply_rollout_items_restores_memory_mode_from_session_meta() {
         let codex_home = unique_temp_dir();
         let runtime = StateRuntime::init(codex_home.clone(), "test-provider".to_string())
@@ -1422,7 +1423,7 @@ mod tests {
         assert_eq!(memory_mode.as_deref(), Some("polluted"));
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn apply_rollout_items_preserves_existing_git_branch_and_fills_missing_git_fields() {
         let codex_home = unique_temp_dir();
         let runtime = StateRuntime::init(codex_home.clone(), "test-provider".to_string())
@@ -1491,7 +1492,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn upsert_thread_preserves_existing_git_fields_atomically() {
         let codex_home = unique_temp_dir();
         let runtime = StateRuntime::init(codex_home.clone(), "test-provider".to_string())
@@ -1532,7 +1533,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn upsert_thread_preserves_existing_preview_when_incoming_preview_is_empty() {
         let codex_home = unique_temp_dir();
         let runtime = StateRuntime::init(codex_home.clone(), "test-provider".to_string())
@@ -1565,7 +1566,7 @@ mod tests {
         assert_eq!(persisted.preview.as_deref(), Some("migrated goal preview"));
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn update_thread_git_info_preserves_newer_non_git_metadata() {
         let codex_home = unique_temp_dir();
         let runtime = StateRuntime::init(codex_home.clone(), "test-provider".to_string())
@@ -1627,7 +1628,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn insert_thread_if_absent_preserves_existing_metadata() {
         let codex_home = unique_temp_dir();
         let runtime = StateRuntime::init(codex_home.clone(), "test-provider".to_string())
@@ -1675,7 +1676,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn update_thread_git_info_can_clear_fields() {
         let codex_home = unique_temp_dir();
         let runtime = StateRuntime::init(codex_home.clone(), "test-provider".to_string())
@@ -1709,7 +1710,7 @@ mod tests {
         assert_eq!(persisted.git_origin_url, None);
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn touch_thread_updated_at_updates_only_updated_at() {
         let codex_home = unique_temp_dir();
         let runtime = StateRuntime::init(codex_home.clone(), "test-provider".to_string())
@@ -1748,7 +1749,7 @@ mod tests {
         assert_eq!(persisted.preview.as_deref(), Some("first-user-message"));
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn thread_updated_at_uses_unique_epoch_millis_and_reads_legacy_seconds() {
         let codex_home = unique_temp_dir();
         let runtime = StateRuntime::init(codex_home.clone(), "test-provider".to_string())
@@ -1846,7 +1847,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn apply_rollout_items_uses_override_updated_at_when_provided() {
         let codex_home = unique_temp_dir();
         let runtime = StateRuntime::init(codex_home.clone(), "test-provider".to_string())
@@ -1905,7 +1906,7 @@ mod tests {
         assert_eq!(persisted.updated_at, override_updated_at);
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn thread_spawn_edges_track_directional_status() {
         let codex_home = unique_temp_dir();
         let runtime = StateRuntime::init(codex_home, "test-provider".to_string())
@@ -2001,7 +2002,7 @@ mod tests {
         assert_eq!(all_descendants, vec![child_thread_id, grandchild_thread_id]);
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn thread_spawn_children_without_status_filter_lists_all_statuses() {
         let codex_home = unique_temp_dir();
         let runtime = StateRuntime::init(codex_home, "test-provider".to_string())

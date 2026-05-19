@@ -23,11 +23,12 @@ use core_test_support::skip_if_no_network;
 use tokio::time::Duration;
 use tokio::time::timeout;
 
+use matrix_test_macro as matrix;
 const DEFAULT_READ_TIMEOUT: Duration = Duration::from_secs(60);
 const ATTESTATION_HEADER: &str = "v1.integration-test";
 const APP_SERVER_ATTESTATION_HEADER: &str = r#"{"v":1,"s":0,"t":"v1.integration-test"}"#;
 
-#[tokio::test]
+#[matrix::test]
 async fn attestation_generate_round_trip_adds_header_to_responses_websocket_handshake() -> Result<()>
 {
     skip_if_no_network!(Ok(()));

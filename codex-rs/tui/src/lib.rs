@@ -1815,6 +1815,7 @@ fn should_show_login_screen(login_status: LoginStatus, config: &Config) -> bool 
 
 #[cfg(test)]
 mod tests {
+    use matrix_test_macro as matrix;
     use super::*;
     use crate::legacy_core::config::ConfigBuilder;
     use crate::legacy_core::config::ConfigOverrides;
@@ -1959,7 +1960,7 @@ mod tests {
         }
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn default_daemon_auto_connect_skips_missing_socket() -> color_eyre::Result<()> {
         let codex_home = TempDir::new()?;
         assert!(
@@ -1971,7 +1972,7 @@ mod tests {
     }
 
     #[cfg(unix)]
-    #[tokio::test]
+    #[matrix::test]
     async fn default_daemon_auto_connect_probes_socket_only() -> color_eyre::Result<()> {
         let codex_home = TempDir::new()?;
         let socket_path =
@@ -1986,7 +1987,7 @@ mod tests {
         Ok(())
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn latest_session_lookup_params_keep_local_filters_for_embedded_sessions()
     -> std::io::Result<()> {
         let temp_dir = TempDir::new()?;
@@ -2008,7 +2009,7 @@ mod tests {
         Ok(())
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn latest_session_lookup_params_omit_local_filters_for_remote_sessions()
     -> std::io::Result<()> {
         let temp_dir = TempDir::new()?;
@@ -2024,7 +2025,7 @@ mod tests {
         Ok(())
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn latest_session_lookup_params_keep_explicit_cwd_filter_for_remote_sessions()
     -> std::io::Result<()> {
         let temp_dir = TempDir::new()?;
@@ -2046,7 +2047,7 @@ mod tests {
         Ok(())
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn latest_session_cwd_filter_respects_scope_options() -> std::io::Result<()> {
         let temp_dir = TempDir::new()?;
         let config = build_config(&temp_dir).await?;
@@ -2073,7 +2074,7 @@ mod tests {
         Ok(())
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn fork_last_filters_latest_session_by_cwd_unless_show_all() -> color_eyre::Result<()> {
         fn write_session_rollout(
             codex_home: &Path,
@@ -2221,7 +2222,7 @@ mod tests {
         Ok(())
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn config_cwd_for_app_server_target_omits_cwd_for_remote_sessions() -> std::io::Result<()>
     {
         let remote_only_cwd = if cfg!(windows) {
@@ -2243,7 +2244,7 @@ mod tests {
         Ok(())
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn config_cwd_for_app_server_target_canonicalizes_embedded_cli_cwd() -> std::io::Result<()>
     {
         let temp_dir = TempDir::new()?;
@@ -2262,7 +2263,7 @@ mod tests {
         Ok(())
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn config_cwd_for_app_server_target_errors_for_missing_embedded_cli_cwd()
     -> std::io::Result<()> {
         let temp_dir = TempDir::new()?;
@@ -2277,7 +2278,7 @@ mod tests {
         Ok(())
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn config_cwd_for_app_server_target_omits_cwd_for_remote_exec_server()
     -> std::io::Result<()> {
         let remote_only_cwd = if cfg!(windows) {
@@ -2302,7 +2303,7 @@ mod tests {
         Ok(())
     }
 
-    #[tokio::test]
+    #[matrix::test]
     #[serial]
     async fn windows_shows_trust_prompt_without_sandbox() -> std::io::Result<()> {
         let temp_dir = TempDir::new()?;
@@ -2318,7 +2319,7 @@ mod tests {
         Ok(())
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn embedded_app_server_supports_thread_start_rpc() -> color_eyre::Result<()> {
         let temp_dir = TempDir::new()?;
         let config = build_config(&temp_dir).await?;
@@ -2339,7 +2340,7 @@ mod tests {
         Ok(())
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn lookup_session_target_by_name_uses_backend_title_search() -> color_eyre::Result<()> {
         Box::pin(async {
             let temp_dir = TempDir::new()?;
@@ -2402,7 +2403,7 @@ mod tests {
         .await
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn embedded_app_server_start_failure_is_returned() -> color_eyre::Result<()> {
         let temp_dir = TempDir::new()?;
         let config = build_config(&temp_dir).await?;
@@ -2433,7 +2434,7 @@ mod tests {
         Ok(())
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn embedded_state_db_failure_is_typed_for_cli_recovery() -> color_eyre::Result<()> {
         let temp_dir = TempDir::new()?;
         let mut config = build_config(&temp_dir).await?;
@@ -2463,7 +2464,7 @@ mod tests {
         );
         Ok(())
     }
-    #[tokio::test]
+    #[matrix::test]
     #[serial]
     async fn windows_shows_trust_prompt_with_sandbox() -> std::io::Result<()> {
         let temp_dir = TempDir::new()?;
@@ -2485,7 +2486,7 @@ mod tests {
         }
         Ok(())
     }
-    #[tokio::test]
+    #[matrix::test]
     async fn untrusted_project_skips_trust_prompt() -> std::io::Result<()> {
         use codex_protocol::config_types::TrustLevel;
         let temp_dir = TempDir::new()?;
@@ -2502,7 +2503,7 @@ mod tests {
         Ok(())
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn config_rebuild_changes_trust_defaults_with_cwd() -> std::io::Result<()> {
         let temp_dir = TempDir::new()?;
         let codex_home = temp_dir.path().to_path_buf();
@@ -2568,7 +2569,7 @@ trust_level = "untrusted"
     /// pure validation core of `set_theme_override`) must be called with
     /// the *final* config's theme, and its warning must land in the
     /// final config's `startup_warnings`.
-    #[tokio::test]
+    #[matrix::test]
     async fn theme_warning_uses_final_config() -> std::io::Result<()> {
         use crate::render::highlight::validate_theme_name;
 

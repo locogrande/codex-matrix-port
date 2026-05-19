@@ -25,10 +25,11 @@ use codex_app_server_protocol::UserInput as V2UserInput;
 use tempfile::TempDir;
 use tokio::time::timeout;
 
+use matrix_test_macro as matrix;
 const DEFAULT_READ_TIMEOUT: std::time::Duration = std::time::Duration::from_secs(10);
 const INVALID_REQUEST_ERROR_CODE: i64 = -32600;
 
-#[tokio::test]
+#[matrix::test]
 async fn turn_interrupt_aborts_running_turn() -> Result<()> {
     // Use a portable sleep command to keep the turn running.
     #[cfg(target_os = "windows")]
@@ -128,7 +129,7 @@ async fn turn_interrupt_aborts_running_turn() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn turn_interrupt_rejects_completed_turn() -> Result<()> {
     let tmp = TempDir::new()?;
     let codex_home = tmp.path().join("codex_home");
@@ -204,7 +205,7 @@ async fn turn_interrupt_rejects_completed_turn() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn turn_interrupt_resolves_pending_command_approval_request() -> Result<()> {
     #[cfg(target_os = "windows")]
     let shell_command = vec![

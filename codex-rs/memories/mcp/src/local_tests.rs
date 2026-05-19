@@ -5,6 +5,7 @@ use pretty_assertions::assert_eq;
 use tempfile::TempDir;
 use codex_paths;
 
+use matrix_test_macro as matrix;
 fn backend(tempdir: &TempDir) -> LocalMemoriesBackend {
     LocalMemoriesBackend::from_memory_root(tempdir.path())
 }
@@ -22,7 +23,7 @@ fn search_request(queries: &[&str]) -> SearchMemoriesRequest {
     }
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn list_returns_shallow_memory_paths() {
     let tempdir = TempDir::new().expect("tempdir");
     tokio::fs::create_dir_all(tempdir.path().join("skills/example"))
@@ -67,7 +68,7 @@ async fn list_returns_shallow_memory_paths() {
     assert_eq!(response.truncated, false);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn list_supports_pagination() {
     let tempdir = TempDir::new().expect("tempdir");
     tokio::fs::create_dir_all(tempdir.path().join("skills"))
@@ -132,7 +133,7 @@ async fn list_supports_pagination() {
     assert_eq!(page2.truncated, false);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn list_preserves_lexicographic_order_for_siblings() {
     let tempdir = TempDir::new().expect("tempdir");
     tokio::fs::create_dir_all(tempdir.path().join("a"))
@@ -164,7 +165,7 @@ async fn list_preserves_lexicographic_order_for_siblings() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn list_scoped_directory_is_shallow() {
     let tempdir = TempDir::new().expect("tempdir");
     tokio::fs::create_dir_all(tempdir.path().join("skills/example"))
@@ -201,7 +202,7 @@ async fn list_scoped_directory_is_shallow() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn list_rejects_hidden_scoped_paths() {
     let tempdir = TempDir::new().expect("tempdir");
     tokio::fs::create_dir_all(tempdir.path().join(codex_paths::GIT_DIR))
@@ -220,7 +221,7 @@ async fn list_rejects_hidden_scoped_paths() {
     assert!(matches!(err, MemoriesBackendError::NotFound { .. }));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn list_rejects_invalid_cursor() {
     let tempdir = TempDir::new().expect("tempdir");
     tokio::fs::write(tempdir.path().join("MEMORY.md"), "summary")
@@ -239,7 +240,7 @@ async fn list_rejects_invalid_cursor() {
     assert!(matches!(err, MemoriesBackendError::InvalidCursor { .. }));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn list_rejects_cursor_past_end() {
     let tempdir = TempDir::new().expect("tempdir");
     tokio::fs::write(tempdir.path().join("MEMORY.md"), "summary")
@@ -258,7 +259,7 @@ async fn list_rejects_cursor_past_end() {
     assert!(matches!(err, MemoriesBackendError::InvalidCursor { .. }));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn read_rejects_directory_and_returns_file_content() {
     let tempdir = TempDir::new().expect("tempdir");
     tokio::fs::write(tempdir.path().join("MEMORY.md"), "remember this")
@@ -297,7 +298,7 @@ async fn read_rejects_directory_and_returns_file_content() {
     assert!(matches!(err, MemoriesBackendError::NotFile { .. }));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn read_rejects_missing_paths() {
     let tempdir = TempDir::new().expect("tempdir");
 
@@ -314,7 +315,7 @@ async fn read_rejects_missing_paths() {
     assert!(matches!(err, MemoriesBackendError::NotFound { .. }));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn read_supports_line_offset() {
     let tempdir = TempDir::new().expect("tempdir");
     tokio::fs::write(tempdir.path().join("MEMORY.md"), "alpha\nbeta\ngamma\n")
@@ -342,7 +343,7 @@ async fn read_supports_line_offset() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn read_rejects_hidden_paths() {
     let tempdir = TempDir::new().expect("tempdir");
     tokio::fs::create_dir_all(tempdir.path().join(codex_paths::GIT_DIR))
@@ -365,7 +366,7 @@ async fn read_rejects_hidden_paths() {
     assert!(matches!(err, MemoriesBackendError::NotFound { .. }));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn read_supports_max_lines() {
     let tempdir = TempDir::new().expect("tempdir");
     tokio::fs::write(tempdir.path().join("MEMORY.md"), "alpha\nbeta\ngamma\n")
@@ -393,7 +394,7 @@ async fn read_supports_max_lines() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn read_rejects_invalid_line_requests() {
     let tempdir = TempDir::new().expect("tempdir");
     tokio::fs::write(tempdir.path().join("MEMORY.md"), "only\n")
@@ -443,7 +444,7 @@ async fn read_rejects_invalid_line_requests() {
     ));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn search_supports_directory_and_file_scopes() {
     let tempdir = TempDir::new().expect("tempdir");
     tokio::fs::create_dir_all(tempdir.path().join("rollout_summaries"))
@@ -505,7 +506,7 @@ async fn search_supports_directory_and_file_scopes() {
     assert_eq!(file_response.truncated, false);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn search_supports_pagination() {
     let tempdir = TempDir::new().expect("tempdir");
     tokio::fs::create_dir_all(tempdir.path().join("rollout_summaries"))
@@ -570,7 +571,7 @@ async fn search_supports_pagination() {
     assert_eq!(page2.truncated, false);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn search_preserves_global_lexicographic_path_order() {
     let tempdir = TempDir::new().expect("tempdir");
     tokio::fs::create_dir_all(tempdir.path().join("a"))
@@ -609,7 +610,7 @@ async fn search_preserves_global_lexicographic_path_order() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn search_skips_hidden_paths() {
     let tempdir = TempDir::new().expect("tempdir");
     tokio::fs::create_dir_all(tempdir.path().join(codex_paths::GIT_DIR))
@@ -642,7 +643,7 @@ async fn search_skips_hidden_paths() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn search_rejects_hidden_scoped_paths() {
     let tempdir = TempDir::new().expect("tempdir");
     tokio::fs::create_dir_all(tempdir.path().join(codex_paths::GIT_DIR))
@@ -659,7 +660,7 @@ async fn search_rejects_hidden_scoped_paths() {
     assert!(matches!(err, MemoriesBackendError::NotFound { .. }));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn search_supports_context_lines() {
     let tempdir = TempDir::new().expect("tempdir");
     tokio::fs::write(
@@ -697,7 +698,7 @@ async fn search_supports_context_lines() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn search_supports_case_insensitive_matching() {
     let tempdir = TempDir::new().expect("tempdir");
     tokio::fs::write(tempdir.path().join("MEMORY.md"), "Needle\nneedle\nNEEDLE\n")
@@ -753,7 +754,7 @@ async fn search_supports_case_insensitive_matching() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn search_supports_normalized_matching() {
     let tempdir = TempDir::new().expect("tempdir");
     tokio::fs::write(
@@ -797,7 +798,7 @@ async fn search_supports_normalized_matching() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn search_rejects_queries_that_normalize_to_empty_strings() {
     let tempdir = TempDir::new().expect("tempdir");
     tokio::fs::write(tempdir.path().join("MEMORY.md"), "needle\n")
@@ -814,7 +815,7 @@ async fn search_rejects_queries_that_normalize_to_empty_strings() {
     assert!(matches!(err, MemoriesBackendError::EmptyQuery));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn search_supports_any_and_all_on_same_line_match_modes() {
     let tempdir = TempDir::new().expect("tempdir");
     tokio::fs::write(
@@ -873,7 +874,7 @@ async fn search_supports_any_and_all_on_same_line_match_modes() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn search_supports_all_within_lines_match_mode() {
     let tempdir = TempDir::new().expect("tempdir");
     tokio::fs::write(
@@ -913,7 +914,7 @@ async fn search_supports_all_within_lines_match_mode() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn search_rejects_zero_line_window() {
     let tempdir = TempDir::new().expect("tempdir");
     tokio::fs::write(tempdir.path().join("MEMORY.md"), "needle\n")
@@ -930,7 +931,7 @@ async fn search_rejects_zero_line_window() {
     assert!(matches!(err, MemoriesBackendError::InvalidMatchWindow));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn search_rejects_invalid_cursor() {
     let tempdir = TempDir::new().expect("tempdir");
     tokio::fs::write(tempdir.path().join("MEMORY.md"), "needle\n")
@@ -957,7 +958,7 @@ async fn search_rejects_invalid_cursor() {
     ));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn list_rejects_missing_scoped_paths() {
     let tempdir = TempDir::new().expect("tempdir");
 
@@ -973,7 +974,7 @@ async fn list_rejects_missing_scoped_paths() {
     assert!(matches!(err, MemoriesBackendError::NotFound { .. }));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn search_rejects_missing_scoped_paths() {
     let tempdir = TempDir::new().expect("tempdir");
 
@@ -987,7 +988,7 @@ async fn search_rejects_missing_scoped_paths() {
     assert!(matches!(err, MemoriesBackendError::NotFound { .. }));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn scoped_paths_reject_parent_segments() {
     let tempdir = TempDir::new().expect("tempdir");
     let err = backend(&tempdir)
@@ -1004,7 +1005,7 @@ async fn scoped_paths_reject_parent_segments() {
 }
 
 #[cfg(unix)]
-#[tokio::test]
+#[matrix::test]
 async fn read_rejects_symlinked_files() {
     let tempdir = TempDir::new().expect("tempdir");
     let outside = tempdir.path().join("outside.txt");
@@ -1028,7 +1029,7 @@ async fn read_rejects_symlinked_files() {
 }
 
 #[cfg(unix)]
-#[tokio::test]
+#[matrix::test]
 async fn read_rejects_symlinked_ancestor_directories() {
     let tempdir = TempDir::new().expect("tempdir");
     let outside = tempdir.path().join("outside");
@@ -1054,7 +1055,7 @@ async fn read_rejects_symlinked_ancestor_directories() {
 }
 
 #[cfg(unix)]
-#[tokio::test]
+#[matrix::test]
 async fn list_rejects_symlinked_directories() {
     let tempdir = TempDir::new().expect("tempdir");
     let outside = tempdir.path().join("outside");
@@ -1076,7 +1077,7 @@ async fn list_rejects_symlinked_directories() {
 }
 
 #[cfg(unix)]
-#[tokio::test]
+#[matrix::test]
 async fn search_rejects_symlinked_directories() {
     let tempdir = TempDir::new().expect("tempdir");
     let outside = tempdir.path().join("outside");

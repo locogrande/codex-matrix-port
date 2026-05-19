@@ -9,9 +9,10 @@ use codex_utils_absolute_path::AbsolutePathBuf;
 use tokio::time::Duration;
 use tokio::time::timeout;
 
+use matrix_test_macro as matrix;
 const DEFAULT_TIMEOUT: Duration = Duration::from_secs(10);
 
-#[tokio::test]
+#[matrix::test]
 async fn marketplace_add_local_directory_source() -> Result<()> {
     let codex_home = TempDir::new()?;
     let source = codex_home.path().join("marketplace");

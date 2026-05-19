@@ -30,6 +30,7 @@ use codex_protocol::mcp::CallToolResult;
 use codex_protocol::mcp::Tool;
 use rmcp::model::Content;
 
+use matrix_test_macro as matrix;
 const SMALL_PNG_BASE64: &str = "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR4nGP4z8DwHwAFAAH/iZk9HQAAAABJRU5ErkJggg==";
 async fn test_config() -> Config {
     let codex_home = std::env::temp_dir();
@@ -542,7 +543,7 @@ fn ps_output_empty_snapshot() {
     insta::assert_snapshot!(rendered);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn session_info_uses_availability_nux_tooltip_override() {
     let config = test_config().await;
     let cell = new_session_info(
@@ -559,7 +560,7 @@ async fn session_info_uses_availability_nux_tooltip_override() {
     assert!(rendered.contains("Model just became available"));
 }
 
-#[tokio::test]
+#[matrix::test]
 #[cfg_attr(
     target_os = "windows",
     ignore = "snapshot path rendering differs on Windows"
@@ -581,7 +582,7 @@ async fn session_info_availability_nux_tooltip_snapshot() {
     insta::assert_snapshot!(rendered);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn session_info_first_event_suppresses_tooltips_and_nux() {
     let config = test_config().await;
     let cell = new_session_info(
@@ -599,7 +600,7 @@ async fn session_info_first_event_suppresses_tooltips_and_nux() {
     assert!(rendered.contains("To get started"));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn session_info_hides_tooltips_when_disabled() {
     let mut config = test_config().await;
     config.show_tooltips = false;
@@ -695,7 +696,7 @@ fn error_event_oversized_input_snapshot() {
     insta::assert_snapshot!(rendered);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn mcp_tools_output_masks_sensitive_values() {
     let mut config = test_config().await;
     let mut env = HashMap::new();
@@ -761,7 +762,7 @@ async fn mcp_tools_output_masks_sensitive_values() {
     insta::assert_snapshot!(rendered);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn mcp_tools_output_lists_tools_for_hyphenated_server_names() {
     let mut config = test_config().await;
     let mut servers = config.mcp_servers.get().clone();
@@ -801,7 +802,7 @@ async fn mcp_tools_output_lists_tools_for_hyphenated_server_names() {
     insta::assert_snapshot!(rendered);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn mcp_tools_output_from_statuses_renders_status_only_servers() {
     let mut config = test_config().await;
     let mut plugin_docs =
@@ -844,7 +845,7 @@ async fn mcp_tools_output_from_statuses_renders_status_only_servers() {
     insta::assert_snapshot!(rendered);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn mcp_tools_output_from_statuses_renders_verbose_inventory() {
     let mut config = test_config().await;
     let plugin_docs =
@@ -2205,7 +2206,7 @@ fn reasoning_summary_block_returns_reasoning_cell_when_feature_disabled() {
     assert_eq!(rendered, vec!["• Detailed reasoning goes here."]);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn reasoning_summary_block_respects_config_overrides() {
     let mut config = test_config().await;
     config.model = Some("gpt-3.5-turbo".to_string());

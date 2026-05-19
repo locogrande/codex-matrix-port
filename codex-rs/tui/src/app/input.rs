@@ -287,9 +287,10 @@ impl App {
 
 #[cfg(test)]
 mod tests {
+    use matrix_test_macro as matrix;
     use super::super::test_support::make_test_app;
 
-    #[tokio::test]
+    #[matrix::test]
     async fn app_keymap_shortcuts_are_disabled_while_keymap_view_is_active() {
         let mut app = make_test_app().await;
         assert!(app.app_keymap_shortcuts_available());

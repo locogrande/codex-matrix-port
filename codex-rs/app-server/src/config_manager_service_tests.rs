@@ -12,6 +12,7 @@ use pretty_assertions::assert_eq;
 use std::collections::BTreeMap;
 use tempfile::tempdir;
 
+use matrix_test_macro as matrix;
 #[test]
 fn toml_value_to_item_handles_nested_config_tables() {
     let config = r#"
@@ -61,7 +62,7 @@ X-Doc = "42"
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn write_value_preserves_comments_and_order() -> Result<()> {
     let tmp = tempdir().expect("tempdir");
     let original = r#"# Codex user configuration
@@ -106,7 +107,7 @@ personality = true
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn clear_missing_nested_config_is_noop() -> Result<()> {
     let tmp = tempdir().expect("tempdir");
     let path = tmp.path().join(CONFIG_TOML_FILE);
@@ -130,7 +131,7 @@ async fn clear_missing_nested_config_is_noop() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn write_value_supports_nested_app_paths() -> Result<()> {
     let tmp = tempdir().expect("tempdir");
     std::fs::write(tmp.path().join(CONFIG_TOML_FILE), "")?;
@@ -191,7 +192,7 @@ async fn write_value_supports_nested_app_paths() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn write_value_supports_custom_mcp_server_default_tool_approval_mode() -> Result<()> {
     let tmp = tempdir().expect("tempdir");
     std::fs::write(
@@ -234,7 +235,7 @@ async fn write_value_supports_custom_mcp_server_default_tool_approval_mode() -> 
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn read_includes_origins_and_layers() {
     let tmp = tempdir().expect("tempdir");
     let user_path = tmp.path().join(CONFIG_TOML_FILE);
@@ -304,7 +305,7 @@ async fn read_includes_origins_and_layers() {
 }
 
 #[cfg(target_os = "macos")]
-#[tokio::test]
+#[matrix::test]
 async fn write_value_succeeds_when_managed_preferences_expand_home_directory_paths() -> Result<()> {
     use base64::Engine;
 
@@ -351,7 +352,7 @@ writable_roots = ["~/code"]
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn write_value_reports_override() {
     let tmp = tempdir().expect("tempdir");
     std::fs::write(
@@ -407,7 +408,7 @@ async fn write_value_reports_override() {
     assert!(result.overridden_metadata.is_none());
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn version_conflict_rejected() {
     let tmp = tempdir().expect("tempdir");
     let user_path = tmp.path().join(CONFIG_TOML_FILE);
@@ -431,7 +432,7 @@ async fn version_conflict_rejected() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn write_value_defaults_to_user_config_path() {
     let tmp = tempdir().expect("tempdir");
     std::fs::write(tmp.path().join(CONFIG_TOML_FILE), "").unwrap();
@@ -455,7 +456,7 @@ async fn write_value_defaults_to_user_config_path() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn write_value_defaults_to_selected_user_config_path() {
     let tmp = tempdir().expect("tempdir");
     std::fs::write(tmp.path().join(CONFIG_TOML_FILE), "model = \"gpt-main\"").unwrap();
@@ -494,7 +495,7 @@ async fn write_value_defaults_to_selected_user_config_path() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn load_default_config_preserves_selected_user_config_path_after_load_error() {
     let tmp = tempdir().expect("tempdir");
     std::fs::write(tmp.path().join(CONFIG_TOML_FILE), "model = \"gpt-main\"").unwrap();
@@ -529,7 +530,7 @@ async fn load_default_config_preserves_selected_user_config_path_after_load_erro
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn invalid_user_value_rejected_even_if_overridden_by_managed() {
     let tmp = tempdir().expect("tempdir");
     std::fs::write(tmp.path().join(CONFIG_TOML_FILE), "model = \"user\"").unwrap();
@@ -564,7 +565,7 @@ async fn invalid_user_value_rejected_even_if_overridden_by_managed() {
     assert_eq!(contents.trim(), "model = \"user\"");
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn reserved_builtin_provider_override_rejected() {
     let tmp = tempdir().expect("tempdir");
     std::fs::write(tmp.path().join(CONFIG_TOML_FILE), "model = \"user\"\n").unwrap();
@@ -592,7 +593,7 @@ async fn reserved_builtin_provider_override_rejected() {
     assert_eq!(contents, "model = \"user\"\n");
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn write_value_rejects_feature_requirement_conflict() {
     let tmp = tempdir().expect("tempdir");
     std::fs::write(tmp.path().join(CONFIG_TOML_FILE), "").unwrap();
@@ -638,7 +639,7 @@ async fn write_value_rejects_feature_requirement_conflict() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn write_value_rejects_profile_feature_requirement_conflict() {
     let tmp = tempdir().expect("tempdir");
     std::fs::write(tmp.path().join(CONFIG_TOML_FILE), "").unwrap();
@@ -684,7 +685,7 @@ async fn write_value_rejects_profile_feature_requirement_conflict() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn read_reports_managed_overrides_user_and_session_flags() {
     let tmp = tempdir().expect("tempdir");
     let user_path = tmp.path().join(CONFIG_TOML_FILE);
@@ -747,7 +748,7 @@ async fn read_reports_managed_overrides_user_and_session_flags() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn write_value_reports_managed_override() {
     let tmp = tempdir().expect("tempdir");
     std::fs::write(tmp.path().join(CONFIG_TOML_FILE), "").unwrap();
@@ -783,7 +784,7 @@ async fn write_value_reports_managed_override() {
     assert_eq!(overridden.effective_value, serde_json::json!("never"));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn upsert_merges_tables_replace_overwrites() -> Result<()> {
     let tmp = tempdir().expect("tempdir");
     let path = tmp.path().join(CONFIG_TOML_FILE);

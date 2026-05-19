@@ -4,13 +4,14 @@ use codex_config::types::McpServerTransportConfig;
 use codex_core::config::load_global_mcp_servers;
 use predicates::str::contains;
 
+use matrix_test_macro as matrix;
 fn codex_command(codex_home: &Path) -> Result<assert_cmd::Command> {
     let mut cmd = assert_cmd::Command::new(codex_utils_cargo_bin::cargo_bin("codex")?);
     cmd.env("CODEX_HOME", codex_home);
     Ok(cmd)
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn add_and_remove_server_updates_global_config() -> Result<()> {
     let codex_home = TempDir::new()?;
 
@@ -65,7 +66,7 @@ async fn add_and_remove_server_updates_global_config() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn add_with_env_preserves_key_order_and_values() -> Result<()> {
     let codex_home = TempDir::new()?;
 
@@ -101,7 +102,7 @@ async fn add_with_env_preserves_key_order_and_values() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn add_streamable_http_without_manual_token() -> Result<()> {
     let codex_home = TempDir::new()?;
 
@@ -135,7 +136,7 @@ async fn add_streamable_http_without_manual_token() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn add_streamable_http_with_custom_env_var() -> Result<()> {
     let codex_home = TempDir::new()?;
 
@@ -173,7 +174,7 @@ async fn add_streamable_http_with_custom_env_var() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn add_streamable_http_rejects_removed_flag() -> Result<()> {
     let codex_home = TempDir::new()?;
 
@@ -197,7 +198,7 @@ async fn add_streamable_http_rejects_removed_flag() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn add_cant_add_command_and_url() -> Result<()> {
     let codex_home = TempDir::new()?;
 

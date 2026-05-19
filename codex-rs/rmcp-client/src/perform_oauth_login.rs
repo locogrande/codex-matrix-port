@@ -31,6 +31,7 @@ use crate::utils::apply_default_headers;
 use crate::utils::build_default_headers;
 use codex_config::types::OAuthCredentialsStoreMode;
 
+use matrix_test_macro as matrix;
 struct OauthHeaders {
     http_headers: Option<HashMap<String, String>>,
     env_http_headers: Option<HashMap<String, String>>,
@@ -709,7 +710,7 @@ mod tests {
         base_url
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn start_authorization_uses_configured_client_id() {
         let base_url = spawn_oauth_metadata_server().await;
         let oauth_state = start_authorization(

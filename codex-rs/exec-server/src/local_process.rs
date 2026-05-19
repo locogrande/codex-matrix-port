@@ -705,6 +705,7 @@ fn notification_sender(inner: &Inner) -> Option<RpcNotificationSender> {
 
 #[cfg(test)]
 mod tests {
+    use matrix_test_macro as matrix;
     use super::*;
     use codex_protocol::config_types::ShellEnvironmentPolicyInherit;
     use codex_utils_pty::ProcessDriver;
@@ -760,7 +761,7 @@ mod tests {
         assert_eq!(child_env(&params), expected);
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn exited_process_retains_late_output_past_retention() {
         let backend = LocalProcess::default();
         let mut process = spawn_test_process(&backend, "proc-late-output").await;
@@ -811,7 +812,7 @@ mod tests {
         backend.shutdown().await;
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn closed_process_is_evicted_after_retention() {
         let backend = LocalProcess::default();
         let mut process = spawn_test_process(&backend, "proc-closed-eviction").await;

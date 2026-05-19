@@ -51,6 +51,7 @@ use tracing::error;
 use tracing::info;
 use tracing::warn;
 
+use matrix_test_macro as matrix;
 const DEFAULT_ISSUER: &str = "https://auth.openai.com";
 const DEFAULT_PORT: u16 = 1455;
 // Keep in sync with the Codex CLI Hydra redirect URI allow-list.
@@ -1192,7 +1193,7 @@ mod tests {
     use super::sanitize_url_for_logging;
 
     #[serial_test::serial(logout_revoke)]
-    #[tokio::test]
+    #[matrix::test]
     async fn persist_tokens_async_revokes_previous_auth_without_failing_login() -> anyhow::Result<()>
     {
         skip_if_no_network!(Ok(()));
@@ -1263,7 +1264,7 @@ mod tests {
     }
 
     #[serial_test::serial(logout_revoke)]
-    #[tokio::test]
+    #[matrix::test]
     async fn persist_tokens_async_does_not_revoke_reused_refresh_token() -> anyhow::Result<()> {
         skip_if_no_network!(Ok(()));
 

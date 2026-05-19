@@ -320,6 +320,7 @@ pub async fn sqlite_integrity_check(path: &Path) -> anyhow::Result<Vec<String>> 
 
 #[cfg(test)]
 mod tests {
+    use matrix_test_macro as matrix;
     use super::StateRuntime;
     use super::open_state_sqlite;
     use super::runtime_state_migrator;
@@ -399,7 +400,7 @@ mod tests {
         .expect("open sqlite pool")
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn sqlite_integrity_check_reports_ok_for_valid_db() {
         let codex_home = unique_temp_dir();
         tokio::fs::create_dir_all(&codex_home)
@@ -427,7 +428,7 @@ mod tests {
         let _ = tokio::fs::remove_dir_all(codex_home).await;
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn open_state_sqlite_tolerates_newer_applied_migrations() {
         let codex_home = unique_temp_dir();
         tokio::fs::create_dir_all(&codex_home)
@@ -479,7 +480,7 @@ mod tests {
         let _ = tokio::fs::remove_dir_all(codex_home).await;
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn init_records_successful_sqlite_init_phases_to_explicit_telemetry() {
         let codex_home = unique_temp_dir();
         let telemetry = TestTelemetry::default();

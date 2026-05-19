@@ -37,6 +37,7 @@ use tokio::time::sleep;
 use tokio::time::timeout;
 use toml::Value as TomlValue;
 
+use matrix_test_macro as matrix;
 async fn test_config_with_cli_overrides(
     cli_overrides: Vec<(String, TomlValue)>,
 ) -> (TempDir, Config) {
@@ -239,7 +240,7 @@ async fn wait_for_live_thread_spawn_children(
     .expect("expected persisted child tree");
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn send_input_errors_when_manager_dropped() {
     let control = AgentControl::default();
     let err = control
@@ -259,14 +260,14 @@ async fn send_input_errors_when_manager_dropped() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn get_status_returns_not_found_without_manager() {
     let control = AgentControl::default();
     let got = control.get_status(ThreadId::new()).await;
     assert_eq!(got, AgentStatus::NotFound);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn on_event_updates_status_from_task_started() {
     let status = agent_status_from_event(&EventMsg::TurnStarted(TurnStartedEvent {
         turn_id: "turn-1".to_string(),
@@ -277,7 +278,7 @@ async fn on_event_updates_status_from_task_started() {
     assert_eq!(status, Some(AgentStatus::Running));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn on_event_updates_status_from_task_complete() {
     let status = agent_status_from_event(&EventMsg::TurnComplete(TurnCompleteEvent {
         turn_id: "turn-1".to_string(),
@@ -290,7 +291,7 @@ async fn on_event_updates_status_from_task_complete() {
     assert_eq!(status, Some(expected));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn on_event_updates_status_from_error() {
     let status = agent_status_from_event(&EventMsg::Error(ErrorEvent {
         message: "boom".to_string(),
@@ -301,7 +302,7 @@ async fn on_event_updates_status_from_error() {
     assert_eq!(status, Some(expected));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn on_event_updates_status_from_turn_aborted() {
     let status = agent_status_from_event(&EventMsg::TurnAborted(TurnAbortedEvent {
         turn_id: Some("turn-1".to_string()),
@@ -314,13 +315,13 @@ async fn on_event_updates_status_from_turn_aborted() {
     assert_eq!(status, Some(expected));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn on_event_updates_status_from_shutdown_complete() {
     let status = agent_status_from_event(&EventMsg::ShutdownComplete);
     assert_eq!(status, Some(AgentStatus::Shutdown));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn spawn_agent_errors_when_manager_dropped() {
     let control = AgentControl::default();
     let (_home, config) = test_config().await;
@@ -334,7 +335,7 @@ async fn spawn_agent_errors_when_manager_dropped() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn resume_agent_errors_when_manager_dropped() {
     let control = AgentControl::default();
     let (_home, config) = test_config().await;
@@ -348,7 +349,7 @@ async fn resume_agent_errors_when_manager_dropped() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn send_input_errors_when_thread_missing() {
     let harness = AgentControlHarness::new().await;
     let thread_id = ThreadId::new();
@@ -367,14 +368,14 @@ async fn send_input_errors_when_thread_missing() {
     assert_matches!(err, CodexErr::ThreadNotFound(id) if id == thread_id);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn get_status_returns_not_found_for_missing_thread() {
     let harness = AgentControlHarness::new().await;
     let status = harness.control.get_status(ThreadId::new()).await;
     assert_eq!(status, AgentStatus::NotFound);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn get_status_returns_pending_init_for_new_thread() {
     let harness = AgentControlHarness::new().await;
     let (thread_id, _) = harness.start_thread().await;
@@ -382,7 +383,7 @@ async fn get_status_returns_pending_init_for_new_thread() {
     assert_eq!(status, AgentStatus::PendingInit);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn subscribe_status_errors_for_missing_thread() {
     let harness = AgentControlHarness::new().await;
     let thread_id = ThreadId::new();
@@ -394,7 +395,7 @@ async fn subscribe_status_errors_for_missing_thread() {
     assert_matches!(err, CodexErr::ThreadNotFound(id) if id == thread_id);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn subscribe_status_updates_on_shutdown() {
     let harness = AgentControlHarness::new().await;
     let (thread_id, thread) = harness.start_thread().await;
@@ -414,7 +415,7 @@ async fn subscribe_status_updates_on_shutdown() {
     assert_eq!(status_rx.borrow().clone(), AgentStatus::Shutdown);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn send_input_submits_user_message() {
     let harness = AgentControlHarness::new().await;
     let (thread_id, _thread) = harness.start_thread().await;
@@ -452,7 +453,7 @@ async fn send_input_submits_user_message() {
     assert_eq!(captured, Some(expected));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn send_inter_agent_communication_without_turn_queues_message_without_triggering_turn() {
     let harness = AgentControlHarness::new().await;
     let (thread_id, thread) = harness.start_thread().await;
@@ -508,7 +509,7 @@ async fn send_inter_agent_communication_without_turn_queues_message_without_trig
     ));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn append_message_records_assistant_message() {
     let harness = AgentControlHarness::new().await;
     let (thread_id, thread) = harness.start_thread().await;
@@ -562,7 +563,7 @@ async fn append_message_records_assistant_message() {
     .expect("assistant message should be recorded");
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn spawn_agent_creates_thread_and_sends_prompt() {
     let harness = AgentControlHarness::new().await;
     let thread_id = harness
@@ -599,7 +600,7 @@ async fn spawn_agent_creates_thread_and_sends_prompt() {
     assert_eq!(captured, Some(expected));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn spawn_agent_can_fork_parent_thread_history_with_sanitized_items() {
     let harness = AgentControlHarness::new().await;
     let mut parent_config = harness.config.clone();
@@ -757,7 +758,7 @@ async fn spawn_agent_can_fork_parent_thread_history_with_sanitized_items() {
         .expect("parent shutdown should submit");
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn spawn_agent_fork_flushes_parent_rollout_before_loading_history() {
     let harness = AgentControlHarness::new().await;
     let (parent_thread_id, parent_thread) = harness.start_thread().await;
@@ -819,7 +820,7 @@ async fn spawn_agent_fork_flushes_parent_rollout_before_loading_history() {
         .expect("parent shutdown should submit");
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn spawn_agent_fork_last_n_turns_keeps_only_recent_turns() {
     let harness = AgentControlHarness::new().await;
     let (parent_thread_id, parent_thread) = harness.start_thread().await;
@@ -942,7 +943,7 @@ async fn spawn_agent_fork_last_n_turns_keeps_only_recent_turns() {
         .expect("parent shutdown should submit");
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn spawn_agent_respects_max_threads_limit() {
     let max_threads = 1usize;
     let (_home, config) = test_config_with_cli_overrides(vec![(
@@ -994,7 +995,7 @@ async fn spawn_agent_respects_max_threads_limit() {
         .expect("shutdown agent");
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn spawn_agent_releases_slot_after_shutdown() {
     let max_threads = 1usize;
     let (_home, config) = test_config_with_cli_overrides(vec![(
@@ -1037,7 +1038,7 @@ async fn spawn_agent_releases_slot_after_shutdown() {
         .expect("shutdown agent");
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn spawn_agent_limit_shared_across_clones() {
     let max_threads = 1usize;
     let (_home, config) = test_config_with_cli_overrides(vec![(
@@ -1082,7 +1083,7 @@ async fn spawn_agent_limit_shared_across_clones() {
         .expect("shutdown agent");
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn resume_agent_respects_max_threads_limit() {
     let max_threads = 1usize;
     let (_home, config) = test_config_with_cli_overrides(vec![(
@@ -1138,7 +1139,7 @@ async fn resume_agent_respects_max_threads_limit() {
         .expect("shutdown active thread");
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn resume_agent_releases_slot_after_resume_failure() {
     let max_threads = 1usize;
     let (_home, config) = test_config_with_cli_overrides(vec![(
@@ -1169,7 +1170,7 @@ async fn resume_agent_releases_slot_after_resume_failure() {
         .expect("shutdown resumed thread");
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn spawn_child_completion_notifies_parent_history() {
     let harness = AgentControlHarness::new().await;
     let (parent_thread_id, parent_thread) = harness.start_thread().await;
@@ -1203,7 +1204,7 @@ async fn spawn_child_completion_notifies_parent_history() {
     assert_eq!(wait_for_subagent_notification(&parent_thread).await, true);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn multi_agent_v2_completion_ignores_dead_direct_parent() {
     let harness = AgentControlHarness::new().await;
     let (root_thread_id, root_thread) = harness.start_thread().await;
@@ -1307,7 +1308,7 @@ async fn multi_agent_v2_completion_ignores_dead_direct_parent() {
     assert!(!has_subagent_notification(&root_history_items));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn multi_agent_v2_completion_queues_message_for_direct_parent() {
     let harness = AgentControlHarness::new().await;
     let (_root_thread_id, root_thread) = harness.start_thread().await;
@@ -1407,7 +1408,7 @@ async fn multi_agent_v2_completion_queues_message_for_direct_parent() {
     ));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn completion_watcher_notifies_parent_when_child_is_missing() {
     let harness = AgentControlHarness::new().await;
     let (parent_thread_id, parent_thread) = harness.start_thread().await;
@@ -1448,7 +1449,7 @@ async fn completion_watcher_notifies_parent_when_child_is_missing() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn spawn_thread_subagent_gets_random_nickname_in_session_source() {
     let harness = AgentControlHarness::new().await;
     let (parent_thread_id, _parent_thread) = harness.start_thread().await;
@@ -1492,7 +1493,7 @@ async fn spawn_thread_subagent_gets_random_nickname_in_session_source() {
     assert_eq!(agent_role, Some("explorer".to_string()));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn spawn_thread_subagent_uses_role_specific_nickname_candidates() {
     let mut harness = AgentControlHarness::new().await;
     harness.config.agent_roles.insert(
@@ -1536,7 +1537,7 @@ async fn spawn_thread_subagent_uses_role_specific_nickname_candidates() {
     assert_eq!(agent_nickname, Some("Atlas".to_string()));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn resume_thread_subagent_restores_stored_nickname_and_role() {
     let (home, mut config) = test_config().await;
     config
@@ -1680,7 +1681,7 @@ async fn resume_thread_subagent_restores_stored_nickname_and_role() {
         .expect("resumed child shutdown should submit");
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn resume_agent_from_rollout_reads_archived_rollout_path() {
     let harness = AgentControlHarness::new().await;
     let child_thread_id = harness
@@ -1729,7 +1730,7 @@ async fn resume_agent_from_rollout_reads_archived_rollout_path() {
         .expect("resumed child shutdown should succeed");
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn list_agent_subtree_thread_ids_includes_anonymous_and_closed_descendants() {
     let harness = AgentControlHarness::new().await;
     let (parent_thread_id, _parent_thread) = harness.start_thread().await;
@@ -1855,7 +1856,7 @@ async fn list_agent_subtree_thread_ids_includes_anonymous_and_closed_descendants
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn shutdown_agent_tree_closes_live_descendants() {
     let harness = AgentControlHarness::new().await;
     let (parent_thread_id, _parent_thread) = harness.start_thread().await;
@@ -1940,7 +1941,7 @@ async fn shutdown_agent_tree_closes_live_descendants() {
     assert_eq!(shutdown_ids, expected_shutdown_ids);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn shutdown_agent_tree_closes_descendants_when_started_at_child() {
     let harness = AgentControlHarness::new().await;
     let (parent_thread_id, _parent_thread) = harness.start_thread().await;
@@ -2031,7 +2032,7 @@ async fn shutdown_agent_tree_closes_descendants_when_started_at_child() {
     assert_eq!(shutdown_ids, expected_shutdown_ids);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn resume_agent_from_rollout_does_not_reopen_closed_descendants() {
     let harness = AgentControlHarness::new().await;
     let (parent_thread_id, parent_thread) = harness.start_thread().await;
@@ -2126,7 +2127,7 @@ async fn resume_agent_from_rollout_does_not_reopen_closed_descendants() {
         .expect("tree shutdown after resume should succeed");
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn resume_closed_child_reopens_open_descendants() {
     let harness = AgentControlHarness::new().await;
     let (parent_thread_id, parent_thread) = harness.start_thread().await;
@@ -2223,7 +2224,7 @@ async fn resume_closed_child_reopens_open_descendants() {
         .expect("parent shutdown should succeed");
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn resume_agent_from_rollout_reopens_open_descendants_after_manager_shutdown() {
     let harness = AgentControlHarness::new().await;
     let (parent_thread_id, parent_thread) = harness.start_thread().await;
@@ -2314,7 +2315,7 @@ async fn resume_agent_from_rollout_reopens_open_descendants_after_manager_shutdo
         .expect("tree shutdown after subtree resume should succeed");
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn resume_agent_from_rollout_uses_edge_data_when_descendant_metadata_source_is_stale() {
     let harness = AgentControlHarness::new().await;
     let (parent_thread_id, parent_thread) = harness.start_thread().await;
@@ -2445,7 +2446,7 @@ async fn resume_agent_from_rollout_uses_edge_data_when_descendant_metadata_sourc
         .expect("tree shutdown after subtree resume should succeed");
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn resume_agent_from_rollout_skips_descendants_when_parent_resume_fails() {
     let harness = AgentControlHarness::new().await;
     let (parent_thread_id, parent_thread) = harness.start_thread().await;

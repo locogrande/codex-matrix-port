@@ -10,6 +10,7 @@ use pretty_assertions::assert_eq;
 use std::collections::HashMap;
 use std::collections::HashSet;
 use tempfile::TempDir;
+use matrix_test_macro as matrix;
 fn write_index(path: &Path, lines: &[SessionIndexEntry]) -> std::io::Result<()> {
     let mut out = String::new();
     for entry in lines {
@@ -73,7 +74,7 @@ fn find_thread_id_by_name_prefers_latest_entry() -> std::io::Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn find_thread_meta_by_name_str_skips_newest_entry_without_rollout() -> std::io::Result<()> {
     // A newer unsaved name entry should not shadow an older persisted rollout with the same name.
     let temp = TempDir::new()?;
@@ -109,7 +110,7 @@ async fn find_thread_meta_by_name_str_skips_newest_entry_without_rollout() -> st
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn find_thread_meta_by_name_str_skips_partial_rollout() -> std::io::Result<()> {
     let temp = TempDir::new()?;
     let path = session_index_path(temp.path());
@@ -143,7 +144,7 @@ async fn find_thread_meta_by_name_str_skips_partial_rollout() -> std::io::Result
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn find_thread_meta_by_name_str_ignores_historical_name_after_rename() -> std::io::Result<()>
 {
     let temp = TempDir::new()?;
@@ -228,7 +229,7 @@ fn scan_index_returns_none_when_entry_missing() -> std::io::Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn find_thread_names_by_ids_prefers_latest_entry() -> std::io::Result<()> {
     let temp = TempDir::new()?;
     let path = session_index_path(temp.path());

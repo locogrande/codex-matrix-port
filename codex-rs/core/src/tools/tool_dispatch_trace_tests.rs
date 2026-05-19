@@ -26,6 +26,7 @@ use crate::tools::registry::ToolExecutor;
 use crate::tools::registry::ToolRegistry;
 use crate::turn_diff_tracker::TurnDiffTracker;
 
+use matrix_test_macro as matrix;
 struct TestHandler {
     tool_name: codex_tools::ToolName,
 }
@@ -49,7 +50,7 @@ impl ToolExecutor<ToolInvocation> for TestHandler {
 
 impl CoreToolRuntime for TestHandler {}
 
-#[tokio::test]
+#[matrix::test]
 async fn dispatch_lifecycle_trace_records_direct_and_code_mode_requesters() -> anyhow::Result<()> {
     let temp = TempDir::new()?;
     let (mut session, turn) = make_session_and_context().await;
@@ -136,7 +137,7 @@ async fn dispatch_lifecycle_trace_records_direct_and_code_mode_requesters() -> a
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn dispatch_lifecycle_trace_records_unsupported_tool_failures() -> anyhow::Result<()> {
     let temp = TempDir::new()?;
     let (mut session, turn) = make_session_and_context().await;
@@ -166,7 +167,7 @@ async fn dispatch_lifecycle_trace_records_unsupported_tool_failures() -> anyhow:
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn dispatch_lifecycle_trace_records_incompatible_payload_failures() -> anyhow::Result<()> {
     let temp = TempDir::new()?;
     let (mut session, turn) = make_session_and_context().await;
@@ -200,7 +201,7 @@ async fn dispatch_lifecycle_trace_records_incompatible_payload_failures() -> any
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn missing_code_mode_wait_traces_only_the_wait_tool_call() -> anyhow::Result<()> {
     let temp = TempDir::new()?;
     let (mut session, turn) = make_session_and_context().await;

@@ -296,6 +296,7 @@ fn parse_error(message: impl Into<String>) -> ThreadConfigLoadError {
 
 #[cfg(test)]
 mod tests {
+    use matrix_test_macro as matrix;
     use std::collections::BTreeMap;
     use std::collections::HashMap;
     use std::num::NonZeroU64;
@@ -341,7 +342,7 @@ mod tests {
         }
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn load_thread_config_calls_remote_service() {
         let cwd = workspace_dir().join("project");
         let expected_cwd = cwd.to_string_lossy().into_owned();

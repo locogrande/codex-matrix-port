@@ -3,7 +3,8 @@ use pretty_assertions::assert_eq;
 use ratatui::Terminal;
 use ratatui::backend::TestBackend;
 
-#[tokio::test]
+use matrix_test_macro as matrix;
+#[matrix::test]
 async fn forked_thread_history_line_without_name_shows_id_once_snapshot() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
 
@@ -27,7 +28,7 @@ async fn forked_thread_history_line_without_name_shows_id_once_snapshot() {
     assert_chatwidget_snapshot!("forked_thread_history_line_without_name", combined);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn suppressed_interrupted_turn_notice_skips_history_warning() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     chat.thread_id = Some(ThreadId::new());
@@ -69,7 +70,7 @@ fn assert_side_rename_rejected(
     assert!(op_rx.try_recv().is_err(), "expected no rename op");
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn slash_rename_is_rejected_for_side_threads() {
     let (mut chat, mut rx, mut op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     chat.set_thread_rename_block_message(
@@ -80,7 +81,7 @@ async fn slash_rename_is_rejected_for_side_threads() {
     assert_side_rename_rejected(&mut rx, &mut op_rx);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn slash_rename_with_args_is_rejected_for_side_threads() {
     let (mut chat, mut rx, mut op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     chat.set_thread_rename_block_message(
@@ -91,7 +92,7 @@ async fn slash_rename_with_args_is_rejected_for_side_threads() {
     assert_side_rename_rejected(&mut rx, &mut op_rx);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn slash_commands_without_side_flag_are_rejected_for_side_threads() {
     let (mut chat, mut rx, mut op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     chat.set_side_conversation_active(/*active*/ true);
@@ -117,7 +118,7 @@ async fn slash_commands_without_side_flag_are_rejected_for_side_threads() {
     assert!(op_rx.try_recv().is_err(), "expected no review op");
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn slash_side_is_rejected_for_side_threads() {
     let (mut chat, mut rx, mut op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     chat.set_side_conversation_active(/*active*/ true);
@@ -146,7 +147,7 @@ async fn slash_side_is_rejected_for_side_threads() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn slash_side_is_rejected_during_review_mode() {
     let (mut chat, mut rx, mut op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     chat.review.is_review_mode = true;
@@ -173,7 +174,7 @@ async fn slash_side_is_rejected_during_review_mode() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn submit_user_message_as_plain_user_turn_does_not_run_shell_commands() {
     let (mut chat, _rx, mut op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     chat.thread_id = Some(ThreadId::new());
@@ -194,7 +195,7 @@ async fn submit_user_message_as_plain_user_turn_does_not_run_shell_commands() {
     }
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn slash_side_without_args_starts_empty_side_conversation() {
     let (mut chat, mut rx, mut op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     let parent_thread_id = ThreadId::new();
@@ -219,7 +220,7 @@ async fn slash_side_without_args_starts_empty_side_conversation() {
     assert!(chat.input_queue.queued_user_messages.is_empty());
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn slash_side_requests_forked_side_question_while_task_running() {
     let (mut chat, mut rx, mut op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     let parent_thread_id = ThreadId::new();
@@ -268,7 +269,7 @@ async fn slash_side_requests_forked_side_question_while_task_running() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn side_context_label_preserves_status_line_snapshot() {
     let (mut chat, _rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     chat.show_welcome_banner = false;
@@ -291,7 +292,7 @@ async fn side_context_label_preserves_status_line_snapshot() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn side_context_label_shows_parent_status_snapshot() {
     let (mut chat, _rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     chat.show_welcome_banner = false;

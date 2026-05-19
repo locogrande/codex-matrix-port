@@ -3,7 +3,8 @@ use anyhow::Context;
 use anyhow::Result;
 use tempfile::tempdir;
 
-#[tokio::test]
+use matrix_test_macro as matrix;
+#[matrix::test]
 async fn small_hook_output_remains_inline() -> Result<()> {
     let dir = tempdir()?;
     let output_dir = AbsolutePathBuf::from_absolute_path(dir.path())?.join(HOOK_OUTPUTS_DIR);
@@ -21,7 +22,7 @@ async fn small_hook_output_remains_inline() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn large_hook_output_spills_to_file() -> Result<()> {
     let dir = tempdir()?;
     let text = "hook output ".repeat(1_000);

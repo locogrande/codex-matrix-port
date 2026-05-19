@@ -4,6 +4,7 @@ use codex_model_provider_info::WireApi;
 use codex_protocol::models::DEFAULT_IMAGE_DETAIL;
 use pretty_assertions::assert_eq;
 
+use matrix_test_macro as matrix;
 async fn process_compacted_history_with_test_session(
     compacted_history: Vec<ResponseItem>,
     previous_turn_settings: Option<&PreviousTurnSettings>,
@@ -239,7 +240,7 @@ fn should_use_remote_compact_task_for_azure_provider() {
 
     assert!(should_use_remote_compact_task(&provider));
 }
-#[tokio::test]
+#[matrix::test]
 async fn process_compacted_history_replaces_developer_messages() {
     let compacted_history = vec![
         ResponseItem::Message {
@@ -283,7 +284,7 @@ async fn process_compacted_history_replaces_developer_messages() {
     assert_eq!(refreshed, expected);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn process_compacted_history_reinjects_full_initial_context() {
     let compacted_history = vec![ResponseItem::Message {
         id: None,
@@ -309,7 +310,7 @@ async fn process_compacted_history_reinjects_full_initial_context() {
     assert_eq!(refreshed, expected);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn process_compacted_history_drops_non_user_content_messages() {
     let compacted_history = vec![
         ResponseItem::Message {
@@ -382,7 +383,7 @@ keep me updated
     assert_eq!(refreshed, expected);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn process_compacted_history_drops_legacy_warnings() {
     let latest_user = user_message("latest user");
     let compacted_history = vec![
@@ -407,7 +408,7 @@ async fn process_compacted_history_drops_legacy_warnings() {
     assert_eq!(refreshed, expected);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn process_compacted_history_inserts_context_before_last_real_user_message_only() {
     let compacted_history = vec![
         ResponseItem::Message {
@@ -471,7 +472,7 @@ async fn process_compacted_history_inserts_context_before_last_real_user_message
     assert_eq!(refreshed, expected);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn process_compacted_history_reinjects_model_switch_message() {
     let compacted_history = vec![ResponseItem::Message {
         id: None,

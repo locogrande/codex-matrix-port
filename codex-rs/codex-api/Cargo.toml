@@ -29,6 +29,7 @@ tokio-util = { workspace = true, features = ["codec", "io"] }
 url = { workspace = true }
 
 [dev-dependencies]
+matrix-test-macro = { workspace = true }
 codex-test-support = { workspace = true }
 anyhow = { workspace = true }
 assert_matches = { workspace = true }

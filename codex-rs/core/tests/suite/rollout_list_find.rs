@@ -17,6 +17,7 @@ use codex_state::StateRuntime;
 use codex_state::ThreadMetadataBuilder;
 use uuid::Uuid;
 
+use matrix_test_macro as matrix;
 /// Create <subdir>/YYYY/MM/DD and write a minimal rollout file containing the
 /// provided conversation id in the SessionMeta line. Returns the absolute path.
 fn write_minimal_rollout_with_id_in_subdir(codex_home: &Path, subdir: &str, id: Uuid) -> PathBuf {
@@ -81,7 +82,7 @@ async fn upsert_thread_metadata(
     runtime
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn find_locates_rollout_file_by_id() {
     let home = TempDir::new().unwrap();
     let id = Uuid::new_v4();
@@ -95,7 +96,7 @@ async fn find_locates_rollout_file_by_id() {
     assert_eq!(found.unwrap(), expected);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn find_handles_gitignore_covering_codex_home_directory() {
     let repo = TempDir::new().unwrap();
     let codex_home = repo.path().join(".codex");
@@ -112,7 +113,7 @@ async fn find_handles_gitignore_covering_codex_home_directory() {
     assert_eq!(found, Some(expected));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn find_prefers_sqlite_path_by_id() {
     let home = TempDir::new().unwrap();
     let id = Uuid::new_v4();
@@ -132,7 +133,7 @@ async fn find_prefers_sqlite_path_by_id() {
     assert_eq!(found, Some(db_path));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn find_falls_back_to_filesystem_when_sqlite_has_no_match() {
     let home = TempDir::new().unwrap();
     let id = Uuid::new_v4();
@@ -151,7 +152,7 @@ async fn find_falls_back_to_filesystem_when_sqlite_has_no_match() {
     assert_eq!(found, Some(expected));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn find_ignores_granular_gitignore_rules() {
     let home = TempDir::new().unwrap();
     let id = Uuid::new_v4();
@@ -166,7 +167,7 @@ async fn find_ignores_granular_gitignore_rules() {
     assert_eq!(found, Some(expected));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn find_locates_rollout_file_written_by_recorder() -> std::io::Result<()> {
     // Ensures the name-based finder locates a rollout produced by the real recorder.
     let home = TempDir::new().unwrap();
@@ -216,7 +217,7 @@ async fn find_locates_rollout_file_written_by_recorder() -> std::io::Result<()> 
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn find_archived_locates_rollout_file_by_id() {
     let home = TempDir::new().unwrap();
     let id = Uuid::new_v4();

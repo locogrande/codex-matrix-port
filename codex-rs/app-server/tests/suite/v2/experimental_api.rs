@@ -20,9 +20,10 @@ use codex_app_server_protocol::ThreadStartResponse;
 use codex_protocol::protocol::RealtimeOutputModality;
 use tokio::time::timeout;
 
+use matrix_test_macro as matrix;
 const DEFAULT_TIMEOUT: Duration = Duration::from_secs(10);
 
-#[tokio::test]
+#[matrix::test]
 async fn mock_experimental_method_requires_experimental_api_capability() -> Result<()> {
     let codex_home = TempDir::new()?;
     let mut mcp = McpProcess::new(codex_home.path()).await?;
@@ -53,7 +54,7 @@ async fn mock_experimental_method_requires_experimental_api_capability() -> Resu
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn realtime_conversation_start_requires_experimental_api_capability() -> Result<()> {
     let codex_home = TempDir::new()?;
     let mut mcp = McpProcess::new(codex_home.path()).await?;
@@ -91,7 +92,7 @@ async fn realtime_conversation_start_requires_experimental_api_capability() -> R
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn thread_memory_mode_set_requires_experimental_api_capability() -> Result<()> {
     let codex_home = TempDir::new()?;
     let mut mcp = McpProcess::new(codex_home.path()).await?;
@@ -125,7 +126,7 @@ async fn thread_memory_mode_set_requires_experimental_api_capability() -> Result
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn realtime_webrtc_start_requires_experimental_api_capability() -> Result<()> {
     let codex_home = TempDir::new()?;
     let mut mcp = McpProcess::new(codex_home.path()).await?;
@@ -165,7 +166,7 @@ async fn realtime_webrtc_start_requires_experimental_api_capability() -> Result<
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn thread_start_mock_field_requires_experimental_api_capability() -> Result<()> {
     let server = create_mock_responses_server_sequence_unchecked(Vec::new()).await;
     let codex_home = TempDir::new()?;
@@ -202,7 +203,7 @@ async fn thread_start_mock_field_requires_experimental_api_capability() -> Resul
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn thread_start_without_dynamic_tools_allows_without_experimental_api_capability()
 -> Result<()> {
     let server = create_mock_responses_server_sequence_unchecked(Vec::new()).await;
@@ -239,7 +240,7 @@ async fn thread_start_without_dynamic_tools_allows_without_experimental_api_capa
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn thread_start_granular_approval_policy_requires_experimental_api_capability() -> Result<()>
 {
     let server = create_mock_responses_server_sequence_unchecked(Vec::new()).await;

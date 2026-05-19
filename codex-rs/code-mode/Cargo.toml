@@ -28,4 +28,5 @@ tracing = { workspace = true }
 v8 = { workspace = true }
 
 [dev-dependencies]
+matrix-test-macro = { workspace = true }
 pretty_assertions = { workspace = true }

@@ -21,6 +21,7 @@ use core_test_support::test_codex::test_codex;
 use futures::StreamExt;
 use wiremock::matchers::header;
 
+use matrix_test_macro as matrix;
 fn normalize_git_remote_url(url: &str) -> String {
     let normalized = url.trim().trim_end_matches('/');
     normalized
@@ -31,7 +32,7 @@ fn normalize_git_remote_url(url: &str) -> String {
 
 const TEST_INSTALLATION_ID: &str = "11111111-1111-4111-8111-111111111111";
 
-#[tokio::test]
+#[matrix::test]
 async fn responses_stream_includes_subagent_header_on_review() {
     core_test_support::skip_if_no_network!();
 
@@ -158,7 +159,7 @@ async fn responses_stream_includes_subagent_header_on_review() {
     assert_eq!(request.header("x-codex-sandbox"), None);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn responses_stream_includes_subagent_header_on_other() {
     core_test_support::skip_if_no_network!();
 
@@ -275,7 +276,7 @@ async fn responses_stream_includes_subagent_header_on_other() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn responses_respects_model_info_overrides_from_config() {
     core_test_support::skip_if_no_network!();
 
@@ -406,7 +407,7 @@ async fn responses_respects_model_info_overrides_from_config() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn responses_stream_includes_turn_metadata_header_for_git_workspace_e2e() {
     core_test_support::skip_if_no_network!();
 

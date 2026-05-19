@@ -29,10 +29,11 @@ use codex_app_server_protocol::UserInput as V2UserInput;
 use serde_json::json;
 use tokio::time::timeout;
 
+use matrix_test_macro as matrix;
 const DEFAULT_READ_TIMEOUT: std::time::Duration = std::time::Duration::from_secs(10);
 const INVALID_REQUEST_ERROR_CODE: i64 = -32600;
 
-#[tokio::test]
+#[matrix::test]
 async fn review_start_runs_review_turn_and_emits_code_review_item() -> Result<()> {
     let review_payload = json!({
         "findings": [
@@ -149,7 +150,7 @@ async fn review_start_runs_review_turn_and_emits_code_review_item() -> Result<()
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 #[ignore = "TODO(owenlin0): flaky"]
 async fn review_start_exec_approval_item_id_matches_command_execution_item() -> Result<()> {
     let responses = vec![
@@ -246,7 +247,7 @@ async fn review_start_exec_approval_item_id_matches_command_execution_item() -> 
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn review_start_rejects_empty_base_branch() -> Result<()> {
     let server = create_mock_responses_server_repeating_assistant("Done").await;
     let codex_home = TempDir::new()?;
@@ -281,7 +282,7 @@ async fn review_start_rejects_empty_base_branch() -> Result<()> {
 }
 
 #[cfg_attr(target_os = "windows", ignore = "flaky on windows CI")]
-#[tokio::test]
+#[matrix::test]
 async fn review_start_with_detached_delivery_returns_new_thread_id() -> Result<()> {
     let review_payload = json!({
         "findings": [],
@@ -366,7 +367,7 @@ async fn review_start_with_detached_delivery_returns_new_thread_id() -> Result<(
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn review_start_rejects_empty_commit_sha() -> Result<()> {
     let server = create_mock_responses_server_repeating_assistant("Done").await;
     let codex_home = TempDir::new()?;
@@ -401,7 +402,7 @@ async fn review_start_rejects_empty_commit_sha() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn review_start_rejects_empty_custom_instructions() -> Result<()> {
     let server = create_mock_responses_server_repeating_assistant("Done").await;
     let codex_home = TempDir::new()?;

@@ -204,6 +204,7 @@ pub async fn run_main(
 
 #[cfg(test)]
 mod tests {
+    use matrix_test_macro as matrix;
     use super::*;
     use codex_config::types::OtelExporterKind;
     use codex_core::config::ConfigBuilder;
@@ -216,7 +217,7 @@ mod tests {
         assert_eq!(DEFAULT_ANALYTICS_ENABLED, true);
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn mcp_server_builds_otel_provider_with_logs_traces_and_metrics() -> anyhow::Result<()> {
         let codex_home = TempDir::new()?;
         let mut config = ConfigBuilder::default()

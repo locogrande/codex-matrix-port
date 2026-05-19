@@ -2,6 +2,7 @@ use super::*;
 use std::path::PathBuf;
 use std::process::Command;
 
+use matrix_test_macro as matrix;
 #[test]
 #[cfg(target_os = "macos")]
 fn detects_zsh() {
@@ -146,7 +147,7 @@ fn derive_exec_args() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn test_current_shell_detects_zsh() {
     let shell = Command::new("sh")
         .arg("-c")
@@ -167,7 +168,7 @@ async fn test_current_shell_detects_zsh() {
     }
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn detects_powershell_as_default() {
     if !cfg!(windows) {
         return;

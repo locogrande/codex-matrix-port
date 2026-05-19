@@ -14,7 +14,8 @@ use wiremock::MockServer;
 use super::connection_handling_websocket::DEFAULT_READ_TIMEOUT;
 use super::connection_handling_websocket::create_config_toml;
 
-#[tokio::test]
+use matrix_test_macro as matrix;
+#[matrix::test]
 async fn process_spawn_returns_before_exit_and_emits_exit_notification() -> Result<()> {
     let codex_home = TempDir::new()?;
     let (_server, mut mcp) = initialized_mcp(codex_home.path()).await?;
@@ -97,7 +98,7 @@ async fn process_spawn_returns_before_exit_and_emits_exit_notification() -> Resu
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn process_spawn_reports_buffered_output_cap_reached() -> Result<()> {
     let codex_home = TempDir::new()?;
     let (_server, mut mcp) = initialized_mcp(codex_home.path()).await?;
@@ -146,7 +147,7 @@ async fn process_spawn_reports_buffered_output_cap_reached() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn process_kill_terminates_running_process() -> Result<()> {
     let codex_home = TempDir::new()?;
     let (_server, mut mcp) = initialized_mcp(codex_home.path()).await?;

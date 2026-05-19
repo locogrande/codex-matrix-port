@@ -11,6 +11,7 @@ use std::process::ExitStatus;
 use tokio::fs::create_dir_all;
 use tokio::process::Child;
 
+use matrix_test_macro as matrix;
 #[cfg(target_os = "macos")]
 async fn spawn_command_under_sandbox(
     command: Vec<String>,
@@ -164,7 +165,7 @@ async fn can_apply_linux_sandbox_policy(
         .unwrap_or(false)
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn python_multiprocessing_lock_works_under_sandbox() {
     core_test_support::skip_if_sandbox!();
     #[cfg(target_os = "linux")]
@@ -227,7 +228,7 @@ if __name__ == '__main__':
     assert!(status.success(), "python exited with {status:?}");
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn python_getpwuid_works_under_sandbox() {
     core_test_support::skip_if_sandbox!();
     #[cfg(target_os = "linux")]
@@ -273,7 +274,7 @@ async fn python_getpwuid_works_under_sandbox() {
     assert!(status.success(), "python exited with {status:?}");
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn sandbox_distinguishes_command_and_policy_cwds() {
     core_test_support::skip_if_sandbox!();
     #[cfg(target_os = "linux")]
@@ -364,7 +365,7 @@ async fn sandbox_distinguishes_command_and_policy_cwds() {
     assert!(allowed_exists, "allowed path should exist");
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn sandbox_blocks_first_time_dot_codex_creation() {
     core_test_support::skip_if_sandbox!();
     #[cfg(target_os = "linux")]
@@ -508,7 +509,7 @@ fn unix_sock_body() {
     }
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn allow_unix_socketpair_recvfrom() {
     run_code_under_sandbox(
         "allow_unix_socketpair_recvfrom",

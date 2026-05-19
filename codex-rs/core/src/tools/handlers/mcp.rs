@@ -285,6 +285,7 @@ mod search_tests;
 
 #[cfg(test)]
 mod tests {
+    use matrix_test_macro as matrix;
     use super::*;
     use crate::session::tests::make_session_and_context;
     use crate::tools::context::ToolCallSource;
@@ -294,7 +295,7 @@ mod tests {
     use std::time::Duration;
     use tokio::sync::Mutex;
 
-    #[tokio::test]
+    #[matrix::test]
     async fn mcp_pre_tool_use_payload_uses_model_tool_name_and_raw_args() {
         let payload = ToolPayload::Function {
             arguments: json!({
@@ -330,7 +331,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn mcp_pre_tool_use_payload_keeps_builtin_like_tool_names_namespaced() {
         let payload = ToolPayload::Function {
             arguments: json!({ "message": "hello" }).to_string(),
@@ -356,7 +357,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn mcp_updated_input_rewrites_builtin_like_tool_names_as_mcp() {
         let payload = ToolPayload::Function {
             arguments: json!({ "message": "hello" }).to_string(),
@@ -386,7 +387,7 @@ mod tests {
         assert_eq!(arguments, json!({ "message": "rewritten" }).to_string());
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn mcp_post_tool_use_payload_uses_model_tool_name_args_and_result() {
         let payload = ToolPayload::Function {
             arguments: json!({ "path": "/tmp/notes.txt" }).to_string(),

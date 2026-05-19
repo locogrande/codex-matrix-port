@@ -42,6 +42,7 @@ use tokio::task::JoinHandle;
 use tokio::time::sleep;
 use tokio::time::timeout;
 
+use matrix_test_macro as matrix;
 const CLOUD_REQUIREMENTS_TIMEOUT: Duration = Duration::from_secs(15);
 const CLOUD_REQUIREMENTS_MAX_ATTEMPTS: usize = 5;
 const CLOUD_REQUIREMENTS_CACHE_FILENAME: &str = "cloud-requirements-cache.json";
@@ -1144,7 +1145,7 @@ mod tests {
         }
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn fetch_cloud_requirements_skips_non_chatgpt_auth() {
         let auth_manager = auth_manager_with_api_key().await;
         let codex_home = tempdir().expect("tempdir");
@@ -1158,7 +1159,7 @@ mod tests {
         assert_eq!(result, Ok(None));
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn fetch_cloud_requirements_skips_non_business_or_enterprise_plan() {
         let codex_home = tempdir().expect("tempdir");
         let service = CloudRequirementsService::new(
@@ -1171,7 +1172,7 @@ mod tests {
         assert_eq!(result, Ok(None));
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn fetch_cloud_requirements_skips_team_like_usage_based_plan() {
         let codex_home = tempdir().expect("tempdir");
         let service = CloudRequirementsService::new(
@@ -1185,7 +1186,7 @@ mod tests {
         assert_eq!(service.fetch().await, Ok(None));
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn fetch_cloud_requirements_allows_business_plan() {
         let codex_home = tempdir().expect("tempdir");
         let service = CloudRequirementsService::new(
@@ -1219,7 +1220,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn cloud_requirements_eligible_auth_allows_agent_identity_business_plan() {
         let listener = TcpListener::bind("127.0.0.1:0").expect("bind task registration server");
         let addr = listener
@@ -1268,7 +1269,7 @@ mod tests {
         assert!(cloud_requirements_eligible_auth(&auth));
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn fetch_cloud_requirements_allows_business_like_usage_based_plan() {
         let codex_home = tempdir().expect("tempdir");
         let service = CloudRequirementsService::new(
@@ -1302,7 +1303,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn fetch_cloud_requirements_allows_hc_plan_as_enterprise() {
         let codex_home = tempdir().expect("tempdir");
         let service = CloudRequirementsService::new(
@@ -1336,31 +1337,31 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn fetch_cloud_requirements_handles_missing_contents() {
         let result = parse_for_fetch(/*contents*/ None);
         assert!(result.is_none());
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn fetch_cloud_requirements_handles_empty_contents() {
         let result = parse_for_fetch(Some("   "));
         assert!(result.is_none());
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn fetch_cloud_requirements_handles_invalid_toml() {
         let result = parse_for_fetch(Some("not = ["));
         assert!(result.is_none());
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn fetch_cloud_requirements_ignores_empty_requirements() {
         let result = parse_for_fetch(Some("# comment"));
         assert!(result.is_none());
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn fetch_cloud_requirements_parses_valid_toml() {
         let result = parse_for_fetch(Some("allowed_approval_policies = [\"never\"]"));
 
@@ -1387,7 +1388,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn fetch_cloud_requirements_parses_apps_requirements_toml() {
         let result = parse_for_fetch(Some(
             r#"
@@ -1413,7 +1414,7 @@ enabled = false
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn fetch_cloud_requirements_parses_apps_tool_requirements_toml() {
         let result = parse_for_fetch(Some(
             r#"
@@ -1446,7 +1447,7 @@ approval_mode = "approve"
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn fetch_cloud_requirements_parses_plugin_mcp_requirements_toml() {
         let result = parse_for_fetch(Some(
             r#"
@@ -1539,7 +1540,7 @@ command = "sample-mcp"
         assert_eq!(fetcher.request_count.load(Ordering::SeqCst), 2);
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn fetch_cloud_requirements_recovers_after_unauthorized_reload() {
         let auth_home = tempdir().expect("tempdir");
         write_auth_json(
@@ -1620,7 +1621,7 @@ command = "sample-mcp"
         assert_eq!(fetcher.request_count.load(Ordering::SeqCst), 2);
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn fetch_cloud_requirements_recovers_after_unauthorized_reload_updates_cache_identity() {
         let auth_home = tempdir().expect("tempdir");
         write_auth_json(
@@ -1712,7 +1713,7 @@ command = "sample-mcp"
         assert_eq!(fetcher.request_count.load(Ordering::SeqCst), 2);
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn fetch_cloud_requirements_surfaces_auth_recovery_message() {
         let auth = managed_auth_context(
             "enterprise",
@@ -1757,7 +1758,7 @@ command = "sample-mcp"
         assert_eq!(fetcher.request_count.load(Ordering::SeqCst), 1);
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn fetch_cloud_requirements_unauthorized_without_recovery_uses_generic_message() {
         let auth_home = tempdir().expect("tempdir");
         write_auth_json(
@@ -1810,7 +1811,7 @@ command = "sample-mcp"
         assert_eq!(fetcher.request_count.load(Ordering::SeqCst), 1);
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn fetch_cloud_requirements_parse_error_does_not_retry() {
         let fetcher = Arc::new(SequenceFetcher::new(vec![
             Ok(Some("not = [".to_string())),
@@ -1836,7 +1837,7 @@ command = "sample-mcp"
         assert_eq!(fetcher.request_count.load(Ordering::SeqCst), 1);
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn fetch_cloud_requirements_invalid_enum_value_surfaces_field_name() {
         let fetcher = Arc::new(SequenceFetcher::new(vec![Ok(Some(
             "allowed_approval_policies = [\"definitely-not-valid\"]".to_string(),
@@ -1861,7 +1862,7 @@ command = "sample-mcp"
         assert_eq!(err.code(), CloudRequirementsLoadErrorCode::Parse);
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn fetch_cloud_requirements_uses_cache_when_valid() {
         let codex_home = tempdir().expect("tempdir");
         let prime_service = CloudRequirementsService::new(
@@ -1906,7 +1907,7 @@ command = "sample-mcp"
         assert_eq!(fetcher.request_count.load(Ordering::SeqCst), 0);
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn fetch_cloud_requirements_writes_cache_when_identity_is_incomplete() {
         let codex_home = tempdir().expect("tempdir");
         let service = CloudRequirementsService::new(
@@ -1956,7 +1957,7 @@ command = "sample-mcp"
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn fetch_cloud_requirements_does_not_use_cache_when_auth_identity_is_incomplete() {
         let codex_home = tempdir().expect("tempdir");
         let prime_service = CloudRequirementsService::new(
@@ -2008,7 +2009,7 @@ command = "sample-mcp"
         assert_eq!(fetcher.request_count.load(Ordering::SeqCst), 1);
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn fetch_cloud_requirements_ignores_cache_for_different_auth_identity() {
         let codex_home = tempdir().expect("tempdir");
         let prime_service = CloudRequirementsService::new(
@@ -2065,7 +2066,7 @@ command = "sample-mcp"
         assert_eq!(fetcher.request_count.load(Ordering::SeqCst), 1);
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn fetch_cloud_requirements_ignores_tampered_cache() {
         let codex_home = tempdir().expect("tempdir");
         let prime_service = CloudRequirementsService::new(
@@ -2124,7 +2125,7 @@ command = "sample-mcp"
         assert_eq!(fetcher.request_count.load(Ordering::SeqCst), 1);
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn fetch_cloud_requirements_ignores_expired_cache() {
         let codex_home = tempdir().expect("tempdir");
         let path = codex_home.path().join(CLOUD_REQUIREMENTS_CACHE_FILENAME);
@@ -2184,7 +2185,7 @@ command = "sample-mcp"
         assert_eq!(fetcher.request_count.load(Ordering::SeqCst), 1);
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn fetch_cloud_requirements_writes_signed_cache() {
         let codex_home = tempdir().expect("tempdir");
         let service = CloudRequirementsService::new(
@@ -2248,7 +2249,7 @@ command = "sample-mcp"
         ));
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn fetch_cloud_requirements_none_is_success_without_retry() {
         let fetcher = Arc::new(SequenceFetcher::new(vec![Ok(None), Err(request_error())]));
         let codex_home = tempdir().expect("tempdir");
@@ -2294,7 +2295,7 @@ command = "sample-mcp"
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn refresh_from_remote_updates_cached_cloud_requirements() {
         let codex_home = tempdir().expect("tempdir");
         let fetcher = Arc::new(SequenceFetcher::new(vec![

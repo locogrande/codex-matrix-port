@@ -485,6 +485,7 @@ fn status_after_budget_limit(
 
 #[cfg(test)]
 mod tests {
+    use matrix_test_macro as matrix;
     use super::*;
     use crate::runtime::test_support::test_thread_metadata;
     use crate::runtime::test_support::unique_temp_dir;
@@ -512,7 +513,7 @@ mod tests {
             .expect("test thread should be upserted");
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn replace_update_and_get_thread_goal() {
         let runtime = test_runtime().await;
         let thread_id = test_thread_id();
@@ -579,7 +580,7 @@ mod tests {
         assert!(!runtime.delete_thread_goal(thread_id).await.unwrap());
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn replace_thread_goal_sets_preview_when_empty() {
         let runtime = test_runtime().await;
         let thread_id = test_thread_id();
@@ -614,7 +615,7 @@ mod tests {
         assert_eq!(metadata.first_user_message, None);
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn replace_thread_goal_applies_budget_limit_immediately() {
         let runtime = test_runtime().await;
         let thread_id = test_thread_id();
@@ -636,7 +637,7 @@ mod tests {
         assert_eq!(0, replaced.time_used_seconds);
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn insert_thread_goal_does_not_replace_existing_goal() {
         let runtime = test_runtime().await;
         let thread_id = test_thread_id();
@@ -670,7 +671,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn insert_thread_goal_applies_budget_limit_immediately() {
         let runtime = test_runtime().await;
         let thread_id = test_thread_id();
@@ -693,7 +694,7 @@ mod tests {
         assert_eq!(0, inserted.time_used_seconds);
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn update_thread_goal_ignores_replaced_goal_version() {
         let runtime = test_runtime().await;
         let thread_id = test_thread_id();
@@ -756,7 +757,7 @@ mod tests {
         assert_eq!(crate::ThreadGoalStatus::Complete, fresh_update.status);
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn usage_accounting_ignores_replaced_goal_version() {
         let runtime = test_runtime().await;
         let thread_id = test_thread_id();
@@ -802,7 +803,7 @@ mod tests {
         assert_eq!(0, goal.time_used_seconds);
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn update_thread_goal_objective_preserves_usage_and_created_at() {
         let runtime = test_runtime().await;
         let thread_id = test_thread_id();
@@ -854,7 +855,7 @@ mod tests {
         assert_eq!(expected, updated);
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn concurrent_partial_updates_preserve_independent_fields() {
         let runtime = test_runtime().await;
         let thread_id = test_thread_id();
@@ -900,7 +901,7 @@ mod tests {
         assert_eq!(Some(200_000), goal.token_budget);
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn pause_active_thread_goal_does_not_clobber_terminal_status() {
         let runtime = test_runtime().await;
         let thread_id = test_thread_id();
@@ -954,7 +955,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn usage_accounting_updates_active_goals_and_accounts_budget_limited_in_flight_usage() {
         let runtime = test_runtime().await;
         let thread_id = test_thread_id();
@@ -1021,7 +1022,7 @@ mod tests {
         assert_eq!(15, goal.time_used_seconds);
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn active_status_only_usage_accounting_does_not_update_budget_limited_goals() {
         let runtime = test_runtime().await;
         let thread_id = test_thread_id();
@@ -1054,7 +1055,7 @@ mod tests {
         assert_eq!(0, goal.time_used_seconds);
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn stopped_usage_accounting_promotes_paused_goal_over_budget() {
         let runtime = test_runtime().await;
         let thread_id = test_thread_id();
@@ -1099,7 +1100,7 @@ mod tests {
         assert_eq!(3, goal.time_used_seconds);
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn budget_updates_immediately_stop_active_goals_already_over_budget() {
         let runtime = test_runtime().await;
         let thread_id = test_thread_id();
@@ -1143,7 +1144,7 @@ mod tests {
         assert_eq!(50, lowered.tokens_used);
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn activating_goal_already_over_budget_keeps_it_budget_limited() {
         let runtime = test_runtime().await;
         let thread_id = test_thread_id();
@@ -1191,7 +1192,7 @@ mod tests {
         assert_eq!(50, reactivated.tokens_used);
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn pausing_budget_limited_goal_preserves_terminal_status() {
         let runtime = test_runtime().await;
         let thread_id = test_thread_id();
@@ -1235,7 +1236,7 @@ mod tests {
         assert_eq!(50, paused.tokens_used);
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn usage_accounting_can_finalize_completed_goal_for_completing_turn() {
         let runtime = test_runtime().await;
         let thread_id = test_thread_id();
@@ -1285,7 +1286,7 @@ mod tests {
         assert_eq!(30, goal.time_used_seconds);
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn usage_accounting_can_finalize_stopped_goal_for_in_flight_turn() {
         let runtime = test_runtime().await;
         let thread_id = test_thread_id();
@@ -1348,7 +1349,7 @@ mod tests {
         assert_eq!(30, goal.time_used_seconds);
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn usage_accounting_adds_concurrent_token_deltas() {
         let runtime = test_runtime().await;
         let thread_id = test_thread_id();
@@ -1390,7 +1391,7 @@ mod tests {
         assert_eq!(10, goal.time_used_seconds);
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn deleting_thread_deletes_goal() {
         let runtime = test_runtime().await;
         let thread_id = test_thread_id();

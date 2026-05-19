@@ -65,6 +65,7 @@ use wiremock::matchers::method;
 use wiremock::matchers::path;
 use wiremock::matchers::path_regex;
 
+use matrix_test_macro as matrix;
 const DEFAULT_TIMEOUT: Duration = Duration::from_secs(10);
 const DELEGATED_SHELL_TOOL_TIMEOUT_MS: u64 = 30_000;
 const STARTUP_CONTEXT_HEADER: &str = "Startup context from Codex.";
@@ -454,7 +455,7 @@ fn v2_background_agent_tool_call(call_id: &str, prompt: &str) -> Value {
     })
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn realtime_conversation_streams_v2_notifications() -> Result<()> {
     skip_if_no_network!(Ok(()));
 
@@ -739,7 +740,7 @@ async fn realtime_conversation_streams_v2_notifications() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn realtime_text_output_modality_requests_text_output_and_final_transcript() -> Result<()> {
     skip_if_no_network!(Ok(()));
 
@@ -873,7 +874,7 @@ async fn realtime_text_output_modality_requests_text_output_and_final_transcript
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn realtime_list_voices_returns_supported_names() -> Result<()> {
     let codex_home = TempDir::new()?;
     create_config_toml(
@@ -933,7 +934,7 @@ async fn realtime_list_voices_returns_supported_names() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn realtime_conversation_stop_emits_closed_notification() -> Result<()> {
     skip_if_no_network!(Ok(()));
 
@@ -1016,7 +1017,7 @@ async fn realtime_conversation_stop_emits_closed_notification() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn realtime_webrtc_start_emits_sdp_notification() -> Result<()> {
     skip_if_no_network!(Ok(()));
 
@@ -1179,7 +1180,7 @@ async fn realtime_webrtc_start_emits_sdp_notification() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn webrtc_v1_start_posts_offer_returns_sdp_and_joins_sideband() -> Result<()> {
     skip_if_no_network!(Ok(()));
 
@@ -1240,7 +1241,7 @@ async fn webrtc_v1_start_posts_offer_returns_sdp_and_joins_sideband() -> Result<
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn webrtc_v1_handoff_request_delegates_and_appends_result() -> Result<()> {
     skip_if_no_network!(Ok(()));
 
@@ -1322,7 +1323,7 @@ async fn webrtc_v1_handoff_request_delegates_and_appends_result() -> Result<()> 
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn webrtc_v2_forwards_audio_and_text_between_client_and_sideband() -> Result<()> {
     skip_if_no_network!(Ok(()));
 
@@ -1405,7 +1406,7 @@ async fn webrtc_v2_forwards_audio_and_text_between_client_and_sideband() -> Resu
 ///
 /// Text input is append-only, so app-server should send the user message without
 /// requesting a new realtime response.
-#[tokio::test]
+#[matrix::test]
 async fn webrtc_v2_text_input_is_append_only_while_response_is_active() -> Result<()> {
     skip_if_no_network!(Ok(()));
 
@@ -1479,7 +1480,7 @@ async fn webrtc_v2_text_input_is_append_only_while_response_is_active() -> Resul
 
 /// Regression coverage for append-only Realtime V2 text input when the active
 /// response is cancelled instead of completed.
-#[tokio::test]
+#[matrix::test]
 async fn webrtc_v2_text_input_is_append_only_when_response_is_cancelled() -> Result<()> {
     skip_if_no_network!(Ok(()));
 
@@ -1540,7 +1541,7 @@ async fn webrtc_v2_text_input_is_append_only_when_response_is_cancelled() -> Res
 /// Once the background agent finishes, app-server sends the final function-call
 /// output to realtime and then requests a new `response.create` so realtime can
 /// react to that final output.
-#[tokio::test]
+#[matrix::test]
 async fn webrtc_v2_background_agent_tool_call_delegates_and_returns_function_output() -> Result<()>
 {
     skip_if_no_network!(Ok(()));
@@ -1729,7 +1730,7 @@ async fn webrtc_v2_background_agent_steering_ack_requests_response_create() -> R
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn webrtc_v2_background_agent_progress_is_sent_before_function_output() -> Result<()> {
     skip_if_no_network!(Ok(()));
 
@@ -1771,7 +1772,7 @@ async fn webrtc_v2_background_agent_progress_is_sent_before_function_output() ->
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn webrtc_v2_tool_call_delegated_turn_can_execute_shell_tool() -> Result<()> {
     skip_if_no_network!(Ok(()));
 
@@ -1945,7 +1946,7 @@ async fn webrtc_v2_tool_call_does_not_block_sideband_audio() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn realtime_webrtc_start_surfaces_backend_error() -> Result<()> {
     skip_if_no_network!(Ok(()));
 
@@ -2012,7 +2013,7 @@ async fn realtime_webrtc_start_surfaces_backend_error() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn realtime_conversation_requires_feature_flag() -> Result<()> {
     skip_if_no_network!(Ok(()));
 

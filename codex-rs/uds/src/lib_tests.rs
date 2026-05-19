@@ -6,7 +6,8 @@ use tokio::io::AsyncWriteExt;
 
 use super::*;
 
-#[tokio::test]
+use matrix_test_macro as matrix;
+#[matrix::test]
 async fn prepare_private_socket_directory_creates_directory() {
     let temp_dir = tempfile::TempDir::new().expect("temp dir");
     let socket_dir = temp_dir.path().join("app-server-control");
@@ -19,7 +20,7 @@ async fn prepare_private_socket_directory_creates_directory() {
 }
 
 #[cfg(unix)]
-#[tokio::test]
+#[matrix::test]
 async fn prepare_private_socket_directory_sets_existing_permissions_to_owner_only() {
     use std::os::unix::fs::PermissionsExt;
 
@@ -43,7 +44,7 @@ async fn prepare_private_socket_directory_sets_existing_permissions_to_owner_onl
 }
 
 #[cfg(unix)]
-#[tokio::test]
+#[matrix::test]
 async fn regular_file_path_is_not_stale_socket_path() {
     let temp_dir = tempfile::TempDir::new().expect("temp dir");
     let regular_file = temp_dir.path().join("not-a-socket");
@@ -56,7 +57,7 @@ async fn regular_file_path_is_not_stale_socket_path() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn bound_listener_path_is_stale_socket_path() {
     let temp_dir = tempfile::TempDir::new().expect("temp dir");
     let socket_path = temp_dir.path().join("socket");
@@ -76,7 +77,7 @@ async fn bound_listener_path_is_stale_socket_path() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn stream_round_trips_data_between_listener_and_client() {
     let temp_dir = tempfile::TempDir::new().expect("temp dir");
     let socket_path = temp_dir.path().join("socket");

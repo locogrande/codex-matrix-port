@@ -18,6 +18,7 @@ use http::HeaderMap;
 use http::StatusCode;
 use serde_json::Value;
 
+use matrix_test_macro as matrix;
 #[derive(Clone)]
 struct FixtureSseTransport {
     body: String,
@@ -87,7 +88,7 @@ fn build_responses_body(events: Vec<Value>) -> String {
     body
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn responses_stream_parses_items_and_completed_end_to_end() -> Result<()> {
     let item1 = serde_json::json!({
         "type": "response.output_item.done",

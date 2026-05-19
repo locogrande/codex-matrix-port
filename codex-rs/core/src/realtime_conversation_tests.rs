@@ -8,6 +8,7 @@ use codex_protocol::protocol::RealtimeHandoffRequested;
 use codex_protocol::protocol::RealtimeTranscriptEntry;
 use pretty_assertions::assert_eq;
 
+use matrix_test_macro as matrix;
 #[test]
 fn prefers_handoff_input_transcript_over_active_transcript() {
     let handoff = RealtimeHandoffRequested {
@@ -123,7 +124,7 @@ fn wraps_realtime_delegation_input_with_xml_escaping_without_transcript() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn clears_active_handoff_explicitly() {
     let (tx, _rx) = bounded(1);
     let state = RealtimeHandoffState::new(tx, RealtimeSessionKind::V1);

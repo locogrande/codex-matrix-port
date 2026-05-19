@@ -374,13 +374,14 @@ pub(crate) async fn handle_external_agent_config_migration_prompt_if_needed(
 
 #[cfg(test)]
 mod tests {
+    use matrix_test_macro as matrix;
     use super::*;
     use codex_app_server_protocol::ExternalAgentConfigMigrationItemType;
     use pretty_assertions::assert_eq;
     use std::path::PathBuf;
     use tempfile::tempdir;
 
-    #[tokio::test]
+    #[matrix::test]
     async fn visible_external_agent_config_migration_items_omits_hidden_scopes() {
         let codex_home = tempdir().expect("temp codex home");
         let mut config = ConfigBuilder::default()
@@ -431,7 +432,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn visible_external_agent_config_migration_items_omits_recently_prompted_scopes() {
         let codex_home = tempdir().expect("temp codex home");
         let mut config = ConfigBuilder::default()
@@ -486,7 +487,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn external_config_migration_scope_cooldown_expires_after_five_days() {
         let codex_home = tempdir().expect("temp codex home");
         let mut config = ConfigBuilder::default()
@@ -547,7 +548,7 @@ mod tests {
         assert_eq!(message, "External config migration completed successfully.");
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn external_agent_config_migration_prompt_requires_trust_nux_entry() {
         let codex_home = tempdir().expect("temp codex home");
         let mut config = ConfigBuilder::default()

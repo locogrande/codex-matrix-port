@@ -14,9 +14,10 @@ use tokio::time::timeout;
 use uuid::Uuid;
 use codex_paths;
 
+use matrix_test_macro as matrix;
 const DEFAULT_READ_TIMEOUT: std::time::Duration = std::time::Duration::from_secs(10);
 
-#[tokio::test]
+#[matrix::test]
 async fn memory_reset_clears_memory_files_and_rows_preserves_threads() -> Result<()> {
     let codex_home = TempDir::new()?;
     create_config_toml(codex_home.path())?;

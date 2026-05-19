@@ -13,6 +13,7 @@ use pretty_assertions::assert_eq;
 use std::path::PathBuf;
 use tempfile::tempdir;
 
+use matrix_test_macro as matrix;
 const FIXED_PREFIX: &str = "2025-02-11T15-35-19-jqmb";
 
 fn stage1_output_with_slug(thread_id: ThreadId, rollout_slug: Option<&str>) -> Stage1Output {
@@ -68,7 +69,7 @@ fn rollout_summary_file_stem_uses_uuid_timestamp_and_hash_when_slug_is_empty() {
     assert_eq!(rollout_summary_file_stem(&memory), FIXED_PREFIX);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn sync_rollout_summaries_and_raw_memories_file_keeps_latest_memories_only() {
     let dir = tempdir().expect("tempdir");
     let root = dir.path().join("memory");

@@ -116,6 +116,7 @@ impl App {
 
 #[cfg(test)]
 mod tests {
+    use matrix_test_macro as matrix;
     use super::*;
     use crate::app::side::SideThreadState;
     use crate::app::test_support::make_test_app;
@@ -159,7 +160,7 @@ mod tests {
         }
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn permission_settings_sync_updates_active_snapshot_without_rewriting_side_thread() {
         let mut app = make_test_app().await;
         let main_thread_id =
@@ -250,7 +251,7 @@ mod tests {
         assert_eq!(side_store_session, Some(side_session));
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn permission_settings_sync_preserves_active_profile_only_rules() {
         let mut app = make_test_app().await;
         let thread_id =
@@ -316,7 +317,7 @@ mod tests {
         assert_eq!(store_session, Some(expected_session));
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn thread_read_fallback_uses_active_permission_settings() {
         let mut app = make_test_app().await;
         let primary_thread_id =

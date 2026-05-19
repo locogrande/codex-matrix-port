@@ -30,6 +30,7 @@ use serde_json::json;
 use tokio::time::timeout;
 use wiremock::MockServer;
 
+use matrix_test_macro as matrix;
 // macOS and Windows Bazel CI can spend tens of seconds starting app-server
 // subprocesses or processing test RPCs under load.
 #[cfg(any(target_os = "macos", windows))]
@@ -38,7 +39,7 @@ const DEFAULT_READ_TIMEOUT: Duration = Duration::from_secs(60);
 const DEFAULT_READ_TIMEOUT: Duration = Duration::from_secs(10);
 
 /// Ensures dynamic tool specs are serialized into the model request payload.
-#[tokio::test]
+#[matrix::test]
 async fn thread_start_injects_dynamic_tools_into_model_requests() -> Result<()> {
     let responses = vec![create_final_assistant_message_sse_response("Done")?];
     let server = create_mock_responses_server_sequence_unchecked(responses).await;
@@ -121,7 +122,7 @@ async fn thread_start_injects_dynamic_tools_into_model_requests() -> Result<()> 
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn thread_start_keeps_hidden_dynamic_tools_out_of_model_requests() -> Result<()> {
     let responses = vec![create_final_assistant_message_sse_response("Done")?];
     let server = create_mock_responses_server_sequence_unchecked(responses).await;
@@ -194,7 +195,7 @@ async fn thread_start_keeps_hidden_dynamic_tools_out_of_model_requests() -> Resu
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn thread_start_rejects_hidden_dynamic_tools_without_namespace() -> Result<()> {
     let server = MockServer::start().await;
 
@@ -234,7 +235,7 @@ async fn thread_start_rejects_hidden_dynamic_tools_without_namespace() -> Result
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn thread_start_rejects_dynamic_tools_not_supported_by_responses() -> Result<()> {
     let server = MockServer::start().await;
 
@@ -275,7 +276,7 @@ async fn thread_start_rejects_dynamic_tools_not_supported_by_responses() -> Resu
 }
 
 /// Exercises the full dynamic tool call path (server request, client response, model output).
-#[tokio::test]
+#[matrix::test]
 async fn dynamic_tool_call_round_trip_sends_text_content_items_to_model() -> Result<()> {
     let call_id = "dyn-call-1";
     let tool_namespace = "codex_app";
@@ -461,7 +462,7 @@ async fn dynamic_tool_call_round_trip_sends_text_content_items_to_model() -> Res
 }
 
 /// Ensures dynamic tool call responses can include structured content items.
-#[tokio::test]
+#[matrix::test]
 async fn dynamic_tool_call_round_trip_sends_content_items_to_model() -> Result<()> {
     let call_id = "dyn-call-items-1";
     let tool_name = "demo_tool";

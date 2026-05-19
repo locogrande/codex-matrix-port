@@ -179,11 +179,12 @@ fn preserve_decor(existing: &TomlItem, replacement: &mut TomlItem) {
 
 #[cfg(test)]
 mod tests {
+    use matrix_test_macro as matrix;
     use super::*;
     use pretty_assertions::assert_eq;
     use tempfile::TempDir;
 
-    #[tokio::test]
+    #[matrix::test]
     async fn set_user_plugin_enabled_writes_plugin_entry() {
         let codex_home = TempDir::new().unwrap();
 
@@ -206,7 +207,7 @@ enabled = true
         assert_eq!(config, expected);
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn set_user_plugin_enabled_preserves_existing_plugin_fields() {
         let codex_home = TempDir::new().unwrap();
         fs::write(
@@ -239,7 +240,7 @@ source = "/tmp/plugin"
         assert_eq!(config, expected);
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn clear_user_plugin_removes_empty_plugins_table() {
         let codex_home = TempDir::new().unwrap();
         fs::write(
@@ -261,7 +262,7 @@ enabled = true
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn clear_user_plugin_missing_entry_does_not_create_config() {
         let codex_home = TempDir::new().unwrap();
 
@@ -272,7 +273,7 @@ enabled = true
         assert!(!codex_home.path().join(CONFIG_TOML_FILE).exists());
     }
 
-    #[tokio::test]
+    #[matrix::test]
     #[cfg(unix)]
     async fn set_user_plugin_enabled_follows_config_symlink() {
         use std::os::unix::fs::symlink;

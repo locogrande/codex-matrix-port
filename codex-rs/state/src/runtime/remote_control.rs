@@ -122,12 +122,13 @@ WHERE websocket_url = ? AND account_id = ? AND app_server_client_name = ?
 
 #[cfg(test)]
 mod tests {
+    use matrix_test_macro as matrix;
     use super::RemoteControlEnrollmentRecord;
     use super::StateRuntime;
     use super::test_support::unique_temp_dir;
     use pretty_assertions::assert_eq;
 
-    #[tokio::test]
+    #[matrix::test]
     async fn remote_control_enrollment_round_trips_by_target_and_account() {
         let codex_home = unique_temp_dir();
         let runtime = StateRuntime::init(codex_home.clone(), "test-provider".to_string())
@@ -204,7 +205,7 @@ mod tests {
         let _ = tokio::fs::remove_dir_all(codex_home).await;
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn delete_remote_control_enrollment_removes_only_matching_entry() {
         let codex_home = unique_temp_dir();
         let runtime = StateRuntime::init(codex_home.clone(), "test-provider".to_string())

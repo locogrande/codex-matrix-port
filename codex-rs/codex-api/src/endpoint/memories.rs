@@ -12,6 +12,7 @@ use serde::Deserialize;
 use serde_json::to_value;
 use std::sync::Arc;
 
+use matrix_test_macro as matrix;
 pub struct MemoriesClient<T: HttpTransport> {
     session: EndpointSession<T>,
 }
@@ -163,7 +164,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn summarize_input_posts_expected_payload_and_parses_output() {
         let transport = CapturingTransport::new(
             serde_json::to_vec(&json!({

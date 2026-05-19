@@ -826,6 +826,7 @@ fn normalize_realtime_path(url: &mut Url) {
 
 #[cfg(test)]
 mod tests {
+    use matrix_test_macro as matrix;
     use super::*;
     use crate::endpoint::realtime_websocket::protocol::RealtimeTranscriptEntry;
     use codex_protocol::protocol::RealtimeHandoffRequested;
@@ -1512,7 +1513,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn e2e_connect_and_exchange_events_against_mock_ws_server() {
         let listener = TcpListener::bind("127.0.0.1:0").await.expect("bind");
         let addr = listener.local_addr().expect("local addr");
@@ -1805,7 +1806,7 @@ mod tests {
         server.await.expect("server task");
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn realtime_v2_session_update_includes_background_agent_tool_and_handoff_output_item() {
         let listener = TcpListener::bind("127.0.0.1:0").await.expect("bind");
         let addr = listener.local_addr().expect("local addr");
@@ -2013,7 +2014,7 @@ mod tests {
         server.await.expect("server task");
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn transcription_mode_session_update_omits_output_audio_and_instructions() {
         let listener = TcpListener::bind("127.0.0.1:0").await.expect("bind");
         let addr = listener.local_addr().expect("local addr");
@@ -2127,7 +2128,7 @@ mod tests {
         server.await.expect("server task");
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn v1_transcription_mode_is_treated_as_conversational() {
         let listener = TcpListener::bind("127.0.0.1:0").await.expect("bind");
         let addr = listener.local_addr().expect("local addr");
@@ -2220,7 +2221,7 @@ mod tests {
         server.await.expect("server task");
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn send_does_not_block_while_next_event_waits_for_inbound_data() {
         let listener = TcpListener::bind("127.0.0.1:0").await.expect("bind");
         let addr = listener.local_addr().expect("local addr");

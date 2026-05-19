@@ -29,6 +29,7 @@ use super::ToolRouter;
 use super::ToolRouterParams;
 use super::extension_tool_executors;
 
+use matrix_test_macro as matrix;
 struct ExtensionEchoContributor;
 
 impl codex_extension_api::ToolContributor for ExtensionEchoContributor {
@@ -92,7 +93,7 @@ fn extension_tool_test_registry() -> Arc<ExtensionRegistry<Config>> {
     Arc::new(builder.build())
 }
 
-#[tokio::test]
+#[matrix::test]
 #[expect(
     clippy::await_holding_invalid_type,
     reason = "test builds a router from session-owned MCP manager state"
@@ -141,7 +142,7 @@ async fn parallel_support_does_not_match_namespaced_local_tool_names() -> anyhow
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn build_tool_call_uses_namespace_for_registry_name() -> anyhow::Result<()> {
     let tool_name = "create_event".to_string();
 
@@ -169,7 +170,7 @@ async fn build_tool_call_uses_namespace_for_registry_name() -> anyhow::Result<()
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn mcp_parallel_support_uses_handler_data() -> anyhow::Result<()> {
     let (_, turn) = make_session_and_context().await;
     let router = ToolRouter::from_config(
@@ -217,7 +218,7 @@ async fn mcp_parallel_support_uses_handler_data() -> anyhow::Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn tools_without_handlers_do_not_support_parallel() -> anyhow::Result<()> {
     let (_, turn) = make_session_and_context().await;
     let router = ToolRouter::from_config(
@@ -242,7 +243,7 @@ async fn tools_without_handlers_do_not_support_parallel() -> anyhow::Result<()> 
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn specs_filter_deferred_dynamic_tools() -> anyhow::Result<()> {
     let (_, turn) = make_session_and_context().await;
     let hidden_tool = "hidden_dynamic_tool";
@@ -323,7 +324,7 @@ fn mcp_tool_info(
     }
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn extension_tool_executors_are_model_visible_and_dispatchable() -> anyhow::Result<()> {
     let (mut session, turn) = make_session_and_context().await;
     session.services.extensions = extension_tool_test_registry();

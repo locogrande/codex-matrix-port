@@ -184,6 +184,7 @@ async fn list_rollout_threads(
 
 #[cfg(test)]
 mod tests {
+    use matrix_test_macro as matrix;
     use chrono::Utc;
     use codex_protocol::ThreadId;
     use codex_protocol::protocol::SessionSource;
@@ -200,7 +201,7 @@ mod tests {
     use crate::local::test_support::write_session_file;
     use crate::local::test_support::write_session_file_with;
 
-    #[tokio::test]
+    #[matrix::test]
     async fn list_threads_uses_default_provider_when_rollout_omits_provider() {
         let home = TempDir::new().expect("temp dir");
         let store = LocalThreadStore::new(test_config(home.path()), /*state_db*/ None);
@@ -234,7 +235,7 @@ mod tests {
         assert_eq!(page.items[0].model_provider, "test-provider");
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn list_threads_preserves_sqlite_title_search_results() {
         let home = TempDir::new().expect("temp dir");
         let config = test_config(home.path());
@@ -301,7 +302,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn list_threads_selects_active_or_archived_collection() {
         let home = TempDir::new().expect("temp dir");
         let store = LocalThreadStore::new(test_config(home.path()), /*state_db*/ None);
@@ -369,7 +370,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn list_threads_returns_local_rollout_summary() {
         let home = TempDir::new().expect("temp dir");
         let config = test_config(home.path());
@@ -409,7 +410,7 @@ mod tests {
         assert_eq!(page.items[0].source, SessionSource::Cli);
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn list_threads_rejects_invalid_cursor() {
         let home = TempDir::new().expect("temp dir");
         let store = LocalThreadStore::new(test_config(home.path()), /*state_db*/ None);

@@ -1029,6 +1029,7 @@ pub(super) fn maybe_open_auth_url_in_browser(request_handle: &AppServerRequestHa
 
 #[cfg(test)]
 mod tests {
+    use matrix_test_macro as matrix;
     use super::*;
     use crate::legacy_core::config::ConfigBuilder;
     use codex_app_server_client::AppServerRequestHandle;
@@ -1096,7 +1097,7 @@ mod tests {
         (widget, codex_home)
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn api_key_flow_disabled_when_chatgpt_forced() {
         let (mut widget, _tmp) = widget_forced_chatgpt().await;
 
@@ -1112,7 +1113,7 @@ mod tests {
         ));
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn saving_api_key_is_blocked_when_chatgpt_forced() {
         let (mut widget, _tmp) = widget_forced_chatgpt().await;
 
@@ -1129,7 +1130,7 @@ mod tests {
         assert_eq!(widget.login_status, LoginStatus::NotAuthenticated);
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn existing_chatgpt_auth_tokens_login_counts_as_signed_in() {
         let (mut widget, _tmp) = widget_forced_chatgpt().await;
         widget.login_status = LoginStatus::AuthMode(AppServerAuthMode::ChatgptAuthTokens);
@@ -1143,7 +1144,7 @@ mod tests {
         ));
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn cancel_active_attempt_resets_browser_login_state() {
         let (widget, _tmp) = widget_forced_chatgpt().await;
         *widget.error.write().unwrap() = Some("still logging in".to_string());
@@ -1162,7 +1163,7 @@ mod tests {
         ));
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn cancel_active_attempt_notifies_device_code_login() {
         let (widget, _tmp) = widget_forced_chatgpt().await;
         *widget.error.write().unwrap() = Some("still logging in".to_string());
@@ -1249,7 +1250,7 @@ mod tests {
         assert_eq!(widget.should_suppress_animations(), true);
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn device_code_login_completion_advances_to_success_message() {
         let (mut widget, _tmp) = widget_forced_chatgpt().await;
         *widget.sign_in_state.write().unwrap() =

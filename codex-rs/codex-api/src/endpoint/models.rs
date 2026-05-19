@@ -11,6 +11,7 @@ use http::Method;
 use http::header::ETAG;
 use std::sync::Arc;
 
+use matrix_test_macro as matrix;
 pub struct ModelsClient<T: HttpTransport> {
     session: EndpointSession<T>,
 }
@@ -153,7 +154,7 @@ mod tests {
         }
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn appends_client_version_query() {
         let response = ModelsResponse { models: Vec::new() };
 
@@ -190,7 +191,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn parses_models_response() {
         let response = ModelsResponse {
             models: vec![
@@ -244,7 +245,7 @@ mod tests {
         assert_eq!(models[0].priority, 1);
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn list_models_includes_etag() {
         let response = ModelsResponse { models: Vec::new() };
 

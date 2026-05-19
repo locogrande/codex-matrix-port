@@ -43,6 +43,7 @@ tracing = { workspace = true, features = ["log"] }
 tracing-subscriber = { workspace = true, features = ["env-filter", "fmt"] }
 
 [dev-dependencies]
+matrix-test-macro = { workspace = true }
 codex-test-support = { workspace = true }
 codex-utils-absolute-path = { workspace = true }
 codex-shell-command = { workspace = true }

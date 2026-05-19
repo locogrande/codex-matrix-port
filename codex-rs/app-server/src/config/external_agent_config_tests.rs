@@ -4,6 +4,7 @@ use std::io;
 use tempfile::TempDir;
 use codex_paths;
 
+use matrix_test_macro as matrix;
 const EXTERNAL_AGENT_PROJECT_CONFIG_FILE: &str = ".claude.json";
 const EXTERNAL_AGENT_PLUGIN_MANIFEST_DIR: &str = ".claude-plugin";
 const SOURCE_EXTERNAL_AGENT_NAME: &str = "claude";
@@ -36,7 +37,7 @@ fn github_plugin_details() -> MigrationDetails {
     }
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn detect_home_lists_config_skills_and_agents_md() {
     let (_root, external_agent_home, codex_home) = fixture_paths();
     let agents_skills = codex_home
@@ -99,7 +100,7 @@ async fn detect_home_lists_config_skills_and_agents_md() {
     assert_eq!(items, expected);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn detect_home_lists_recent_sessions() {
     let (root, external_agent_home, codex_home) = fixture_paths();
     let project_root = root.path().join("repo");
@@ -152,7 +153,7 @@ async fn detect_home_lists_recent_sessions() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn detect_repo_lists_agents_md_for_each_cwd() {
     let root = TempDir::new().expect("create tempdir");
     let repo_root = root.path().join("repo");
@@ -202,7 +203,7 @@ async fn detect_repo_lists_agents_md_for_each_cwd() {
     assert_eq!(items, expected);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn detect_repo_still_reports_non_plugin_items_when_home_config_is_invalid() {
     let root = TempDir::new().expect("create tempdir");
     let repo_root = root.path().join("repo");
@@ -293,7 +294,7 @@ async fn detect_repo_still_reports_non_plugin_items_when_home_config_is_invalid(
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn detect_repo_lists_mcp_hooks_commands_and_subagents() {
     let root = TempDir::new().expect("create tempdir");
     let repo_root = root.path().join("repo");
@@ -415,7 +416,7 @@ async fn detect_repo_lists_mcp_hooks_commands_and_subagents() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn detect_repo_skips_hooks_when_only_unsupported_hooks_exist() {
     let root = TempDir::new().expect("create tempdir");
     let repo_root = root.path().join("repo");
@@ -441,7 +442,7 @@ async fn detect_repo_skips_hooks_when_only_unsupported_hooks_exist() {
     assert_eq!(items, Vec::<ExternalAgentConfigMigrationItem>::new());
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn import_repo_migrates_mcp_hooks_commands_and_subagents() {
     let root = TempDir::new().expect("create tempdir");
     let repo_root = root.path().join("repo");
@@ -639,7 +640,7 @@ Research with Codex carefully."""
     assert_eq!(agent, expected_agent);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn import_home_migrates_supported_config_fields_skills_and_agents_md() {
     let (_root, external_agent_home, codex_home) = fixture_paths();
     let agents_skills = codex_home
@@ -708,7 +709,7 @@ async fn import_home_migrates_supported_config_fields_skills_and_agents_md() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn import_home_config_uses_local_settings_over_project_settings() {
     let (_root, external_agent_home, codex_home) = fixture_paths();
     fs::create_dir_all(&external_agent_home).expect("create external agent home");
@@ -739,7 +740,7 @@ async fn import_home_config_uses_local_settings_over_project_settings() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn import_home_config_ignores_invalid_local_settings() {
     let (_root, external_agent_home, codex_home) = fixture_paths();
     fs::create_dir_all(&external_agent_home).expect("create external agent home");
@@ -770,7 +771,7 @@ async fn import_home_config_ignores_invalid_local_settings() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn import_home_skips_empty_config_migration() {
     let (_root, external_agent_home, codex_home) = fixture_paths();
     fs::create_dir_all(&external_agent_home).expect("create external agent home");
@@ -793,7 +794,7 @@ async fn import_home_skips_empty_config_migration() {
     assert!(!codex_home.join(codex_paths::CONFIG_TOML).exists());
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn import_local_plugins_returns_completed_status() {
     let (_root, external_agent_home, codex_home) = fixture_paths();
     let marketplace_root = external_agent_home.join("my-marketplace");
@@ -862,7 +863,7 @@ async fn import_local_plugins_returns_completed_status() {
     assert!(config.contains("enabled = true"));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn import_git_plugins_returns_pending_async_status() {
     let (_root, external_agent_home, codex_home) = fixture_paths();
     fs::create_dir_all(&external_agent_home).expect("create external agent home");
@@ -913,7 +914,7 @@ async fn import_git_plugins_returns_pending_async_status() {
     assert!(!codex_home.join(codex_paths::CONFIG_TOML).exists());
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn detect_home_skips_config_when_target_already_has_supported_fields() {
     let (_root, external_agent_home, codex_home) = fixture_paths();
     fs::create_dir_all(&external_agent_home).expect("create external agent home");
@@ -948,7 +949,7 @@ async fn detect_home_skips_config_when_target_already_has_supported_fields() {
     assert_eq!(items, Vec::<ExternalAgentConfigMigrationItem>::new());
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn detect_home_skips_skills_when_all_skill_directories_exist() {
     let (_root, external_agent_home, codex_home) = fixture_paths();
     let agents_skills = codex_home
@@ -969,7 +970,7 @@ async fn detect_home_skips_skills_when_all_skill_directories_exist() {
     assert_eq!(items, Vec::<ExternalAgentConfigMigrationItem>::new());
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn import_repo_agents_md_rewrites_terms_and_skips_non_empty_targets() {
     let root = TempDir::new().expect("create tempdir");
     let repo_root = root.path().join("repo-a");
@@ -1026,7 +1027,7 @@ async fn import_repo_agents_md_rewrites_terms_and_skips_non_empty_targets() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn import_repo_agents_md_overwrites_empty_targets() {
     let root = TempDir::new().expect("create tempdir");
     let repo_root = root.path().join("repo");
@@ -1057,7 +1058,7 @@ async fn import_repo_agents_md_overwrites_empty_targets() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn detect_repo_prefers_non_empty_external_agent_agents_source() {
     let root = TempDir::new().expect("create tempdir");
     let repo_root = root.path().join("repo");
@@ -1101,7 +1102,7 @@ async fn detect_repo_prefers_non_empty_external_agent_agents_source() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn import_repo_hooks_preserves_disabled_codex_hooks_feature() {
     let root = TempDir::new().expect("create tempdir");
     let repo_root = root.path().join("repo");
@@ -1155,7 +1156,7 @@ async fn import_repo_hooks_preserves_disabled_codex_hooks_feature() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn import_repo_mcp_uses_home_settings_toggles_when_repo_settings_missing() {
     let root = TempDir::new().expect("create tempdir");
     let repo_root = root.path().join("repo");
@@ -1207,7 +1208,7 @@ command = "allowed-server"
     assert_eq!(config, expected);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn import_repo_mcp_uses_local_settings_toggles_over_project_settings() {
     let root = TempDir::new().expect("create tempdir");
     let repo_root = root.path().join("repo");
@@ -1268,7 +1269,7 @@ command = "local-enabled-server"
     assert_eq!(config, expected);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn import_repo_mcp_ignores_invalid_home_settings_when_repo_settings_missing() {
     let root = TempDir::new().expect("create tempdir");
     let repo_root = root.path().join("repo");
@@ -1316,7 +1317,7 @@ command = "docs-server"
     assert_eq!(config, expected);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn import_repo_uses_non_empty_external_agent_agents_source() {
     let root = TempDir::new().expect("create tempdir");
     let repo_root = root.path().join("repo");
@@ -1361,7 +1362,7 @@ fn migration_metric_tags_for_skills_include_skills_count() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn detect_home_lists_enabled_plugins_from_settings() {
     let (_root, external_agent_home, codex_home) = fixture_paths();
     fs::create_dir_all(&external_agent_home).expect("create external agent home");
@@ -1410,7 +1411,7 @@ async fn detect_home_lists_enabled_plugins_from_settings() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn detect_home_plugins_uses_local_settings_over_project_settings() {
     let (_root, external_agent_home, codex_home) = fixture_paths();
     fs::create_dir_all(&external_agent_home).expect("create external agent home");
@@ -1468,7 +1469,7 @@ async fn detect_home_plugins_uses_local_settings_over_project_settings() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn detect_repo_skips_plugins_that_are_already_configured_in_codex() {
     let root = TempDir::new().expect("create tempdir");
     let external_agent_home = root.path().join(EXTERNAL_AGENT_DIR);
@@ -1532,7 +1533,7 @@ enabled = true
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn detect_repo_skips_plugins_that_are_disabled_in_codex() {
     let root = TempDir::new().expect("create tempdir");
     let external_agent_home = root.path().join(EXTERNAL_AGENT_DIR);
@@ -1575,7 +1576,7 @@ enabled = false
     assert_eq!(items, Vec::<ExternalAgentConfigMigrationItem>::new());
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn detect_repo_skips_plugins_without_explicit_enabled_in_codex() {
     let root = TempDir::new().expect("create tempdir");
     let external_agent_home = root.path().join(EXTERNAL_AGENT_DIR);
@@ -1617,7 +1618,7 @@ async fn detect_repo_skips_plugins_without_explicit_enabled_in_codex() {
     assert_eq!(items, Vec::<ExternalAgentConfigMigrationItem>::new());
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn import_plugins_requires_details() {
     let (_root, external_agent_home, codex_home) = fixture_paths();
 
@@ -1630,7 +1631,7 @@ async fn import_plugins_requires_details() {
     assert_eq!(err.to_string(), "plugins migration item is missing details");
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn detect_repo_does_not_skip_plugins_only_configured_in_project_codex() {
     let root = TempDir::new().expect("create tempdir");
     let external_agent_home = root.path().join(EXTERNAL_AGENT_DIR);
@@ -1694,7 +1695,7 @@ enabled = true
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn detect_home_skips_plugins_without_marketplace_source() {
     let (_root, external_agent_home, codex_home) = fixture_paths();
     fs::create_dir_all(&external_agent_home).expect("create external agent home");
@@ -1719,7 +1720,7 @@ async fn detect_home_skips_plugins_without_marketplace_source() {
     assert_eq!(items, Vec::<ExternalAgentConfigMigrationItem>::new());
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn detect_home_skips_plugins_with_invalid_marketplace_source() {
     let (_root, external_agent_home, codex_home) = fixture_paths();
     fs::create_dir_all(&external_agent_home).expect("create external agent home");
@@ -1749,7 +1750,7 @@ async fn detect_home_skips_plugins_with_invalid_marketplace_source() {
     assert_eq!(items, Vec::<ExternalAgentConfigMigrationItem>::new());
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn detect_repo_filters_plugins_against_installed_marketplace() {
     let root = TempDir::new().expect("create tempdir");
     let external_agent_home = root.path().join(EXTERNAL_AGENT_DIR);
@@ -1878,7 +1879,7 @@ source = "owner/debug-marketplace"
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn import_plugins_requires_source_marketplace_details() {
     let (_root, external_agent_home, codex_home) = fixture_paths();
     fs::create_dir_all(&external_agent_home).expect("create external agent home");
@@ -1923,7 +1924,7 @@ async fn import_plugins_requires_source_marketplace_details() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn import_plugins_defers_marketplace_source_validation_to_add_marketplace() {
     let (_root, external_agent_home, codex_home) = fixture_paths();
     fs::create_dir_all(&external_agent_home).expect("create external agent home");
@@ -1959,7 +1960,7 @@ async fn import_plugins_defers_marketplace_source_validation_to_add_marketplace(
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn import_plugins_supports_external_agent_plugin_marketplace_layout() {
     let (_root, external_agent_home, codex_home) = fixture_paths();
     let marketplace_root = external_agent_home.join("my-marketplace");
@@ -2034,7 +2035,7 @@ async fn import_plugins_supports_external_agent_plugin_marketplace_layout() {
     assert!(config.contains("enabled = true"));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn detect_home_supports_relative_external_agent_plugin_marketplace_path() {
     let (_root, external_agent_home, codex_home) = fixture_paths();
     let marketplace_root = external_agent_home.join("my-marketplace");
@@ -2108,7 +2109,7 @@ async fn detect_home_supports_relative_external_agent_plugin_marketplace_path() 
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn detect_home_infers_external_official_marketplace_when_missing_from_settings() {
     let (_root, external_agent_home, codex_home) = fixture_paths();
     fs::create_dir_all(&external_agent_home).expect("create external agent home");
@@ -2154,7 +2155,7 @@ async fn detect_home_infers_external_official_marketplace_when_missing_from_sett
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn import_plugins_supports_relative_external_agent_plugin_marketplace_path() {
     let (_root, external_agent_home, codex_home) = fixture_paths();
     let marketplace_root = external_agent_home.join("my-marketplace");
@@ -2228,7 +2229,7 @@ async fn import_plugins_supports_relative_external_agent_plugin_marketplace_path
     assert!(config.contains("enabled = true"));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn import_plugins_infers_external_official_marketplace_when_missing_from_settings() {
     let (_root, external_agent_home, codex_home) = fixture_paths();
     fs::create_dir_all(&external_agent_home).expect("create external agent home");
@@ -2271,7 +2272,7 @@ async fn import_plugins_infers_external_official_marketplace_when_missing_from_s
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn detect_repo_supports_project_relative_external_agent_plugin_marketplace_path() {
     let root = TempDir::new().expect("create tempdir");
     let external_agent_home = root.path().join(EXTERNAL_AGENT_DIR);
@@ -2353,7 +2354,7 @@ async fn detect_repo_supports_project_relative_external_agent_plugin_marketplace
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn import_plugins_supports_project_relative_external_agent_plugin_marketplace_path() {
     let root = TempDir::new().expect("create tempdir");
     let external_agent_home = root.path().join(EXTERNAL_AGENT_DIR);

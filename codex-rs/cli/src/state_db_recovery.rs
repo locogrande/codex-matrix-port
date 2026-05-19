@@ -128,11 +128,12 @@ fn print_technical_details(startup_error: &LocalStateDbStartupError) {
 
 #[cfg(test)]
 mod tests {
+    use matrix_test_macro as matrix;
     use super::*;
     use pretty_assertions::assert_eq;
     use tempfile::TempDir;
 
-    #[tokio::test]
+    #[matrix::test]
     async fn repair_backs_up_owned_database_files() -> std::io::Result<()> {
         let temp_dir = TempDir::new()?;
         let state_path = codex_state::state_db_path(temp_dir.path());
@@ -156,7 +157,7 @@ mod tests {
         Ok(())
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn repair_replaces_blocking_sqlite_home_file() -> std::io::Result<()> {
         let temp_dir = TempDir::new()?;
         let sqlite_home = temp_dir.path().join("sqlite-home");

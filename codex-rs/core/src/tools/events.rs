@@ -27,6 +27,7 @@ use std::time::Duration;
 
 use super::format_exec_output_str;
 
+use matrix_test_macro as matrix;
 #[derive(Clone, Copy)]
 pub(crate) struct ToolEventCtx<'a> {
     pub session: &'a Session,
@@ -674,7 +675,7 @@ mod tests {
         assert!(unified_diff.contains("+after"));
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn denied_apply_patch_tracks_committed_delta() {
         let output = ExecToolCallOutput {
             exit_code: 1,
@@ -690,7 +691,7 @@ mod tests {
         .await;
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn rejected_apply_patch_tracks_committed_delta() {
         assert_failed_apply_patch_tracks_committed_delta(
             Err(ToolError::Rejected("rejected by user".to_string())),

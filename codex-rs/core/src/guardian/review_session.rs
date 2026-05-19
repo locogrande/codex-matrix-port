@@ -1005,6 +1005,7 @@ async fn interrupt_and_drain_turn(codex: &Codex, expected_turn_id: &str) -> anyh
 
 #[cfg(test)]
 mod tests {
+    use matrix_test_macro as matrix;
     use super::*;
     use codex_protocol::protocol::AgentStatus;
     use codex_protocol::protocol::ErrorEvent;
@@ -1116,7 +1117,7 @@ mod tests {
         }
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn guardian_review_session_config_change_invalidates_cached_session() {
         let parent_config = crate::config::test_config().await;
         let cached_spawn_config = build_guardian_review_session_config(
@@ -1148,7 +1149,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn guardian_review_session_config_disables_hooks() {
         let mut parent_config = crate::config::test_config().await;
         parent_config
@@ -1167,7 +1168,7 @@ mod tests {
         assert!(!guardian_config.features.enabled(Feature::CodexHooks));
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn guardian_review_session_config_disables_skill_instructions() {
         let mut parent_config = crate::config::test_config().await;
         parent_config.include_skill_instructions = true;
@@ -1324,7 +1325,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn run_review_on_reused_session_waits_for_submitted_turn() {
         let (review_session, tx_event, rx_sub) = test_review_session().await;
         {
@@ -1370,7 +1371,7 @@ mod tests {
         assert!(keep_review_session);
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn wait_for_guardian_review_ignores_prior_turn_completion() {
         let (review_session, tx_event, _rx_sub) = test_review_session().await;
         tx_event
@@ -1401,7 +1402,7 @@ mod tests {
         assert!(capture_token_usage);
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn wait_for_guardian_review_ignores_prior_turn_errors() {
         let (review_session, tx_event, _rx_sub) = test_review_session().await;
         tx_event
@@ -1442,7 +1443,7 @@ mod tests {
         assert!(capture_token_usage);
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn wait_for_guardian_review_ignores_prior_turn_aborts() {
         let (review_session, tx_event, _rx_sub) = test_review_session().await;
         tx_event
@@ -1473,7 +1474,7 @@ mod tests {
         assert!(capture_token_usage);
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn wait_for_guardian_review_timeout_drains_expected_turn_after_stale_terminal_event() {
         let (review_session, tx_event, rx_sub) = test_review_session().await;
         tx_event
@@ -1508,7 +1509,7 @@ mod tests {
         assert!(!capture_token_usage);
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn wait_for_guardian_review_cancel_drains_expected_turn_after_stale_terminal_event() {
         let (review_session, tx_event, rx_sub) = test_review_session().await;
         tx_event
@@ -1545,7 +1546,7 @@ mod tests {
         assert!(!capture_token_usage);
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn interrupt_and_drain_turn_ignores_prior_turn_completion() {
         let (review_session, tx_event, _rx_sub) = test_review_session().await;
         tx_event

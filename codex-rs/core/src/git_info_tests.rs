@@ -12,6 +12,7 @@ use core_test_support::PathExt;
 use core_test_support::skip_if_sandbox;
 use std::fs;
 use codex_paths;
+use matrix_test_macro as matrix;
 #[cfg(unix)]
 use std::os::unix::fs::PermissionsExt;
 use std::path::PathBuf;
@@ -76,14 +77,14 @@ async fn create_test_git_repo(temp_dir: &TempDir) -> PathBuf {
     repo_path
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn test_recent_commits_non_git_directory_returns_empty() {
     let temp_dir = TempDir::new().expect("Failed to create temp dir");
     let entries = recent_commits(temp_dir.path(), /*limit*/ 10).await;
     assert!(entries.is_empty(), "expected no commits outside a git repo");
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn test_recent_commits_orders_and_limits() {
     skip_if_sandbox!();
     use tokio::time::Duration;
@@ -186,14 +187,14 @@ async fn create_test_git_repo_with_remote(temp_dir: &TempDir) -> (PathBuf, Strin
     (repo_path, branch)
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn test_collect_git_info_non_git_directory() {
     let temp_dir = TempDir::new().expect("Failed to create temp dir");
     let result = collect_git_info(temp_dir.path()).await;
     assert!(result.is_none());
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn test_collect_git_info_git_repository() {
     let temp_dir = TempDir::new().expect("Failed to create temp dir");
     let repo_path = create_test_git_repo(&temp_dir).await;
@@ -217,7 +218,7 @@ async fn test_collect_git_info_git_repository() {
     // This is acceptable behavior
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn test_collect_git_info_with_remote() {
     let temp_dir = TempDir::new().expect("Failed to create temp dir");
     let repo_path = create_test_git_repo(&temp_dir).await;
@@ -256,7 +257,7 @@ async fn test_collect_git_info_with_remote() {
     assert_eq!(git_info.repository_url, Some(expected_remote));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn test_collect_git_info_detached_head() {
     let temp_dir = TempDir::new().expect("Failed to create temp dir");
     let repo_path = create_test_git_repo(&temp_dir).await;
@@ -288,7 +289,7 @@ async fn test_collect_git_info_detached_head() {
     assert!(git_info.branch.is_none());
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn test_collect_git_info_with_branch() {
     let temp_dir = TempDir::new().expect("Failed to create temp dir");
     let repo_path = create_test_git_repo(&temp_dir).await;
@@ -309,20 +310,20 @@ async fn test_collect_git_info_with_branch() {
     assert_eq!(git_info.branch, Some("feature-branch".to_string()));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn test_get_has_changes_non_git_directory_returns_none() {
     let temp_dir = TempDir::new().expect("Failed to create temp dir");
     assert_eq!(get_has_changes(temp_dir.path()).await, None);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn test_get_has_changes_clean_repo_returns_false() {
     let temp_dir = TempDir::new().expect("Failed to create temp dir");
     let repo_path = create_test_git_repo(&temp_dir).await;
     assert_eq!(get_has_changes(&repo_path).await, Some(false));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn test_get_has_changes_with_tracked_change_returns_true() {
     let temp_dir = TempDir::new().expect("Failed to create temp dir");
     let repo_path = create_test_git_repo(&temp_dir).await;
@@ -331,7 +332,7 @@ async fn test_get_has_changes_with_tracked_change_returns_true() {
     assert_eq!(get_has_changes(&repo_path).await, Some(true));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn test_get_has_changes_with_untracked_change_returns_true() {
     let temp_dir = TempDir::new().expect("Failed to create temp dir");
     let repo_path = create_test_git_repo(&temp_dir).await;
@@ -341,7 +342,7 @@ async fn test_get_has_changes_with_untracked_change_returns_true() {
 }
 
 #[cfg(unix)]
-#[tokio::test]
+#[matrix::test]
 async fn test_get_has_changes_ignores_repo_fsmonitor_config() {
     let temp_dir = TempDir::new().expect("Failed to create temp dir");
     let repo_path = create_test_git_repo(&temp_dir).await;
@@ -381,7 +382,7 @@ async fn test_get_has_changes_ignores_repo_fsmonitor_config() {
 }
 
 #[cfg(unix)]
-#[tokio::test]
+#[matrix::test]
 async fn test_get_has_changes_ignores_configured_hooks_path() {
     let temp_dir = TempDir::new().expect("Failed to create temp dir");
     let repo_path = create_test_git_repo(&temp_dir).await;
@@ -424,7 +425,7 @@ async fn test_get_has_changes_ignores_configured_hooks_path() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn test_get_git_working_tree_state_clean_repo() {
     let temp_dir = TempDir::new().expect("Failed to create temp dir");
     let (repo_path, branch) = create_test_git_repo_with_remote(&temp_dir).await;
@@ -447,7 +448,7 @@ async fn test_get_git_working_tree_state_clean_repo() {
     assert!(state.diff.is_empty());
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn test_get_git_working_tree_state_with_changes() {
     let temp_dir = TempDir::new().expect("Failed to create temp dir");
     let (repo_path, branch) = create_test_git_repo_with_remote(&temp_dir).await;
@@ -475,7 +476,7 @@ async fn test_get_git_working_tree_state_with_changes() {
     assert!(state.diff.contains("untracked.txt"));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn test_get_git_working_tree_state_branch_fallback() {
     let temp_dir = TempDir::new().expect("Failed to create temp dir");
     let (repo_path, _branch) = create_test_git_repo_with_remote(&temp_dir).await;
@@ -517,7 +518,7 @@ async fn test_get_git_working_tree_state_branch_fallback() {
     assert_eq!(state.sha, GitSha::new(&remote_sha));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn resolve_root_git_project_for_trust_returns_none_outside_repo() {
     let tmp = TempDir::new().expect("tempdir");
     assert!(
@@ -527,7 +528,7 @@ async fn resolve_root_git_project_for_trust_returns_none_outside_repo() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn resolve_root_git_project_for_trust_regular_repo_returns_repo_root() {
     let temp_dir = TempDir::new().expect("Failed to create temp dir");
     let repo_path = create_test_git_repo(&temp_dir).await.abs();
@@ -544,7 +545,7 @@ async fn resolve_root_git_project_for_trust_regular_repo_returns_repo_root() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn resolve_root_git_project_for_trust_detects_worktree_and_returns_main_root() {
     let temp_dir = TempDir::new().expect("Failed to create temp dir");
     let repo_path = create_test_git_repo(&temp_dir).await;
@@ -586,7 +587,7 @@ async fn resolve_root_git_project_for_trust_detects_worktree_and_returns_main_ro
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn resolve_root_git_project_for_trust_detects_worktree_pointer_without_git_command() {
     let tmp = TempDir::new().expect("tempdir");
     let repo_root = tmp.path().join("repo");
@@ -615,7 +616,7 @@ async fn resolve_root_git_project_for_trust_detects_worktree_pointer_without_git
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn resolve_root_git_project_for_trust_non_worktrees_gitdir_returns_none() {
     let tmp = TempDir::new().expect("tempdir");
     let proj = tmp.path().join("proj");
@@ -645,7 +646,7 @@ async fn resolve_root_git_project_for_trust_non_worktrees_gitdir_returns_none() 
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn test_get_git_working_tree_state_unpushed_commit() {
     let temp_dir = TempDir::new().expect("Failed to create temp dir");
     let (repo_path, branch) = create_test_git_repo_with_remote(&temp_dir).await;

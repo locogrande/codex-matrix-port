@@ -23,6 +23,7 @@ use serde_json::json;
 use tokio::time::timeout;
 use wiremock::MockServer;
 
+use matrix_test_macro as matrix;
 const DEFAULT_TIMEOUT: Duration = Duration::from_secs(10);
 const INVALID_REQUEST_ERROR_CODE: i64 = -32600;
 
@@ -87,7 +88,7 @@ fn expected_visible_models() -> Vec<Model> {
         .collect()
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn list_models_returns_all_models_with_large_limit() -> Result<()> {
     let codex_home = TempDir::new()?;
     write_models_cache(codex_home.path())?;
@@ -121,7 +122,7 @@ async fn list_models_returns_all_models_with_large_limit() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn list_models_includes_hidden_models() -> Result<()> {
     let codex_home = TempDir::new()?;
     write_models_cache(codex_home.path())?;
@@ -153,7 +154,7 @@ async fn list_models_includes_hidden_models() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn list_models_uses_chatgpt_remote_catalog_as_source_of_truth() -> Result<()> {
     let server = MockServer::start().await;
     let remote_model: ModelInfo = serde_json::from_value(json!({
@@ -248,7 +249,7 @@ openai_base_url = "{server_uri}/v1"
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn list_models_pagination_works() -> Result<()> {
     let codex_home = TempDir::new()?;
     write_models_cache(codex_home.path())?;
@@ -297,7 +298,7 @@ async fn list_models_pagination_works() -> Result<()> {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn list_models_rejects_invalid_cursor() -> Result<()> {
     let codex_home = TempDir::new()?;
     write_models_cache(codex_home.path())?;

@@ -1,6 +1,7 @@
 use super::*;
 
-#[tokio::test]
+use matrix_test_macro as matrix;
+#[matrix::test]
 async fn goal_menu_active_snapshot() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     let thread_id = ThreadId::new();
@@ -14,7 +15,7 @@ async fn goal_menu_active_snapshot() {
     assert_chatwidget_snapshot!("goal_menu_active", rendered_goal_summary(&mut rx));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn goal_menu_paused_snapshot() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     let thread_id = ThreadId::new();
@@ -28,7 +29,7 @@ async fn goal_menu_paused_snapshot() {
     assert_chatwidget_snapshot!("goal_menu_paused", rendered_goal_summary(&mut rx));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn goal_menu_budget_limited_snapshot() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     let thread_id = ThreadId::new();
@@ -42,7 +43,7 @@ async fn goal_menu_budget_limited_snapshot() {
     assert_chatwidget_snapshot!("goal_menu_budget_limited", rendered_goal_summary(&mut rx));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn resume_paused_goal_prompt_snapshot() {
     let (mut chat, _rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     let thread_id = ThreadId::new();
@@ -58,7 +59,7 @@ async fn resume_paused_goal_prompt_snapshot() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn goal_edit_prompt_snapshot() {
     let (mut chat, _rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     let thread_id = ThreadId::new();
@@ -78,7 +79,7 @@ async fn goal_edit_prompt_snapshot() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn goal_edit_prompt_submits_preserved_status_and_budget() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     let thread_id = ThreadId::new();
@@ -117,7 +118,7 @@ async fn goal_edit_prompt_submits_preserved_status_and_budget() {
     assert!(chat.no_modal_or_popup_active());
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn goal_edit_prompt_resets_terminal_status_to_active() {
     let cases = [
         AppThreadGoalStatus::BudgetLimited,
@@ -155,7 +156,7 @@ async fn goal_edit_prompt_resets_terminal_status_to_active() {
     }
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn resume_paused_goal_prompt_default_resumes_goal() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     let thread_id = ThreadId::new();
@@ -176,7 +177,7 @@ async fn resume_paused_goal_prompt_default_resumes_goal() {
     assert!(chat.no_modal_or_popup_active());
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn resume_paused_goal_prompt_can_leave_goal_paused() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
     let thread_id = ThreadId::new();

@@ -9,7 +9,8 @@ use super::PidFileState;
 use super::PidRecord;
 use super::try_lock_file;
 
-#[tokio::test]
+use matrix_test_macro as matrix;
+#[matrix::test]
 async fn locked_empty_pid_file_is_treated_as_active_reservation() {
     let temp_dir = TempDir::new().expect("temp dir");
     let pid_file = temp_dir.path().join("app-server.pid");
@@ -37,7 +38,7 @@ async fn locked_empty_pid_file_is_treated_as_active_reservation() {
     assert!(pid_file.exists());
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn unlocked_empty_pid_file_is_treated_as_stale_reservation() {
     let temp_dir = TempDir::new().expect("temp dir");
     let pid_file = temp_dir.path().join("app-server.pid");
@@ -57,7 +58,7 @@ async fn unlocked_empty_pid_file_is_treated_as_stale_reservation() {
     assert!(!pid_file.exists());
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn stop_waits_for_live_reservation_to_resolve() {
     let temp_dir = TempDir::new().expect("temp dir");
     let pid_file = temp_dir.path().join("app-server.pid");
@@ -89,7 +90,7 @@ async fn stop_waits_for_live_reservation_to_resolve() {
     cleanup.await.expect("cleanup task");
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn start_retries_stale_empty_pid_file_under_its_own_lock() {
     let temp_dir = TempDir::new().expect("temp dir");
     let pid_file = temp_dir.path().join("app-server.pid");
@@ -109,7 +110,7 @@ async fn start_retries_stale_empty_pid_file_under_its_own_lock() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn stale_record_cleanup_preserves_replacement_record() {
     let temp_dir = TempDir::new().expect("temp dir");
     let pid_file = temp_dir.path().join("app-server.pid");

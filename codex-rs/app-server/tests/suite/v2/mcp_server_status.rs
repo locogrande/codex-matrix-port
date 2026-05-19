@@ -32,9 +32,10 @@ use tokio::net::TcpListener;
 use tokio::task::JoinHandle;
 use tokio::time::timeout;
 
+use matrix_test_macro as matrix;
 const DEFAULT_READ_TIMEOUT: Duration = Duration::from_secs(10);
 
-#[tokio::test]
+#[matrix::test]
 async fn mcp_server_status_list_returns_raw_server_and_tool_names() -> Result<()> {
     let server = create_mock_responses_server_sequence_unchecked(Vec::new()).await;
     let (mcp_server_url, mcp_server_handle) = start_mcp_server("look-up.raw").await?;
@@ -205,7 +206,7 @@ impl ServerHandler for SlowInventoryServer {
     }
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn mcp_server_status_list_tools_and_auth_only_skips_slow_inventory_calls() -> Result<()> {
     let server = create_mock_responses_server_sequence_unchecked(Vec::new()).await;
     let (mcp_server_url, mcp_server_handle) = start_slow_inventory_mcp_server("lookup").await?;
@@ -264,7 +265,7 @@ url = "{mcp_server_url}/mcp"
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn mcp_server_status_list_keeps_tools_for_sanitized_name_collisions() -> Result<()> {
     let server = create_mock_responses_server_sequence_unchecked(Vec::new()).await;
     let (dash_server_url, dash_server_handle) = start_mcp_server("dash_lookup").await?;

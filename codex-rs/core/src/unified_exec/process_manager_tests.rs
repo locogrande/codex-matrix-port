@@ -3,6 +3,7 @@ use pretty_assertions::assert_eq;
 use tokio::time::Duration;
 use tokio::time::Instant;
 
+use matrix_test_macro as matrix;
 #[test]
 fn unified_exec_env_injects_defaults() {
     let env = apply_unified_exec_env(HashMap::new());
@@ -129,7 +130,7 @@ fn exec_server_process_id_matches_unified_exec_process_id() {
     assert_eq!(exec_server_process_id(/*process_id*/ 4321), "4321");
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn network_denial_fallback_message_names_sandbox_network_proxy() {
     let message = network_denial_message_for_session(/*session*/ None, /*deferred*/ None).await;
 
@@ -139,7 +140,7 @@ async fn network_denial_fallback_message_names_sandbox_network_proxy() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn late_network_denial_grace_observes_cancellation_after_exit() {
     let cancellation = CancellationToken::new();
     let cancellation_for_task = cancellation.clone();
@@ -151,7 +152,7 @@ async fn late_network_denial_grace_observes_cancellation_after_exit() {
     assert!(wait_for_late_network_denial(Some(cancellation)).await);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn failed_initial_end_for_unstored_process_uses_fallback_output() {
     let (session, turn, rx_event) = crate::session::tests::make_session_and_context_with_rx().await;
     let context = UnifiedExecContext::new(

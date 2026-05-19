@@ -241,6 +241,7 @@ fn preview_error_body(body: &str) -> Option<String> {
 
 #[cfg(test)]
 mod tests {
+    use matrix_test_macro as matrix;
     use std::sync::Arc;
 
     use codex_api::AuthProvider;
@@ -276,7 +277,7 @@ mod tests {
         Arc::new(StaticRegistryAuthProvider)
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn register_executor_posts_with_auth_provider_headers() {
         let server = MockServer::start().await;
         let config = RemoteExecutorConfig::new(

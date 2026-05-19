@@ -51,6 +51,7 @@ tracing = { workspace = true }
 uuid = { workspace = true, features = ["v4"] }
 
 [dev-dependencies]
+matrix-test-macro = { workspace = true }
 codex-test-support = { workspace = true }
 anyhow = { workspace = true }
 codex-test-binary-support = { workspace = true }

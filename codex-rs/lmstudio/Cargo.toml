@@ -20,6 +20,7 @@ tracing = { workspace = true, features = ["log"] }
 which = { workspace = true }
 
 [dev-dependencies]
+matrix-test-macro = { workspace = true }
 wiremock = { workspace = true }
 tokio = { workspace = true, features = ["full"] }
 

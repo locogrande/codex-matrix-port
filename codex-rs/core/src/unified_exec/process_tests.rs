@@ -17,6 +17,7 @@ use tokio::sync::Mutex;
 use tokio::sync::watch;
 use tokio::time::Duration;
 
+use matrix_test_macro as matrix;
 struct MockExecProcess {
     process_id: ProcessId,
     write_response: WriteResponse,
@@ -86,7 +87,7 @@ async fn remote_process(write_status: WriteStatus) -> UnifiedExecProcess {
         .expect("remote process should start")
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn remote_write_unknown_process_marks_process_exited() {
     let process = remote_process(WriteStatus::UnknownProcess).await;
 
@@ -99,7 +100,7 @@ async fn remote_write_unknown_process_marks_process_exited() {
     assert!(process.has_exited());
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn remote_write_closed_stdin_marks_process_exited() {
     let process = remote_process(WriteStatus::StdinClosed).await;
 
@@ -112,7 +113,7 @@ async fn remote_write_closed_stdin_marks_process_exited() {
     assert!(process.has_exited());
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn fail_and_terminate_preserves_failure_message() {
     let process = remote_process(WriteStatus::Accepted).await;
 
@@ -126,7 +127,7 @@ async fn fail_and_terminate_preserves_failure_message() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn remote_process_waits_for_early_exit_event() {
     let (wake_tx, _wake_rx) = watch::channel(0);
     let started = StartedExecProcess {

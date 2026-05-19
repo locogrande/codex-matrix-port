@@ -247,6 +247,7 @@ impl ToolOutput for ViewImageOutput {
 
 #[cfg(test)]
 mod tests {
+    use matrix_test_macro as matrix;
     use super::*;
     use crate::session::tests::make_session_and_context;
     use crate::tools::context::ToolCallSource;
@@ -279,7 +280,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn handle_passes_sandbox_context_for_local_filesystem_reads() {
         let (session, mut turn) = make_session_and_context().await;
         let image_dir = tempfile::tempdir().expect("create image temp dir");
@@ -318,7 +319,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn handle_rejects_unsupported_detail() {
         let (session, turn) = make_session_and_context().await;
 

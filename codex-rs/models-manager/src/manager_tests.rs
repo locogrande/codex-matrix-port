@@ -20,6 +20,7 @@ use std::sync::atomic::AtomicUsize;
 use std::sync::atomic::Ordering;
 use tempfile::tempdir;
 
+use matrix_test_macro as matrix;
 #[path = "model_info_overrides_tests.rs"]
 mod model_info_overrides_tests;
 
@@ -229,7 +230,7 @@ c2ln",
     .expect("auth should be present")
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn get_model_info_tracks_fallback_usage() {
     let codex_home = tempdir().expect("temp dir");
     let config = ModelsManagerConfig::default();
@@ -256,7 +257,7 @@ async fn get_model_info_tracks_fallback_usage() {
     assert_eq!(unknown.slug, "model-that-does-not-exist");
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn get_model_info_uses_custom_catalog() {
     let config = ModelsManagerConfig::default();
     let mut overlay = remote_model("gpt-overlay", "Overlay", /*priority*/ 0);
@@ -278,7 +279,7 @@ async fn get_model_info_uses_custom_catalog() {
     assert!(!model_info.used_fallback_model_metadata);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn get_model_info_matches_namespaced_suffix() {
     let config = ModelsManagerConfig::default();
     let mut remote = remote_model("gpt-image", "Image", /*priority*/ 0);
@@ -295,7 +296,7 @@ async fn get_model_info_matches_namespaced_suffix() {
     assert!(!model_info.used_fallback_model_metadata);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn get_model_info_matches_hyphenated_provider_namespace_suffix() {
     let config = ModelsManagerConfig::default();
     let remote = remote_model("gpt-image", "Image", /*priority*/ 0);
@@ -310,7 +311,7 @@ async fn get_model_info_matches_hyphenated_provider_namespace_suffix() {
     assert!(!model_info.used_fallback_model_metadata);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn get_model_info_rejects_multi_segment_namespace_suffix_matching() {
     let codex_home = tempdir().expect("temp dir");
     let config = ModelsManagerConfig::default();
@@ -333,7 +334,7 @@ async fn get_model_info_rejects_multi_segment_namespace_suffix_matching() {
     assert!(model_info.used_fallback_model_metadata);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn refresh_available_models_sorts_by_priority() {
     let remote_models = vec![
         remote_model("priority-low", "Low", /*priority*/ 1),
@@ -366,7 +367,7 @@ async fn refresh_available_models_sorts_by_priority() {
     assert_eq!(endpoint.fetch_count(), 1, "expected a single model fetch");
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn refresh_available_models_uses_remote_only_catalog_for_chatgpt_auth() {
     let remote_models = vec![remote_model(
         "chatgpt-visible-source-of-truth",
@@ -386,7 +387,7 @@ async fn refresh_available_models_uses_remote_only_catalog_for_chatgpt_auth() {
     assert_eq!(endpoint.fetch_count(), 1, "expected a single model fetch");
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn refresh_available_models_uses_cached_remote_only_catalog_for_chatgpt_auth() {
     let remote_models = vec![remote_model(
         "chatgpt-cached-source-of-truth",
@@ -420,7 +421,7 @@ async fn refresh_available_models_uses_cached_remote_only_catalog_for_chatgpt_au
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn get_model_info_uses_fallback_for_bundled_models_when_chatgpt_remote_is_authoritative() {
     let remote_models = vec![remote_model(
         "chatgpt-authoritative-model-info",
@@ -450,7 +451,7 @@ async fn get_model_info_uses_fallback_for_bundled_models_when_chatgpt_remote_is_
     assert!(model_info.used_fallback_model_metadata);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn refresh_available_models_preserves_bundled_catalog_for_empty_chatgpt_remote() {
     let codex_home = tempdir().expect("temp dir");
     let endpoint = TestModelsEndpoint::new(vec![Vec::new()]);
@@ -465,7 +466,7 @@ async fn refresh_available_models_preserves_bundled_catalog_for_empty_chatgpt_re
     assert_eq!(manager.get_remote_models().await, expected);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn refresh_available_models_merges_hidden_only_chatgpt_remote_with_bundled_catalog() {
     let hidden_remote = remote_model_with_visibility(
         "chatgpt-hidden-only",
@@ -487,7 +488,7 @@ async fn refresh_available_models_merges_hidden_only_chatgpt_remote_with_bundled
     assert_eq!(manager.get_remote_models().await, expected);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn refresh_available_models_keeps_merging_for_api_auth() {
     let remote_models = vec![remote_model(
         "api-auth-visible-remote",
@@ -520,7 +521,7 @@ async fn refresh_available_models_keeps_merging_for_api_auth() {
     assert_eq!(endpoint.fetch_count(), 1, "expected a single model fetch");
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn refresh_available_models_uses_cache_when_fresh() {
     let remote_models = vec![remote_model("cached", "Cached", /*priority*/ 5)];
     let codex_home = tempdir().expect("temp dir");
@@ -546,7 +547,7 @@ async fn refresh_available_models_uses_cache_when_fresh() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn refresh_available_models_refetches_when_cache_stale() {
     let initial_models = vec![remote_model("stale", "Stale", /*priority*/ 1)];
     let codex_home = tempdir().expect("temp dir");
@@ -580,7 +581,7 @@ async fn refresh_available_models_refetches_when_cache_stale() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn refresh_available_models_refetches_when_version_mismatch() {
     let initial_models = vec![remote_model("old", "Old", /*priority*/ 1)];
     let codex_home = tempdir().expect("temp dir");
@@ -614,7 +615,7 @@ async fn refresh_available_models_refetches_when_version_mismatch() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn refresh_available_models_drops_removed_remote_models() {
     let initial_models = vec![remote_model(
         "remote-old",
@@ -659,7 +660,7 @@ async fn refresh_available_models_drops_removed_remote_models() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn refresh_available_models_skips_network_without_chatgpt_auth() {
     let dynamic_slug = "dynamic-model-only-for-test-noauth";
     let codex_home = tempdir().expect("temp dir");
@@ -745,7 +746,7 @@ impl ModelsEndpointClient for TestAuthAwareModelsEndpoint {
     }
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn refresh_available_models_skips_network_when_external_api_key_overrides_chatgpt_auth() {
     let dynamic_slug = "dynamic-model-only-for-test-external-api-key";
     let codex_home = tempdir().expect("temp dir");
@@ -785,7 +786,7 @@ async fn refresh_available_models_skips_network_when_external_api_key_overrides_
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn refresh_available_models_uses_cached_chatgpt_when_external_api_key_is_unresolved() {
     let dynamic_slug = "dynamic-model-only-for-test-unresolved-external-api-key";
     let codex_home = tempdir().expect("temp dir");
@@ -826,7 +827,7 @@ async fn refresh_available_models_uses_cached_chatgpt_when_external_api_key_is_u
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn refresh_available_models_fetches_with_chatgpt_auth_tokens() {
     let dynamic_slug = "dynamic-model-only-for-test-chatgpt-auth-tokens";
     let codex_home = tempdir().expect("temp dir");
@@ -880,7 +881,7 @@ fn build_available_models_picks_default_after_hiding_hidden_models() {
     assert_eq!(available, vec![expected_hidden, expected_visible]);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn static_manager_reads_latest_auth_mode() {
     let auth_manager =
         AuthManager::from_auth_for_testing(CodexAuth::create_dummy_chatgpt_auth_for_testing());

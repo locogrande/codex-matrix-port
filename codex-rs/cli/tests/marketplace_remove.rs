@@ -4,6 +4,7 @@ use codex_config::record_user_marketplace;
 use codex_core_plugins::installed_marketplaces::marketplace_install_root;
 use predicates::str::contains;
 
+use matrix_test_macro as matrix;
 fn codex_command(codex_home: &Path) -> Result<assert_cmd::Command> {
     let mut cmd = assert_cmd::Command::new(codex_utils_cargo_bin::cargo_bin("codex")?);
     cmd.env("CODEX_HOME", codex_home);
@@ -29,7 +30,7 @@ fn write_installed_marketplace(codex_home: &Path, marketplace_name: &str) -> Res
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn marketplace_remove_deletes_config_and_installed_root() -> Result<()> {
     let codex_home = TempDir::new()?;
     record_user_marketplace(codex_home.path(), "debug", &configured_marketplace_update())?;
@@ -52,7 +53,7 @@ async fn marketplace_remove_deletes_config_and_installed_root() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn marketplace_remove_rejects_unknown_marketplace() -> Result<()> {
     let codex_home = TempDir::new()?;
 

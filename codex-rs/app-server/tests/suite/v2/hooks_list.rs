@@ -29,6 +29,7 @@ use core_test_support::skip_if_windows;
 use serde::Serialize;
 use tokio::time::timeout;
 
+use matrix_test_macro as matrix;
 const DEFAULT_TIMEOUT: Duration = Duration::from_secs(30);
 
 #[derive(Serialize)]
@@ -128,7 +129,7 @@ timeout = 5
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn hooks_list_shows_discovered_hook() -> Result<()> {
     let codex_home = TempDir::new()?;
     let cwd = TempDir::new()?;
@@ -185,7 +186,7 @@ async fn hooks_list_shows_discovered_hook() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn hooks_list_shows_discovered_plugin_hook() -> Result<()> {
     let codex_home = TempDir::new()?;
     let cwd = TempDir::new()?;
@@ -263,7 +264,7 @@ async fn hooks_list_shows_discovered_plugin_hook() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn hooks_list_shows_plugin_hook_load_warnings() -> Result<()> {
     let codex_home = TempDir::new()?;
     let cwd = TempDir::new()?;
@@ -295,7 +296,7 @@ async fn hooks_list_shows_plugin_hook_load_warnings() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn hooks_list_uses_each_cwds_effective_feature_enablement() -> Result<()> {
     let codex_home = TempDir::new()?;
     let workspace = TempDir::new()?;
@@ -389,7 +390,7 @@ timeout = 5
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn hooks_list_uses_root_repo_hooks_for_linked_worktrees() -> Result<()> {
     let codex_home = TempDir::new()?;
     let workspace = TempDir::new()?;
@@ -471,7 +472,7 @@ async fn hooks_list_uses_root_repo_hooks_for_linked_worktrees() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn config_batch_write_toggles_user_hook() -> Result<()> {
     let codex_home = TempDir::new()?;
     let cwd = TempDir::new()?;
@@ -570,7 +571,7 @@ async fn config_batch_write_toggles_user_hook() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn config_batch_write_updates_hook_trust_for_loaded_session() -> Result<()> {
     skip_if_windows!(Ok(()));
 
@@ -818,7 +819,7 @@ command = "python3 {hook_script_path}"
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn config_batch_write_disables_hook_for_loaded_session() -> Result<()> {
     skip_if_windows!(Ok(()));
 

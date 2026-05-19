@@ -46,10 +46,11 @@ pub(crate) async fn clear_memory_root_contents(memory_root: &Path) -> std::io::R
 
 #[cfg(test)]
 mod tests {
+    use matrix_test_macro as matrix;
     use super::*;
     use tempfile::tempdir;
 
-    #[tokio::test]
+    #[matrix::test]
     async fn clear_memory_root_contents_preserves_root_directory() {
         let dir = tempdir().expect("tempdir");
         let root = dir.path().join(codex_paths::MEMORIES_DIR);
@@ -88,7 +89,7 @@ mod tests {
     }
 
     #[cfg(unix)]
-    #[tokio::test]
+    #[matrix::test]
     async fn clear_memory_root_contents_rejects_symlinked_root() {
         let dir = tempdir().expect("tempdir");
         let target = dir.path().join("outside");

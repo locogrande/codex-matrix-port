@@ -22,6 +22,7 @@ use pretty_assertions::assert_eq;
 use std::collections::BTreeMap;
 use tempfile::TempDir;
 
+use matrix_test_macro as matrix;
 #[test]
 fn normalize_absolute_path_for_platform_simplifies_windows_verbatim_paths() {
     let parsed = normalize_absolute_path_for_platform(
@@ -43,7 +44,7 @@ fn windows_verbatim_path_prefix_does_not_count_as_glob_syntax() {
     ));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn restricted_read_implicitly_allows_helper_executables() -> std::io::Result<()> {
     let temp_dir = TempDir::new()?;
     let cwd = temp_dir.path().join("workspace");

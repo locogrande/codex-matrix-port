@@ -1023,6 +1023,7 @@ struct BlockedResponse<'a> {
 
 #[cfg(test)]
 mod tests {
+    use matrix_test_macro as matrix;
     use super::*;
 
     use crate::config::NetworkMode;
@@ -1040,7 +1041,7 @@ mod tests {
     use tokio::time::Duration;
     use tokio::time::timeout;
 
-    #[tokio::test]
+    #[matrix::test]
     async fn http_connect_accept_blocks_in_limited_mode() {
         let policy = {
             let mut policy = NetworkProxySettings::default();
@@ -1068,7 +1069,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn http_connect_accept_allows_allowlisted_host_in_full_mode() {
         let policy = {
             let mut policy = NetworkProxySettings {
@@ -1094,7 +1095,7 @@ mod tests {
         assert_eq!(response.status(), StatusCode::OK);
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn http_proxy_listener_accepts_plain_http1_connect_requests() {
         let target_listener = TokioTcpListener::bind((Ipv4Addr::LOCALHOST, 0))
             .await
@@ -1237,7 +1238,7 @@ mod tests {
         assert_eq!(response.status(), StatusCode::BAD_GATEWAY);
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn http_connect_accept_denies_denylisted_host() {
         let policy = {
             let mut policy = NetworkProxySettings::default();
@@ -1265,7 +1266,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn http_plain_proxy_rejects_absolute_uri_host_header_mismatch() {
         let state = Arc::new(network_proxy_state_for_policy(
             NetworkProxySettings::default(),

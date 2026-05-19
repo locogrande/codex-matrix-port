@@ -13,6 +13,7 @@ use codex_config::record_user_marketplace;
 use codex_utils_absolute_path::AbsolutePathBuf;
 use tokio::time::timeout;
 
+use matrix_test_macro as matrix;
 #[cfg(windows)]
 const DEFAULT_TIMEOUT: Duration = Duration::from_secs(25);
 #[cfg(not(windows))]
@@ -140,7 +141,7 @@ async fn send_marketplace_upgrade(
     to_response(response)
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn marketplace_upgrade_all_configured_git_marketplaces() -> Result<()> {
     let codex_home = TempDir::new()?;
     let debug_source = TempDir::new()?;
@@ -194,7 +195,7 @@ async fn marketplace_upgrade_all_configured_git_marketplaces() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn marketplace_upgrade_named_marketplace_only() -> Result<()> {
     let codex_home = TempDir::new()?;
     let debug_source = TempDir::new()?;
@@ -245,7 +246,7 @@ async fn marketplace_upgrade_named_marketplace_only() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn marketplace_upgrade_returns_empty_roots_when_already_up_to_date() -> Result<()> {
     let codex_home = TempDir::new()?;
     let source = TempDir::new()?;
@@ -278,7 +279,7 @@ async fn marketplace_upgrade_returns_empty_roots_when_already_up_to_date() -> Re
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn marketplace_upgrade_rejects_unknown_or_non_git_marketplace() -> Result<()> {
     let codex_home = TempDir::new()?;
     let local_source = TempDir::new()?;

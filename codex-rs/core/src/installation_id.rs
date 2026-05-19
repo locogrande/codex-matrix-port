@@ -65,6 +65,7 @@ pub async fn resolve_installation_id(codex_home: &AbsolutePathBuf) -> Result<Str
 
 #[cfg(test)]
 mod tests {
+    use matrix_test_macro as matrix;
     use super::INSTALLATION_ID_FILENAME;
     use super::resolve_installation_id;
     use core_test_support::PathExt;
@@ -75,7 +76,7 @@ mod tests {
     #[cfg(unix)]
     use std::os::unix::fs::PermissionsExt;
 
-    #[tokio::test]
+    #[matrix::test]
     async fn resolve_installation_id_generates_and_persists_uuid() {
         let codex_home = TempDir::new().expect("create temp dir");
         let codex_home_abs = codex_home.path().abs();
@@ -102,7 +103,7 @@ mod tests {
         }
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn resolve_installation_id_reuses_existing_uuid() {
         let codex_home = TempDir::new().expect("create temp dir");
         let codex_home_abs = codex_home.path().abs();
@@ -125,7 +126,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn resolve_installation_id_rewrites_invalid_file_contents() {
         let codex_home = TempDir::new().expect("create temp dir");
         let codex_home_abs = codex_home.path().abs();

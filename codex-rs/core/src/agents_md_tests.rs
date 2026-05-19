@@ -11,6 +11,7 @@ use std::path::PathBuf;
 use tempfile::TempDir;
 use codex_paths;
 
+use matrix_test_macro as matrix;
 async fn get_user_instructions(config: &Config) -> Option<String> {
     AgentsMdManager::new(config)
         .user_instructions_with_fs(LOCAL_FS.as_ref())
@@ -87,7 +88,7 @@ async fn make_config_with_project_root_markers(
 }
 
 /// AGENTS.md missing – should yield `None`.
-#[tokio::test]
+#[matrix::test]
 async fn no_doc_file_returns_none() {
     let tmp = tempfile::tempdir().expect("tempdir");
 
@@ -101,7 +102,7 @@ async fn no_doc_file_returns_none() {
     assert!(res.is_none(), "Expected None when AGENTS.md is absent");
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn no_environment_returns_none() {
     let tmp = tempfile::tempdir().expect("tempdir");
     let config = make_config(&tmp, /*limit*/ 4096, Some("user instructions")).await;
@@ -114,7 +115,7 @@ async fn no_environment_returns_none() {
 }
 
 /// Small file within the byte-limit is returned unmodified.
-#[tokio::test]
+#[matrix::test]
 async fn doc_smaller_than_limit_is_returned() {
     let tmp = tempfile::tempdir().expect("tempdir");
     fs::write(tmp.path().join("AGENTS.md"), "hello world").unwrap();
@@ -131,7 +132,7 @@ async fn doc_smaller_than_limit_is_returned() {
 }
 
 /// Oversize file is truncated to `project_doc_max_bytes`.
-#[tokio::test]
+#[matrix::test]
 async fn doc_larger_than_limit_is_truncated() {
     const LIMIT: usize = 1024;
     let tmp = tempfile::tempdir().expect("tempdir");
@@ -149,7 +150,7 @@ async fn doc_larger_than_limit_is_truncated() {
 
 /// When `cwd` is nested inside a repo, the search should locate AGENTS.md
 /// placed at the repository root (identified by `.git`).
-#[tokio::test]
+#[matrix::test]
 async fn finds_doc_in_repo_root() {
     let repo = tempfile::tempdir().expect("tempdir");
 
@@ -176,7 +177,7 @@ async fn finds_doc_in_repo_root() {
 }
 
 /// Explicitly setting the byte-limit to zero disables project docs.
-#[tokio::test]
+#[matrix::test]
 async fn zero_byte_limit_disables_docs() {
     let tmp = tempfile::tempdir().expect("tempdir");
     fs::write(tmp.path().join("AGENTS.md"), "something").unwrap();
@@ -189,7 +190,7 @@ async fn zero_byte_limit_disables_docs() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn zero_byte_limit_disables_discovery() {
     let tmp = tempfile::tempdir().expect("tempdir");
     fs::write(tmp.path().join("AGENTS.md"), "something").unwrap();
@@ -202,7 +203,7 @@ async fn zero_byte_limit_disables_discovery() {
 
 /// When both system instructions and AGENTS.md docs are present the two
 /// should be concatenated with the separator.
-#[tokio::test]
+#[matrix::test]
 async fn merges_existing_instructions_with_agents_md() {
     let tmp = tempfile::tempdir().expect("tempdir");
     fs::write(tmp.path().join("AGENTS.md"), "proj doc").unwrap();
@@ -220,7 +221,7 @@ async fn merges_existing_instructions_with_agents_md() {
 
 /// If there are existing system instructions but AGENTS.md docs are
 /// missing we expect the original instructions to be returned unchanged.
-#[tokio::test]
+#[matrix::test]
 async fn keeps_existing_instructions_when_doc_missing() {
     let tmp = tempfile::tempdir().expect("tempdir");
 
@@ -234,7 +235,7 @@ async fn keeps_existing_instructions_when_doc_missing() {
 
 /// When both the repository root and the working directory contain
 /// AGENTS.md files, their contents are concatenated from root to cwd.
-#[tokio::test]
+#[matrix::test]
 async fn concatenates_root_and_cwd_docs() {
     let repo = tempfile::tempdir().expect("tempdir");
 
@@ -260,7 +261,7 @@ async fn concatenates_root_and_cwd_docs() {
     assert_eq!(res, "root doc\n\ncrate doc");
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn project_root_markers_are_honored_for_agents_discovery() {
     let root = tempfile::tempdir().expect("tempdir");
     fs::write(root.path().join(".codex-root"), "").unwrap();
@@ -296,7 +297,7 @@ async fn project_root_markers_are_honored_for_agents_discovery() {
     assert_eq!(res, "parent doc\n\nchild doc");
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn instruction_sources_include_global_before_agents_md_docs() {
     let tmp = tempfile::tempdir().expect("tempdir");
     fs::write(tmp.path().join("AGENTS.md"), "project doc").unwrap();
@@ -318,7 +319,7 @@ async fn instruction_sources_include_global_before_agents_md_docs() {
 }
 
 /// AGENTS.override.md is preferred over AGENTS.md when both are present.
-#[tokio::test]
+#[matrix::test]
 async fn agents_local_md_preferred() {
     let tmp = tempfile::tempdir().expect("tempdir");
     fs::write(tmp.path().join(DEFAULT_AGENTS_MD_FILENAME), "versioned").unwrap();
@@ -341,7 +342,7 @@ async fn agents_local_md_preferred() {
 }
 
 /// When AGENTS.md is absent but a configured fallback exists, the fallback is used.
-#[tokio::test]
+#[matrix::test]
 async fn uses_configured_fallback_when_agents_missing() {
     let tmp = tempfile::tempdir().expect("tempdir");
     fs::write(tmp.path().join("EXAMPLE.md"), "example instructions").unwrap();
@@ -362,7 +363,7 @@ async fn uses_configured_fallback_when_agents_missing() {
 }
 
 /// AGENTS.md remains preferred when both AGENTS.md and fallbacks are present.
-#[tokio::test]
+#[matrix::test]
 async fn agents_md_preferred_over_fallbacks() {
     let tmp = tempfile::tempdir().expect("tempdir");
     fs::write(tmp.path().join("AGENTS.md"), "primary").unwrap();
@@ -393,7 +394,7 @@ async fn agents_md_preferred_over_fallbacks() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn agents_md_directory_is_ignored() {
     let tmp = tempfile::tempdir().expect("tempdir");
     fs::create_dir(tmp.path().join("AGENTS.md")).unwrap();
@@ -408,7 +409,7 @@ async fn agents_md_directory_is_ignored() {
 }
 
 #[cfg(unix)]
-#[tokio::test]
+#[matrix::test]
 async fn agents_md_special_file_is_ignored() {
     use std::ffi::CString;
     use std::os::unix::ffi::OsStrExt;
@@ -430,7 +431,7 @@ async fn agents_md_special_file_is_ignored() {
     assert_eq!(discovery, Vec::<AbsolutePathBuf>::new());
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn override_directory_falls_back_to_agents_md_file() {
     let tmp = tempfile::tempdir().expect("tempdir");
     fs::create_dir(tmp.path().join(LOCAL_AGENTS_MD_FILENAME)).unwrap();
@@ -454,7 +455,7 @@ async fn override_directory_falls_back_to_agents_md_file() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn skills_are_not_appended_to_agents_md() {
     let tmp = tempfile::tempdir().expect("tempdir");
     fs::write(tmp.path().join("AGENTS.md"), "base doc").unwrap();
@@ -472,7 +473,7 @@ async fn skills_are_not_appended_to_agents_md() {
     assert_eq!(res, "base doc");
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn apps_feature_does_not_emit_user_instructions_by_itself() {
     let tmp = tempfile::tempdir().expect("tempdir");
     let mut cfg = make_config(&tmp, /*limit*/ 4096, /*instructions*/ None).await;
@@ -484,7 +485,7 @@ async fn apps_feature_does_not_emit_user_instructions_by_itself() {
     assert_eq!(res, None);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn apps_feature_does_not_append_to_agents_md_user_instructions() {
     let tmp = tempfile::tempdir().expect("tempdir");
     fs::write(tmp.path().join("AGENTS.md"), "base doc").unwrap();

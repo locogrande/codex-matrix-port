@@ -155,6 +155,7 @@ use std::sync::Arc;
 use std::sync::Mutex;
 use tokio::sync::mpsc;
 
+use matrix_test_macro as matrix;
 fn sample_thread_with_metadata(
     thread_id: &str,
     ephemeral: bool,
@@ -1053,7 +1054,7 @@ fn accepted_line_fingerprints_event_serializes_expected_shape() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn reducer_emits_large_accepted_line_aggregates_without_fingerprints() {
     let mut reducer = AnalyticsReducer::default();
     let mut events = Vec::new();
@@ -1124,7 +1125,7 @@ index 1111111..2222222
     assert!(serde_json::to_vec(event).expect("serialize event").len() < 2_100_000);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn reducer_emits_accepted_line_fingerprints_once_from_latest_turn_diff_on_completion() {
     let mut reducer = AnalyticsReducer::default();
     let mut events = Vec::new();
@@ -1529,7 +1530,7 @@ fn review_event_serializes_expected_shape() {
         })
     );
 }
-#[tokio::test]
+#[matrix::test]
 async fn initialize_caches_client_and_thread_lifecycle_publishes_once_initialized() {
     let mut reducer = AnalyticsReducer::default();
     let mut events = Vec::new();
@@ -1631,7 +1632,7 @@ async fn initialize_caches_client_and_thread_lifecycle_publishes_once_initialize
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn unrelated_client_requests_are_ignored_by_reducer() {
     let mut reducer = AnalyticsReducer::default();
     let mut events = Vec::new();
@@ -1668,7 +1669,7 @@ async fn unrelated_client_requests_are_ignored_by_reducer() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn unrelated_client_responses_are_ignored_by_reducer() {
     let mut reducer = AnalyticsReducer::default();
     let mut events = Vec::new();
@@ -1690,7 +1691,7 @@ async fn unrelated_client_responses_are_ignored_by_reducer() {
     assert!(events.is_empty());
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn compaction_event_ingests_custom_fact() {
     let mut reducer = AnalyticsReducer::default();
     let mut events = Vec::new();
@@ -1807,7 +1808,7 @@ async fn compaction_event_ingests_custom_fact() {
     assert_eq!(payload[0]["event_params"]["status"], "failed");
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn guardian_review_event_ingests_custom_fact_with_optional_target_item() {
     let mut reducer = AnalyticsReducer::default();
     let mut events = Vec::new();
@@ -1938,7 +1939,7 @@ async fn guardian_review_event_ingests_custom_fact_with_optional_target_item() {
     assert_eq!(payload[0]["event_params"]["review_timeout_ms"], 90_000);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn item_lifecycle_notifications_publish_command_execution_event() {
     let mut reducer = AnalyticsReducer::default();
     let mut events = Vec::new();
@@ -2054,7 +2055,7 @@ async fn item_lifecycle_notifications_publish_command_execution_event() {
     assert_eq!(payload[0]["event_params"]["thread_source"], "user");
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn command_execution_approval_response_publishes_user_review_event() {
     let mut reducer = AnalyticsReducer::default();
     let mut events = Vec::new();
@@ -2110,7 +2111,7 @@ async fn command_execution_approval_response_publishes_user_review_event() {
     assert_eq!(payload[0]["event_params"]["duration_ms"], 42);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn permissions_reviews_emit_events_without_denormalizing_onto_tool_items() {
     let mut reducer = AnalyticsReducer::default();
     let mut events = Vec::new();
@@ -2161,7 +2162,7 @@ async fn permissions_reviews_emit_events_without_denormalizing_onto_tool_items()
     assert_eq!(payload["event_params"]["guardian_review_count"], 0);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn effective_session_permissions_response_publishes_session_user_review_event() {
     let mut reducer = AnalyticsReducer::default();
     let mut events = Vec::new();
@@ -2206,7 +2207,7 @@ async fn effective_session_permissions_response_publishes_session_user_review_ev
     assert_eq!(payload[0]["event_params"]["resolution"], "session_approval");
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn aborted_server_request_publishes_aborted_user_review_event_once() {
     let mut reducer = AnalyticsReducer::default();
     let mut events = Vec::new();
@@ -2255,7 +2256,7 @@ async fn aborted_server_request_publishes_aborted_user_review_event_once() {
     assert!(events.is_empty());
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn guardian_completed_notification_publishes_review_event_with_thread_metadata() {
     let mut reducer = AnalyticsReducer::default();
     let mut events = Vec::new();
@@ -2285,7 +2286,7 @@ async fn guardian_completed_notification_publishes_review_event_with_thread_meta
     assert_eq!(payload["event_params"]["duration_ms"], 42);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn terminal_reviews_denormalize_counts_onto_tool_item_events() {
     let mut reducer = AnalyticsReducer::default();
     let mut events = Vec::new();
@@ -2328,7 +2329,7 @@ async fn terminal_reviews_denormalize_counts_onto_tool_item_events() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn item_review_summaries_do_not_cross_threads_with_reused_item_ids() {
     let mut reducer = AnalyticsReducer::default();
     let mut events = Vec::new();
@@ -2528,7 +2529,7 @@ fn subagent_thread_started_other_serializes_explicit_parent_thread_id() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn subagent_thread_started_publishes_without_initialize() {
     let mut reducer = AnalyticsReducer::default();
     let mut events = Vec::new();
@@ -2563,7 +2564,7 @@ async fn subagent_thread_started_publishes_without_initialize() {
     assert_eq!(payload[0]["event_params"]["subagent_source"], "review");
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn subagent_thread_started_inherits_parent_connection_for_new_thread() {
     let mut reducer = AnalyticsReducer::default();
     let mut events = Vec::new();
@@ -2667,7 +2668,7 @@ async fn subagent_thread_started_inherits_parent_connection_for_new_thread() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn subagent_tool_items_inherit_parent_connection_metadata() {
     let mut reducer = AnalyticsReducer::default();
     let mut events = Vec::new();
@@ -2968,7 +2969,7 @@ fn plugin_used_dedupe_is_keyed_by_turn_and_plugin() {
     assert_eq!(queue.should_enqueue_plugin_used(&turn_2, &plugin), true);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn reducer_ingests_skill_invoked_fact() {
     let mut reducer = AnalyticsReducer::default();
     let mut events = Vec::new();
@@ -3022,7 +3023,7 @@ async fn reducer_ingests_skill_invoked_fact() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn reducer_includes_plugin_id_for_plugin_skill_invocations() {
     let mut reducer = AnalyticsReducer::default();
     let mut events = Vec::new();
@@ -3057,7 +3058,7 @@ async fn reducer_includes_plugin_id_for_plugin_skill_invocations() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn reducer_ingests_hook_run_fact() {
     let mut reducer = AnalyticsReducer::default();
     let mut events = Vec::new();
@@ -3088,7 +3089,7 @@ async fn reducer_ingests_hook_run_fact() {
     assert_eq!(payload[0]["event_params"]["status"], "failed");
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn reducer_ingests_app_and_plugin_facts() {
     let mut reducer = AnalyticsReducer::default();
     let mut events = Vec::new();
@@ -3141,7 +3142,7 @@ async fn reducer_ingests_app_and_plugin_facts() {
     assert_eq!(payload[2]["event_type"], "codex_plugin_used");
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn reducer_ingests_plugin_state_changed_fact() {
     let mut reducer = AnalyticsReducer::default();
     let mut events = Vec::new();
@@ -3292,7 +3293,7 @@ fn turn_event_serializes_expected_shape() {
     assert_eq!(payload, expected);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn accepted_turn_steer_emits_expected_event() {
     let mut reducer = AnalyticsReducer::default();
     let mut out = Vec::new();
@@ -3358,7 +3359,7 @@ async fn accepted_turn_steer_emits_expected_event() {
     assert!(payload["event_params"].get("product_client_id").is_none());
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn rejected_turn_steer_uses_request_connection_metadata() {
     let mut reducer = AnalyticsReducer::default();
     let mut out = Vec::new();
@@ -3399,7 +3400,7 @@ async fn rejected_turn_steer_uses_request_connection_metadata() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn rejected_turn_steer_maps_active_turn_not_steerable_error_type() {
     let mut reducer = AnalyticsReducer::default();
     let mut out = Vec::new();
@@ -3417,7 +3418,7 @@ async fn rejected_turn_steer_maps_active_turn_not_steerable_error_type() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn rejected_turn_steer_maps_input_too_large_error_type() {
     let mut reducer = AnalyticsReducer::default();
     let mut out = Vec::new();
@@ -3435,7 +3436,7 @@ async fn rejected_turn_steer_maps_input_too_large_error_type() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn turn_steer_does_not_emit_without_pending_request() {
     let mut reducer = AnalyticsReducer::default();
     let mut out = Vec::new();
@@ -3455,7 +3456,7 @@ async fn turn_steer_does_not_emit_without_pending_request() {
     assert!(out.is_empty());
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn turn_start_error_response_discards_pending_start_request() {
     let mut reducer = AnalyticsReducer::default();
     let mut out = Vec::new();
@@ -3520,7 +3521,7 @@ async fn turn_start_error_response_discards_pending_start_request() {
     assert!(out.is_empty());
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn turn_lifecycle_emits_turn_event() {
     let mut reducer = AnalyticsReducer::default();
     let mut out = Vec::new();
@@ -3599,7 +3600,7 @@ async fn turn_lifecycle_emits_turn_event() {
     assert_eq!(payload["event_params"]["total_tokens"], json!(321));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn turn_event_counts_completed_tool_items() {
     let mut reducer = AnalyticsReducer::default();
     let mut out = Vec::new();
@@ -3713,7 +3714,7 @@ async fn turn_event_counts_completed_tool_items() {
     assert_eq!(payload["event_params"]["image_generation_count"], json!(1));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn item_completed_without_turn_state_does_not_create_turn_state() {
     let mut reducer = AnalyticsReducer::default();
     let mut out = Vec::new();
@@ -3751,7 +3752,7 @@ async fn item_completed_without_turn_state_does_not_create_turn_state() {
     assert!(out.is_empty());
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn accepted_steers_increment_turn_steer_count() {
     let mut reducer = AnalyticsReducer::default();
     let mut out = Vec::new();
@@ -3856,7 +3857,7 @@ async fn accepted_steers_increment_turn_steer_count() {
     assert_eq!(payload["event_params"]["steer_count"], json!(2));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn turn_does_not_emit_without_required_prerequisites() {
     let mut reducer = AnalyticsReducer::default();
     let mut out = Vec::new();
@@ -3909,7 +3910,7 @@ async fn turn_does_not_emit_without_required_prerequisites() {
     assert!(out.is_empty());
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn turn_lifecycle_emits_failed_turn_event() {
     let mut reducer = AnalyticsReducer::default();
     let mut out = Vec::new();
@@ -3941,7 +3942,7 @@ async fn turn_lifecycle_emits_failed_turn_event() {
     assert_eq!(payload["event_params"]["turn_error"], json!("badRequest"));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn turn_lifecycle_emits_interrupted_turn_event_without_error() {
     let mut reducer = AnalyticsReducer::default();
     let mut out = Vec::new();
@@ -3973,7 +3974,7 @@ async fn turn_lifecycle_emits_interrupted_turn_event_without_error() {
     assert_eq!(payload["event_params"]["turn_error"], json!(null));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn turn_completed_without_started_notification_emits_null_started_at() {
     let mut reducer = AnalyticsReducer::default();
     let mut out = Vec::new();

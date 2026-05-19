@@ -18,6 +18,7 @@ use std::io;
 use tokio::io::AsyncWriteExt;
 use codex_paths;
 
+use matrix_test_macro as matrix;
 const TEST_TIMESTAMP: &str = "2025-01-01T00-00-00";
 
 async fn read_config_toml(codex_home: &Path) -> io::Result<ConfigToml> {
@@ -137,7 +138,7 @@ fn parse_config_toml(contents: &str) -> io::Result<ConfigToml> {
     toml::from_str(contents).map_err(|err| io::Error::new(io::ErrorKind::InvalidData, err))
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn migration_marker_exists_no_sessions_no_change() -> io::Result<()> {
     let temp = TempDir::new()?;
     let marker_path = temp.path().join(PERSONALITY_MIGRATION_FILENAME);
@@ -154,7 +155,7 @@ async fn migration_marker_exists_no_sessions_no_change() -> io::Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn no_marker_no_sessions_no_change() -> io::Result<()> {
     let temp = TempDir::new()?;
 
@@ -173,7 +174,7 @@ async fn no_marker_no_sessions_no_change() -> io::Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn no_marker_sessions_sets_personality() -> io::Result<()> {
     let temp = TempDir::new()?;
     write_session_with_user_event(temp.path()).await?;
@@ -192,7 +193,7 @@ async fn no_marker_sessions_sets_personality() -> io::Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn no_marker_sessions_preserves_existing_config_fields() -> io::Result<()> {
     let temp = TempDir::new()?;
     write_session_with_user_event(temp.path()).await?;
@@ -208,7 +209,7 @@ async fn no_marker_sessions_preserves_existing_config_fields() -> io::Result<()>
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn no_marker_meta_only_rollout_is_treated_as_no_sessions() -> io::Result<()> {
     let temp = TempDir::new()?;
     write_session_with_meta_only(temp.path()).await?;
@@ -228,7 +229,7 @@ async fn no_marker_meta_only_rollout_is_treated_as_no_sessions() -> io::Result<(
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn no_marker_explicit_global_personality_skips_migration() -> io::Result<()> {
     let temp = TempDir::new()?;
     write_session_with_user_event(temp.path()).await?;
@@ -251,7 +252,7 @@ async fn no_marker_explicit_global_personality_skips_migration() -> io::Result<(
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn no_marker_profile_personality_skips_migration() -> io::Result<()> {
     let temp = TempDir::new()?;
     write_session_with_user_event(temp.path()).await?;
@@ -281,7 +282,7 @@ personality = "friendly"
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn marker_short_circuits_invalid_profile_resolution() -> io::Result<()> {
     let temp = TempDir::new()?;
     tokio::fs::write(temp.path().join(PERSONALITY_MIGRATION_FILENAME), "v1\n").await?;
@@ -293,7 +294,7 @@ async fn marker_short_circuits_invalid_profile_resolution() -> io::Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn invalid_selected_profile_returns_error_and_does_not_write_marker() -> io::Result<()> {
     let temp = TempDir::new()?;
     let config_toml = parse_config_toml("profile = \"missing\"\n")?;
@@ -310,7 +311,7 @@ async fn invalid_selected_profile_returns_error_and_does_not_write_marker() -> i
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn applied_migration_is_idempotent_on_second_run() -> io::Result<()> {
     let temp = TempDir::new()?;
     write_session_with_user_event(temp.path()).await?;
@@ -327,7 +328,7 @@ async fn applied_migration_is_idempotent_on_second_run() -> io::Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn no_marker_archived_sessions_sets_personality() -> io::Result<()> {
     let temp = TempDir::new()?;
     write_archived_session_with_user_event(temp.path()).await?;

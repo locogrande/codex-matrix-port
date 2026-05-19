@@ -11,6 +11,7 @@ use serde_json::json;
 use tokio::time::Duration;
 use tokio::time::timeout;
 
+use matrix_test_macro as matrix;
 fn absolute_path(path: &str) -> AbsolutePathBuf {
     AbsolutePathBuf::from_absolute_path(path).expect("absolute path")
 }
@@ -32,7 +33,7 @@ fn thread_goal_updated_notification() -> ServerNotification {
     })
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn to_connection_notification_respects_opt_out_filters() {
     let connection_id = ConnectionId(7);
     let (writer_tx, mut writer_rx) = mpsc::channel(1);
@@ -75,7 +76,7 @@ async fn to_connection_notification_respects_opt_out_filters() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn to_connection_notifications_are_dropped_for_opted_out_clients() {
     let connection_id = ConnectionId(10);
     let (writer_tx, mut writer_rx) = mpsc::channel(1);
@@ -115,7 +116,7 @@ async fn to_connection_notifications_are_dropped_for_opted_out_clients() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn to_connection_notifications_are_preserved_for_non_opted_out_clients() {
     let connection_id = ConnectionId(11);
     let (writer_tx, mut writer_rx) = mpsc::channel(1);
@@ -161,7 +162,7 @@ async fn to_connection_notifications_are_preserved_for_non_opted_out_clients() {
     ));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn experimental_notifications_are_dropped_without_capability() {
     let connection_id = ConnectionId(12);
     let (writer_tx, mut writer_rx) = mpsc::channel(1);
@@ -194,7 +195,7 @@ async fn experimental_notifications_are_dropped_without_capability() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn experimental_notifications_are_preserved_with_capability() {
     let connection_id = ConnectionId(13);
     let (writer_tx, mut writer_rx) = mpsc::channel(1);
@@ -231,7 +232,7 @@ async fn experimental_notifications_are_preserved_with_capability() {
     ));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn command_execution_request_approval_strips_additional_permissions_without_capability() {
     let connection_id = ConnectionId(8);
     let (writer_tx, mut writer_rx) = mpsc::channel(1);
@@ -296,7 +297,7 @@ async fn command_execution_request_approval_strips_additional_permissions_withou
     assert_eq!(json["params"].get("additionalPermissions"), None);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn command_execution_request_approval_keeps_additional_permissions_with_capability() {
     let connection_id = ConnectionId(9);
     let (writer_tx, mut writer_rx) = mpsc::channel(1);
@@ -371,7 +372,7 @@ async fn command_execution_request_approval_keeps_additional_permissions_with_ca
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn broadcast_does_not_block_on_slow_connection() {
     let fast_connection_id = ConnectionId(1);
     let slow_connection_id = ConnectionId(2);
@@ -458,7 +459,7 @@ async fn broadcast_does_not_block_on_slow_connection() {
     ));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn to_connection_stdio_waits_instead_of_disconnecting_when_writer_queue_is_full() {
     let connection_id = ConnectionId(3);
     let (writer_tx, mut writer_rx) = mpsc::channel(1);

@@ -60,6 +60,7 @@ use tracing_subscriber::layer::SubscriberExt;
 use tracing_subscriber::registry::LookupSpan;
 use tracing_subscriber::util::SubscriberInitExt;
 
+use matrix_test_macro as matrix;
 fn test_model_client(session_source: SessionSource) -> ModelClient {
     let provider = create_oss_provider_with_base_url("https://example.com/v1", WireApi::Responses);
     let thread_id = ThreadId::new();
@@ -311,7 +312,7 @@ fn build_ws_client_metadata_includes_window_lineage_and_turn_metadata() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn summarize_memories_returns_empty_for_empty_input() {
     let client = test_model_client(SessionSource::Cli);
     let model_info = test_model_info();
@@ -329,7 +330,7 @@ async fn summarize_memories_returns_empty_for_empty_input() {
     assert_eq!(output.len(), 0);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn dropped_response_stream_traces_cancelled_partial_output() -> anyhow::Result<()> {
     let temp = TempDir::new()?;
     let attempt = started_inference_attempt(&temp)?;
@@ -375,7 +376,7 @@ async fn dropped_response_stream_traces_cancelled_partial_output() -> anyhow::Re
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn response_stream_records_last_model_feedback_ids() {
     let tags = Arc::new(Mutex::new(BTreeMap::new()));
     let _guard = tracing_subscriber::registry()
@@ -410,7 +411,7 @@ async fn response_stream_records_last_model_feedback_ids() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn dropped_backpressured_response_stream_traces_cancelled_partial_output()
 -> anyhow::Result<()> {
     let temp = TempDir::new()?;
@@ -531,7 +532,7 @@ fn model_client_with_counting_attestation(
     (model_client, attestation_calls)
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn websocket_handshake_includes_attestation_for_chatgpt_codex_responses() {
     let (model_client, attestation_calls) =
         model_client_with_counting_attestation(/*include_attestation*/ true);
@@ -549,7 +550,7 @@ async fn websocket_handshake_includes_attestation_for_chatgpt_codex_responses() 
     assert_eq!(attestation_calls.load(Ordering::Relaxed), 1);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn non_chatgpt_codex_endpoints_omit_attestation_generation() {
     let (model_client, attestation_calls) =
         model_client_with_counting_attestation(/*include_attestation*/ false);

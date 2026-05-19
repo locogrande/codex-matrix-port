@@ -17,6 +17,7 @@ use crate::tools::registry::CoreToolRuntime;
 use crate::turn_diff_tracker::TurnDiffTracker;
 use tokio::sync::Mutex;
 
+use matrix_test_macro as matrix;
 async fn invocation_for_payload(
     tool_name: &str,
     call_id: &str,
@@ -199,7 +200,7 @@ fn test_get_command_ignores_explicit_shell_in_zsh_fork_mode() -> anyhow::Result<
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn exec_command_pre_tool_use_payload_uses_raw_command() {
     let payload = ToolPayload::Function {
         arguments: serde_json::json!({ "cmd": "printf exec command" }).to_string(),
@@ -225,7 +226,7 @@ async fn exec_command_pre_tool_use_payload_uses_raw_command() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn exec_command_pre_tool_use_payload_skips_write_stdin() {
     let payload = ToolPayload::Function {
         arguments: serde_json::json!({ "chars": "echo hi" }).to_string(),
@@ -248,7 +249,7 @@ async fn exec_command_pre_tool_use_payload_skips_write_stdin() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn exec_command_post_tool_use_payload_uses_output_for_noninteractive_one_shot_commands() {
     let payload = ToolPayload::Function {
         arguments: serde_json::json!({ "cmd": "echo three", "tty": false }).to_string(),
@@ -277,7 +278,7 @@ async fn exec_command_post_tool_use_payload_uses_output_for_noninteractive_one_s
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn exec_command_post_tool_use_payload_uses_output_for_interactive_completion() {
     let payload = ToolPayload::Function {
         arguments: serde_json::json!({ "cmd": "echo three", "tty": true }).to_string(),
@@ -307,7 +308,7 @@ async fn exec_command_post_tool_use_payload_uses_output_for_interactive_completi
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn exec_command_post_tool_use_payload_skips_running_sessions() {
     let payload = ToolPayload::Function {
         arguments: serde_json::json!({ "cmd": "echo three", "tty": false }).to_string(),
@@ -328,7 +329,7 @@ async fn exec_command_post_tool_use_payload_skips_running_sessions() {
     assert_eq!(handler.post_tool_use_payload(&invocation, &output), None);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn write_stdin_post_tool_use_payload_uses_original_exec_call_id_and_command_on_completion() {
     let payload = ToolPayload::Function {
         arguments: serde_json::json!({
@@ -362,7 +363,7 @@ async fn write_stdin_post_tool_use_payload_uses_original_exec_call_id_and_comman
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn write_stdin_post_tool_use_payload_keeps_parallel_session_metadata_separate() {
     let payload = ToolPayload::Function {
         arguments: serde_json::json!({ "session_id": 45, "chars": "" }).to_string(),

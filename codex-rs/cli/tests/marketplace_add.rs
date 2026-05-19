@@ -3,6 +3,7 @@ use codex_config::CONFIG_TOML_FILE;
 use codex_core_plugins::installed_marketplaces::marketplace_install_root;
 use predicates::str::contains;
 
+use matrix_test_macro as matrix;
 fn codex_command(codex_home: &Path) -> Result<assert_cmd::Command> {
     let mut cmd = assert_cmd::Command::new(codex_utils_cargo_bin::cargo_bin("codex")?);
     cmd.env("CODEX_HOME", codex_home);
@@ -35,7 +36,7 @@ fn write_marketplace_source(source: &Path, marker: &str) -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn marketplace_add_local_directory_source() -> Result<()> {
     let codex_home = TempDir::new()?;
     let source = TempDir::new()?;
@@ -67,7 +68,7 @@ async fn marketplace_add_local_directory_source() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn marketplace_add_rejects_local_manifest_file_source() -> Result<()> {
     let codex_home = TempDir::new()?;
     let source = TempDir::new()?;
@@ -90,7 +91,7 @@ async fn marketplace_add_rejects_local_manifest_file_source() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn marketplace_add_rejects_sparse_for_local_directory_source() -> Result<()> {
     let codex_home = TempDir::new()?;
     let source = TempDir::new()?;

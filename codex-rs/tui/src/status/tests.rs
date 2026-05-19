@@ -40,6 +40,7 @@ use pretty_assertions::assert_eq;
 use ratatui::prelude::*;
 use tempfile::TempDir;
 
+use matrix_test_macro as matrix;
 fn app_server_workspace_write_profile(network_enabled: bool) -> PermissionProfile {
     PermissionProfile::Managed {
         network: if network_enabled {
@@ -195,7 +196,7 @@ fn permissions_text_for(config: &Config) -> Option<String> {
         })
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn status_snapshot_includes_reasoning_details() {
     let temp_home = TempDir::new().expect("temp home");
     let mut config = test_config(&temp_home).await;
@@ -269,7 +270,7 @@ async fn status_snapshot_includes_reasoning_details() {
     assert_snapshot!(sanitized);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn status_permissions_non_default_workspace_write_uses_workspace_label() {
     let temp_home = TempDir::new().expect("temp home");
     let mut config = test_config(&temp_home).await;
@@ -294,7 +295,7 @@ async fn status_permissions_non_default_workspace_write_uses_workspace_label() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn status_permissions_named_read_only_profile_shows_builtin_label() {
     let temp_home = TempDir::new().expect("temp home");
     let mut config = test_config(&temp_home).await;
@@ -317,7 +318,7 @@ async fn status_permissions_named_read_only_profile_shows_builtin_label() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn status_permissions_read_only_profile_shows_additional_writable_roots() {
     let temp_home = TempDir::new().expect("temp home");
     let mut config = test_config(&temp_home).await;
@@ -347,7 +348,7 @@ async fn status_permissions_read_only_profile_shows_additional_writable_roots() 
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn status_permissions_named_workspace_profile_shows_builtin_label() {
     let temp_home = TempDir::new().expect("temp home");
     let mut config = test_config(&temp_home).await;
@@ -370,7 +371,7 @@ async fn status_permissions_named_workspace_profile_shows_builtin_label() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn status_permissions_workspace_auto_review_shows_reviewer_label() {
     let temp_home = TempDir::new().expect("temp home");
     let mut config = test_config(&temp_home).await;
@@ -394,7 +395,7 @@ async fn status_permissions_workspace_auto_review_shows_reviewer_label() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn status_permissions_named_profile_shows_additional_writable_roots() {
     let temp_home = TempDir::new().expect("temp home");
     let mut config = test_config(&temp_home).await;
@@ -423,7 +424,7 @@ async fn status_permissions_named_profile_shows_additional_writable_roots() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn status_permissions_workspace_roots_show_additional_directories() {
     let temp_home = TempDir::new().expect("temp home");
     let mut config = test_config(&temp_home).await;
@@ -452,7 +453,7 @@ async fn status_permissions_workspace_roots_show_additional_directories() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn status_permissions_workspace_roots_include_profile_defined_directories() {
     let temp_home = TempDir::new().expect("temp home");
     let mut config = test_config(&temp_home).await;
@@ -488,7 +489,7 @@ async fn status_permissions_workspace_roots_include_profile_defined_directories(
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn status_permissions_broadened_workspace_profile_shows_builtin_label() {
     let temp_home = TempDir::new().expect("temp home");
     let mut config = test_config(&temp_home).await;
@@ -516,7 +517,7 @@ async fn status_permissions_broadened_workspace_profile_shows_builtin_label() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn status_permissions_user_defined_profile_shows_name() {
     let temp_home = TempDir::new().expect("temp home");
     let mut config = test_config(&temp_home).await;
@@ -534,7 +535,7 @@ async fn status_permissions_user_defined_profile_shows_name() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn status_snapshot_shows_active_user_defined_profile() {
     let temp_home = TempDir::new().expect("temp home");
     let mut config = test_config(&temp_home).await;
@@ -581,7 +582,7 @@ async fn status_snapshot_shows_active_user_defined_profile() {
     assert_snapshot!(sanitized);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn status_model_provider_uses_bedrock_runtime_base_url() {
     let temp_home = TempDir::new().expect("temp home");
     let mut config = test_config(&temp_home).await;
@@ -631,7 +632,7 @@ async fn status_model_provider_uses_bedrock_runtime_base_url() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn status_snapshot_shows_auto_review_permissions() {
     let temp_home = TempDir::new().expect("temp home");
     let mut config = test_config(&temp_home).await;
@@ -679,7 +680,7 @@ async fn status_snapshot_shows_auto_review_permissions() {
     assert_snapshot!(sanitized);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn status_permissions_full_disk_managed_with_network_is_danger_full_access() {
     let temp_home = TempDir::new().expect("temp home");
     let mut config = test_config(&temp_home).await;
@@ -702,7 +703,7 @@ async fn status_permissions_full_disk_managed_with_network_is_danger_full_access
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn status_permissions_full_disk_managed_without_network_is_external_sandbox() {
     let temp_home = TempDir::new().expect("temp home");
     let mut config = test_config(&temp_home).await;
@@ -725,7 +726,7 @@ async fn status_permissions_full_disk_managed_without_network_is_external_sandbo
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn status_snapshot_includes_forked_from() {
     let temp_home = TempDir::new().expect("temp home");
     let mut config = test_config(&temp_home).await;
@@ -779,7 +780,7 @@ async fn status_snapshot_includes_forked_from() {
     assert_snapshot!(sanitized);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn status_snapshot_includes_monthly_limit() {
     let temp_home = TempDir::new().expect("temp home");
     let mut config = test_config(&temp_home).await;
@@ -842,7 +843,7 @@ async fn status_snapshot_includes_monthly_limit() {
     assert_snapshot!(sanitized);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn status_snapshot_shows_unlimited_credits() {
     let temp_home = TempDir::new().expect("temp home");
     let config = test_config(&temp_home).await;
@@ -892,7 +893,7 @@ async fn status_snapshot_shows_unlimited_credits() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn status_snapshot_shows_positive_credits() {
     let temp_home = TempDir::new().expect("temp home");
     let config = test_config(&temp_home).await;
@@ -942,7 +943,7 @@ async fn status_snapshot_shows_positive_credits() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn status_snapshot_hides_zero_credits() {
     let temp_home = TempDir::new().expect("temp home");
     let config = test_config(&temp_home).await;
@@ -990,7 +991,7 @@ async fn status_snapshot_hides_zero_credits() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn status_snapshot_hides_when_has_no_credits_flag() {
     let temp_home = TempDir::new().expect("temp home");
     let config = test_config(&temp_home).await;
@@ -1038,7 +1039,7 @@ async fn status_snapshot_hides_when_has_no_credits_flag() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn status_card_token_usage_excludes_cached_tokens() {
     let temp_home = TempDir::new().expect("temp home");
     let mut config = test_config(&temp_home).await;
@@ -1084,7 +1085,7 @@ async fn status_card_token_usage_excludes_cached_tokens() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn status_snapshot_truncates_in_narrow_terminal() {
     let temp_home = TempDir::new().expect("temp home");
     let mut config = test_config(&temp_home).await;
@@ -1150,7 +1151,7 @@ async fn status_snapshot_truncates_in_narrow_terminal() {
     assert_snapshot!(sanitized);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn status_snapshot_shows_missing_limits_message() {
     let temp_home = TempDir::new().expect("temp home");
     let mut config = test_config(&temp_home).await;
@@ -1198,7 +1199,7 @@ async fn status_snapshot_shows_missing_limits_message() {
     assert_snapshot!(sanitized);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn status_snapshot_uses_default_reasoning_when_config_empty() {
     let temp_home = TempDir::new().expect("temp home");
     let mut config = test_config(&temp_home).await;
@@ -1249,7 +1250,7 @@ async fn status_snapshot_uses_default_reasoning_when_config_empty() {
     assert_snapshot!(sanitized);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn status_snapshot_shows_refreshing_limits_notice() {
     let temp_home = TempDir::new().expect("temp home");
     let mut config = test_config(&temp_home).await;
@@ -1314,7 +1315,7 @@ async fn status_snapshot_shows_refreshing_limits_notice() {
     assert_snapshot!(sanitized);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn status_snapshot_includes_credits_and_limits() {
     let temp_home = TempDir::new().expect("temp home");
     let mut config = test_config(&temp_home).await;
@@ -1384,7 +1385,7 @@ async fn status_snapshot_includes_credits_and_limits() {
     assert_snapshot!(sanitized);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn status_snapshot_shows_unavailable_limits_message() {
     let temp_home = TempDir::new().expect("temp home");
     let mut config = test_config(&temp_home).await;
@@ -1442,7 +1443,7 @@ async fn status_snapshot_shows_unavailable_limits_message() {
     assert_snapshot!(sanitized);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn status_snapshot_treats_refreshing_empty_limits_as_unavailable() {
     let temp_home = TempDir::new().expect("temp home");
     let mut config = test_config(&temp_home).await;
@@ -1500,7 +1501,7 @@ async fn status_snapshot_treats_refreshing_empty_limits_as_unavailable() {
     assert_snapshot!(sanitized);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn status_snapshot_shows_stale_limits_message() {
     let temp_home = TempDir::new().expect("temp home");
     let mut config = test_config(&temp_home).await;
@@ -1567,7 +1568,7 @@ async fn status_snapshot_shows_stale_limits_message() {
     assert_snapshot!(sanitized);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn status_snapshot_cached_limits_hide_credits_without_flag() {
     let temp_home = TempDir::new().expect("temp home");
     let mut config = test_config(&temp_home).await;
@@ -1638,7 +1639,7 @@ async fn status_snapshot_cached_limits_hide_credits_without_flag() {
     assert_snapshot!(sanitized);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn status_context_window_uses_last_usage() {
     let temp_home = TempDir::new().expect("temp home");
     let mut config = test_config(&temp_home).await;

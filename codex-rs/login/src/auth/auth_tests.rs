@@ -23,11 +23,12 @@ use wiremock::ResponseTemplate;
 use wiremock::matchers::method;
 use wiremock::matchers::path;
 
+use matrix_test_macro as matrix;
 const WORKSPACE_ID_ALLOWED: &str = "123e4567-e89b-42d3-a456-426614174000";
 const WORKSPACE_ID_SECOND_ALLOWED: &str = "123e4567-e89b-42d3-a456-426614174001";
 const WORKSPACE_ID_DISALLOWED: &str = "123e4567-e89b-42d3-a456-426614174002";
 
-#[tokio::test]
+#[matrix::test]
 async fn refresh_without_id_token() {
     let codex_home = tempdir().unwrap();
     let fake_jwt = write_auth_file(
@@ -88,7 +89,7 @@ fn login_with_api_key_overwrites_existing_auth_json() {
     assert!(auth.tokens.is_none(), "tokens should be cleared");
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn login_with_access_token_writes_only_token() {
     let dir = tempdir().unwrap();
     let auth_path = dir.path().join(codex_paths::AUTH_JSON);
@@ -127,7 +128,7 @@ async fn login_with_access_token_writes_only_token() {
     server.verify().await;
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn login_with_access_token_rejects_invalid_jwt() {
     let dir = tempdir().unwrap();
 
@@ -147,7 +148,7 @@ async fn login_with_access_token_rejects_invalid_jwt() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn login_with_access_token_rejects_unsigned_jwt() {
     let dir = tempdir().unwrap();
     let record = agent_identity_record(WORKSPACE_ID_ALLOWED);
@@ -177,7 +178,7 @@ async fn login_with_access_token_rejects_unsigned_jwt() {
     server.verify().await;
 }
 
-#[tokio::test]
+#[matrix::test]
 #[serial(codex_auth_env)]
 async fn missing_auth_json_returns_none() {
     let dir = tempdir().unwrap();
@@ -192,7 +193,7 @@ async fn missing_auth_json_returns_none() {
     assert_eq!(auth, None);
 }
 
-#[tokio::test]
+#[matrix::test]
 #[serial(codex_auth_env)]
 async fn pro_account_with_no_api_key_uses_chatgpt_auth() {
     let codex_home = tempdir().unwrap();
@@ -251,7 +252,7 @@ async fn pro_account_with_no_api_key_uses_chatgpt_auth() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 #[serial(codex_auth_env)]
 async fn loads_api_key_from_auth_json() {
     let dir = tempdir().unwrap();
@@ -296,7 +297,7 @@ fn logout_removes_auth_file() -> Result<(), std::io::Error> {
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn unauthorized_recovery_reports_mode_and_step_names() {
     let dir = tempdir().unwrap();
     let manager = AuthManager::shared(
@@ -325,7 +326,7 @@ async fn unauthorized_recovery_reports_mode_and_step_names() {
     assert_eq!(external.step_name(), "external_refresh");
 }
 
-#[tokio::test]
+#[matrix::test]
 #[serial(codex_auth_env)]
 async fn refresh_failure_is_scoped_to_the_matching_auth_snapshot() {
     let codex_home = tempdir().unwrap();
@@ -391,7 +392,7 @@ fn external_auth_tokens_without_chatgpt_metadata_cannot_seed_chatgpt_auth() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn external_bearer_only_auth_manager_uses_cached_provider_token() {
     let script = ProviderAuthScript::new(&["provider-token", "next-token"]).unwrap();
     let manager = AuthManager::external_bearer_only(script.auth_config());
@@ -411,7 +412,7 @@ async fn external_bearer_only_auth_manager_uses_cached_provider_token() {
     assert_eq!(manager.get_api_auth_mode(), Some(ApiAuthMode::ApiKey));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn external_bearer_only_auth_manager_disables_auto_refresh_when_interval_is_zero() {
     let script = ProviderAuthScript::new(&["provider-token", "next-token"]).unwrap();
     let mut auth_config = script.auth_config();
@@ -431,7 +432,7 @@ async fn external_bearer_only_auth_manager_disables_auto_refresh_when_interval_i
     assert_eq!(second.as_deref(), Some("provider-token"));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn external_bearer_only_auth_manager_returns_none_when_command_fails() {
     let script = ProviderAuthScript::new_failing().unwrap();
     let manager = AuthManager::external_bearer_only(script.auth_config());
@@ -439,7 +440,7 @@ async fn external_bearer_only_auth_manager_returns_none_when_command_fails() {
     assert_eq!(manager.auth().await, None);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn unauthorized_recovery_uses_external_refresh_for_bearer_manager() {
     let script = ProviderAuthScript::new(&["provider-token", "refreshed-provider-token"]).unwrap();
     let mut auth_config = script.auth_config();
@@ -713,7 +714,7 @@ fn remove_access_token_env_var() -> EnvVarGuard {
     EnvVarGuard::remove(CODEX_ACCESS_TOKEN_ENV_VAR)
 }
 
-#[tokio::test]
+#[matrix::test]
 #[serial(codex_auth_env)]
 async fn load_auth_reads_access_token_from_env() {
     let codex_home = tempdir().unwrap();
@@ -763,7 +764,7 @@ async fn load_auth_reads_access_token_from_env() {
     server.verify().await;
 }
 
-#[tokio::test]
+#[matrix::test]
 #[serial(codex_auth_env)]
 async fn load_auth_keeps_codex_api_key_env_precedence() {
     let codex_home = tempdir().unwrap();
@@ -785,7 +786,7 @@ async fn load_auth_keeps_codex_api_key_env_precedence() {
     assert_eq!(auth.api_key(), Some("sk-env"));
 }
 
-#[tokio::test]
+#[matrix::test]
 #[serial(codex_auth_env)]
 async fn enforce_login_restrictions_logs_out_for_method_mismatch() {
     let codex_home = tempdir().unwrap();
@@ -810,7 +811,7 @@ async fn enforce_login_restrictions_logs_out_for_method_mismatch() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 #[serial(codex_auth_env)]
 async fn enforce_login_restrictions_logs_out_for_workspace_mismatch() {
     let codex_home = tempdir().unwrap();
@@ -845,7 +846,7 @@ async fn enforce_login_restrictions_logs_out_for_workspace_mismatch() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 #[serial(codex_auth_env)]
 async fn enforce_login_restrictions_allows_matching_workspace() {
     let codex_home = tempdir().unwrap();
@@ -876,7 +877,7 @@ async fn enforce_login_restrictions_allows_matching_workspace() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 #[serial(codex_auth_env)]
 async fn enforce_login_restrictions_allows_any_matching_workspace_in_list() {
     let codex_home = tempdir().unwrap();
@@ -905,7 +906,7 @@ async fn enforce_login_restrictions_allows_any_matching_workspace_in_list() {
         .expect("any matching workspace in the allowed list should succeed");
 }
 
-#[tokio::test]
+#[matrix::test]
 #[serial(codex_auth_env)]
 async fn enforce_login_restrictions_logs_out_for_agent_identity_workspace_mismatch() {
     let codex_home = tempdir().unwrap();
@@ -965,7 +966,7 @@ async fn enforce_login_restrictions_logs_out_for_agent_identity_workspace_mismat
     server.verify().await;
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn enforce_login_restrictions_allows_api_key_if_login_method_not_set_but_forced_chatgpt_workspace_id_is_set()
  {
     let codex_home = tempdir().unwrap();
@@ -989,7 +990,7 @@ async fn enforce_login_restrictions_allows_api_key_if_login_method_not_set_but_f
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 #[serial(codex_auth_env)]
 async fn enforce_login_restrictions_blocks_env_api_key_when_chatgpt_required() {
     let _guard = EnvVarGuard::set(CODEX_API_KEY_ENV_VAR, "sk-env");
@@ -1121,13 +1122,13 @@ J1bwkqKZTB5dHolX9A58e/xXnfZ5P8f3Z83+Izap3FwqQulk7b1WO1MQcHuVg2NN
 8U4M2TSWCKUY/A6sT4W8+mT9
 -----END PRIVATE KEY-----"#;
 
-#[tokio::test]
+#[matrix::test]
 #[serial(codex_auth_env)]
 async fn agent_identity_plan_type_maps_raw_enterprise_alias() {
     assert_agent_identity_plan_alias(json!("hc"), AccountPlanType::Enterprise).await;
 }
 
-#[tokio::test]
+#[matrix::test]
 #[serial(codex_auth_env)]
 async fn agent_identity_plan_type_maps_raw_education_alias() {
     assert_agent_identity_plan_alias(json!("education"), AccountPlanType::Edu).await;
@@ -1165,7 +1166,7 @@ async fn assert_agent_identity_plan_alias(
     server.verify().await;
 }
 
-#[tokio::test]
+#[matrix::test]
 #[serial(codex_auth_env)]
 async fn plan_type_maps_known_plan() {
     let codex_home = tempdir().unwrap();
@@ -1193,7 +1194,7 @@ async fn plan_type_maps_known_plan() {
     pretty_assertions::assert_eq!(auth.account_plan_type(), Some(AccountPlanType::Pro));
 }
 
-#[tokio::test]
+#[matrix::test]
 #[serial(codex_auth_env)]
 async fn plan_type_maps_self_serve_business_usage_based_plan() {
     let codex_home = tempdir().unwrap();
@@ -1224,7 +1225,7 @@ async fn plan_type_maps_self_serve_business_usage_based_plan() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 #[serial(codex_auth_env)]
 async fn plan_type_maps_enterprise_cbp_usage_based_plan() {
     let codex_home = tempdir().unwrap();
@@ -1255,7 +1256,7 @@ async fn plan_type_maps_enterprise_cbp_usage_based_plan() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 #[serial(codex_auth_env)]
 async fn plan_type_maps_unknown_to_unknown() {
     let codex_home = tempdir().unwrap();
@@ -1283,7 +1284,7 @@ async fn plan_type_maps_unknown_to_unknown() {
     pretty_assertions::assert_eq!(auth.account_plan_type(), Some(AccountPlanType::Unknown));
 }
 
-#[tokio::test]
+#[matrix::test]
 #[serial(codex_auth_env)]
 async fn missing_plan_type_maps_to_unknown() {
     let codex_home = tempdir().unwrap();

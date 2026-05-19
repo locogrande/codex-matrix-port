@@ -64,6 +64,7 @@ use tokio::sync::Mutex;
 use tokio::time::timeout;
 use tokio_util::sync::CancellationToken;
 
+use matrix_test_macro as matrix;
 fn invocation(
     session: Arc<crate::session::session::Session>,
     turn: Arc<TurnContext>,
@@ -171,7 +172,7 @@ struct ListedAgentResult {
     last_task_message: Option<String>,
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn handler_rejects_non_function_payloads() {
     let (session, turn) = make_session_and_context().await;
     let invocation = invocation(
@@ -193,7 +194,7 @@ async fn handler_rejects_non_function_payloads() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn spawn_agent_rejects_empty_message() {
     let (session, turn) = make_session_and_context().await;
     let invocation = invocation(
@@ -211,7 +212,7 @@ async fn spawn_agent_rejects_empty_message() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn spawn_agent_rejects_when_message_and_items_are_both_set() {
     let (session, turn) = make_session_and_context().await;
     let invocation = invocation(
@@ -234,7 +235,7 @@ async fn spawn_agent_rejects_when_message_and_items_are_both_set() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn spawn_agent_uses_explorer_role_and_preserves_approval_policy() {
     #[derive(Debug, Deserialize)]
     struct SpawnAgentResult {
@@ -294,7 +295,7 @@ async fn spawn_agent_uses_explorer_role_and_preserves_approval_policy() {
     assert_eq!(snapshot.model_provider_id, "ollama");
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn spawn_agent_fork_context_rejects_agent_type_override() {
     let (mut session, mut turn) = make_session_and_context().await;
     let role_name = install_role_with_model_override(&mut turn).await;
@@ -328,7 +329,7 @@ async fn spawn_agent_fork_context_rejects_agent_type_override() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn spawn_agent_fork_context_rejects_child_model_overrides() {
     let (mut session, turn) = make_session_and_context().await;
     let manager = thread_manager();
@@ -363,7 +364,7 @@ async fn spawn_agent_fork_context_rejects_child_model_overrides() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn multi_agent_v2_spawn_fork_turns_all_rejects_agent_type_override() {
     let (mut session, mut turn) = make_session_and_context().await;
     let role_name = install_role_with_model_override(&mut turn).await;
@@ -408,7 +409,7 @@ async fn multi_agent_v2_spawn_fork_turns_all_rejects_agent_type_override() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn multi_agent_v2_spawn_defaults_to_full_fork_and_rejects_child_model_overrides() {
     let (mut session, mut turn) = make_session_and_context().await;
     let manager = thread_manager();
@@ -449,7 +450,7 @@ async fn multi_agent_v2_spawn_defaults_to_full_fork_and_rejects_child_model_over
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn spawn_agent_service_tier_override_validates_the_effective_child_model() {
     #[derive(Debug, Deserialize)]
     struct SpawnAgentResult {
@@ -548,7 +549,7 @@ async fn spawn_agent_service_tier_override_validates_the_effective_child_model()
     }
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn spawn_agent_service_tier_inheritance_preserves_supported_or_configured_tiers() {
     #[derive(Debug, Deserialize)]
     struct SpawnAgentResult {
@@ -704,7 +705,7 @@ service_tier = "priority"
     }
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn spawn_agent_full_history_fork_accepts_explicit_service_tier() {
     #[derive(Debug, Deserialize)]
     struct SpawnAgentResult {
@@ -752,7 +753,7 @@ async fn spawn_agent_full_history_fork_accepts_explicit_service_tier() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn multi_agent_v2_full_history_fork_accepts_explicit_service_tier() {
     #[derive(Debug, Deserialize)]
     struct SpawnAgentResult {
@@ -818,7 +819,7 @@ async fn multi_agent_v2_full_history_fork_accepts_explicit_service_tier() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn multi_agent_v2_spawn_partial_fork_turns_allows_agent_type_override() {
     let (mut session, mut turn) = make_session_and_context().await;
     let role_name = install_role_with_model_override(&mut turn).await;
@@ -875,7 +876,7 @@ async fn multi_agent_v2_spawn_partial_fork_turns_allows_agent_type_override() {
     assert_eq!(snapshot.reasoning_effort, Some(ReasoningEffort::Minimal));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn spawn_agent_returns_agent_id_without_task_name() {
     let (mut session, turn) = make_session_and_context().await;
     let manager = thread_manager();
@@ -902,7 +903,7 @@ async fn spawn_agent_returns_agent_id_without_task_name() {
     assert_eq!(success, Some(true));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn multi_agent_v2_spawn_requires_task_name() {
     let (mut session, mut turn) = make_session_and_context().await;
     let manager = thread_manager();
@@ -936,7 +937,7 @@ async fn multi_agent_v2_spawn_requires_task_name() {
     assert!(message.contains("missing field `task_name`"));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn multi_agent_v2_spawn_rejects_legacy_items_field() {
     let (mut session, mut turn) = make_session_and_context().await;
     let manager = thread_manager();
@@ -972,7 +973,7 @@ async fn multi_agent_v2_spawn_rejects_legacy_items_field() {
     assert!(message.contains("unknown field `items`"));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn spawn_agent_errors_when_manager_dropped() {
     let (session, turn) = make_session_and_context().await;
     let invocation = invocation(
@@ -990,7 +991,7 @@ async fn spawn_agent_errors_when_manager_dropped() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn multi_agent_v2_spawn_returns_path_and_send_message_accepts_relative_path() {
     #[derive(Debug, Deserialize)]
     struct SpawnAgentResult {
@@ -1093,7 +1094,7 @@ async fn multi_agent_v2_spawn_returns_path_and_send_message_accepts_relative_pat
     }));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn multi_agent_v2_spawn_rejects_legacy_fork_context() {
     let (mut session, mut turn) = make_session_and_context().await;
     let manager = thread_manager();
@@ -1133,7 +1134,7 @@ async fn multi_agent_v2_spawn_rejects_legacy_fork_context() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn multi_agent_v2_spawn_rejects_invalid_fork_turns_string() {
     let (mut session, mut turn) = make_session_and_context().await;
     let manager = thread_manager();
@@ -1173,7 +1174,7 @@ async fn multi_agent_v2_spawn_rejects_invalid_fork_turns_string() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn multi_agent_v2_spawn_rejects_zero_fork_turns() {
     let (mut session, mut turn) = make_session_and_context().await;
     let manager = thread_manager();
@@ -1213,7 +1214,7 @@ async fn multi_agent_v2_spawn_rejects_zero_fork_turns() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn multi_agent_v2_send_message_accepts_root_target_from_child() {
     let (mut session, mut turn) = make_session_and_context().await;
     let manager = thread_manager();
@@ -1289,7 +1290,7 @@ async fn multi_agent_v2_send_message_accepts_root_target_from_child() {
     }));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn multi_agent_v2_followup_task_rejects_root_target_from_child() {
     let (mut session, mut turn) = make_session_and_context().await;
     let manager = thread_manager();
@@ -1370,7 +1371,7 @@ async fn multi_agent_v2_followup_task_rejects_root_target_from_child() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn multi_agent_v2_list_agents_returns_completed_status_and_last_task_message() {
     let (mut session, mut turn) = make_session_and_context().await;
     let manager = thread_manager();
@@ -1464,7 +1465,7 @@ async fn multi_agent_v2_list_agents_returns_completed_status_and_last_task_messa
     assert_eq!(success, Some(true));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn multi_agent_v2_list_agents_filters_by_relative_path_prefix() {
     let (mut session, mut turn) = make_session_and_context().await;
     let manager = thread_manager();
@@ -1551,7 +1552,7 @@ async fn multi_agent_v2_list_agents_filters_by_relative_path_prefix() {
     assert_eq!(result.agents[0].last_task_message.as_deref(), Some("build"));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn multi_agent_v2_list_agents_omits_closed_agents() {
     let (mut session, mut turn) = make_session_and_context().await;
     let manager = thread_manager();
@@ -1615,7 +1616,7 @@ async fn multi_agent_v2_list_agents_omits_closed_agents() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn multi_agent_v2_send_message_rejects_legacy_items_field() {
     let (mut session, mut turn) = make_session_and_context().await;
     let manager = thread_manager();
@@ -1671,7 +1672,7 @@ async fn multi_agent_v2_send_message_rejects_legacy_items_field() {
     assert!(message.contains("unknown field `items`"));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn multi_agent_v2_send_message_rejects_interrupt_parameter() {
     let (mut session, mut turn) = make_session_and_context().await;
     let manager = thread_manager();
@@ -1744,7 +1745,7 @@ async fn multi_agent_v2_send_message_rejects_interrupt_parameter() {
     )));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn multi_agent_v2_followup_task_completion_notifies_parent_on_every_turn() {
     let (mut session, mut turn) = make_session_and_context().await;
     let manager = thread_manager();
@@ -1879,7 +1880,7 @@ async fn multi_agent_v2_followup_task_completion_notifies_parent_on_every_turn()
     assert_eq!(notifications.len(), 2);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn multi_agent_v2_followup_task_rejects_legacy_items_field() {
     let (mut session, mut turn) = make_session_and_context().await;
     let manager = thread_manager();
@@ -1932,7 +1933,7 @@ async fn multi_agent_v2_followup_task_rejects_legacy_items_field() {
     assert!(message.contains("unknown field `items`"));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn multi_agent_v2_interrupted_turn_does_not_notify_parent() {
     let (mut session, mut turn) = make_session_and_context().await;
     let manager = thread_manager();
@@ -2009,7 +2010,7 @@ async fn multi_agent_v2_interrupted_turn_does_not_notify_parent() {
     assert_eq!(notifications, Vec::<String>::new());
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn multi_agent_v2_spawn_omits_agent_id_when_named() {
     let (mut session, mut turn) = make_session_and_context().await;
     let manager = thread_manager();
@@ -2048,7 +2049,7 @@ async fn multi_agent_v2_spawn_omits_agent_id_when_named() {
     assert_eq!(success, Some(true));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn multi_agent_v2_spawn_surfaces_task_name_validation_errors() {
     let (mut session, mut turn) = make_session_and_context().await;
     let manager = thread_manager();
@@ -2085,7 +2086,7 @@ async fn multi_agent_v2_spawn_surfaces_task_name_validation_errors() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn spawn_agent_reapplies_runtime_sandbox_after_role_config() {
     #[derive(Debug, Deserialize)]
     struct SpawnAgentResult {
@@ -2173,7 +2174,7 @@ async fn spawn_agent_reapplies_runtime_sandbox_after_role_config() {
     assert_eq!(child_turn.permission_profile(), expected_permission_profile);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn spawn_agent_rejects_when_depth_limit_exceeded() {
     let (mut session, mut turn) = make_session_and_context().await;
     let manager = thread_manager();
@@ -2205,7 +2206,7 @@ async fn spawn_agent_rejects_when_depth_limit_exceeded() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn spawn_agent_allows_depth_up_to_configured_max_depth() {
     #[derive(Debug, Deserialize)]
     struct SpawnAgentResult {
@@ -2251,7 +2252,7 @@ async fn spawn_agent_allows_depth_up_to_configured_max_depth() {
     assert_eq!(success, Some(true));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn multi_agent_v2_spawn_agent_ignores_configured_max_depth() {
     #[derive(Debug, Deserialize)]
     struct SpawnAgentResult {
@@ -2305,7 +2306,7 @@ async fn multi_agent_v2_spawn_agent_ignores_configured_max_depth() {
     assert_eq!(success, Some(true));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn send_input_rejects_empty_message() {
     let (session, turn) = make_session_and_context().await;
     let invocation = invocation(
@@ -2323,7 +2324,7 @@ async fn send_input_rejects_empty_message() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn send_input_rejects_when_message_and_items_are_both_set() {
     let (session, turn) = make_session_and_context().await;
     let invocation = invocation(
@@ -2347,7 +2348,7 @@ async fn send_input_rejects_when_message_and_items_are_both_set() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn send_input_rejects_invalid_id() {
     let (session, turn) = make_session_and_context().await;
     let invocation = invocation(
@@ -2365,7 +2366,7 @@ async fn send_input_rejects_invalid_id() {
     assert!(msg.starts_with("invalid agent id not-a-uuid:"));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn send_input_reports_missing_agent() {
     let (mut session, turn) = make_session_and_context().await;
     let manager = thread_manager();
@@ -2386,7 +2387,7 @@ async fn send_input_reports_missing_agent() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn send_input_interrupts_before_prompt() {
     let (mut session, turn) = make_session_and_context().await;
     let manager = thread_manager();
@@ -2428,7 +2429,7 @@ async fn send_input_interrupts_before_prompt() {
         .expect("shutdown should submit");
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn send_input_accepts_structured_items() {
     let (mut session, turn) = make_session_and_context().await;
     let manager = thread_manager();
@@ -2484,7 +2485,7 @@ async fn send_input_accepts_structured_items() {
         .expect("shutdown should submit");
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn resume_agent_rejects_invalid_id() {
     let (session, turn) = make_session_and_context().await;
     let invocation = invocation(
@@ -2502,7 +2503,7 @@ async fn resume_agent_rejects_invalid_id() {
     assert!(msg.starts_with("invalid agent id not-a-uuid:"));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn resume_agent_reports_missing_agent() {
     let (mut session, turn) = make_session_and_context().await;
     let manager = thread_manager();
@@ -2523,7 +2524,7 @@ async fn resume_agent_reports_missing_agent() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn resume_agent_noops_for_active_agent() {
     let (mut session, turn) = make_session_and_context().await;
     let manager = thread_manager();
@@ -2562,7 +2563,7 @@ async fn resume_agent_noops_for_active_agent() {
         .expect("shutdown should submit");
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn resume_agent_restores_closed_agent_and_accepts_send_input() {
     let (mut session, turn) = make_session_and_context().await;
     let manager = thread_manager();
@@ -2641,7 +2642,7 @@ async fn resume_agent_restores_closed_agent_and_accepts_send_input() {
         .expect("shutdown resumed agent");
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn resume_agent_rejects_when_depth_limit_exceeded() {
     let (mut session, mut turn) = make_session_and_context().await;
     let manager = thread_manager();
@@ -2673,7 +2674,7 @@ async fn resume_agent_rejects_when_depth_limit_exceeded() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn wait_agent_rejects_non_positive_timeout() {
     let (session, turn) = make_session_and_context().await;
     let invocation = invocation(
@@ -2694,7 +2695,7 @@ async fn wait_agent_rejects_non_positive_timeout() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn wait_agent_rejects_invalid_target() {
     let (session, turn) = make_session_and_context().await;
     let invocation = invocation(
@@ -2712,7 +2713,7 @@ async fn wait_agent_rejects_invalid_target() {
     assert!(msg.starts_with("invalid agent id invalid:"));
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn wait_agent_rejects_empty_targets() {
     let (session, turn) = make_session_and_context().await;
     let invocation = invocation(
@@ -2730,7 +2731,7 @@ async fn wait_agent_rejects_empty_targets() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn multi_agent_v2_wait_agent_accepts_timeout_only_argument() {
     let (mut session, mut turn) = make_session_and_context().await;
     let manager = thread_manager();
@@ -2816,7 +2817,7 @@ async fn multi_agent_v2_wait_agent_accepts_timeout_only_argument() {
     assert_eq!(success, None);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn multi_agent_v2_wait_agent_rejects_timeout_below_configured_min() {
     let (session, mut turn) = make_session_and_context().await;
     let mut config = (*turn.config).clone();
@@ -2846,7 +2847,7 @@ async fn multi_agent_v2_wait_agent_rejects_timeout_below_configured_min() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn multi_agent_v2_wait_agent_accepts_explicit_timeout_at_configured_min() {
     let (session, mut turn) = make_session_and_context().await;
     let mut config = (*turn.config).clone();
@@ -2881,7 +2882,7 @@ async fn multi_agent_v2_wait_agent_accepts_explicit_timeout_at_configured_min() 
     assert_eq!(success, None);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn multi_agent_v2_wait_agent_uses_configured_default_timeout() {
     let (session, mut turn) = make_session_and_context().await;
     let mut config = (*turn.config).clone();
@@ -2936,7 +2937,7 @@ async fn multi_agent_v2_wait_agent_uses_configured_default_timeout() {
     assert_eq!(success, None);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn multi_agent_v2_wait_agent_allows_zero_configured_timeout() {
     let (session, mut turn) = make_session_and_context().await;
     let mut config = (*turn.config).clone();
@@ -2976,7 +2977,7 @@ async fn multi_agent_v2_wait_agent_allows_zero_configured_timeout() {
     assert_eq!(success, None);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn multi_agent_v2_wait_agent_rejects_timeout_above_configured_max() {
     let (session, mut turn) = make_session_and_context().await;
     let mut config = (*turn.config).clone();
@@ -3006,7 +3007,7 @@ async fn multi_agent_v2_wait_agent_rejects_timeout_above_configured_max() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn multi_agent_v2_wait_agent_accepts_explicit_timeout_at_configured_max() {
     let (session, mut turn) = make_session_and_context().await;
     let mut config = (*turn.config).clone();
@@ -3041,7 +3042,7 @@ async fn multi_agent_v2_wait_agent_accepts_explicit_timeout_at_configured_max() 
     assert_eq!(success, None);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn wait_agent_returns_not_found_for_missing_agents() {
     let (mut session, turn) = make_session_and_context().await;
     let manager = thread_manager();
@@ -3077,7 +3078,7 @@ async fn wait_agent_returns_not_found_for_missing_agents() {
     assert_eq!(success, None);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn wait_agent_times_out_when_status_is_not_final() {
     let (mut session, turn) = make_session_and_context().await;
     let manager = thread_manager();
@@ -3120,7 +3121,7 @@ async fn wait_agent_times_out_when_status_is_not_final() {
         .expect("shutdown should submit");
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn wait_agent_clamps_short_timeouts_to_minimum() {
     let (mut session, turn) = make_session_and_context().await;
     let manager = thread_manager();
@@ -3158,7 +3159,7 @@ async fn wait_agent_clamps_short_timeouts_to_minimum() {
         .expect("shutdown should submit");
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn wait_agent_returns_final_status_without_timeout() {
     let (mut session, turn) = make_session_and_context().await;
     let manager = thread_manager();
@@ -3210,7 +3211,7 @@ async fn wait_agent_returns_final_status_without_timeout() {
     assert_eq!(success, None);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn multi_agent_v2_wait_agent_returns_summary_for_mailbox_activity() {
     let (mut session, mut turn) = make_session_and_context().await;
     let manager = thread_manager();
@@ -3301,7 +3302,7 @@ async fn multi_agent_v2_wait_agent_returns_summary_for_mailbox_activity() {
     assert_eq!(success, None);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn multi_agent_v2_wait_agent_returns_for_already_queued_mail() {
     let (mut session, mut turn) = make_session_and_context().await;
     let manager = thread_manager();
@@ -3379,7 +3380,7 @@ async fn multi_agent_v2_wait_agent_returns_for_already_queued_mail() {
     assert_eq!(success, None);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn multi_agent_v2_wait_agent_wakes_on_any_mailbox_notification() {
     let (mut session, mut turn) = make_session_and_context().await;
     let manager = thread_manager();
@@ -3467,7 +3468,7 @@ async fn multi_agent_v2_wait_agent_wakes_on_any_mailbox_notification() {
     assert_eq!(success, None);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn multi_agent_v2_wait_agent_does_not_return_completed_content() {
     let (mut session, mut turn) = make_session_and_context().await;
     let manager = thread_manager();
@@ -3553,7 +3554,7 @@ async fn multi_agent_v2_wait_agent_does_not_return_completed_content() {
     assert_eq!(success, None);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn multi_agent_v2_close_agent_accepts_task_name_target() {
     let (mut session, mut turn) = make_session_and_context().await;
     let manager = thread_manager();
@@ -3612,7 +3613,7 @@ async fn multi_agent_v2_close_agent_accepts_task_name_target() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn multi_agent_v2_close_agent_rejects_root_target_and_id() {
     let (mut session, mut turn) = make_session_and_context().await;
     let manager = thread_manager();
@@ -3662,7 +3663,7 @@ async fn multi_agent_v2_close_agent_rejects_root_target_and_id() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn close_agent_submits_shutdown_and_returns_previous_status() {
     let (mut session, turn) = make_session_and_context().await;
     let manager = thread_manager();
@@ -3701,7 +3702,7 @@ async fn close_agent_submits_shutdown_and_returns_previous_status() {
     assert_eq!(status_after, AgentStatus::NotFound);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn tool_handlers_cascade_close_and_resume_and_keep_explicitly_closed_subtrees_closed() {
     let (_session, turn) = make_session_and_context().await;
     let mut config = turn.config.as_ref().clone();
@@ -3908,7 +3909,7 @@ async fn tool_handlers_cascade_close_and_resume_and_keep_explicitly_closed_subtr
     assert_eq!(shutdown_report.timed_out, Vec::<ThreadId>::new());
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn build_agent_spawn_config_uses_turn_context_values() {
     fn pick_allowed_sandbox_policy(
         permissions: &crate::config::Permissions,
@@ -3996,7 +3997,7 @@ async fn build_agent_spawn_config_uses_turn_context_values() {
     assert_eq!(config, expected);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn build_agent_spawn_config_preserves_base_user_instructions() {
     let (_session, mut turn) = make_session_and_context().await;
     let mut base_config = (*turn.config).clone();
@@ -4012,7 +4013,7 @@ async fn build_agent_spawn_config_preserves_base_user_instructions() {
     assert_eq!(config.user_instructions, base_config.user_instructions);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn build_agent_resume_config_clears_base_instructions() {
     let (_session, mut turn) = make_session_and_context().await;
     let mut base_config = (*turn.config).clone();

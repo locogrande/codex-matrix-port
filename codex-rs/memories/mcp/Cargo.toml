@@ -29,6 +29,7 @@ thiserror = { workspace = true }
 tokio = { workspace = true, features = ["fs", "io-std"] }
 
 [dev-dependencies]
+matrix-test-macro = { workspace = true }
 pretty_assertions = { workspace = true }
 tempfile = { workspace = true }
 tokio = { workspace = true, features = ["fs", "macros"] }

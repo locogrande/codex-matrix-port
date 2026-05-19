@@ -28,7 +28,8 @@ use wiremock::Mock;
 use wiremock::matchers::method;
 use wiremock::matchers::path_regex;
 
-#[tokio::test]
+use matrix_test_macro as matrix;
+#[matrix::test]
 async fn websocket_transport_ctrl_c_waits_for_running_turn_before_exit() -> Result<()> {
     let GracefulCtrlCFixture {
         _codex_home,
@@ -53,7 +54,7 @@ async fn websocket_transport_ctrl_c_waits_for_running_turn_before_exit() -> Resu
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn websocket_transport_second_ctrl_c_forces_exit_while_turn_running() -> Result<()> {
     let GracefulCtrlCFixture {
         _codex_home,
@@ -79,7 +80,7 @@ async fn websocket_transport_second_ctrl_c_forces_exit_while_turn_running() -> R
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn websocket_transport_sigterm_waits_for_running_turn_before_exit() -> Result<()> {
     let GracefulCtrlCFixture {
         _codex_home,
@@ -104,7 +105,7 @@ async fn websocket_transport_sigterm_waits_for_running_turn_before_exit() -> Res
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn websocket_transport_second_sigterm_forces_exit_while_turn_running() -> Result<()> {
     let GracefulCtrlCFixture {
         _codex_home,
@@ -130,7 +131,7 @@ async fn websocket_transport_second_sigterm_forces_exit_while_turn_running() -> 
     Ok(())
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn websocket_transport_repeated_sighup_keeps_waiting_for_running_turn() -> Result<()> {
     let GracefulCtrlCFixture {
         _codex_home,

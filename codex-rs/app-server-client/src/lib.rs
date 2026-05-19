@@ -942,6 +942,7 @@ pub(crate) fn request_method_name(request: &ClientRequest) -> String {
 
 #[cfg(test)]
 mod tests {
+    use matrix_test_macro as matrix;
     use super::*;
     use codex_app_server_protocol::AccountUpdatedNotification;
     use codex_app_server_protocol::ConfigRequirementsReadResponse;
@@ -1240,7 +1241,7 @@ mod tests {
         }
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn typed_request_roundtrip_works() {
         let client = start_test_client(SessionSource::Exec).await;
         let _response: ConfigRequirementsReadResponse = client
@@ -1253,7 +1254,7 @@ mod tests {
         client.shutdown().await.expect("shutdown should complete");
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn typed_request_reports_json_rpc_errors() {
         let client = start_test_client(SessionSource::Exec).await;
         let err = client
@@ -1273,7 +1274,7 @@ mod tests {
         client.shutdown().await.expect("shutdown should complete");
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn caller_provided_session_source_is_applied() {
         for (session_source, expected_source) in [
             (SessionSource::Exec, ApiSessionSource::Exec),
@@ -1295,7 +1296,7 @@ mod tests {
         }
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn threads_started_via_app_server_are_visible_through_typed_requests() {
         let client = start_test_client(SessionSource::Cli).await;
 
@@ -1326,7 +1327,7 @@ mod tests {
         client.shutdown().await.expect("shutdown should complete");
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn tiny_channel_capacity_still_supports_request_roundtrip() {
         let client =
             start_test_client_with_capacity(SessionSource::Exec, /*channel_capacity*/ 1).await;
@@ -1340,7 +1341,7 @@ mod tests {
         client.shutdown().await.expect("shutdown should complete");
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn forward_in_process_event_preserves_transcript_notifications_under_backpressure() {
         let (event_tx, mut event_rx) = mpsc::channel(1);
         event_tx
@@ -1428,7 +1429,7 @@ mod tests {
         ));
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn remote_typed_request_roundtrip_works() {
         let websocket_url = start_test_remote_server(|mut websocket| async move {
             expect_remote_initialize(&mut websocket).await;
@@ -1470,7 +1471,7 @@ mod tests {
         client.shutdown().await.expect("shutdown should complete");
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn remote_unix_socket_typed_request_roundtrip_works() {
         let socket_dir = TempDir::new().expect("socket dir");
         let socket_path = AbsolutePathBuf::from_absolute_path(socket_dir.path().join("codex.sock"))
@@ -1528,7 +1529,7 @@ mod tests {
         client.shutdown().await.expect("shutdown should complete");
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn remote_typed_request_accepts_large_single_frame_response() {
         let padding = "x".repeat((17 << 20) + 1024);
         let websocket_url = start_test_remote_server(move |mut websocket| async move {
@@ -1577,7 +1578,7 @@ mod tests {
         client.shutdown().await.expect("shutdown should complete");
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn remote_connect_includes_auth_header_when_configured() {
         let auth_token = "remote-bearer-token".to_string();
         let websocket_url = start_test_remote_server_with_auth(
@@ -1605,7 +1606,7 @@ mod tests {
         client.shutdown().await.expect("shutdown should complete");
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn remote_connect_rejects_non_loopback_ws_when_auth_configured() {
         let result = RemoteAppServerClient::connect(RemoteAppServerConnectArgs {
             endpoint: RemoteAppServerEndpoint::WebSocket {
@@ -1643,7 +1644,7 @@ mod tests {
         ));
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn remote_duplicate_request_id_keeps_original_waiter() {
         let (first_request_seen_tx, first_request_seen_rx) = tokio::sync::oneshot::channel();
         let websocket_url = start_test_remote_server(|mut websocket| async move {
@@ -1731,7 +1732,7 @@ mod tests {
         client.shutdown().await.expect("shutdown should complete");
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn remote_notifications_arrive_over_websocket() {
         let websocket_url = start_test_remote_server(|mut websocket| async move {
             expect_remote_initialize(&mut websocket).await;
@@ -1766,7 +1767,7 @@ mod tests {
         client.shutdown().await.expect("shutdown should complete");
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn remote_backpressure_preserves_transcript_notifications() {
         let (done_tx, done_rx) = tokio::sync::oneshot::channel();
         let websocket_url = start_test_remote_server(|mut websocket| async move {
@@ -1863,7 +1864,7 @@ mod tests {
         client.shutdown().await.expect("shutdown should complete");
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn remote_server_request_resolution_roundtrip_works() {
         let websocket_url = start_test_remote_server(|mut websocket| async move {
             expect_remote_initialize(&mut websocket).await;
@@ -1917,7 +1918,7 @@ mod tests {
         client.shutdown().await.expect("shutdown should complete");
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn remote_server_request_received_during_initialize_is_delivered() {
         let websocket_url = start_test_remote_server(|mut websocket| async move {
             let JSONRPCMessage::Request(request) = read_websocket_message(&mut websocket).await
@@ -1994,7 +1995,7 @@ mod tests {
         client.shutdown().await.expect("shutdown should complete");
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn remote_unknown_server_request_is_rejected() {
         let websocket_url = start_test_remote_server(|mut websocket| async move {
             expect_remote_initialize(&mut websocket).await;
@@ -2029,7 +2030,7 @@ mod tests {
         client.shutdown().await.expect("shutdown should complete");
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn remote_disconnect_surfaces_as_event() {
         let websocket_url = start_test_remote_server(|mut websocket| async move {
             expect_remote_initialize(&mut websocket).await;
@@ -2077,7 +2078,7 @@ mod tests {
         assert_eq!(std::error::Error::source(&deserialize).is_some(), true);
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn next_event_surfaces_lagged_markers() {
         let (command_tx, _command_rx) = mpsc::channel(1);
         let (event_tx, event_rx) = mpsc::channel(1);
@@ -2172,7 +2173,7 @@ mod tests {
         ));
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn runtime_start_args_forward_environment_manager() {
         let config = Arc::new(build_test_config().await);
         let environment_manager = Arc::new(
@@ -2223,7 +2224,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn runtime_start_args_use_remote_thread_config_loader_when_configured() {
         let mut config = build_test_config().await;
         config.experimental_thread_config_endpoint = Some("not-a-valid-endpoint".to_string());
@@ -2261,7 +2262,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn shutdown_completes_promptly_without_retained_managers() {
         let client = start_test_client(SessionSource::Cli).await;
 

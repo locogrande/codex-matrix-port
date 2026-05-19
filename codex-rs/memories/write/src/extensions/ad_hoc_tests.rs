@@ -3,7 +3,8 @@ use crate::memory_extensions_root;
 use pretty_assertions::assert_eq;
 use tempfile::TempDir;
 
-#[tokio::test]
+use matrix_test_macro as matrix;
+#[matrix::test]
 async fn seeds_instructions_without_overwriting_existing_file() {
     let codex_home = TempDir::new().expect("create temp codex home");
     let memory_root = codex_home.path().join("memories");

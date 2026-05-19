@@ -84,6 +84,7 @@ pub(crate) fn resolve_environment_selections(
 
 #[cfg(test)]
 mod tests {
+    use matrix_test_macro as matrix;
     use codex_exec_server::ExecServerRuntimePaths;
     use codex_exec_server::LOCAL_ENVIRONMENT_ID;
     use codex_exec_server::REMOTE_ENVIRONMENT_ID;
@@ -101,7 +102,7 @@ mod tests {
         .expect("runtime paths")
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn default_thread_environment_selections_use_manager_default_id() {
         let cwd = AbsolutePathBuf::current_dir().expect("cwd");
         let manager = EnvironmentManager::create_for_tests(
@@ -119,7 +120,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn toml_default_thread_environment_selections_include_local_and_remote() {
         let temp_dir = tempfile::tempdir().expect("tempdir");
         std::fs::write(
@@ -151,7 +152,7 @@ url = "ws://127.0.0.1:8765"
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn default_thread_environment_selections_empty_when_default_disabled() {
         let cwd = AbsolutePathBuf::current_dir().expect("cwd");
         let manager = EnvironmentManager::disabled_for_tests(test_runtime_paths());
@@ -162,7 +163,7 @@ url = "ws://127.0.0.1:8765"
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn resolve_environment_selections_rejects_duplicate_ids() {
         let cwd = AbsolutePathBuf::current_dir().expect("cwd");
         let manager = EnvironmentManager::default_for_tests();
@@ -185,7 +186,7 @@ url = "ws://127.0.0.1:8765"
         assert!(err.to_string().contains("duplicate"));
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn resolved_environment_selections_use_first_selection_as_primary() {
         let cwd = AbsolutePathBuf::current_dir().expect("cwd");
         let selected_cwd = cwd.join("selected");

@@ -13,6 +13,7 @@ use tracing::Instrument;
 use crate::connection_rpc_gate::ConnectionRpcGate;
 use crate::outgoing_message::ConnectionId;
 
+use matrix_test_macro as matrix;
 type BoxFutureUnit = Pin<Box<dyn Future<Output = ()> + Send + 'static>>;
 
 #[derive(Clone, Debug, Eq, Hash, PartialEq)]
@@ -228,7 +229,7 @@ mod tests {
         Duration::from_millis(/*millis*/ 50)
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn same_key_requests_run_fifo() {
         let queues = RequestSerializationQueues::default();
         let key = RequestSerializationQueueKey::Global("test");
@@ -271,7 +272,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn different_keys_run_concurrently() {
         let queues = RequestSerializationQueues::default();
         let (blocked_tx, blocked_rx) = oneshot::channel::<()>();
@@ -305,7 +306,7 @@ mod tests {
             .expect("blocked request should be waiting");
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn closed_gate_request_is_skipped_and_following_requests_continue() {
         let queues = RequestSerializationQueues::default();
         let key = RequestSerializationQueueKey::Global("test");
@@ -378,7 +379,7 @@ mod tests {
         assert_eq!(values, vec![THIRD_REQUEST_VALUE]);
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn shutdown_of_live_gate_skips_already_queued_requests() {
         let queues = RequestSerializationQueues::default();
         let key = RequestSerializationQueueKey::Global("test");
@@ -443,7 +444,7 @@ mod tests {
         );
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn same_key_shared_reads_run_concurrently() {
         let queues = RequestSerializationQueues::default();
         let key = RequestSerializationQueueKey::Global("test");
@@ -504,7 +505,7 @@ mod tests {
             .expect("shared reads should still be waiting");
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn exclusive_write_waits_for_running_shared_reads() {
         let queues = RequestSerializationQueues::default();
         let key = RequestSerializationQueueKey::Global("test");
@@ -581,7 +582,7 @@ mod tests {
             .expect("sender should be open");
     }
 
-    #[tokio::test]
+    #[matrix::test]
     async fn later_shared_reads_do_not_jump_ahead_of_queued_write() {
         let queues = RequestSerializationQueues::default();
         let key = RequestSerializationQueueKey::Global("test");

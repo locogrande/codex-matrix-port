@@ -3,6 +3,7 @@ use super::*;
 use core_test_support::skip_if_no_network;
 use pretty_assertions::assert_eq;
 
+use matrix_test_macro as matrix;
 #[test]
 fn test_get_codex_user_agent() {
     let user_agent = get_codex_user_agent();
@@ -32,7 +33,7 @@ fn is_first_party_chat_originator_matches_known_values() {
     assert_eq!(is_first_party_chat_originator("codex_vscode"), false);
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn test_create_client_sets_default_headers() {
     skip_if_no_network!();
 

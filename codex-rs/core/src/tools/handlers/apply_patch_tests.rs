@@ -20,6 +20,7 @@ use crate::tools::registry::PostToolUsePayload;
 use crate::tools::registry::PreToolUsePayload;
 use crate::turn_diff_tracker::TurnDiffTracker;
 
+use matrix_test_macro as matrix;
 fn sample_patch() -> &'static str {
     r#"*** Begin Patch
 *** Add File: hello.txt
@@ -41,7 +42,7 @@ async fn invocation_for_payload(payload: ToolPayload) -> ToolInvocation {
     }
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn pre_tool_use_payload_uses_freeform_patch_input() {
     let patch = sample_patch();
     let payload = ToolPayload::Custom {
@@ -59,7 +60,7 @@ async fn pre_tool_use_payload_uses_freeform_patch_input() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn post_tool_use_payload_uses_patch_input_and_tool_output() {
     let patch = sample_patch();
     let payload = ToolPayload::Custom {
@@ -209,7 +210,7 @@ fn reconcile_environment_id_requires_selection_when_enabled() {
     );
 }
 
-#[tokio::test]
+#[matrix::test]
 async fn approval_keys_include_move_destination() {
     let tmp = TempDir::new().expect("tmp");
     let cwd_path = tmp.path();
