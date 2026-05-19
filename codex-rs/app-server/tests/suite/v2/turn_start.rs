@@ -1,5 +1,4 @@
-use anyhow::Context;
-use anyhow::Result;
+use codex_test_support::prelude::*;
 use app_test_support::DEFAULT_CLIENT_NAME;
 use app_test_support::McpProcess;
 use app_test_support::create_apply_patch_sse_response;
@@ -68,14 +67,11 @@ use codex_protocol::openai_models::ReasoningEffort;
 use codex_protocol::user_input::MAX_USER_INPUT_TEXT_CHARS;
 use core_test_support::responses;
 use core_test_support::skip_if_no_network;
-use pretty_assertions::assert_eq;
 use serde_json::Value;
 use serde_json::json;
 use std::collections::BTreeMap;
-use std::collections::HashMap;
-use std::path::Path;
-use tempfile::TempDir;
 use tokio::time::timeout;
+use codex_paths;
 
 use super::analytics::mount_analytics_capture;
 use super::analytics::wait_for_analytics_event;
@@ -391,7 +387,7 @@ async fn turn_start_emits_thread_scoped_warning_notification_for_trimmed_skills(
         .to_string();
     entry["context_window"] = serde_json::Value::from(100);
     std::fs::write(&cache_path, serde_json::to_string_pretty(&cache)?)?;
-    let config_path = codex_home.path().join("config.toml");
+    let config_path = codex_home.path().join(codex_paths::CONFIG_TOML);
     let config = std::fs::read_to_string(&config_path)?;
     std::fs::write(
         &config_path,
@@ -1516,7 +1512,7 @@ async fn turn_start_uses_migrated_pragmatic_personality_without_override_v2() ->
     timeout(DEFAULT_READ_TIMEOUT, mcp.initialize()).await??;
 
     let persisted_toml: ConfigToml = toml::from_str(&std::fs::read_to_string(
-        codex_home.path().join("config.toml"),
+        codex_home.path().join(codex_paths::CONFIG_TOML),
     )?)?;
     assert_eq!(persisted_toml.personality, Some(Personality::Pragmatic));
     assert!(
@@ -2102,7 +2098,7 @@ async fn turn_start_permission_profile_rebinds_runtime_workspace_roots_between_t
     .await;
     let server_uri = server.uri();
     std::fs::write(
-        codex_home.join("config.toml"),
+        codex_home.join(codex_paths::CONFIG_TOML),
         format!(
             r#"
 model = "mock-model"
@@ -3045,7 +3041,7 @@ async fn turn_start_emits_spawn_agent_item_with_effective_role_model_metadata_v2
         codex_home.path().join("custom-role.toml"),
         format!("model = \"{ROLE_MODEL}\"\nmodel_reasoning_effort = \"{ROLE_REASONING_EFFORT}\"\n",),
     )?;
-    let config_path = codex_home.path().join("config.toml");
+    let config_path = codex_home.path().join(codex_paths::CONFIG_TOML);
     let base_config = std::fs::read_to_string(&config_path)?;
     std::fs::write(
         &config_path,
@@ -3691,7 +3687,7 @@ async fn turn_start_with_elevated_override_does_not_persist_project_trust() -> R
     )
     .await??;
 
-    let config_toml = std::fs::read_to_string(codex_home.path().join("config.toml"))?;
+    let config_toml = std::fs::read_to_string(codex_home.path().join(codex_paths::CONFIG_TOML))?;
     assert!(!config_toml.contains("trust_level = \"trusted\""));
     assert!(!config_toml.contains(&workspace.path().display().to_string()));
 
@@ -3737,7 +3733,7 @@ fn create_config_toml_with_sandbox(
         })
         .collect::<Vec<_>>()
         .join("\n");
-    let config_toml = codex_home.join("config.toml");
+    let config_toml = codex_home.join(codex_paths::CONFIG_TOML);
     std::fs::write(
         config_toml,
         format!(

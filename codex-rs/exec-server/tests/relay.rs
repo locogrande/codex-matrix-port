@@ -3,13 +3,8 @@ mod common;
 #[path = "../src/proto/codex.exec_server.relay.v1.rs"]
 mod relay_proto;
 
-use std::collections::HashMap;
-use std::time::Duration;
+use codex_test_support::prelude::*;
 
-use anyhow::Context;
-use anyhow::Result;
-use anyhow::anyhow;
-use anyhow::bail;
 use codex_api::AuthProvider;
 use codex_app_server_protocol::JSONRPCError;
 use codex_app_server_protocol::JSONRPCMessage;
@@ -25,13 +20,11 @@ use futures::SinkExt;
 use futures::StreamExt;
 use http::HeaderMap;
 use http::HeaderValue;
-use pretty_assertions::assert_eq;
 use prost::Message as ProstMessage;
 use relay_proto::RelayData;
 use relay_proto::RelayMessageFrame;
 use relay_proto::RelayReset;
 use relay_proto::relay_message_frame;
-use std::sync::Arc;
 use tokio::net::TcpListener;
 use tokio::time::timeout;
 use tokio_tungstenite::WebSocketStream;

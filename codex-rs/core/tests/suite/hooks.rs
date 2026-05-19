@@ -1,8 +1,7 @@
 use std::fs;
-use std::path::Path;
+use codex_test_support::prelude::*;
+use codex_paths;
 
-use anyhow::Context;
-use anyhow::Result;
 use codex_core::config::Config;
 use codex_core::config::Constrained;
 use codex_features::Feature;
@@ -41,11 +40,7 @@ use core_test_support::streaming_sse::StreamingSseChunk;
 use core_test_support::streaming_sse::start_streaming_sse_server;
 use core_test_support::test_codex::test_codex;
 use core_test_support::wait_for_event;
-use pretty_assertions::assert_eq;
 use serde_json::Value;
-use std::sync::Arc;
-use std::time::Duration;
-use tempfile::TempDir;
 use tokio::sync::oneshot;
 use tokio::time::sleep;
 use tokio::time::timeout;
@@ -420,7 +415,7 @@ statusMessage = "running pre tool use hook"
     );
 
     fs::write(&script_path, script).context("write TOML pre tool use hook script")?;
-    fs::write(home.join("config.toml"), config_toml).context("write config.toml hooks")?;
+    fs::write(home.join(codex_paths::CONFIG_TOML), config_toml).context("write config.toml hooks")?;
     Ok(())
 }
 
@@ -1773,7 +1768,7 @@ async fn permission_request_hook_allows_network_approval_without_prompt() -> Res
     let server = start_mock_server().await;
     let home = Arc::new(TempDir::new()?);
     fs::write(
-        home.path().join("config.toml"),
+        home.path().join(codex_paths::CONFIG_TOML),
         r#"default_permissions = "workspace"
 
 [permissions.workspace.filesystem]
@@ -2447,12 +2442,12 @@ async fn plugin_pre_tool_use_blocks_shell_command_before_execution() -> Result<(
         .context("create plugin manifest directory")?;
     fs::create_dir_all(&hooks_dir).context("create plugin hooks directory")?;
     fs::write(
-        plugin_root.join(".codex-plugin/plugin.json"),
+        plugin_root.join(codex_paths::PLUGIN_JSON),
         r#"{"name":"sample"}"#,
     )
     .context("write plugin manifest")?;
     fs::write(
-        home.path().join("config.toml"),
+        home.path().join(codex_paths::CONFIG_TOML),
         r#"[plugins."sample@test"]
 enabled = true
 "#,

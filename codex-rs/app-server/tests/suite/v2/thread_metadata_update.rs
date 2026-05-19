@@ -1,4 +1,4 @@
-use anyhow::Result;
+use codex_test_support::prelude::*;
 use app_test_support::McpProcess;
 use app_test_support::create_fake_rollout;
 use app_test_support::create_mock_responses_server_repeating_assistant;
@@ -24,12 +24,8 @@ use codex_protocol::ThreadId;
 use codex_protocol::protocol::GitInfo as RolloutGitInfo;
 use codex_rollout::state_db::reconcile_rollout;
 use codex_state::StateRuntime;
-use pretty_assertions::assert_eq;
 use serde_json::Value;
 use std::fs;
-use std::path::Path;
-use std::sync::Arc;
-use tempfile::TempDir;
 use tokio::time::timeout;
 
 const DEFAULT_READ_TIMEOUT: std::time::Duration = std::time::Duration::from_secs(10);

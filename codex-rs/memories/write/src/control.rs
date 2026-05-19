@@ -1,8 +1,9 @@
 use std::path::Path;
+use codex_paths;
 
 pub async fn clear_memory_roots_contents(codex_home: &Path) -> std::io::Result<()> {
     for memory_root in [
-        codex_home.join("memories"),
+        codex_home.join(codex_paths::MEMORIES_DIR),
         codex_home.join("memories_extensions"),
     ] {
         clear_memory_root_contents(memory_root.as_path()).await?;
@@ -51,7 +52,7 @@ mod tests {
     #[tokio::test]
     async fn clear_memory_root_contents_preserves_root_directory() {
         let dir = tempdir().expect("tempdir");
-        let root = dir.path().join("memories");
+        let root = dir.path().join(codex_paths::MEMORIES_DIR);
         let nested_dir = root.join("rollout_summaries");
         tokio::fs::create_dir_all(&nested_dir)
             .await
@@ -99,7 +100,7 @@ mod tests {
             .await
             .expect("write target file");
 
-        let root = dir.path().join("memories");
+        let root = dir.path().join(codex_paths::MEMORIES_DIR);
         std::os::unix::fs::symlink(&target, &root).expect("create memory root symlink");
 
         let err = clear_memory_root_contents(&root)

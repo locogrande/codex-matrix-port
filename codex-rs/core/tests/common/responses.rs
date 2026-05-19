@@ -1,11 +1,9 @@
 #![allow(clippy::unwrap_used)]
 
 use std::collections::VecDeque;
-use std::sync::Arc;
+use codex_test_support::prelude::*;
 use std::sync::Mutex;
-use std::time::Duration;
 
-use anyhow::Result;
 use base64::Engine;
 use codex_protocol::models::ContentItem;
 use codex_protocol::models::ResponseItem;
@@ -347,7 +345,6 @@ pub fn namespace_child_tool<'a>(
 #[cfg(test)]
 mod tests {
     use super::*;
-    use pretty_assertions::assert_eq;
     use wiremock::http::HeaderMap;
     use wiremock::http::Method;
 

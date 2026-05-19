@@ -1,4 +1,4 @@
-use anyhow::Context;
+use codex_test_support::prelude::*;
 use codex_protocol::models::ContentItem;
 use codex_protocol::models::DEFAULT_IMAGE_DETAIL;
 use codex_protocol::models::PermissionProfile;
@@ -22,9 +22,6 @@ use core_test_support::test_codex::turn_permission_fields;
 use core_test_support::wait_for_event;
 use image::ImageBuffer;
 use image::Rgba;
-use pretty_assertions::assert_eq;
-use std::path::Path;
-use std::time::Duration;
 
 fn find_user_message_with_image(text: &str) -> Option<ResponseItem> {
     for line in text.lines() {

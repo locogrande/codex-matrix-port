@@ -33,7 +33,7 @@ use core_test_support::test_codex::test_codex;
 use core_test_support::test_codex::turn_permission_fields;
 use core_test_support::wait_for_event;
 use core_test_support::wait_for_event_match;
-use std::path::PathBuf;
+use codex_test_support::prelude::*;
 
 use core_test_support::responses::ev_assistant_message;
 use core_test_support::responses::ev_completed;
@@ -48,11 +48,9 @@ use core_test_support::responses::sse;
 use core_test_support::responses::sse_failed;
 use core_test_support::responses::sse_response;
 use core_test_support::responses::start_mock_server;
-use pretty_assertions::assert_eq;
 use serde_json::Value;
 use serde_json::json;
 use std::fs;
-use std::path::Path;
 use wiremock::MockServer;
 // --- Test helpers -----------------------------------------------------------
 

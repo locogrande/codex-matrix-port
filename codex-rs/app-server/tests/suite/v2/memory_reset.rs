@@ -1,4 +1,4 @@
-use anyhow::Result;
+use codex_test_support::prelude::*;
 use app_test_support::McpProcess;
 use app_test_support::to_response;
 use chrono::Utc;
@@ -10,12 +10,9 @@ use codex_protocol::protocol::SessionSource;
 use codex_state::Stage1JobClaimOutcome;
 use codex_state::StateRuntime;
 use codex_state::ThreadMetadataBuilder;
-use pretty_assertions::assert_eq;
-use std::path::Path;
-use std::sync::Arc;
-use tempfile::TempDir;
 use tokio::time::timeout;
 use uuid::Uuid;
+use codex_paths;
 
 const DEFAULT_READ_TIMEOUT: std::time::Duration = std::time::Duration::from_secs(10);
 
@@ -25,7 +22,7 @@ async fn memory_reset_clears_memory_files_and_rows_preserves_threads() -> Result
     create_config_toml(codex_home.path())?;
     let state_db = init_state_db(codex_home.path()).await?;
 
-    let memory_root = codex_home.path().join("memories");
+    let memory_root = codex_home.path().join(codex_paths::MEMORIES_DIR);
     tokio::fs::create_dir_all(memory_root.join("rollout_summaries")).await?;
     tokio::fs::write(memory_root.join("MEMORY.md"), "stale memory\n").await?;
     tokio::fs::write(
@@ -71,7 +68,7 @@ async fn seed_stage1_output(state_db: &Arc<StateRuntime>, codex_home: &Path) -> 
     let worker_id = ThreadId::from_string(&Uuid::new_v4().to_string())?;
     let mut builder = ThreadMetadataBuilder::new(
         thread_id,
-        codex_home.join("sessions").join("test.jsonl"),
+        codex_home.join(codex_paths::SESSIONS_DIR).join("test.jsonl"),
         now,
         SessionSource::Cli,
     );
@@ -121,7 +118,7 @@ async fn init_state_db(codex_home: &Path) -> Result<Arc<StateRuntime>> {
 }
 
 fn create_config_toml(codex_home: &Path) -> std::io::Result<()> {
-    let config_toml = codex_home.join("config.toml");
+    let config_toml = codex_home.join(codex_paths::CONFIG_TOML);
     std::fs::write(
         config_toml,
         r#"

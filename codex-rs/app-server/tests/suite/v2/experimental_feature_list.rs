@@ -1,6 +1,5 @@
-use std::time::Duration;
+use codex_test_support::prelude::*;
 
-use anyhow::Result;
 use app_test_support::ChatGptAuthFixture;
 use app_test_support::McpProcess;
 use app_test_support::to_response;
@@ -21,11 +20,9 @@ use codex_config::types::AuthCredentialsStoreMode;
 use codex_core::config::ConfigBuilder;
 use codex_features::FEATURES;
 use codex_features::Stage;
-use pretty_assertions::assert_eq;
 use serde::de::DeserializeOwned;
 use serde_json::json;
 use std::collections::BTreeMap;
-use tempfile::TempDir;
 use tokio::time::timeout;
 use wiremock::Mock;
 use wiremock::MockServer;

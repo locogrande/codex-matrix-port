@@ -1,7 +1,6 @@
-use std::time::Duration;
+use codex_test_support::prelude::*;
+use codex_paths;
 
-use anyhow::Result;
-use anyhow::bail;
 use app_test_support::ChatGptAuthFixture;
 use app_test_support::DEFAULT_CLIENT_NAME;
 use app_test_support::McpProcess;
@@ -13,9 +12,7 @@ use codex_app_server_protocol::PluginUninstallParams;
 use codex_app_server_protocol::PluginUninstallResponse;
 use codex_app_server_protocol::RequestId;
 use codex_config::types::AuthCredentialsStoreMode;
-use pretty_assertions::assert_eq;
 use serde_json::json;
-use tempfile::TempDir;
 use tokio::time::timeout;
 use wiremock::Mock;
 use wiremock::MockServer;
@@ -33,7 +30,7 @@ async fn plugin_uninstall_removes_plugin_cache_and_config_entry() -> Result<()> 
     let codex_home = TempDir::new()?;
     write_installed_plugin(&codex_home, "debug", "sample-plugin")?;
     std::fs::write(
-        codex_home.path().join("config.toml"),
+        codex_home.path().join(codex_paths::CONFIG_TOML),
         r#"[features]
 plugins = true
 
@@ -64,7 +61,7 @@ enabled = true
             .join("plugins/cache/debug/sample-plugin")
             .exists()
     );
-    let config = std::fs::read_to_string(codex_home.path().join("config.toml"))?;
+    let config = std::fs::read_to_string(codex_home.path().join(codex_paths::CONFIG_TOML))?;
     assert!(!config.contains(r#"[plugins."sample-plugin@debug"]"#));
 
     let request_id = mcp.send_plugin_uninstall_request(params).await?;
@@ -85,7 +82,7 @@ async fn plugin_uninstall_tracks_analytics_event() -> Result<()> {
     let codex_home = TempDir::new()?;
     write_installed_plugin(&codex_home, "debug", "sample-plugin")?;
     std::fs::write(
-        codex_home.path().join("config.toml"),
+        codex_home.path().join(codex_paths::CONFIG_TOML),
         format!(
             "chatgpt_base_url = \"{}\"\n\n[features]\nplugins = true\n\n[plugins.\"sample-plugin@debug\"]\nenabled = true\n",
             analytics_server.uri()
@@ -156,7 +153,7 @@ async fn plugin_uninstall_tracks_analytics_event() -> Result<()> {
 async fn plugin_uninstall_rejects_remote_plugin_when_plugins_are_disabled() -> Result<()> {
     let codex_home = TempDir::new()?;
     std::fs::write(
-        codex_home.path().join("config.toml"),
+        codex_home.path().join(codex_paths::CONFIG_TOML),
         r#"[features]
 plugins = false
 "#,
@@ -581,7 +578,7 @@ fn write_remote_plugin_catalog_config(
     base_url: &str,
 ) -> std::io::Result<()> {
     std::fs::write(
-        codex_home.join("config.toml"),
+        codex_home.join(codex_paths::CONFIG_TOML),
         format!(
             r#"
 chatgpt_base_url = "{base_url}"

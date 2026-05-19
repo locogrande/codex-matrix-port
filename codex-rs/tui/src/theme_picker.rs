@@ -20,6 +20,7 @@
 //!   list when side-by-side does not fit.
 
 use std::path::Path;
+use codex_paths;
 
 use crate::app_event::AppEvent;
 use crate::bottom_pane::SelectionItem;
@@ -602,7 +603,7 @@ mod tests {
     #[test]
     fn subtitle_uses_tilde_path_when_codex_home_under_home_directory() {
         let home = dirs::home_dir().expect("home directory should be available");
-        let codex_home = home.join(".codex");
+        let codex_home = home.join(codex_paths::CODEX_HOME_DIR);
 
         let subtitle = theme_picker_subtitle(Some(&codex_home), Some(200));
 
@@ -614,7 +615,7 @@ mod tests {
     fn subtitle_falls_back_when_tilde_path_subtitle_is_too_wide() {
         let home = dirs::home_dir().expect("home directory should be available");
         let long_segment = "a".repeat(120);
-        let codex_home = home.join(long_segment).join(".codex");
+        let codex_home = home.join(long_segment).join(codex_paths::CODEX_HOME_DIR);
 
         let subtitle = theme_picker_subtitle(Some(&codex_home), Some(140));
 
@@ -631,7 +632,7 @@ mod tests {
     #[test]
     fn subtitle_falls_back_for_94_column_terminal_side_by_side_layout() {
         let home = dirs::home_dir().expect("home directory should be available");
-        let codex_home = home.join(".codex");
+        let codex_home = home.join(codex_paths::CODEX_HOME_DIR);
 
         let subtitle = theme_picker_subtitle(Some(&codex_home), Some(94));
 

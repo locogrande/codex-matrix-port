@@ -6,13 +6,9 @@ use std::os::unix::fs::MetadataExt;
 #[cfg(target_os = "linux")]
 use std::os::unix::fs::PermissionsExt;
 use std::os::unix::fs::symlink;
-use std::path::Path;
-use std::path::PathBuf;
+use codex_test_support::prelude::*;
 use std::process::Command;
-use std::sync::Arc;
 
-use anyhow::Context;
-use anyhow::Result;
 use codex_exec_server::CopyOptions;
 use codex_exec_server::CreateDirectoryOptions;
 use codex_exec_server::Environment;
@@ -33,8 +29,6 @@ use codex_protocol::permissions::NetworkSandboxPolicy;
 use codex_sandboxing::policy_transforms::effective_file_system_sandbox_policy;
 use codex_sandboxing::policy_transforms::effective_network_sandbox_policy;
 use codex_utils_absolute_path::AbsolutePathBuf;
-use pretty_assertions::assert_eq;
-use tempfile::TempDir;
 use test_case::test_case;
 
 use common::exec_server::ExecServerHarness;

@@ -1,8 +1,6 @@
-use std::path::Path;
-use std::path::PathBuf;
-use std::time::Duration;
+use codex_test_support::prelude::*;
+use codex_paths;
 
-use anyhow::Result;
 use app_test_support::ChatGptAuthFixture;
 use app_test_support::McpProcess;
 use app_test_support::to_response;
@@ -32,9 +30,7 @@ use codex_config::types::AuthCredentialsStoreMode;
 use codex_utils_absolute_path::AbsolutePathBuf;
 use flate2::Compression;
 use flate2::write::GzEncoder;
-use pretty_assertions::assert_eq;
 use serde_json::json;
-use tempfile::TempDir;
 use tokio::time::timeout;
 use wiremock::Mock;
 use wiremock::MockServer;
@@ -337,7 +333,7 @@ async fn plugin_share_save_rejects_when_plugin_sharing_disabled() -> Result<()> 
     let plugin_path = write_test_plugin(plugin_root.path(), "demo-plugin")?;
     let server = MockServer::start().await;
     std::fs::write(
-        codex_home.path().join("config.toml"),
+        codex_home.path().join(codex_paths::CONFIG_TOML),
         format!(
             r#"
 chatgpt_base_url = "{}/backend-api"
@@ -654,7 +650,7 @@ async fn plugin_share_checkout_adds_personal_marketplace_entry() -> Result<()> {
 
     let plugin_path = AbsolutePathBuf::try_from(home.path().join("plugins/demo-plugin"))?;
     let marketplace_path =
-        AbsolutePathBuf::try_from(home.path().join(".agents/plugins/marketplace.json"))?;
+        AbsolutePathBuf::try_from(home.path().join(codex_paths::MARKETPLACE_JSON))?;
     assert_eq!(
         response,
         PluginShareCheckoutResponse {
@@ -670,7 +666,7 @@ async fn plugin_share_checkout_adds_personal_marketplace_entry() -> Result<()> {
     assert!(
         plugin_path
             .as_path()
-            .join(".codex-plugin/plugin.json")
+            .join(codex_paths::PLUGIN_JSON)
             .is_file()
     );
 
@@ -841,7 +837,7 @@ async fn plugin_share_checkout_cleans_up_path_when_marketplace_update_fails() ->
         AuthCredentialsStoreMode::File,
     )?;
 
-    let marketplace_path = home.path().join(".agents/plugins/marketplace.json");
+    let marketplace_path = home.path().join(codex_paths::MARKETPLACE_JSON);
     std::fs::create_dir_all(
         marketplace_path
             .parent()
@@ -1043,7 +1039,7 @@ async fn plugin_share_update_targets_rejects_when_plugin_sharing_disabled() -> R
     let codex_home = TempDir::new()?;
     let server = MockServer::start().await;
     std::fs::write(
-        codex_home.path().join("config.toml"),
+        codex_home.path().join(codex_paths::CONFIG_TOML),
         format!(
             r#"
 chatgpt_base_url = "{}/backend-api"
@@ -1197,7 +1193,7 @@ async fn plugin_share_delete_removes_created_workspace_plugin() -> Result<()> {
 
 fn write_remote_plugin_config(codex_home: &Path, base_url: &str) -> std::io::Result<()> {
     std::fs::write(
-        codex_home.join("config.toml"),
+        codex_home.join(codex_paths::CONFIG_TOML),
         format!(
             r#"
 chatgpt_base_url = "{base_url}"
@@ -1391,7 +1387,7 @@ fn expected_share_context(plugin_id: &str) -> PluginShareContext {
 fn write_test_plugin(root: &Path, plugin_name: &str) -> std::io::Result<PathBuf> {
     let plugin_path = root.join(plugin_name);
     write_file(
-        &plugin_path.join(".codex-plugin/plugin.json"),
+        &plugin_path.join(codex_paths::PLUGIN_JSON),
         &format!(r#"{{"name":"{plugin_name}"}}"#),
     )?;
     write_file(

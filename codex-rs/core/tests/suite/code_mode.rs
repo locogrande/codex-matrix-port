@@ -1,6 +1,6 @@
 #![allow(clippy::expect_used, clippy::unwrap_used)]
 
-use anyhow::Result;
+use codex_test_support::prelude::*;
 use base64::Engine;
 use base64::engine::general_purpose::STANDARD as BASE64_STANDARD;
 use codex_config::types::McpServerConfig;
@@ -33,13 +33,9 @@ use core_test_support::test_codex::test_codex;
 use core_test_support::test_codex::turn_permission_fields;
 use core_test_support::wait_for_event;
 use core_test_support::wait_for_event_match;
-use pretty_assertions::assert_eq;
 use serde_json::Value;
-use std::collections::HashMap;
 use std::collections::HashSet;
 use std::fs;
-use std::path::Path;
-use std::time::Duration;
 use std::time::Instant;
 use wiremock::MockServer;
 

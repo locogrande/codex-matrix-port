@@ -1,4 +1,4 @@
-use std::path::Path;
+use codex_test_support::prelude::*;
 use std::process::Stdio;
 use std::sync::atomic::AtomicI64;
 use std::sync::atomic::Ordering;
@@ -9,11 +9,9 @@ use tokio::process::Child;
 use tokio::process::ChildStdin;
 use tokio::process::ChildStdout;
 
-use anyhow::Context;
 use codex_mcp_server::CodexToolCallParam;
 use codex_terminal_detection::user_agent;
 
-use pretty_assertions::assert_eq;
 use rmcp::model::CallToolRequestParams;
 use rmcp::model::ClientCapabilities;
 use rmcp::model::CustomNotification;

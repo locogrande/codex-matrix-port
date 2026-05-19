@@ -1,4 +1,4 @@
-use anyhow::Result;
+use codex_test_support::prelude::*;
 use codex_protocol::protocol::EventMsg;
 use codex_protocol::protocol::Op;
 use codex_protocol::user_input::ByteRange;
@@ -17,11 +17,6 @@ use core_test_support::test_codex::TestCodex;
 use core_test_support::test_codex::TestCodexBuilder;
 use core_test_support::test_codex::test_codex;
 use core_test_support::wait_for_event;
-use pretty_assertions::assert_eq;
-use std::path::PathBuf;
-use std::sync::Arc;
-use std::time::Duration;
-use tempfile::TempDir;
 use wiremock::MockServer;
 
 async fn resume_until_initial_messages(

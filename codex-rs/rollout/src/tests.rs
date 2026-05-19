@@ -7,6 +7,7 @@ use std::fs::File;
 use std::fs::FileTimes;
 use std::io::Write;
 use std::path::Path;
+use codex_paths;
 
 use chrono::TimeZone;
 use pretty_assertions::assert_eq;
@@ -413,7 +414,7 @@ fn write_session_file_with_provider(
         .unwrap()
         .assume_utc();
     let dir = root
-        .join("sessions")
+        .join(codex_paths::SESSIONS_DIR)
         .join(format!("{:04}", dt.year()))
         .join(format!("{:02}", u8::from(dt.month())))
         .join(format!("{:02}", dt.day()));
@@ -483,7 +484,7 @@ fn write_goal_started_session_file(
         .unwrap()
         .assume_utc();
     let dir = root
-        .join("sessions")
+        .join(codex_paths::SESSIONS_DIR)
         .join(format!("{:04}", dt.year()))
         .join(format!("{:02}", u8::from(dt.month())))
         .join(format!("{:02}", dt.day()));
@@ -561,7 +562,7 @@ fn write_session_file_with_delayed_user_event(
         .unwrap()
         .assume_utc();
     let dir = root
-        .join("sessions")
+        .join(codex_paths::SESSIONS_DIR)
         .join(format!("{:04}", dt.year()))
         .join(format!("{:02}", u8::from(dt.month())))
         .join(format!("{:02}", dt.day()));
@@ -618,7 +619,7 @@ fn write_session_file_with_meta_payload(
         .unwrap()
         .assume_utc();
     let dir = root
-        .join("sessions")
+        .join(codex_paths::SESSIONS_DIR)
         .join(format!("{:04}", dt.year()))
         .join(format!("{:02}", u8::from(dt.month())))
         .join(format!("{:02}", dt.day()));
@@ -700,19 +701,19 @@ async fn test_list_conversations_latest_first() {
 
     // Build expected objects
     let p1 = home
-        .join("sessions")
+        .join(codex_paths::SESSIONS_DIR)
         .join("2025")
         .join("01")
         .join("03")
         .join(format!("rollout-2025-01-03T12-00-00-{u3}.jsonl"));
     let p2 = home
-        .join("sessions")
+        .join(codex_paths::SESSIONS_DIR)
         .join("2025")
         .join("01")
         .join("02")
         .join(format!("rollout-2025-01-02T12-00-00-{u2}.jsonl"));
     let p3 = home
-        .join("sessions")
+        .join(codex_paths::SESSIONS_DIR)
         .join("2025")
         .join("01")
         .join("01")
@@ -851,13 +852,13 @@ async fn test_pagination_cursor() {
     .await
     .unwrap();
     let p5 = home
-        .join("sessions")
+        .join(codex_paths::SESSIONS_DIR)
         .join("2025")
         .join("03")
         .join("05")
         .join(format!("rollout-2025-03-05T09-00-00-{u5}.jsonl"));
     let p4 = home
-        .join("sessions")
+        .join(codex_paths::SESSIONS_DIR)
         .join("2025")
         .join("03")
         .join("04")
@@ -921,13 +922,13 @@ async fn test_pagination_cursor() {
     .await
     .unwrap();
     let p3 = home
-        .join("sessions")
+        .join(codex_paths::SESSIONS_DIR)
         .join("2025")
         .join("03")
         .join("03")
         .join(format!("rollout-2025-03-03T09-00-00-{u3}.jsonl"));
     let p2 = home
-        .join("sessions")
+        .join(codex_paths::SESSIONS_DIR)
         .join("2025")
         .join("03")
         .join("02")
@@ -991,7 +992,7 @@ async fn test_pagination_cursor() {
     .await
     .unwrap();
     let p1 = home
-        .join("sessions")
+        .join(codex_paths::SESSIONS_DIR)
         .join("2025")
         .join("03")
         .join("01")
@@ -1163,7 +1164,7 @@ async fn test_get_thread_contents() {
 
     // Page equality (single item)
     let expected_path = home
-        .join("sessions")
+        .join(codex_paths::SESSIONS_DIR)
         .join("2025")
         .join("04")
         .join("01")
@@ -1330,7 +1331,7 @@ async fn test_created_at_sort_uses_file_mtime_for_updated_at() -> Result<()> {
     let expected_updated = updated.format(&time::format_description::well_known::Rfc3339)?;
 
     let file_path = home
-        .join("sessions")
+        .join(codex_paths::SESSIONS_DIR)
         .join("2025")
         .join("06")
         .join("01")
@@ -1366,7 +1367,7 @@ async fn test_updated_at_uses_file_mtime() -> Result<()> {
 
     let ts = "2025-06-01T08-00-00";
     let uuid = Uuid::from_u128(42);
-    let day_dir = home.join("sessions").join("2025").join("06").join("01");
+    let day_dir = home.join(codex_paths::SESSIONS_DIR).join("2025").join("06").join("01");
     fs::create_dir_all(&day_dir)?;
     let file_path = day_dir.join(format!("rollout-{ts}-{uuid}.jsonl"));
     let mut file = File::create(&file_path)?;
@@ -1503,13 +1504,13 @@ async fn test_timestamp_only_cursor_skips_same_second_filesystem_ties() {
     .unwrap();
 
     let p3 = home
-        .join("sessions")
+        .join(codex_paths::SESSIONS_DIR)
         .join("2025")
         .join("07")
         .join("01")
         .join(format!("rollout-2025-07-01T00-00-00-{u3}.jsonl"));
     let p2 = home
-        .join("sessions")
+        .join(codex_paths::SESSIONS_DIR)
         .join("2025")
         .join("07")
         .join("01")

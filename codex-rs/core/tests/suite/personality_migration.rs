@@ -13,16 +13,15 @@ use codex_protocol::protocol::SessionMeta;
 use codex_protocol::protocol::SessionMetaLine;
 use codex_protocol::protocol::SessionSource;
 use codex_protocol::protocol::UserMessageEvent;
-use pretty_assertions::assert_eq;
+use codex_test_support::prelude::*;
 use std::io;
-use std::path::Path;
-use tempfile::TempDir;
 use tokio::io::AsyncWriteExt;
+use codex_paths;
 
 const TEST_TIMESTAMP: &str = "2025-01-01T00-00-00";
 
 async fn read_config_toml(codex_home: &Path) -> io::Result<ConfigToml> {
-    let contents = tokio::fs::read_to_string(codex_home.join("config.toml")).await?;
+    let contents = tokio::fs::read_to_string(codex_home.join(codex_paths::CONFIG_TOML)).await?;
     toml::from_str(&contents).map_err(|err| io::Error::new(io::ErrorKind::InvalidData, err))
 }
 
@@ -149,7 +148,7 @@ async fn migration_marker_exists_no_sessions_no_change() -> io::Result<()> {
 
     assert_eq!(status, PersonalityMigrationStatus::SkippedMarker);
     assert_eq!(
-        tokio::fs::try_exists(temp.path().join("config.toml")).await?,
+        tokio::fs::try_exists(temp.path().join(codex_paths::CONFIG_TOML)).await?,
         false
     );
     Ok(())
@@ -168,7 +167,7 @@ async fn no_marker_no_sessions_no_change() -> io::Result<()> {
         true
     );
     assert_eq!(
-        tokio::fs::try_exists(temp.path().join("config.toml")).await?,
+        tokio::fs::try_exists(temp.path().join(codex_paths::CONFIG_TOML)).await?,
         false
     );
     Ok(())
@@ -197,7 +196,7 @@ async fn no_marker_sessions_sets_personality() -> io::Result<()> {
 async fn no_marker_sessions_preserves_existing_config_fields() -> io::Result<()> {
     let temp = TempDir::new()?;
     write_session_with_user_event(temp.path()).await?;
-    tokio::fs::write(temp.path().join("config.toml"), "model = \"gpt-5.4\"\n").await?;
+    tokio::fs::write(temp.path().join(codex_paths::CONFIG_TOML), "model = \"gpt-5.4\"\n").await?;
     let config_toml = read_config_toml(temp.path()).await?;
 
     let status = maybe_migrate_personality(temp.path(), &config_toml, /*state_db*/ None).await?;
@@ -223,7 +222,7 @@ async fn no_marker_meta_only_rollout_is_treated_as_no_sessions() -> io::Result<(
         true
     );
     assert_eq!(
-        tokio::fs::try_exists(temp.path().join("config.toml")).await?,
+        tokio::fs::try_exists(temp.path().join(codex_paths::CONFIG_TOML)).await?,
         false
     );
     Ok(())
@@ -246,7 +245,7 @@ async fn no_marker_explicit_global_personality_skips_migration() -> io::Result<(
         true
     );
     assert_eq!(
-        tokio::fs::try_exists(temp.path().join("config.toml")).await?,
+        tokio::fs::try_exists(temp.path().join(codex_paths::CONFIG_TOML)).await?,
         false
     );
     Ok(())
@@ -276,7 +275,7 @@ personality = "friendly"
         true
     );
     assert_eq!(
-        tokio::fs::try_exists(temp.path().join("config.toml")).await?,
+        tokio::fs::try_exists(temp.path().join(codex_paths::CONFIG_TOML)).await?,
         false
     );
     Ok(())

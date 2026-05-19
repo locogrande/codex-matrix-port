@@ -1,5 +1,4 @@
-use anyhow::Context;
-use anyhow::Result;
+use codex_test_support::prelude::*;
 use app_test_support::McpProcess;
 use app_test_support::to_response;
 use base64::Engine;
@@ -15,12 +14,10 @@ use codex_app_server_protocol::FsWriteFileParams;
 use codex_app_server_protocol::JSONRPCNotification;
 use codex_app_server_protocol::RequestId;
 use codex_utils_absolute_path::AbsolutePathBuf;
-use pretty_assertions::assert_eq;
 use serde_json::json;
-use std::path::PathBuf;
-use tempfile::TempDir;
 use tokio::time::Duration;
 use tokio::time::timeout;
+use codex_paths;
 
 #[cfg(unix)]
 use std::os::unix::fs::symlink;
@@ -657,7 +654,7 @@ async fn fs_copy_rejects_standalone_fifo_source() -> Result<()> {
 async fn fs_watch_directory_reports_changed_child_paths_and_unwatch_stops_notifications()
 -> Result<()> {
     let codex_home = TempDir::new()?;
-    let git_dir = codex_home.path().join("repo").join(".git");
+    let git_dir = codex_home.path().join("repo").join(codex_paths::GIT_DIR);
     let fetch_head = git_dir.join("FETCH_HEAD");
     std::fs::create_dir_all(&git_dir)?;
     std::fs::write(&fetch_head, "old\n")?;
@@ -725,7 +722,7 @@ async fn fs_watch_directory_reports_changed_child_paths_and_unwatch_stops_notifi
 #[tokio::test(flavor = "multi_thread", worker_threads = 2)]
 async fn fs_watch_file_reports_atomic_replace_events() -> Result<()> {
     let codex_home = TempDir::new()?;
-    let git_dir = codex_home.path().join("repo").join(".git");
+    let git_dir = codex_home.path().join("repo").join(codex_paths::GIT_DIR);
     let head_path = git_dir.join("HEAD");
     std::fs::create_dir_all(&git_dir)?;
     std::fs::write(&head_path, "ref: refs/heads/main\n")?;
@@ -765,7 +762,7 @@ async fn fs_watch_file_reports_atomic_replace_events() -> Result<()> {
 #[tokio::test(flavor = "multi_thread", worker_threads = 2)]
 async fn fs_watch_allows_missing_file_targets() -> Result<()> {
     let codex_home = TempDir::new()?;
-    let git_dir = codex_home.path().join("repo").join(".git");
+    let git_dir = codex_home.path().join("repo").join(codex_paths::GIT_DIR);
     let fetch_head = git_dir.join("FETCH_HEAD");
     std::fs::create_dir_all(&git_dir)?;
 

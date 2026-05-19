@@ -8,6 +8,7 @@ use codex_app_server_protocol::HooksListResponse;
 use codex_app_server_protocol::MarketplaceRemoveResponse;
 use codex_features::Stage;
 use pretty_assertions::assert_eq;
+use codex_paths;
 
 #[tokio::test]
 async fn realtime_error_closes_without_followup_closed_info() {
@@ -371,7 +372,7 @@ async fn plugins_popup_upgrades_user_configured_git_marketplace_from_marketplace
 
     let cwd = chat.config.cwd.to_path_buf();
     let temp = tempdir().expect("tempdir");
-    let config_toml_path = temp.path().join("config.toml").abs();
+    let config_toml_path = temp.path().join(codex_paths::CONFIG_TOML).abs();
     chat.config.config_layer_stack = ConfigLayerStack::default().with_user_config(
         &config_toml_path,
         toml::from_str::<TomlValue>(
@@ -446,7 +447,7 @@ async fn marketplace_add_success_refreshes_to_new_marketplace_tab() {
     let marketplace_path =
         plugins_test_absolute_path("marketplaces/debug/.agents/plugins/marketplace.json");
     let temp = tempdir().expect("tempdir");
-    let config_toml_path = temp.path().join("config.toml").abs();
+    let config_toml_path = temp.path().join(codex_paths::CONFIG_TOML).abs();
     chat.config.config_layer_stack = ConfigLayerStack::default().with_user_config(
         &config_toml_path,
         toml::from_str::<TomlValue>(
@@ -526,7 +527,7 @@ async fn plugins_popup_removes_user_configured_marketplace_flow() {
     chat.set_feature_enabled(Feature::Plugins, /*enabled*/ true);
     let cwd = chat.config.cwd.to_path_buf();
     let temp = tempdir().expect("tempdir");
-    let config_toml_path = temp.path().join("config.toml").abs();
+    let config_toml_path = temp.path().join(codex_paths::CONFIG_TOML).abs();
     chat.config.config_layer_stack = ConfigLayerStack::default().with_user_config(
         &config_toml_path,
         toml::from_str::<TomlValue>(
@@ -1870,7 +1871,7 @@ async fn apps_initial_load_applies_enabled_state_from_config() {
     chat.bottom_pane.set_connectors_enabled(/*enabled*/ true);
 
     let temp = tempdir().expect("tempdir");
-    let config_toml_path = temp.path().join("config.toml").abs();
+    let config_toml_path = temp.path().join(codex_paths::CONFIG_TOML).abs();
     let user_config = toml::from_str::<TomlValue>(
         "[apps.connector_1]\nenabled = false\ndisabled_reason = \"user\"\n",
     )
@@ -1935,7 +1936,7 @@ async fn apps_initial_load_applies_enabled_state_from_requirements_with_user_ove
         ..Default::default()
     };
     let temp = tempdir().expect("tempdir");
-    let config_toml_path = temp.path().join("config.toml").abs();
+    let config_toml_path = temp.path().join(codex_paths::CONFIG_TOML).abs();
     chat.config.config_layer_stack =
         ConfigLayerStack::new(Vec::new(), ConfigRequirements::default(), requirements)
             .expect("requirements stack")

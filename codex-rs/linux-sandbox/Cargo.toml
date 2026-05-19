@@ -42,3 +42,6 @@ tokio = { workspace = true, features = [
     "rt-multi-thread",
     "signal",
 ] }
+
+[dev-dependencies]
+codex-test-support = { workspace = true }

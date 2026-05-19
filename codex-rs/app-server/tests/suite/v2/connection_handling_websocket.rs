@@ -1,6 +1,4 @@
-use anyhow::Context;
-use anyhow::Result;
-use anyhow::bail;
+use codex_test_support::prelude::*;
 use app_test_support::DISABLE_PLUGIN_STARTUP_TASKS_ARG;
 use app_test_support::create_mock_responses_server_sequence_unchecked;
 use app_test_support::to_response;
@@ -26,9 +24,7 @@ use reqwest::StatusCode;
 use serde_json::json;
 use sha2::Sha256;
 use std::net::SocketAddr;
-use std::path::Path;
 use std::process::Stdio;
-use tempfile::TempDir;
 use time::OffsetDateTime;
 use tokio::io::AsyncBufReadExt;
 use tokio::io::BufReader;

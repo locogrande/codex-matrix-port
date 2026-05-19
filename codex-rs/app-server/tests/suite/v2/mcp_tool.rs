@@ -1,9 +1,8 @@
 use std::borrow::Cow;
 use std::collections::BTreeMap;
-use std::sync::Arc;
-use std::time::Duration;
+use codex_test_support::prelude::*;
+use codex_paths;
 
-use anyhow::Result;
 use app_test_support::McpProcess;
 use app_test_support::create_final_assistant_message_sse_response;
 use app_test_support::create_mock_responses_server_sequence;
@@ -31,7 +30,6 @@ use codex_app_server_protocol::TurnStartResponse;
 use codex_app_server_protocol::UserInput as V2UserInput;
 use codex_utils_pty::DEFAULT_OUTPUT_BYTES_CAP;
 use core_test_support::responses;
-use pretty_assertions::assert_eq;
 use rmcp::handler::server::ServerHandler;
 use rmcp::model::BooleanSchema;
 use rmcp::model::CallToolRequestParams;
@@ -54,7 +52,6 @@ use rmcp::transport::StreamableHttpServerConfig;
 use rmcp::transport::StreamableHttpService;
 use rmcp::transport::streamable_http_server::session::local::LocalSessionManager;
 use serde_json::json;
-use tempfile::TempDir;
 use tokio::net::TcpListener;
 use tokio::task::JoinHandle;
 use tokio::time::timeout;
@@ -84,7 +81,7 @@ async fn mcp_server_tool_call_returns_tool_result() -> Result<()> {
         "compact",
     )?;
 
-    let config_path = codex_home.path().join("config.toml");
+    let config_path = codex_home.path().join(codex_paths::CONFIG_TOML);
     let mut config_toml = std::fs::read_to_string(&config_path)?;
     config_toml.push_str(&format!(
         r#"
@@ -202,7 +199,7 @@ async fn mcp_server_tool_call_round_trips_elicitation() -> Result<()> {
         "compact",
     )?;
 
-    let config_path = codex_home.path().join("config.toml");
+    let config_path = codex_home.path().join(codex_paths::CONFIG_TOML);
     let mut config_toml = std::fs::read_to_string(&config_path)?;
     config_toml.push_str(&format!(
         r#"
@@ -312,7 +309,7 @@ async fn mcp_server_tool_call_forwards_url_elicitation() -> Result<()> {
         "compact",
     )?;
 
-    let config_path = codex_home.path().join("config.toml");
+    let config_path = codex_home.path().join(codex_paths::CONFIG_TOML);
     let mut config_toml = std::fs::read_to_string(&config_path)?;
     config_toml.push_str(&format!(
         r#"
@@ -432,7 +429,7 @@ async fn mcp_tool_call_completion_notification_contains_truncated_large_result()
         "compact",
     )?;
 
-    let config_path = codex_home.path().join("config.toml");
+    let config_path = codex_home.path().join(codex_paths::CONFIG_TOML);
     let mut config_toml = std::fs::read_to_string(&config_path)?;
     config_toml.push_str(&format!(
         r#"

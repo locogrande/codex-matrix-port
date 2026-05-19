@@ -25,13 +25,14 @@ use std::sync::Arc;
 use tempfile::TempDir;
 use tokio::time::Duration;
 use tokio::time::Instant;
+use codex_paths;
 
 #[tokio::test]
 async fn memories_startup_phase2_tracks_workspace_diff_across_runs() -> anyhow::Result<()> {
     let server = start_mock_server().await;
     let home = Arc::new(TempDir::new()?);
     let db = init_state_db(&home).await?;
-    let memory_root = home.path().join("memories");
+    let memory_root = home.path().join(codex_paths::MEMORIES_DIR);
 
     let now = chrono::Utc::now();
     let _thread_a = seed_stage1_output(
@@ -169,7 +170,7 @@ async fn memories_startup_phase2_prunes_old_extension_resources() -> anyhow::Res
         "expected workspace diff file in prompt: {prompt}"
     );
 
-    wait_for_phase2_workspace_reset(&home.path().join("memories")).await?;
+    wait_for_phase2_workspace_reset(&home.path().join(codex_paths::MEMORIES_DIR)).await?;
     wait_for_file_removed(&old_file).await?;
     assert!(
         !tokio::fs::try_exists(&old_file).await?,
@@ -229,7 +230,7 @@ async fn memories_startup_phase2_prunes_old_extension_resources_without_stage1_i
     );
 
     wait_for_file_removed(&old_file).await?;
-    wait_for_phase2_workspace_reset(&home.path().join("memories")).await?;
+    wait_for_phase2_workspace_reset(&home.path().join(codex_paths::MEMORIES_DIR)).await?;
 
     shutdown_test_codex(&test).await?;
     Ok(())

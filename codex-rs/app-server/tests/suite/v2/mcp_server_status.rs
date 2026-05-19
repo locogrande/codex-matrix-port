@@ -1,10 +1,9 @@
 use std::borrow::Cow;
 use std::collections::BTreeMap;
 use std::collections::BTreeSet;
-use std::sync::Arc;
-use std::time::Duration;
+use codex_test_support::prelude::*;
+use codex_paths;
 
-use anyhow::Result;
 use app_test_support::McpProcess;
 use app_test_support::create_mock_responses_server_sequence_unchecked;
 use app_test_support::to_response;
@@ -14,7 +13,6 @@ use codex_app_server_protocol::ListMcpServerStatusParams;
 use codex_app_server_protocol::ListMcpServerStatusResponse;
 use codex_app_server_protocol::McpServerStatusDetail;
 use codex_app_server_protocol::RequestId;
-use pretty_assertions::assert_eq;
 use rmcp::handler::server::ServerHandler;
 use rmcp::model::JsonObject;
 use rmcp::model::ListResourceTemplatesResult;
@@ -30,7 +28,6 @@ use rmcp::transport::StreamableHttpServerConfig;
 use rmcp::transport::StreamableHttpService;
 use rmcp::transport::streamable_http_server::session::local::LocalSessionManager;
 use serde_json::json;
-use tempfile::TempDir;
 use tokio::net::TcpListener;
 use tokio::task::JoinHandle;
 use tokio::time::timeout;
@@ -52,7 +49,7 @@ async fn mcp_server_status_list_returns_raw_server_and_tool_names() -> Result<()
         "compact",
     )?;
 
-    let config_path = codex_home.path().join("config.toml");
+    let config_path = codex_home.path().join(codex_paths::CONFIG_TOML);
     let mut config_toml = std::fs::read_to_string(&config_path)?;
     config_toml.push_str(&format!(
         r#"
@@ -223,7 +220,7 @@ async fn mcp_server_status_list_tools_and_auth_only_skips_slow_inventory_calls()
         "compact",
     )?;
 
-    let config_path = codex_home.path().join("config.toml");
+    let config_path = codex_home.path().join(codex_paths::CONFIG_TOML);
     let mut config_toml = std::fs::read_to_string(&config_path)?;
     config_toml.push_str(&format!(
         r#"
@@ -284,7 +281,7 @@ async fn mcp_server_status_list_keeps_tools_for_sanitized_name_collisions() -> R
         "compact",
     )?;
 
-    let config_path = codex_home.path().join("config.toml");
+    let config_path = codex_home.path().join(codex_paths::CONFIG_TOML);
     let mut config_toml = std::fs::read_to_string(&config_path)?;
     config_toml.push_str(&format!(
         r#"

@@ -1,4 +1,4 @@
-use anyhow::Result;
+use codex_test_support::prelude::*;
 use app_test_support::McpProcess;
 use app_test_support::test_path_buf_with_windows;
 use app_test_support::test_tmp_path_buf;
@@ -29,10 +29,9 @@ use codex_protocol::config_types::WebSearchLocation;
 use codex_protocol::config_types::WebSearchToolConfig;
 use codex_protocol::openai_models::ReasoningEffort;
 use codex_utils_absolute_path::AbsolutePathBuf;
-use pretty_assertions::assert_eq;
 use serde_json::json;
-use tempfile::TempDir;
 use tokio::time::timeout;
+use codex_paths;
 
 // Bazel CI can spend tens of seconds starting app-server subprocesses or
 // processing config RPCs under load.
@@ -40,7 +39,7 @@ const DEFAULT_READ_TIMEOUT: std::time::Duration = std::time::Duration::from_secs
 
 fn write_config(codex_home: &TempDir, contents: &str) -> Result<()> {
     Ok(std::fs::write(
-        codex_home.path().join("config.toml"),
+        codex_home.path().join(codex_paths::CONFIG_TOML),
         contents,
     )?)
 }
@@ -56,7 +55,7 @@ sandbox_mode = "workspace-write"
 "#,
     )?;
     let codex_home_path = codex_home.path().canonicalize()?;
-    let user_file = AbsolutePathBuf::try_from(codex_home_path.join("config.toml"))?;
+    let user_file = AbsolutePathBuf::try_from(codex_home_path.join(codex_paths::CONFIG_TOML))?;
 
     let mut mcp = McpProcess::new(codex_home.path()).await?;
     timeout(DEFAULT_READ_TIMEOUT, mcp.initialize()).await??;
@@ -106,7 +105,7 @@ allowed_domains = ["example.com"]
 "#,
     )?;
     let codex_home_path = codex_home.path().canonicalize()?;
-    let user_file = AbsolutePathBuf::try_from(codex_home_path.join("config.toml"))?;
+    let user_file = AbsolutePathBuf::try_from(codex_home_path.join(codex_paths::CONFIG_TOML))?;
 
     let mut mcp = McpProcess::new(codex_home.path()).await?;
     timeout(DEFAULT_READ_TIMEOUT, mcp.initialize()).await??;
@@ -338,7 +337,7 @@ default_tools_approval_mode = "prompt"
 "#,
     )?;
     let codex_home_path = codex_home.path().canonicalize()?;
-    let user_file = AbsolutePathBuf::try_from(codex_home_path.join("config.toml"))?;
+    let user_file = AbsolutePathBuf::try_from(codex_home_path.join(codex_paths::CONFIG_TOML))?;
 
     let mut mcp = McpProcess::new(codex_home.path()).await?;
     timeout(DEFAULT_READ_TIMEOUT, mcp.initialize()).await??;
@@ -463,10 +462,10 @@ async fn config_read_includes_project_layers_for_cwd() -> Result<()> {
     write_config(&codex_home, r#"model = "gpt-user""#)?;
 
     let workspace = TempDir::new()?;
-    let project_config_dir = workspace.path().join(".codex");
+    let project_config_dir = workspace.path().join(codex_paths::CODEX_HOME_DIR);
     std::fs::create_dir_all(&project_config_dir)?;
     std::fs::write(
-        project_config_dir.join("config.toml"),
+        project_config_dir.join(codex_paths::CONFIG_TOML),
         r#"
 model_reasoning_effort = "high"
 "#,
@@ -524,7 +523,7 @@ network_access = true
         ),
     )?;
     let codex_home_path = codex_home.path().canonicalize()?;
-    let user_file = AbsolutePathBuf::try_from(codex_home_path.join("config.toml"))?;
+    let user_file = AbsolutePathBuf::try_from(codex_home_path.join(codex_paths::CONFIG_TOML))?;
 
     let managed_path = codex_home.path().join("managed_config.toml");
     let managed_file = AbsolutePathBuf::try_from(managed_path.clone())?;
@@ -803,7 +802,7 @@ model = "gpt-old"
 
     let write_id = mcp
         .send_config_value_write_request(ConfigValueWriteParams {
-            file_path: Some(codex_home.path().join("config.toml").display().to_string()),
+            file_path: Some(codex_home.path().join(codex_paths::CONFIG_TOML).display().to_string()),
             key_path: "model".to_string(),
             value: json!("gpt-new"),
             merge_strategy: MergeStrategy::Replace,
@@ -839,7 +838,7 @@ async fn config_batch_write_applies_multiple_edits() -> Result<()> {
     let writable_root = test_tmp_path_buf();
     let batch_id = mcp
         .send_config_batch_write_request(ConfigBatchWriteParams {
-            file_path: Some(codex_home.join("config.toml").display().to_string()),
+            file_path: Some(codex_home.join(codex_paths::CONFIG_TOML).display().to_string()),
             edits: vec![
                 ConfigEdit {
                     key_path: "sandbox_mode".to_string(),
@@ -915,7 +914,7 @@ model = "should-stay-put"
 
     let batch_id = mcp
         .send_config_batch_write_request(ConfigBatchWriteParams {
-            file_path: Some(codex_home.join("config.toml").display().to_string()),
+            file_path: Some(codex_home.join(codex_paths::CONFIG_TOML).display().to_string()),
             edits: vec![
                 ConfigEdit {
                     key_path: "profiles.\"team.prod\".model".to_string(),
@@ -941,7 +940,7 @@ model = "should-stay-put"
     assert_eq!(batch_write.status, WriteStatus::Ok);
 
     let config: toml::Value =
-        toml::from_str(&std::fs::read_to_string(codex_home.join("config.toml"))?)?;
+        toml::from_str(&std::fs::read_to_string(codex_home.join(codex_paths::CONFIG_TOML))?)?;
     assert_eq!(
         config["profiles"]["team.prod"]["model"].as_str(),
         Some("gpt-5.5")
@@ -969,7 +968,7 @@ async fn config_batch_write_updates_multiple_desktop_settings() -> Result<()> {
 
     let batch_id = mcp
         .send_config_batch_write_request(ConfigBatchWriteParams {
-            file_path: Some(codex_home.join("config.toml").display().to_string()),
+            file_path: Some(codex_home.join(codex_paths::CONFIG_TOML).display().to_string()),
             edits: vec![
                 ConfigEdit {
                     key_path: "desktop.selected-avatar-id".to_string(),

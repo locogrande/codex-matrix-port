@@ -35,6 +35,7 @@ use std::path::PathBuf;
 use std::process::Command;
 use std::sync::Arc;
 use tempfile::TempDir;
+use codex_paths;
 
 fn assert_seatbelt_denied(stderr: &[u8], path: &Path) {
     let stderr = String::from_utf8_lossy(stderr);
@@ -856,7 +857,7 @@ fn create_seatbelt_args_with_read_only_git_and_codex_subpaths() {
         "echo 'sandbox_mode = \"danger-full-access\"' > \"$1\"",
         "bash",
         dot_codex_canonical
-            .join("config.toml")
+            .join(codex_paths::CONFIG_TOML)
             .to_string_lossy()
             .as_ref(),
     ]
@@ -920,14 +921,14 @@ fn create_seatbelt_args_with_read_only_git_and_codex_subpaths() {
             "-DWRITABLE_ROOT_0_EXCLUDED_0={}",
             cwd.canonicalize()
                 .expect("canonicalize cwd")
-                .join(".codex")
+                .join(codex_paths::CODEX_HOME_DIR)
                 .display()
         ),
         format!(
             "-DWRITABLE_ROOT_0_EXCLUDED_1={}",
             cwd.canonicalize()
                 .expect("canonicalize cwd")
-                .join(".git")
+                .join(codex_paths::GIT_DIR)
                 .display()
         ),
         format!(
@@ -971,7 +972,7 @@ fn create_seatbelt_args_with_read_only_git_and_codex_subpaths() {
 
     // Verify that .codex/config.toml cannot be modified under the generated
     // Seatbelt policy.
-    let config_toml = dot_codex_canonical.join("config.toml");
+    let config_toml = dot_codex_canonical.join(codex_paths::CONFIG_TOML);
     let output = Command::new(MACOS_PATH_TO_SEATBELT_EXECUTABLE)
         .args(&args)
         .current_dir(&cwd)
@@ -1082,8 +1083,8 @@ fn create_seatbelt_args_block_first_time_dot_codex_creation_with_metadata_name_r
         .output()
         .expect("git init .");
 
-    let dot_codex = repo_root.join(".codex");
-    let config_toml = dot_codex.join("config.toml");
+    let dot_codex = repo_root.join(codex_paths::CODEX_HOME_DIR);
+    let config_toml = dot_codex.join(codex_paths::CONFIG_TOML);
     let policy = SandboxPolicy::WorkspaceWrite {
         writable_roots: vec![repo_root.as_path().try_into().expect("absolute repo root")],
         network_access: false,
@@ -1130,7 +1131,7 @@ fn create_seatbelt_args_with_read_only_git_pointer_file() {
     let gitdir_config_contents = "[core]\n";
     fs::write(&gitdir_config, gitdir_config_contents).expect("write gitdir config");
 
-    let dot_git = worktree_root.join(".git");
+    let dot_git = worktree_root.join(codex_paths::GIT_DIR);
     let dot_git_contents = format!("gitdir: {}\n", gitdir.to_string_lossy());
     fs::write(&dot_git, &dot_git_contents).expect("write .git pointer");
 
@@ -1246,7 +1247,7 @@ fn create_seatbelt_args_for_cwd_as_git_repo() {
         "echo 'sandbox_mode = \"danger-full-access\"' > \"$1\"",
         "bash",
         dot_codex_canonical
-            .join("config.toml")
+            .join(codex_paths::CONFIG_TOML)
             .to_string_lossy()
             .as_ref(),
     ]
@@ -1365,9 +1366,9 @@ fn populate_tmpdir(tmp: &Path) -> PopulatedTmp {
         .output()
         .expect("git init .");
 
-    fs::create_dir_all(vulnerable_root.join(".codex")).expect("create .codex");
+    fs::create_dir_all(vulnerable_root.join(codex_paths::CODEX_HOME_DIR)).expect("create .codex");
     fs::write(
-        vulnerable_root.join(".codex").join("config.toml"),
+        vulnerable_root.join(codex_paths::CODEX_HOME_DIR).join(codex_paths::CONFIG_TOML),
         "sandbox_mode = \"read-only\"\n",
     )
     .expect("write .codex/config.toml");
@@ -1379,9 +1380,9 @@ fn populate_tmpdir(tmp: &Path) -> PopulatedTmp {
     let vulnerable_root_canonical = vulnerable_root
         .canonicalize()
         .expect("canonicalize vulnerable_root");
-    let dot_git_canonical = vulnerable_root_canonical.join(".git");
+    let dot_git_canonical = vulnerable_root_canonical.join(codex_paths::GIT_DIR);
     let dot_agents_canonical = vulnerable_root_canonical.join(".agents");
-    let dot_codex_canonical = vulnerable_root_canonical.join(".codex");
+    let dot_codex_canonical = vulnerable_root_canonical.join(codex_paths::CODEX_HOME_DIR);
     let empty_root_canonical = empty_root.canonicalize().expect("canonicalize empty_root");
     PopulatedTmp {
         vulnerable_root,

@@ -4,6 +4,7 @@ use std::collections::HashMap;
 use std::collections::HashSet;
 use std::path::Path;
 use std::path::PathBuf;
+use codex_paths;
 
 #[derive(Debug, Default, PartialEq, Eq)]
 pub struct AllowDenyPaths {
@@ -166,7 +167,7 @@ mod tests {
     fn denies_git_dir_inside_writable_root() {
         let tmp = TempDir::new().expect("tempdir");
         let command_cwd = tmp.path().join("workspace");
-        let git_dir = command_cwd.join(".git");
+        let git_dir = command_cwd.join(codex_paths::GIT_DIR);
         let _ = fs::create_dir_all(&git_dir);
 
         let policy = SandboxPolicy::WorkspaceWrite {
@@ -192,7 +193,7 @@ mod tests {
     fn denies_git_file_inside_writable_root() {
         let tmp = TempDir::new().expect("tempdir");
         let command_cwd = tmp.path().join("workspace");
-        let git_file = command_cwd.join(".git");
+        let git_file = command_cwd.join(codex_paths::GIT_DIR);
         let _ = fs::create_dir_all(&command_cwd);
         let _ = fs::write(&git_file, "gitdir: .git/worktrees/example");
 
@@ -219,7 +220,7 @@ mod tests {
     fn denies_codex_and_agents_inside_writable_root() {
         let tmp = TempDir::new().expect("tempdir");
         let command_cwd = tmp.path().join("workspace");
-        let codex_dir = command_cwd.join(".codex");
+        let codex_dir = command_cwd.join(codex_paths::CODEX_HOME_DIR);
         let agents_dir = command_cwd.join(".agents");
         let _ = fs::create_dir_all(&codex_dir);
         let _ = fs::create_dir_all(&agents_dir);

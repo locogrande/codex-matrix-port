@@ -2,18 +2,14 @@
 
 use anyhow::Context as _;
 use anyhow::ensure;
-use std::collections::HashMap;
+use codex_test_support::prelude::*;
 use std::ffi::OsStr;
 use std::ffi::OsString;
 use std::fs;
 use std::net::SocketAddr;
 use std::net::TcpListener;
-use std::path::Path;
-use std::path::PathBuf;
 use std::process::Command as StdCommand;
-use std::sync::Arc;
 use std::sync::Mutex;
-use std::time::Duration;
 use std::time::SystemTime;
 use std::time::UNIX_EPOCH;
 
@@ -61,7 +57,6 @@ use reqwest::StatusCode;
 use serde_json::Value;
 use serde_json::json;
 use serial_test::serial;
-use tempfile::tempdir;
 use tokio::process::Child;
 use tokio::process::Command;
 use tokio::time::Instant;

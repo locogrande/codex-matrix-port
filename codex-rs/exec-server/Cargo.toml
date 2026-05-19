@@ -27,7 +27,7 @@ codex-utils-pty = { workspace = true }
 codex-utils-rustls-provider = { workspace = true }
 futures = { workspace = true }
 reqwest = { workspace = true, features = ["json", "rustls-tls", "stream"] }
-prost = "0.14.3"
+prost = { workspace = true }
 serde = { workspace = true, features = ["derive"] }
 serde_json = { workspace = true }
 thiserror = { workspace = true }
@@ -49,6 +49,7 @@ tracing = { workspace = true }
 uuid = { workspace = true, features = ["v4"] }
 
 [dev-dependencies]
+codex-test-support = { workspace = true }
 anyhow = { workspace = true }
 codex-test-binary-support = { workspace = true }
 ctor = { workspace = true }
@@ -56,5 +57,5 @@ http = { workspace = true }
 pretty_assertions = { workspace = true }
 serial_test = { workspace = true }
 tempfile = { workspace = true }
-test-case = "3.3.1"
+test-case = { workspace = true }
 wiremock = { workspace = true }

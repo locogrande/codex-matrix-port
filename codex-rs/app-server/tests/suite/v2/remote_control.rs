@@ -1,7 +1,5 @@
-use std::time::Duration;
+use codex_test_support::prelude::*;
 
-use anyhow::Context;
-use anyhow::Result;
 use app_test_support::ChatGptAuthFixture;
 use app_test_support::McpProcess;
 use app_test_support::to_response;
@@ -14,8 +12,6 @@ use codex_app_server_protocol::RemoteControlEnableResponse;
 use codex_app_server_protocol::RemoteControlStatusReadResponse;
 use codex_app_server_protocol::RequestId;
 use codex_config::types::AuthCredentialsStoreMode;
-use pretty_assertions::assert_eq;
-use tempfile::TempDir;
 use tokio::io::AsyncBufReadExt;
 use tokio::io::BufReader;
 use tokio::net::TcpListener;

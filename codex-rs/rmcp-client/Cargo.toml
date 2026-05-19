@@ -8,7 +8,7 @@ license.workspace = true
 workspace = true
 
 [dependencies]
-anyhow = "1"
+anyhow = { workspace = true }
 axum = { workspace = true, default-features = false, features = [
     "http1",
     "tokio",
@@ -26,7 +26,7 @@ bytes = { workspace = true }
 futures = { workspace = true, default-features = false, features = ["std"] }
 keyring = { workspace = true, features = ["crypto-rust"] }
 oauth2 = "5"
-reqwest = { version = "0.12", default-features = false, features = [
+reqwest = { workspace = true, default-features = false, features = [
     "json",
     "stream",
     "rustls-tls",
@@ -64,6 +64,7 @@ webbrowser = { workspace = true }
 which = { workspace = true }
 
 [dev-dependencies]
+codex-test-support = { workspace = true }
 codex-utils-cargo-bin = { workspace = true }
 pretty_assertions = { workspace = true }
 serial_test = { workspace = true }

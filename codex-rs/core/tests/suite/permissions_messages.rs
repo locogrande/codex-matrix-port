@@ -1,4 +1,4 @@
-use anyhow::Result;
+use codex_test_support::prelude::*;
 use codex_config::ConfigLayerStack;
 use codex_core::ForkSnapshot;
 use codex_core::config::Constrained;
@@ -21,9 +21,7 @@ use core_test_support::responses::start_mock_server;
 use core_test_support::skip_if_no_network;
 use core_test_support::test_codex::test_codex;
 use core_test_support::wait_for_event;
-use pretty_assertions::assert_eq;
 use std::collections::HashSet;
-use tempfile::TempDir;
 
 fn permissions_texts(request: &ResponsesRequest) -> Vec<String> {
     request

@@ -1,4 +1,4 @@
-use anyhow::Result;
+use codex_test_support::prelude::*;
 use app_test_support::ChatGptAuthFixture;
 use app_test_support::DEFAULT_CLIENT_NAME;
 use app_test_support::write_chatgpt_auth;
@@ -6,12 +6,7 @@ use codex_config::types::AuthCredentialsStoreMode;
 use codex_config::types::OtelExporterKind;
 use codex_config::types::OtelHttpProtocol;
 use codex_core::config::ConfigBuilder;
-use pretty_assertions::assert_eq;
 use serde_json::Value;
-use std::collections::HashMap;
-use std::path::Path;
-use std::time::Duration;
-use tempfile::TempDir;
 use tokio::time::timeout;
 use wiremock::Mock;
 use wiremock::MockServer;

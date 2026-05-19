@@ -9,6 +9,7 @@ use pretty_assertions::assert_eq;
 use std::fs;
 use std::path::PathBuf;
 use tempfile::TempDir;
+use codex_paths;
 
 async fn get_user_instructions(config: &Config) -> Option<String> {
     AgentsMdManager::new(config)
@@ -154,7 +155,7 @@ async fn finds_doc_in_repo_root() {
 
     // Simulate a git repository. Note .git can be a file or a directory.
     std::fs::write(
-        repo.path().join(".git"),
+        repo.path().join(codex_paths::GIT_DIR),
         "gitdir: /path/to/actual/git/dir\n",
     )
     .unwrap();
@@ -239,7 +240,7 @@ async fn concatenates_root_and_cwd_docs() {
 
     // Simulate a git repository.
     std::fs::write(
-        repo.path().join(".git"),
+        repo.path().join(codex_paths::GIT_DIR),
         "gitdir: /path/to/actual/git/dir\n",
     )
     .unwrap();
@@ -266,7 +267,7 @@ async fn project_root_markers_are_honored_for_agents_discovery() {
     fs::write(root.path().join("AGENTS.md"), "parent doc").unwrap();
 
     let nested = root.path().join("dir1");
-    fs::create_dir_all(nested.join(".git")).unwrap();
+    fs::create_dir_all(nested.join(codex_paths::GIT_DIR)).unwrap();
     fs::write(nested.join("AGENTS.md"), "child doc").unwrap();
 
     let mut cfg = make_config_with_project_root_markers(

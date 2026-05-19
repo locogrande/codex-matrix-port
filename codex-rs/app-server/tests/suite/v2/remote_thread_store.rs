@@ -14,10 +14,8 @@
 //! in unnoticed.
 
 use std::collections::BTreeSet;
-use std::path::Path;
-use std::sync::Arc;
+use codex_test_support::prelude::*;
 
-use anyhow::Result;
 use app_test_support::create_mock_responses_server_repeating_assistant;
 use codex_app_server::in_process;
 use codex_app_server::in_process::InProcessServerEvent;
@@ -42,8 +40,6 @@ use codex_exec_server::EnvironmentManager;
 use codex_feedback::CodexFeedback;
 use codex_protocol::protocol::SessionSource;
 use codex_thread_store::InMemoryThreadStore;
-use pretty_assertions::assert_eq;
-use tempfile::TempDir;
 use tokio::time::timeout;
 use uuid::Uuid;
 

@@ -6,7 +6,7 @@
 // `app-server/tests/suite/zsh` via DotSlash on first use, so `dotslash` and
 // network access are required the first time the artifact is fetched.
 
-use anyhow::Result;
+use codex_test_support::prelude::*;
 use app_test_support::McpProcess;
 use app_test_support::create_final_assistant_message_sse_response;
 use app_test_support::create_mock_responses_server_sequence;
@@ -34,10 +34,7 @@ use codex_features::FEATURES;
 use codex_features::Feature;
 use core_test_support::responses;
 use core_test_support::skip_if_no_network;
-use pretty_assertions::assert_eq;
 use std::collections::BTreeMap;
-use std::path::Path;
-use tempfile::TempDir;
 use tokio::time::timeout;
 
 #[cfg(windows)]

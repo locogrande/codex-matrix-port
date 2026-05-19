@@ -129,6 +129,7 @@ openssl-sys = { workspace = true, features = ["vendored"] }
 codex-shell-escalation = { workspace = true }
 
 [dev-dependencies]
+codex-test-support = { workspace = true }
 assert_cmd = { workspace = true }
 assert_matches = { workspace = true }
 codex-otel = { workspace = true }
@@ -141,7 +142,7 @@ maplit = { workspace = true }
 opentelemetry = { workspace = true }
 predicates = { workspace = true }
 pretty_assertions = { workspace = true }
-test-case = "3.3.1"
+test-case = { workspace = true }
 opentelemetry_sdk = { workspace = true, features = [
     "experimental_metrics_custom_reader",
     "metrics",

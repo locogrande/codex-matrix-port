@@ -1,15 +1,12 @@
-use std::path::Path;
+use codex_test_support::prelude::*;
 
-use anyhow::Result;
 use codex_config::types::McpServerTransportConfig;
 use codex_core::config::edit::ConfigEditsBuilder;
 use codex_core::config::load_global_mcp_servers;
 use predicates::prelude::PredicateBooleanExt;
 use predicates::str::contains;
-use pretty_assertions::assert_eq;
 use serde_json::Value as JsonValue;
 use serde_json::json;
-use tempfile::TempDir;
 
 fn codex_command(codex_home: &Path) -> Result<assert_cmd::Command> {
     let mut cmd = assert_cmd::Command::new(codex_utils_cargo_bin::cargo_bin("codex")?);

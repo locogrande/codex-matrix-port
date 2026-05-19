@@ -1,3 +1,4 @@
+use codex_paths;
 mod layer_io;
 #[cfg(target_os = "macos")]
 mod macos;
@@ -641,7 +642,7 @@ fn windows_system_requirements_toml_file() -> io::Result<AbsolutePathBuf> {
 
 #[cfg(windows)]
 fn windows_system_config_toml_file() -> io::Result<AbsolutePathBuf> {
-    let config_toml_file = windows_codex_system_dir().join("config.toml");
+    let config_toml_file = windows_codex_system_dir().join(codex_paths::CONFIG_TOML);
     AbsolutePathBuf::try_from(config_toml_file)
 }
 
@@ -852,7 +853,7 @@ impl ProjectTrustContext {
         }
 
         let relative_dir = dir.as_path().strip_prefix(checkout_root.as_path()).ok()?;
-        Some(repo_root.join(relative_dir).join(".codex"))
+        Some(repo_root.join(relative_dir).join(codex_paths::CODEX_HOME_DIR))
     }
 }
 
@@ -1101,7 +1102,7 @@ async fn find_git_checkout_root(
     };
 
     for dir in base.ancestors() {
-        let dot_git = dir.join(".git");
+        let dot_git = dir.join(codex_paths::GIT_DIR);
         if fs.get_metadata(&dot_git, /*sandbox*/ None).await.is_ok() {
             return Some(dir);
         }
@@ -1149,7 +1150,7 @@ async fn load_project_layers(
     let mut layers = Vec::new();
     let mut startup_warnings = Vec::new();
     for dir in dirs {
-        let dot_codex_abs = dir.join(".codex");
+        let dot_codex_abs = dir.join(codex_paths::CODEX_HOME_DIR);
         if !fs
             .get_metadata(&dot_codex_abs, /*sandbox*/ None)
             .await
@@ -1490,7 +1491,7 @@ foo = "xyzzy"
             .unwrap_or_else(|_| PathBuf::from(DEFAULT_PROGRAM_DATA_DIR_WINDOWS))
             .join("OpenAI")
             .join("Codex")
-            .join("config.toml");
+            .join(codex_paths::CONFIG_TOML);
         assert_eq!(
             windows_system_config_toml_file()
                 .expect("config.toml path")
@@ -1501,7 +1502,7 @@ foo = "xyzzy"
             windows_system_config_toml_file()
                 .expect("config.toml path")
                 .as_path()
-                .ends_with(Path::new("OpenAI").join("Codex").join("config.toml"))
+                .ends_with(Path::new("OpenAI").join("Codex").join(codex_paths::CONFIG_TOML))
         );
     }
 }

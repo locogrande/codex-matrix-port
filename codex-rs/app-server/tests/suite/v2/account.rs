@@ -1,7 +1,7 @@
-use anyhow::Result;
-use anyhow::bail;
+use codex_test_support::prelude::*;
 use app_test_support::McpProcess;
 use app_test_support::to_response;
+use codex_paths;
 
 use app_test_support::ChatGptAuthFixture;
 use app_test_support::ChatGptIdTokenClaims;
@@ -37,12 +37,8 @@ use codex_login::REFRESH_TOKEN_URL_OVERRIDE_ENV_VAR;
 use codex_login::login_with_api_key;
 use codex_protocol::account::PlanType as AccountPlanType;
 use core_test_support::responses;
-use pretty_assertions::assert_eq;
 use serde_json::json;
 use serial_test::serial;
-use std::path::Path;
-use std::time::Duration;
-use tempfile::TempDir;
 use tokio::time::timeout;
 use url::Url;
 use wiremock::Mock;
@@ -75,7 +71,7 @@ struct CreateConfigTomlParams {
 }
 
 fn create_config_toml(codex_home: &Path, params: CreateConfigTomlParams) -> std::io::Result<()> {
-    let config_toml = codex_home.join("config.toml");
+    let config_toml = codex_home.join(codex_paths::CONFIG_TOML);
     let base_url = params
         .base_url
         .unwrap_or_else(|| "http://127.0.0.1:0/v1".to_string());
@@ -199,7 +195,7 @@ async fn logout_account_removes_auth_and_notifies() -> Result<()> {
         "sk-test-key",
         AuthCredentialsStoreMode::File,
     )?;
-    assert!(codex_home.path().join("auth.json").exists());
+    assert!(codex_home.path().join(codex_paths::AUTH_JSON).exists());
 
     let mut mcp = McpProcess::new_with_env(codex_home.path(), &[("OPENAI_API_KEY", None)]).await?;
     timeout(DEFAULT_READ_TIMEOUT, mcp.initialize()).await??;
@@ -228,7 +224,7 @@ async fn logout_account_removes_auth_and_notifies() -> Result<()> {
     assert_eq!(payload.plan_type, None);
 
     assert!(
-        !codex_home.path().join("auth.json").exists(),
+        !codex_home.path().join(codex_paths::AUTH_JSON).exists(),
         "auth.json should be deleted"
     );
 
@@ -941,7 +937,7 @@ async fn login_account_api_key_succeeds_and_notifies() -> Result<()> {
     pretty_assertions::assert_eq!(payload.auth_mode, Some(AuthMode::ApiKey));
     pretty_assertions::assert_eq!(payload.plan_type, None);
 
-    assert!(codex_home.path().join("auth.json").exists());
+    assert!(codex_home.path().join(codex_paths::AUTH_JSON).exists());
     Ok(())
 }
 
@@ -1053,7 +1049,7 @@ async fn login_account_chatgpt_device_code_returns_error_when_disabled() -> Resu
         "account/login/completed should not be emitted when device code start fails"
     );
     assert!(
-        !codex_home.path().join("auth.json").exists(),
+        !codex_home.path().join(codex_paths::AUTH_JSON).exists(),
         "auth.json should not be created when device code start fails"
     );
     Ok(())
@@ -1137,7 +1133,7 @@ async fn login_account_chatgpt_device_code_succeeds_and_notifies() -> Result<()>
     assert_eq!(payload.auth_mode, Some(AuthMode::Chatgpt));
     assert_eq!(payload.plan_type, Some(AccountPlanType::Pro));
     assert!(
-        codex_home.path().join("auth.json").exists(),
+        codex_home.path().join(codex_paths::AUTH_JSON).exists(),
         "auth.json should be created when device code login succeeds"
     );
     Ok(())
@@ -1212,7 +1208,7 @@ async fn login_account_chatgpt_device_code_failure_notifies_without_account_upda
         "account/updated should not be emitted when device code login fails"
     );
     assert!(
-        !codex_home.path().join("auth.json").exists(),
+        !codex_home.path().join(codex_paths::AUTH_JSON).exists(),
         "auth.json should not be created when device code login fails"
     );
     Ok(())
@@ -1296,7 +1292,7 @@ async fn login_account_chatgpt_device_code_can_be_cancelled() -> Result<()> {
         "account/updated should not be emitted when device code login is cancelled"
     );
     assert!(
-        !codex_home.path().join("auth.json").exists(),
+        !codex_home.path().join(codex_paths::AUTH_JSON).exists(),
         "auth.json should not be created when device code login is cancelled"
     );
     Ok(())

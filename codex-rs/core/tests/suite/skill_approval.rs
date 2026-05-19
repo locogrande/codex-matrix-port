@@ -1,7 +1,7 @@
 #![allow(clippy::unwrap_used)]
 #![cfg(unix)]
 
-use anyhow::Result;
+use codex_test_support::prelude::*;
 use codex_protocol::models::PermissionProfile;
 use codex_protocol::protocol::AskForApproval;
 use codex_protocol::protocol::EventMsg;
@@ -20,8 +20,6 @@ use core_test_support::zsh_fork::build_zsh_fork_test;
 use core_test_support::zsh_fork::restrictive_workspace_write_profile;
 use core_test_support::zsh_fork::zsh_fork_runtime;
 use std::fs;
-use std::path::Path;
-use std::path::PathBuf;
 
 fn write_skill_metadata(home: &Path, name: &str, contents: &str) -> Result<()> {
     let metadata_dir = home.join("skills").join(name).join("agents");

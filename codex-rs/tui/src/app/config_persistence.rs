@@ -5,6 +5,7 @@
 //! loop.
 
 use super::*;
+use codex_paths;
 
 impl App {
     pub(super) async fn rebuild_config_for_cwd(&self, cwd: PathBuf) -> Result<Config> {
@@ -657,7 +658,7 @@ mod tests {
         let mut app = make_test_app().await;
         let codex_home = tempdir()?;
         app.config.codex_home = codex_home.path().to_path_buf().abs();
-        std::fs::write(codex_home.path().join("config.toml"), "[broken")?;
+        std::fs::write(codex_home.path().join(codex_paths::CONFIG_TOML), "[broken")?;
         let original_config = app.config.clone();
 
         app.refresh_in_memory_config_from_disk_best_effort("starting a new thread")
@@ -711,7 +712,7 @@ mod tests {
         let codex_home = tempdir()?;
         app.config.codex_home = codex_home.path().to_path_buf().abs();
         std::fs::write(
-            codex_home.path().join("config.toml"),
+            codex_home.path().join(codex_paths::CONFIG_TOML),
             r#"
 [tui]
 terminal_resize_reflow_max_rows = 9000
@@ -733,7 +734,7 @@ terminal_resize_reflow_max_rows = 9000
         let mut app = make_test_app().await;
         let codex_home = tempdir()?;
         app.config.codex_home = codex_home.path().to_path_buf().abs();
-        std::fs::write(codex_home.path().join("config.toml"), "[broken")?;
+        std::fs::write(codex_home.path().join(codex_paths::CONFIG_TOML), "[broken")?;
         let current_config = app.config.clone();
         let current_cwd = current_config.cwd.clone();
 
@@ -750,7 +751,7 @@ terminal_resize_reflow_max_rows = 9000
         let mut app = make_test_app().await;
         let codex_home = tempdir()?;
         app.config.codex_home = codex_home.path().to_path_buf().abs();
-        std::fs::write(codex_home.path().join("config.toml"), "[broken")?;
+        std::fs::write(codex_home.path().join(codex_paths::CONFIG_TOML), "[broken")?;
         let current_cwd = app.config.cwd.clone();
         let next_cwd_tmp = tempdir()?;
         let next_cwd = next_cwd_tmp.path().to_path_buf();

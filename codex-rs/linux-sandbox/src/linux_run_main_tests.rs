@@ -1,3 +1,4 @@
+use codex_paths;
 #[cfg(test)]
 use super::*;
 #[cfg(test)]
@@ -277,7 +278,7 @@ fn managed_proxy_preflight_argv_is_wrapped_for_full_access_policy() {
 #[test]
 fn cleanup_synthetic_mount_targets_removes_only_empty_mount_targets() {
     let temp_dir = tempfile::TempDir::new().expect("tempdir");
-    let empty_file = temp_dir.path().join(".git");
+    let empty_file = temp_dir.path().join(codex_paths::GIT_DIR);
     let empty_dir = temp_dir.path().join(".agents");
     let non_empty_file = temp_dir.path().join("non-empty");
     let missing_file = temp_dir.path().join(".missing");
@@ -316,7 +317,7 @@ fn synthetic_mount_registry_root_is_unique_to_effective_user() {
 #[test]
 fn cleanup_synthetic_mount_targets_waits_for_other_active_registrations() {
     let temp_dir = tempfile::TempDir::new().expect("tempdir");
-    let empty_file = temp_dir.path().join(".git");
+    let empty_file = temp_dir.path().join(codex_paths::GIT_DIR);
     std::fs::write(&empty_file, "").expect("write empty file");
     let target = crate::bwrap::SyntheticMountTarget::missing(&empty_file);
 
@@ -337,7 +338,7 @@ fn cleanup_synthetic_mount_targets_waits_for_other_active_registrations() {
 #[test]
 fn cleanup_synthetic_mount_targets_removes_transient_file_after_concurrent_owner_exits() {
     let temp_dir = tempfile::TempDir::new().expect("tempdir");
-    let empty_file = temp_dir.path().join(".git");
+    let empty_file = temp_dir.path().join(codex_paths::GIT_DIR);
     let first_target = crate::bwrap::SyntheticMountTarget::missing(&empty_file);
 
     let first_registrations = register_synthetic_mount_targets(&[first_target]);
@@ -361,7 +362,7 @@ fn cleanup_synthetic_mount_targets_removes_transient_file_after_concurrent_owner
 #[test]
 fn cleanup_synthetic_mount_targets_preserves_real_pre_existing_empty_file() {
     let temp_dir = tempfile::TempDir::new().expect("tempdir");
-    let empty_file = temp_dir.path().join(".git");
+    let empty_file = temp_dir.path().join(codex_paths::GIT_DIR);
     std::fs::write(&empty_file, "").expect("write pre-existing empty file");
     let metadata = std::fs::symlink_metadata(&empty_file).expect("stat empty file");
     let first_target =
@@ -381,7 +382,7 @@ fn cleanup_synthetic_mount_targets_preserves_real_pre_existing_empty_file() {
 #[test]
 fn cleanup_protected_create_targets_removes_created_path_and_reports_violation() {
     let temp_dir = tempfile::TempDir::new().expect("tempdir");
-    let dot_git = temp_dir.path().join(".git");
+    let dot_git = temp_dir.path().join(codex_paths::GIT_DIR);
     let target = crate::bwrap::ProtectedCreateTarget::missing(&dot_git);
 
     let registrations = register_protected_create_targets(&[target]);
@@ -395,7 +396,7 @@ fn cleanup_protected_create_targets_removes_created_path_and_reports_violation()
 #[test]
 fn cleanup_protected_create_targets_waits_for_other_active_registrations() {
     let temp_dir = tempfile::TempDir::new().expect("tempdir");
-    let dot_git = temp_dir.path().join(".git");
+    let dot_git = temp_dir.path().join(codex_paths::GIT_DIR);
     let target = crate::bwrap::ProtectedCreateTarget::missing(&dot_git);
 
     let registrations = register_protected_create_targets(std::slice::from_ref(&target));

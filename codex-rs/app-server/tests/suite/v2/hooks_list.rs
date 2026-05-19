@@ -1,6 +1,6 @@
-use std::time::Duration;
+use codex_test_support::prelude::*;
+use codex_paths;
 
-use anyhow::Result;
 use app_test_support::McpProcess;
 use app_test_support::create_final_assistant_message_sse_response;
 use app_test_support::create_mock_responses_server_sequence_unchecked;
@@ -26,9 +26,7 @@ use codex_core::config::set_project_trust_level;
 use codex_protocol::config_types::TrustLevel;
 use codex_utils_absolute_path::AbsolutePathBuf;
 use core_test_support::skip_if_windows;
-use pretty_assertions::assert_eq;
 use serde::Serialize;
-use tempfile::TempDir;
 use tokio::time::timeout;
 
 const DEFAULT_TIMEOUT: Duration = Duration::from_secs(30);
@@ -68,7 +66,7 @@ fn command_hook_hash(
 
 fn write_user_hook_config(codex_home: &std::path::Path) -> Result<()> {
     std::fs::write(
-        codex_home.join("config.toml"),
+        codex_home.join(codex_paths::CONFIG_TOML),
         r#"[hooks]
 
 [[hooks.PreToolUse]]
@@ -89,12 +87,12 @@ fn write_plugin_hook_config(codex_home: &std::path::Path, hooks_json: &str) -> R
     std::fs::create_dir_all(plugin_root.join(".codex-plugin"))?;
     std::fs::create_dir_all(plugin_root.join("hooks"))?;
     std::fs::write(
-        plugin_root.join(".codex-plugin/plugin.json"),
+        plugin_root.join(codex_paths::PLUGIN_JSON),
         r#"{"name":"demo"}"#,
     )?;
     std::fs::write(plugin_root.join("hooks/hooks.json"), hooks_json)?;
     std::fs::write(
-        codex_home.join("config.toml"),
+        codex_home.join(codex_paths::CONFIG_TOML),
         r#"[features]
 plugins = true
 plugin_hooks = true
@@ -110,7 +108,7 @@ enabled = true
 fn write_project_hook_config(dot_codex_folder: &std::path::Path, command: &str) -> Result<()> {
     std::fs::create_dir_all(dot_codex_folder)?;
     std::fs::write(
-        dot_codex_folder.join("config.toml"),
+        dot_codex_folder.join(codex_paths::CONFIG_TOML),
         format!(
             r#"[features]
 hooks = true
@@ -151,7 +149,7 @@ async fn hooks_list_shows_discovered_hook() -> Result<()> {
     .await??;
     let HooksListResponse { data } = to_response(response)?;
     let config_path = AbsolutePathBuf::from_absolute_path(std::fs::canonicalize(
-        codex_home.path().join("config.toml"),
+        codex_home.path().join(codex_paths::CONFIG_TOML),
     )?)?;
     assert_eq!(
         data,
@@ -302,13 +300,13 @@ async fn hooks_list_uses_each_cwds_effective_feature_enablement() -> Result<()> 
     let codex_home = TempDir::new()?;
     let workspace = TempDir::new()?;
     std::fs::write(
-        codex_home.path().join("config.toml"),
+        codex_home.path().join(codex_paths::CONFIG_TOML),
         r#"[features]
 hooks = false
 "#,
     )?;
-    std::fs::create_dir_all(workspace.path().join(".git"))?;
-    std::fs::create_dir_all(workspace.path().join(".codex"))?;
+    std::fs::create_dir_all(workspace.path().join(codex_paths::GIT_DIR))?;
+    std::fs::create_dir_all(workspace.path().join(codex_paths::CODEX_HOME_DIR))?;
     std::fs::write(
         workspace.path().join(".codex/config.toml"),
         r#"[features]
@@ -402,11 +400,11 @@ async fn hooks_list_uses_root_repo_hooks_for_linked_worktrees() -> Result<()> {
     std::fs::create_dir_all(&worktree_git_dir)?;
     std::fs::create_dir_all(&worktree_root)?;
     std::fs::write(
-        worktree_root.join(".git"),
+        worktree_root.join(codex_paths::GIT_DIR),
         format!("gitdir: {}\n", worktree_git_dir.display()),
     )?;
-    write_project_hook_config(&repo_root.join(".codex"), "echo root hook")?;
-    write_project_hook_config(&worktree_root.join(".codex"), "echo worktree hook")?;
+    write_project_hook_config(&repo_root.join(codex_paths::CODEX_HOME_DIR), "echo root hook")?;
+    write_project_hook_config(&worktree_root.join(codex_paths::CODEX_HOME_DIR), "echo worktree hook")?;
     set_project_trust_level(codex_home.path(), &repo_root, TrustLevel::Trusted)?;
 
     let mut mcp = McpProcess::new(codex_home.path()).await?;
@@ -601,7 +599,7 @@ with Path(r"{hook_log_path}").open("a", encoding="utf-8") as handle:
         ),
     )?;
     std::fs::write(
-        codex_home.path().join("config.toml"),
+        codex_home.path().join(codex_paths::CONFIG_TOML),
         format!(
             r#"
 model = "mock-model"
@@ -848,7 +846,7 @@ with Path(r"{hook_log_path}").open("a", encoding="utf-8") as handle:
         ),
     )?;
     std::fs::write(
-        codex_home.path().join("config.toml"),
+        codex_home.path().join(codex_paths::CONFIG_TOML),
         format!(
             r#"
 model = "mock-model"

@@ -1,7 +1,6 @@
 #![allow(clippy::unwrap_used, clippy::expect_used)]
 
-use anyhow::Context;
-use anyhow::Result;
+use codex_test_support::prelude::*;
 use codex_config::types::ApprovalsReviewer;
 use codex_core::CodexThread;
 use codex_core::config::Constrained;
@@ -39,16 +38,11 @@ use core_test_support::wait_for_event_with_timeout;
 use core_test_support::zsh_fork::build_zsh_fork_test;
 use core_test_support::zsh_fork::restrictive_workspace_write_profile;
 use core_test_support::zsh_fork::zsh_fork_runtime;
-use pretty_assertions::assert_eq;
 use regex_lite::Regex;
 use serde_json::Value;
 use serde_json::json;
 use std::env;
 use std::fs;
-use std::path::PathBuf;
-use std::sync::Arc;
-use std::time::Duration;
-use tempfile::TempDir;
 use test_case::test_case;
 use wiremock::Mock;
 use wiremock::MockServer;

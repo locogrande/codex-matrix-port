@@ -1,6 +1,6 @@
 #![allow(clippy::unwrap_used, clippy::expect_used)]
 
-use anyhow::Result;
+use codex_test_support::prelude::*;
 use codex_core::config::Constrained;
 use codex_core::sandboxing::SandboxPermissions;
 use codex_features::Feature;
@@ -34,12 +34,10 @@ use core_test_support::test_codex::TestCodex;
 use core_test_support::test_codex::test_codex;
 use core_test_support::test_codex::turn_permission_fields;
 use core_test_support::wait_for_event;
-use pretty_assertions::assert_eq;
 use regex_lite::Regex;
 use serde_json::Value;
 use serde_json::json;
 use std::fs;
-use std::path::Path;
 
 fn absolute_path(path: &Path) -> AbsolutePathBuf {
     AbsolutePathBuf::try_from(path).expect("absolute path")

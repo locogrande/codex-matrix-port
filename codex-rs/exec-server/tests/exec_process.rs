@@ -2,10 +2,8 @@
 
 mod common;
 
-use std::sync::Arc;
+use codex_test_support::prelude::*;
 
-use anyhow::Context;
-use anyhow::Result;
 use codex_exec_server::Environment;
 use codex_exec_server::ExecBackend;
 use codex_exec_server::ExecOutputStream;
@@ -16,8 +14,6 @@ use codex_exec_server::ProcessId;
 use codex_exec_server::ReadResponse;
 use codex_exec_server::StartedExecProcess;
 use codex_exec_server::WriteStatus;
-use pretty_assertions::assert_eq;
-use tempfile::TempDir;
 use test_case::test_case;
 use tokio::sync::watch;
 use tokio::time::Duration;

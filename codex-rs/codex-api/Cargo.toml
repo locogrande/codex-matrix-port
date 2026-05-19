@@ -29,6 +29,7 @@ tokio-util = { workspace = true, features = ["codec", "io"] }
 url = { workspace = true }
 
 [dev-dependencies]
+codex-test-support = { workspace = true }
 anyhow = { workspace = true }
 assert_matches = { workspace = true }
 pretty_assertions = { workspace = true }

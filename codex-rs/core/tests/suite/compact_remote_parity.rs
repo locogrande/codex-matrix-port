@@ -1,10 +1,8 @@
 #![allow(clippy::expect_used)]
 
 use std::fs;
-use std::path::Path;
-use std::path::PathBuf;
+use codex_test_support::prelude::*;
 
-use anyhow::Result;
 use codex_features::Feature;
 use codex_login::CodexAuth;
 use codex_protocol::config_types::ServiceTier;
@@ -20,7 +18,6 @@ use core_test_support::skip_if_no_network;
 use core_test_support::test_codex::TestCodexHarness;
 use core_test_support::test_codex::test_codex;
 use core_test_support::wait_for_event;
-use pretty_assertions::assert_eq;
 use serde_json::Value;
 use serde_json::json;
 

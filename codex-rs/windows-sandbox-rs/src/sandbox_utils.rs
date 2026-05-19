@@ -8,12 +8,13 @@
 use anyhow::Result;
 use std::collections::HashMap;
 use std::path::Path;
+use codex_paths;
 
 /// Walk upward from `start` to locate the git worktree root for `safe.directory`.
 fn find_git_worktree_root_for_safe_directory(start: &Path) -> Option<std::path::PathBuf> {
     let mut cur = dunce::canonicalize(start).ok()?;
     loop {
-        if cur.join(".git").exists() {
+        if cur.join(codex_paths::GIT_DIR).exists() {
             return Some(cur);
         }
         let parent = cur.parent()?;
@@ -71,7 +72,7 @@ mod tests {
         let temp = TempDir::new().expect("tempdir");
         let repo = temp.path().join("repo");
         let nested = repo.join("nested");
-        fs::create_dir_all(repo.join(".git")).expect("create .git");
+        fs::create_dir_all(repo.join(codex_paths::GIT_DIR)).expect("create .git");
         fs::create_dir_all(&nested).expect("create nested dir");
 
         let mut env_map = HashMap::new();
@@ -95,7 +96,7 @@ mod tests {
         let nested = repo.join("nested");
         fs::create_dir_all(&nested).expect("create nested dir");
         fs::write(
-            repo.join(".git"),
+            repo.join(codex_paths::GIT_DIR),
             "gitdir: C:/Users/example/repo/.git/worktrees/codex3\n",
         )
         .expect("write .git file");

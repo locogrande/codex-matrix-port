@@ -1,10 +1,6 @@
-use std::collections::HashMap;
+use codex_test_support::prelude::*;
 use std::fs;
-use std::path::Path;
-use std::time::Duration;
 
-use anyhow::Context;
-use anyhow::Result;
 use codex_config::types::AppToolApproval;
 use codex_config::types::McpServerConfig;
 use codex_config::types::McpServerTransportConfig;
@@ -21,7 +17,6 @@ use core_test_support::responses::start_mock_server;
 use core_test_support::skip_if_no_network;
 use core_test_support::stdio_server_bin;
 use core_test_support::test_codex::test_codex;
-use pretty_assertions::assert_eq;
 use serde_json::Value;
 use serde_json::json;
 

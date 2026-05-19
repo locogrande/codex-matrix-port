@@ -27,15 +27,11 @@ use std::io::Read;
 use std::io::Write;
 use std::net::TcpListener;
 use std::net::TcpStream;
-use std::path::Path;
-use std::path::PathBuf;
+use codex_test_support::prelude::*;
 use std::process::Command;
-use std::sync::Arc;
 use std::sync::mpsc;
 use std::thread;
-use std::time::Duration;
 use std::time::Instant;
-use tempfile::TempDir;
 
 const CODEX_CA_CERT_ENV: &str = "CODEX_CA_CERTIFICATE";
 const PROBE_PROXY_ENV: &str = "CODEX_CUSTOM_CA_PROBE_PROXY";

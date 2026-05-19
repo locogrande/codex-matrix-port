@@ -1,4 +1,4 @@
-use anyhow::Result;
+use codex_test_support::prelude::*;
 use app_test_support::DEFAULT_CLIENT_NAME;
 use app_test_support::McpProcess;
 use app_test_support::create_mock_responses_server_sequence_unchecked;
@@ -18,10 +18,6 @@ use codex_app_server_protocol::ThreadRealtimeStartTransport;
 use codex_app_server_protocol::ThreadStartParams;
 use codex_app_server_protocol::ThreadStartResponse;
 use codex_protocol::protocol::RealtimeOutputModality;
-use pretty_assertions::assert_eq;
-use std::path::Path;
-use std::time::Duration;
-use tempfile::TempDir;
 use tokio::time::timeout;
 
 const DEFAULT_TIMEOUT: Duration = Duration::from_secs(10);

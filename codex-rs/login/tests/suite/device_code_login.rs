@@ -1,6 +1,6 @@
 #![allow(clippy::unwrap_used)]
 
-use anyhow::Context;
+use codex_test_support::prelude::*;
 use base64::Engine;
 use base64::engine::general_purpose::URL_SAFE_NO_PAD;
 use codex_config::types::AuthCredentialsStoreMode;
@@ -8,10 +8,8 @@ use codex_login::ServerOptions;
 use codex_login::auth::load_auth_dot_json;
 use codex_login::run_device_code_login;
 use serde_json::json;
-use std::sync::Arc;
 use std::sync::atomic::AtomicUsize;
 use std::sync::atomic::Ordering;
-use tempfile::tempdir;
 use wiremock::Mock;
 use wiremock::MockServer;
 use wiremock::Request;

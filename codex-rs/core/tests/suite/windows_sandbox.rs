@@ -1,4 +1,4 @@
-use anyhow::Context;
+use codex_test_support::prelude::*;
 use codex_core::exec::ExecCapturePolicy;
 use codex_core::exec::ExecParams;
 use codex_core::exec::process_exec_tool_call;
@@ -13,12 +13,8 @@ use codex_protocol::permissions::FileSystemSandboxPolicy;
 use codex_protocol::permissions::FileSystemSpecialPath;
 use codex_protocol::permissions::NetworkSandboxPolicy;
 use core_test_support::PathExt;
-use pretty_assertions::assert_eq;
 use serial_test::serial;
-use std::collections::HashMap;
 use std::ffi::OsString;
-use std::path::Path;
-use tempfile::TempDir;
 
 struct EnvVarGuard {
     key: &'static str,

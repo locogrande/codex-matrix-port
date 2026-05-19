@@ -1,4 +1,4 @@
-use anyhow::Result;
+use codex_test_support::prelude::*;
 use codex_config::types::McpServerConfig;
 use codex_config::types::McpServerTransportConfig;
 use codex_features::Feature;
@@ -29,9 +29,7 @@ use core_test_support::test_codex::test_codex;
 use core_test_support::test_codex::turn_permission_fields;
 use core_test_support::wait_for_event;
 use core_test_support::wait_for_event_match;
-use pretty_assertions::assert_eq;
 use serde_json::json;
-use std::collections::HashMap;
 use std::fs;
 use tokio::time::Duration;
 use tracing_subscriber::prelude::*;

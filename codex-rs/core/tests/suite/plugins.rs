@@ -1,12 +1,9 @@
 #![cfg(not(target_os = "windows"))]
 #![allow(clippy::unwrap_used, clippy::expect_used)]
 
-use std::sync::Arc;
-use std::time::Duration;
+use codex_test_support::prelude::*;
 use std::time::Instant;
 
-use anyhow::Result;
-use anyhow::bail;
 use codex_features::Feature;
 use codex_login::CodexAuth;
 use codex_protocol::protocol::EventMsg;
@@ -22,7 +19,6 @@ use core_test_support::stdio_server_bin;
 use core_test_support::test_codex::test_codex;
 use core_test_support::wait_for_event;
 use core_test_support::wait_for_event_with_timeout;
-use tempfile::TempDir;
 use wiremock::MockServer;
 
 const SAMPLE_PLUGIN_CONFIG_NAME: &str = "sample@test";

@@ -1,4 +1,4 @@
-use anyhow::Result;
+use codex_test_support::prelude::*;
 use app_test_support::McpProcess;
 use app_test_support::create_final_assistant_message_sse_response;
 use app_test_support::create_mock_responses_server_sequence;
@@ -34,10 +34,7 @@ use codex_app_server_protocol::UserInput as V2UserInput;
 use codex_core::shell::default_user_shell;
 use codex_features::FEATURES;
 use codex_features::Feature;
-use pretty_assertions::assert_eq;
 use std::collections::BTreeMap;
-use std::path::Path;
-use tempfile::TempDir;
 use tokio::time::timeout;
 
 const DEFAULT_READ_TIMEOUT: std::time::Duration = std::time::Duration::from_secs(10);

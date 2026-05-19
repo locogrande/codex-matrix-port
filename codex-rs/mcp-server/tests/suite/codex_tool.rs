@@ -1,7 +1,5 @@
-use std::collections::HashMap;
+use codex_test_support::prelude::*;
 use std::env;
-use std::path::Path;
-use std::path::PathBuf;
 
 use codex_core::spawn::CODEX_SANDBOX_NETWORK_DISABLED_ENV_VAR;
 use codex_mcp_server::CodexToolCallParam;
@@ -12,12 +10,10 @@ use codex_mcp_server::PatchApprovalResponse;
 use codex_protocol::protocol::FileChange;
 use codex_protocol::protocol::ReviewDecision;
 use codex_shell_command::parse_command;
-use pretty_assertions::assert_eq;
 use rmcp::model::JsonRpcResponse;
 use rmcp::model::JsonRpcVersion2_0;
 use rmcp::model::RequestId;
 use serde_json::json;
-use tempfile::TempDir;
 use tokio::time::timeout;
 use wiremock::MockServer;
 

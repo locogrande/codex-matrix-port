@@ -4,6 +4,7 @@ use codex_git_utils::GitBaselineChangeStatus;
 use pretty_assertions::assert_eq;
 use std::fs;
 use tempfile::TempDir;
+use codex_paths;
 
 #[test]
 fn render_workspace_diff_file_bounds_large_diff() {
@@ -25,7 +26,7 @@ fn render_workspace_diff_file_bounds_large_diff() {
 #[tokio::test]
 async fn reset_memory_workspace_baseline_removes_generated_diff() {
     let home = TempDir::new().expect("tempdir");
-    let root = home.path().join("memories");
+    let root = home.path().join(codex_paths::MEMORIES_DIR);
     prepare_memory_workspace(&root)
         .await
         .expect("prepare memory workspace");
@@ -57,8 +58,8 @@ async fn reset_memory_workspace_baseline_removes_generated_diff() {
 #[tokio::test]
 async fn prepare_memory_workspace_recovers_unusable_git_dir() {
     let home = TempDir::new().expect("tempdir");
-    let root = home.path().join("memories");
-    fs::create_dir_all(root.join(".git")).expect("create unusable git dir");
+    let root = home.path().join(codex_paths::MEMORIES_DIR);
+    fs::create_dir_all(root.join(codex_paths::GIT_DIR)).expect("create unusable git dir");
     fs::write(root.join("MEMORY.md"), "memory").expect("write memory");
 
     prepare_memory_workspace(&root)

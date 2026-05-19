@@ -14,6 +14,7 @@ use tempfile::tempdir;
 use tracing::Level;
 use tracing_subscriber::fmt::format::FmtSpan;
 use tracing_test::internal::MockWriter;
+use codex_paths;
 
 #[tokio::test]
 async fn list_tool_suggest_discoverable_plugins_returns_uninstalled_curated_plugins() {
@@ -104,7 +105,7 @@ async fn list_tool_suggest_discoverable_plugins_deduplicates_allowlisted_configu
         .path()
         .join(format!(".tmp/marketplaces/{marketplace_name}"));
     write_file(
-        &marketplace_root.join(".agents/plugins/marketplace.json"),
+        &marketplace_root.join(codex_paths::MARKETPLACE_JSON),
         &format!(
             r#"{{
   "name": "{marketplace_name}",
@@ -159,7 +160,7 @@ async fn list_tool_suggest_discoverable_plugins_ignores_missing_allowlisted_plug
         .path()
         .join(format!(".tmp/marketplaces/{marketplace_name}"));
     write_file(
-        &marketplace_root.join(".agents/plugins/marketplace.json"),
+        &marketplace_root.join(codex_paths::MARKETPLACE_JSON),
         &format!(
             r#"{{
   "name": "{marketplace_name}",
@@ -256,7 +257,7 @@ async fn list_tool_suggest_discoverable_plugins_omits_installed_curated_plugins(
         .install_plugin(PluginInstallRequest {
             plugin_name: "slack".to_string(),
             marketplace_path: AbsolutePathBuf::try_from(
-                curated_root.join(".agents/plugins/marketplace.json"),
+                curated_root.join(codex_paths::MARKETPLACE_JSON),
             )
             .expect("marketplace path"),
         })

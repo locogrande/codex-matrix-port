@@ -1,7 +1,7 @@
 #![cfg(not(target_os = "windows"))]
 #![allow(clippy::unwrap_used, clippy::expect_used)]
 
-use anyhow::Result;
+use codex_test_support::prelude::*;
 use codex_config::types::McpServerConfig;
 use codex_config::types::McpServerTransportConfig;
 use codex_core::config::Config;
@@ -44,11 +44,8 @@ use core_test_support::skip_if_no_network;
 use core_test_support::stdio_server_bin;
 use core_test_support::test_codex::test_codex;
 use core_test_support::wait_for_event;
-use pretty_assertions::assert_eq;
 use serde_json::Value;
 use serde_json::json;
-use std::collections::HashMap;
-use std::time::Duration;
 
 const SEARCH_TOOL_DESCRIPTION_SNIPPETS: [&str; 2] = [
     "You have access to tools from the following sources",

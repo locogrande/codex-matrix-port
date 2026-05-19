@@ -23,6 +23,7 @@ use std::os::unix::fs::MetadataExt;
 use std::path::Path;
 use std::path::PathBuf;
 use std::process::Command;
+use codex_paths;
 
 use codex_protocol::error::CodexErr;
 use codex_protocol::error::Result;
@@ -683,7 +684,7 @@ fn should_leave_missing_git_for_parent_repo_discovery(mount_root: &Path, name: &
 }
 
 fn ancestor_has_git_metadata(ancestor: &Path) -> bool {
-    let git_path = ancestor.join(".git");
+    let git_path = ancestor.join(codex_paths::GIT_DIR);
     let Ok(metadata) = git_path.symlink_metadata() else {
         return false;
     };
@@ -1577,9 +1578,9 @@ mod tests {
         let temp_dir = TempDir::new().expect("temp dir");
         let logical_home = temp_dir.path().join("home");
         let real_codex = temp_dir.path().join("real-codex");
-        let logical_codex = logical_home.join(".codex");
-        let real_memories = real_codex.join("memories");
-        let logical_memories = logical_codex.join("memories");
+        let logical_codex = logical_home.join(codex_paths::CODEX_HOME_DIR);
+        let real_memories = real_codex.join(codex_paths::MEMORIES_DIR);
+        let logical_memories = logical_codex.join(codex_paths::MEMORIES_DIR);
         std::fs::create_dir_all(&logical_home).expect("create logical home");
         std::fs::create_dir_all(&real_memories).expect("create memories dir");
         std::os::unix::fs::symlink(&real_codex, &logical_codex)
@@ -1716,17 +1717,17 @@ mod tests {
                 .expect("filesystem args");
 
         assert_empty_file_bound_without_perms(&args.args, &blocked);
-        assert_empty_directory_mounted_read_only(&args.args, &workspace.join(".git"));
+        assert_empty_directory_mounted_read_only(&args.args, &workspace.join(codex_paths::GIT_DIR));
         assert_empty_directory_mounted_read_only(&args.args, &workspace.join(".agents"));
-        assert_empty_directory_mounted_read_only(&args.args, &workspace.join(".codex"));
+        assert_empty_directory_mounted_read_only(&args.args, &workspace.join(codex_paths::CODEX_HOME_DIR));
         assert_eq!(args.preserved_files.len(), 1);
         assert_eq!(
             synthetic_mount_target_paths(&args),
             vec![
                 blocked.clone(),
-                workspace.join(".git"),
+                workspace.join(codex_paths::GIT_DIR),
                 workspace.join(".agents"),
-                workspace.join(".codex"),
+                workspace.join(codex_paths::CODEX_HOME_DIR),
             ]
         );
         assert!(
@@ -1739,7 +1740,7 @@ mod tests {
     fn transient_empty_preserved_file_uses_empty_file_bind_data() {
         let temp_dir = TempDir::new().expect("temp dir");
         let workspace = temp_dir.path().join("workspace");
-        let dot_git = workspace.join(".git");
+        let dot_git = workspace.join(codex_paths::GIT_DIR);
         std::fs::create_dir_all(&workspace).expect("create workspace");
         File::create(&dot_git).expect("create empty .git file");
 
@@ -1759,13 +1760,13 @@ mod tests {
 
         assert_empty_file_bound_without_perms(&args.args, &dot_git);
         assert_empty_directory_mounted_read_only(&args.args, &workspace.join(".agents"));
-        assert_empty_directory_mounted_read_only(&args.args, &workspace.join(".codex"));
+        assert_empty_directory_mounted_read_only(&args.args, &workspace.join(codex_paths::CODEX_HOME_DIR));
         assert_eq!(
             synthetic_mount_target_paths(&args),
             vec![
                 dot_git.clone(),
                 workspace.join(".agents"),
-                workspace.join(".codex"),
+                workspace.join(codex_paths::CODEX_HOME_DIR),
             ]
         );
         assert!(
@@ -1787,8 +1788,8 @@ mod tests {
         let temp_dir = TempDir::new().expect("temp dir");
         let repo = temp_dir.path().join("repo");
         let workspace = repo.join("workspace");
-        let dot_git = workspace.join(".git");
-        std::fs::create_dir_all(repo.join(".git")).expect("create parent .git");
+        let dot_git = workspace.join(codex_paths::GIT_DIR);
+        std::fs::create_dir_all(repo.join(codex_paths::GIT_DIR)).expect("create parent .git");
         std::fs::write(repo.join(".git/HEAD"), "ref: refs/heads/main\n").expect("write HEAD");
         std::fs::create_dir_all(&workspace).expect("create workspace");
 
@@ -1804,7 +1805,7 @@ mod tests {
         let args = create_filesystem_args(&policy, &workspace, NO_UNREADABLE_GLOB_SCAN_MAX_DEPTH)
             .expect("filesystem args");
         assert_empty_directory_mounted_read_only(&args.args, &workspace.join(".agents"));
-        assert_empty_directory_mounted_read_only(&args.args, &workspace.join(".codex"));
+        assert_empty_directory_mounted_read_only(&args.args, &workspace.join(codex_paths::CODEX_HOME_DIR));
         let dot_git_str = path_to_string(&dot_git);
         assert!(
             !args
@@ -1832,8 +1833,8 @@ mod tests {
         let workspace = repo.join("workspace");
         let link_repo = temp_dir.path().join("link-repo");
         let link_workspace = link_repo.join("workspace");
-        let dot_git = workspace.join(".git");
-        std::fs::create_dir_all(repo.join(".git")).expect("create parent .git");
+        let dot_git = workspace.join(codex_paths::GIT_DIR);
+        std::fs::create_dir_all(repo.join(codex_paths::GIT_DIR)).expect("create parent .git");
         std::fs::write(repo.join(".git/HEAD"), "ref: refs/heads/main\n").expect("write HEAD");
         std::fs::create_dir_all(&workspace).expect("create workspace");
         std::os::unix::fs::symlink(&repo, &link_repo).expect("create symlinked repo");
@@ -1851,7 +1852,7 @@ mod tests {
             create_filesystem_args(&policy, &link_workspace, NO_UNREADABLE_GLOB_SCAN_MAX_DEPTH)
                 .expect("filesystem args");
         assert_empty_directory_mounted_read_only(&args.args, &workspace.join(".agents"));
-        assert_empty_directory_mounted_read_only(&args.args, &workspace.join(".codex"));
+        assert_empty_directory_mounted_read_only(&args.args, &workspace.join(codex_paths::CODEX_HOME_DIR));
         let dot_git_str = path_to_string(&dot_git);
         assert!(
             !args
@@ -1944,9 +1945,9 @@ mod tests {
         let args =
             create_filesystem_args(&policy, temp_dir.path(), NO_UNREADABLE_GLOB_SCAN_MAX_DEPTH)
                 .expect("filesystem args");
-        let dot_git = path_to_string(&temp_dir.path().join(".git"));
+        let dot_git = path_to_string(&temp_dir.path().join(codex_paths::GIT_DIR));
         let dot_agents = path_to_string(&temp_dir.path().join(".agents"));
-        let dot_codex = path_to_string(&temp_dir.path().join(".codex"));
+        let dot_codex = path_to_string(&temp_dir.path().join(codex_paths::CODEX_HOME_DIR));
 
         assert_empty_directory_mounted_read_only(&args.args, Path::new(&dot_git));
         assert_empty_directory_mounted_read_only(&args.args, Path::new(&dot_agents));

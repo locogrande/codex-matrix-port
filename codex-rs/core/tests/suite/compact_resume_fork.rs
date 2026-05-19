@@ -10,7 +10,7 @@
 use super::compact::COMPACT_WARNING_MESSAGE;
 use super::compact::FIRST_REPLY;
 use super::compact::SUMMARY_TEXT;
-use anyhow::Result;
+use codex_test_support::prelude::*;
 use codex_core::CodexThread;
 use codex_core::ThreadManager;
 use codex_core::compact::SUMMARIZATION_PROMPT;
@@ -36,11 +36,8 @@ use core_test_support::responses::mount_sse_sequence;
 use core_test_support::responses::sse;
 use core_test_support::test_codex::test_codex;
 use core_test_support::wait_for_event;
-use pretty_assertions::assert_eq;
 use serde_json::Value;
 use serde_json::json;
-use std::sync::Arc;
-use tempfile::TempDir;
 use wiremock::MockServer;
 
 const AFTER_SECOND_RESUME: &str = "AFTER_SECOND_RESUME";

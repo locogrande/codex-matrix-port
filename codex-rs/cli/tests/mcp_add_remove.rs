@@ -1,11 +1,8 @@
-use std::path::Path;
+use codex_test_support::prelude::*;
 
-use anyhow::Result;
 use codex_config::types::McpServerTransportConfig;
 use codex_core::config::load_global_mcp_servers;
 use predicates::str::contains;
-use pretty_assertions::assert_eq;
-use tempfile::TempDir;
 
 fn codex_command(codex_home: &Path) -> Result<assert_cmd::Command> {
     let mut cmd = assert_cmd::Command::new(codex_utils_cargo_bin::cargo_bin("codex")?);

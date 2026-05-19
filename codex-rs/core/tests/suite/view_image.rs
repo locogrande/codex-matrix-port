@@ -1,6 +1,6 @@
 #![cfg(not(target_os = "windows"))]
 
-use anyhow::Context;
+use codex_test_support::prelude::*;
 use base64::Engine;
 use base64::engine::general_purpose::STANDARD as BASE64_STANDARD;
 use codex_exec_server::CreateDirectoryOptions;
@@ -50,15 +50,12 @@ use image::GenericImageView;
 use image::ImageBuffer;
 use image::Rgba;
 use image::load_from_memory;
-use pretty_assertions::assert_eq;
 use serde_json::Value;
 use serde_json::json;
 use std::fs;
 use std::io::Cursor;
-use std::path::PathBuf;
 use std::time::SystemTime;
 use std::time::UNIX_EPOCH;
-use tempfile::TempDir;
 use tokio::time::Duration;
 use wiremock::BodyPrintLimit;
 use wiremock::MockServer;

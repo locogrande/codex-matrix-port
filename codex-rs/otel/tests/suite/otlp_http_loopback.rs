@@ -9,16 +9,14 @@ use codex_otel::current_span_w3c_trace_context;
 use codex_otel::set_parent_from_w3c_trace_context;
 use codex_protocol::protocol::W3cTraceContext;
 use std::collections::BTreeMap;
-use std::collections::HashMap;
+use codex_test_support::prelude::*;
 use std::io::Read as _;
 use std::io::Write as _;
 use std::net::TcpListener;
 use std::net::TcpStream;
-use std::path::PathBuf;
 use std::sync::Mutex;
 use std::sync::mpsc;
 use std::thread;
-use std::time::Duration;
 use std::time::Instant;
 use tracing_subscriber::layer::SubscriberExt;
 

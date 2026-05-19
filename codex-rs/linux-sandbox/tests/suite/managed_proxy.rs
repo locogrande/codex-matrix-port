@@ -4,15 +4,13 @@
 use codex_core::exec_env::create_env;
 use codex_protocol::config_types::ShellEnvironmentPolicy;
 use codex_protocol::models::PermissionProfile;
-use pretty_assertions::assert_eq;
-use std::collections::HashMap;
+use codex_test_support::prelude::*;
 use std::io::Read;
 use std::io::Write;
 use std::net::Ipv4Addr;
 use std::net::TcpListener;
 use std::process::Output;
 use std::process::Stdio;
-use std::time::Duration;
 use tokio::process::Command;
 
 const BWRAP_UNAVAILABLE_ERR: &str = "bubblewrap is unavailable: no system bwrap was found";

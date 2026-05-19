@@ -1,7 +1,7 @@
 #![cfg(not(target_os = "windows"))]
 #![allow(clippy::unwrap_used, clippy::expect_used)]
 
-use anyhow::Result;
+use codex_test_support::prelude::*;
 use codex_config::types::AppToolApproval;
 use codex_core::config::Config;
 use codex_features::Feature;
@@ -35,9 +35,7 @@ use core_test_support::test_codex::TestCodex;
 use core_test_support::test_codex::turn_permission_fields;
 use core_test_support::wait_for_event;
 use core_test_support::wait_for_event_match;
-use pretty_assertions::assert_eq;
 use serde_json::json;
-use std::collections::HashMap;
 
 fn set_calendar_approval_mode(config: &mut Config, approval_mode: AppToolApproval) {
     let approval_mode = match approval_mode {

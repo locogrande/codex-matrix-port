@@ -1,4 +1,4 @@
-use anyhow::Result;
+use codex_test_support::prelude::*;
 use app_test_support::McpProcess;
 use app_test_support::create_fake_rollout_with_text_elements;
 use app_test_support::create_mock_responses_server_repeating_assistant;
@@ -64,13 +64,9 @@ use codex_thread_store::ThreadPersistenceMetadata;
 use codex_thread_store::ThreadStore;
 use codex_thread_store::UpdateThreadMetadataParams;
 use core_test_support::responses;
-use pretty_assertions::assert_eq;
 use serde_json::Value;
 use serde_json::json;
 use std::io::Write;
-use std::path::Path;
-use std::sync::Arc;
-use tempfile::TempDir;
 use tokio::time::timeout;
 use uuid::Uuid;
 

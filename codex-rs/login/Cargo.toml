@@ -43,6 +43,7 @@ urlencoding = { workspace = true }
 webbrowser = { workspace = true }
 
 [dev-dependencies]
+codex-test-support = { workspace = true }
 anyhow = { workspace = true }
 core_test_support = { workspace = true }
 jsonwebtoken = { workspace = true }

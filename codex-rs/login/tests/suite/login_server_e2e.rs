@@ -2,18 +2,15 @@
 use std::io;
 use std::net::SocketAddr;
 use std::net::TcpListener;
-use std::sync::Arc;
+use codex_test_support::prelude::*;
 use std::thread;
-use std::time::Duration;
+use codex_paths;
 
-use anyhow::Result;
 use base64::Engine;
 use codex_config::types::AuthCredentialsStoreMode;
 use codex_login::ServerOptions;
 use codex_login::run_login_server;
 use core_test_support::skip_if_no_network;
-use pretty_assertions::assert_eq;
-use tempfile::tempdir;
 use url::Url;
 
 const DEFAULT_LOGIN_PORT: u16 = 1455;
@@ -109,7 +106,7 @@ async fn end_to_end_login_flow_persists_auth_json() -> Result<()> {
         }
     });
     std::fs::write(
-        codex_home.join("auth.json"),
+        codex_home.join(codex_paths::AUTH_JSON),
         serde_json::to_string_pretty(&stale_auth)?,
     )?;
 
@@ -150,7 +147,7 @@ async fn end_to_end_login_flow_persists_auth_json() -> Result<()> {
     server.block_until_done().await?;
 
     // Validate auth.json
-    let auth_path = codex_home.join("auth.json");
+    let auth_path = codex_home.join(codex_paths::AUTH_JSON);
     let data = std::fs::read_to_string(&auth_path)?;
     let json: serde_json::Value = serde_json::from_str(&data)?;
     // The following assert is here because of the old oauth flow that exchanges tokens for an
@@ -201,7 +198,7 @@ async fn creates_missing_codex_home_dir() -> Result<()> {
 
     server.block_until_done().await?;
 
-    let auth_path = codex_home.join("auth.json");
+    let auth_path = codex_home.join(codex_paths::AUTH_JSON);
     assert!(
         auth_path.exists(),
         "auth.json should be created even if parent dir was missing"
@@ -301,7 +298,7 @@ async fn forced_chatgpt_workspace_id_mismatch_blocks_login() -> Result<()> {
     let err = result.unwrap_err();
     assert_eq!(err.kind(), io::ErrorKind::PermissionDenied);
 
-    let auth_path = codex_home.join("auth.json");
+    let auth_path = codex_home.join(codex_paths::AUTH_JSON);
     assert!(
         !auth_path.exists(),
         "auth.json should not be written when the workspace mismatches"
@@ -369,7 +366,7 @@ async fn oauth_access_denied_missing_entitlement_blocks_login_with_clear_error()
         "terminal error should also tell the user what to do next"
     );
 
-    let auth_path = codex_home.join("auth.json");
+    let auth_path = codex_home.join(codex_paths::AUTH_JSON);
     assert!(
         !auth_path.exists(),
         "auth.json should not be written when oauth callback is denied"
@@ -449,7 +446,7 @@ async fn oauth_access_denied_unknown_reason_uses_generic_error_page() -> Result<
         "terminal error should preserve generic oauth details"
     );
 
-    let auth_path = codex_home.join("auth.json");
+    let auth_path = codex_home.join(codex_paths::AUTH_JSON);
     assert!(
         !auth_path.exists(),
         "auth.json should not be written when oauth callback is denied"

@@ -1,7 +1,6 @@
 use std::borrow::Cow;
-use std::sync::Arc;
+use codex_test_support::prelude::*;
 
-use anyhow::Result;
 use app_test_support::ChatGptAuthFixture;
 use app_test_support::McpProcess;
 use app_test_support::to_response;
@@ -34,7 +33,6 @@ use codex_app_server_protocol::UserInput as V2UserInput;
 use codex_config::types::AuthCredentialsStoreMode;
 use core_test_support::assert_regex_match;
 use core_test_support::responses;
-use pretty_assertions::assert_eq;
 use rmcp::handler::server::ServerHandler;
 use rmcp::model::BooleanSchema;
 use rmcp::model::CallToolRequestParams;
@@ -58,7 +56,6 @@ use rmcp::transport::StreamableHttpService;
 use rmcp::transport::streamable_http_server::session::local::LocalSessionManager;
 use serde_json::Value;
 use serde_json::json;
-use tempfile::TempDir;
 use tokio::net::TcpListener;
 use tokio::task::JoinHandle;
 use tokio::time::timeout;

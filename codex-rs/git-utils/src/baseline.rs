@@ -11,6 +11,7 @@ use std::fs;
 use std::path::Path;
 use std::path::PathBuf;
 use tokio::task;
+use codex_paths;
 
 use crate::operations::run_git_for_status;
 
@@ -80,7 +81,7 @@ pub async fn ensure_git_baseline_repository(root: &Path) -> anyhow::Result<()> {
     task::spawn_blocking(move || {
         fs::create_dir_all(&root)
             .with_context(|| format!("create git baseline root {}", root.display()))?;
-        if root.join(".git").is_dir()
+        if root.join(codex_paths::GIT_DIR).is_dir()
             && let Ok(repo) = gix::open(&root)
             && head_file_entries(&repo).is_ok()
         {
@@ -120,7 +121,7 @@ pub async fn diff_since_latest_init(root: &Path) -> anyhow::Result<GitBaselineDi
 }
 
 fn remove_git_metadata(root: &Path) -> anyhow::Result<()> {
-    let git_path = root.join(".git");
+    let git_path = root.join(codex_paths::GIT_DIR);
     let metadata = match fs::symlink_metadata(&git_path) {
         Ok(metadata) => metadata,
         Err(err) if err.kind() == std::io::ErrorKind::NotFound => return Ok(()),
@@ -557,7 +558,7 @@ mod tests {
 
         reset_git_repository(&root).await.expect("reset repo");
 
-        assert!(root.join(".git").is_dir());
+        assert!(root.join(codex_paths::GIT_DIR).is_dir());
         assert!(root.join(".git/index").is_file());
         let diff = diff_since_latest_init(&root).await.expect("diff");
         assert!(!diff.has_changes());

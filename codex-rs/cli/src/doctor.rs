@@ -25,6 +25,7 @@ use std::process::Command;
 use std::sync::Arc;
 use std::time::Duration;
 use std::time::Instant;
+use codex_paths;
 
 use anyhow::Context;
 use clap::Parser;
@@ -1048,7 +1049,7 @@ fn config_toml_details(config: &Config, details: &mut Vec<String>) {
 
 fn auth_check(config: &Config) -> DoctorCheck {
     let mut details = Vec::new();
-    let auth_path = config.codex_home.join("auth.json");
+    let auth_path = config.codex_home.join(codex_paths::AUTH_JSON);
     details.push(format!(
         "auth storage mode: {:?}",
         config.cli_auth_credentials_store_mode
@@ -2000,7 +2001,7 @@ async fn sqlite_integrity_detail(
 }
 
 fn rollout_stats_details(details: &mut Vec<String>, codex_home: &Path) {
-    let active = collect_rollout_stats(&codex_home.join("sessions"));
+    let active = collect_rollout_stats(&codex_home.join(codex_paths::SESSIONS_DIR));
     let archived = collect_rollout_stats(&codex_home.join("archived_sessions"));
     push_rollout_stats_detail(details, "active rollout files", active);
     push_rollout_stats_detail(details, "archived rollout files", archived);
@@ -3476,7 +3477,7 @@ mod tests {
         let temp = tempfile::tempdir().expect("create temp dir");
         let nested = temp
             .path()
-            .join("sessions")
+            .join(codex_paths::SESSIONS_DIR)
             .join("2026")
             .join("05")
             .join("13");
@@ -3488,7 +3489,7 @@ mod tests {
         .expect("write rollout file");
         std::fs::write(nested.join("not-a-rollout.jsonl"), "ignored").expect("write ignored jsonl");
 
-        let stats = collect_rollout_stats(&temp.path().join("sessions"));
+        let stats = collect_rollout_stats(&temp.path().join(codex_paths::SESSIONS_DIR));
 
         assert_eq!(stats.files, 1);
         assert_eq!(stats.total_bytes, 5);

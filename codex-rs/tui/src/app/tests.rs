@@ -1,5 +1,6 @@
 //! App-level orchestration tests for the TUI.
 
+use codex_paths;
 mod model_catalog;
 mod session_summary;
 mod startup;
@@ -1496,7 +1497,7 @@ async fn update_memory_settings_persists_and_updates_widget_config() -> Result<(
     assert!(!app.chat_widget.config_ref().memories.use_memories);
     assert!(!app.chat_widget.config_ref().memories.generate_memories);
 
-    let config = std::fs::read_to_string(codex_home.path().join("config.toml"))?;
+    let config = std::fs::read_to_string(codex_home.path().join(codex_paths::CONFIG_TOML))?;
     let config_value = toml::from_str::<TomlValue>(&config)?;
     let memories = config_value
         .as_table()
@@ -1577,7 +1578,7 @@ async fn reset_memories_clears_local_memory_directories() -> Result<()> {
         app.config.codex_home = codex_home.path().to_path_buf().abs();
         app.config.sqlite_home = codex_home.path().to_path_buf();
 
-        let memory_root = codex_home.path().join("memories");
+        let memory_root = codex_home.path().join(codex_paths::MEMORIES_DIR);
         let extensions_root = memory_root.join("extensions");
         std::fs::create_dir_all(memory_root.join("rollout_summaries"))?;
         std::fs::create_dir_all(&extensions_root)?;
@@ -1691,7 +1692,7 @@ async fn update_feature_flags_enabling_guardian_selects_auto_review() -> Result<
         .join("\n");
     assert!(rendered.contains("Permissions updated to Auto-review"));
 
-    let config = std::fs::read_to_string(codex_home.path().join("config.toml"))?;
+    let config = std::fs::read_to_string(codex_home.path().join(codex_paths::CONFIG_TOML))?;
     assert!(config.contains("guardian_approval = true"));
     assert!(config.contains("approvals_reviewer = \"guardian_subagent\""));
     assert!(config.contains("approval_policy = \"on-request\""));
@@ -1705,7 +1706,7 @@ async fn update_feature_flags_disabling_guardian_clears_review_policy_and_restor
     let (mut app, mut app_event_rx, mut op_rx) = make_test_app_with_channels().await;
     let codex_home = tempdir()?;
     app.config.codex_home = codex_home.path().to_path_buf().abs();
-    let config_toml_path = codex_home.path().join("config.toml").abs();
+    let config_toml_path = codex_home.path().join(codex_paths::CONFIG_TOML).abs();
     let config_toml = "approvals_reviewer = \"guardian_subagent\"\napproval_policy = \"on-request\"\nsandbox_mode = \"workspace-write\"\n\n[features]\nguardian_approval = true\n";
     std::fs::write(config_toml_path.as_path(), config_toml)?;
     let user_config = toml::from_str::<TomlValue>(config_toml)?;
@@ -1783,7 +1784,7 @@ async fn update_feature_flags_disabling_guardian_clears_review_policy_and_restor
         .join("\n");
     assert!(rendered.contains("Permissions updated to Default"));
 
-    let config = std::fs::read_to_string(codex_home.path().join("config.toml"))?;
+    let config = std::fs::read_to_string(codex_home.path().join(codex_paths::CONFIG_TOML))?;
     assert!(!config.contains("guardian_approval = true"));
     assert!(!config.contains("approvals_reviewer ="));
     assert!(config.contains("approval_policy = \"on-request\""));
@@ -1798,7 +1799,7 @@ async fn update_feature_flags_enabling_guardian_overrides_explicit_manual_review
     let codex_home = tempdir()?;
     app.config.codex_home = codex_home.path().to_path_buf().abs();
     let auto_review = auto_review_mode();
-    let config_toml_path = codex_home.path().join("config.toml").abs();
+    let config_toml_path = codex_home.path().join(codex_paths::CONFIG_TOML).abs();
     let config_toml = "approvals_reviewer = \"user\"\n";
     std::fs::write(config_toml_path.as_path(), config_toml)?;
     let user_config = toml::from_str::<TomlValue>(config_toml)?;
@@ -1850,7 +1851,7 @@ async fn update_feature_flags_enabling_guardian_overrides_explicit_manual_review
         })
     );
 
-    let config = std::fs::read_to_string(codex_home.path().join("config.toml"))?;
+    let config = std::fs::read_to_string(codex_home.path().join(codex_paths::CONFIG_TOML))?;
     assert!(config.contains("approvals_reviewer = \"guardian_subagent\""));
     assert!(config.contains("guardian_approval = true"));
     assert!(config.contains("approval_policy = \"on-request\""));
@@ -1864,7 +1865,7 @@ async fn update_feature_flags_disabling_guardian_clears_manual_review_policy_wit
     let (mut app, mut app_event_rx, mut op_rx) = make_test_app_with_channels().await;
     let codex_home = tempdir()?;
     app.config.codex_home = codex_home.path().to_path_buf().abs();
-    let config_toml_path = codex_home.path().join("config.toml").abs();
+    let config_toml_path = codex_home.path().join(codex_paths::CONFIG_TOML).abs();
     let config_toml = "approvals_reviewer = \"user\"\napproval_policy = \"on-request\"\nsandbox_mode = \"workspace-write\"\n\n[features]\nguardian_approval = true\n";
     std::fs::write(config_toml_path.as_path(), config_toml)?;
     let user_config = toml::from_str::<TomlValue>(config_toml)?;
@@ -1911,7 +1912,7 @@ async fn update_feature_flags_disabling_guardian_clears_manual_review_policy_wit
         "manual review should not emit a permissions history update when the effective state stays default"
     );
 
-    let config = std::fs::read_to_string(codex_home.path().join("config.toml"))?;
+    let config = std::fs::read_to_string(codex_home.path().join(codex_paths::CONFIG_TOML))?;
     assert!(!config.contains("guardian_approval = true"));
     assert!(!config.contains("approvals_reviewer ="));
     Ok(())
@@ -1925,7 +1926,7 @@ async fn update_feature_flags_enabling_guardian_in_profile_sets_profile_auto_rev
     app.config.codex_home = codex_home.path().to_path_buf().abs();
     let auto_review = auto_review_mode();
     app.active_profile = Some("guardian".to_string());
-    let config_toml_path = codex_home.path().join("config.toml").abs();
+    let config_toml_path = codex_home.path().join(codex_paths::CONFIG_TOML).abs();
     let config_toml = "profile = \"guardian\"\napprovals_reviewer = \"user\"\n";
     std::fs::write(config_toml_path.as_path(), config_toml)?;
     let user_config = toml::from_str::<TomlValue>(config_toml)?;
@@ -1966,7 +1967,7 @@ async fn update_feature_flags_enabling_guardian_in_profile_sets_profile_auto_rev
         })
     );
 
-    let config = std::fs::read_to_string(codex_home.path().join("config.toml"))?;
+    let config = std::fs::read_to_string(codex_home.path().join(codex_paths::CONFIG_TOML))?;
     let config_value = toml::from_str::<TomlValue>(&config)?;
     let profile_config = config_value
         .as_table()
@@ -1995,7 +1996,7 @@ async fn update_feature_flags_disabling_guardian_in_profile_allows_inherited_use
     let codex_home = tempdir()?;
     app.config.codex_home = codex_home.path().to_path_buf().abs();
     app.active_profile = Some("guardian".to_string());
-    let config_toml_path = codex_home.path().join("config.toml").abs();
+    let config_toml_path = codex_home.path().join(codex_paths::CONFIG_TOML).abs();
     let config_toml = r#"
 profile = "guardian"
 approvals_reviewer = "user"
@@ -2064,7 +2065,7 @@ guardian_approval = true
         .join("\n");
     assert!(rendered.contains("Permissions updated to Default"));
 
-    let config = std::fs::read_to_string(codex_home.path().join("config.toml"))?;
+    let config = std::fs::read_to_string(codex_home.path().join(codex_paths::CONFIG_TOML))?;
     assert!(!config.contains("guardian_approval = true"));
     assert!(!config.contains("guardian_subagent"));
     assert_eq!(
@@ -2083,7 +2084,7 @@ async fn update_feature_flags_disabling_guardian_in_profile_keeps_inherited_non_
     let codex_home = tempdir()?;
     app.config.codex_home = codex_home.path().to_path_buf().abs();
     app.active_profile = Some("guardian".to_string());
-    let config_toml_path = codex_home.path().join("config.toml").abs();
+    let config_toml_path = codex_home.path().join(codex_paths::CONFIG_TOML).abs();
     let config_toml = "profile = \"guardian\"\napprovals_reviewer = \"guardian_subagent\"\n\n[features]\nguardian_approval = true\n";
     std::fs::write(config_toml_path.as_path(), config_toml)?;
     let user_config = toml::from_str::<TomlValue>(config_toml)?;
@@ -2131,7 +2132,7 @@ async fn update_feature_flags_disabling_guardian_in_profile_keeps_inherited_non_
         "blocking disable with inherited guardian review should not emit a permissions history update: {app_events:?}"
     );
 
-    let config = std::fs::read_to_string(codex_home.path().join("config.toml"))?;
+    let config = std::fs::read_to_string(codex_home.path().join(codex_paths::CONFIG_TOML))?;
     assert!(config.contains("guardian_approval = true"));
     assert_eq!(
         toml::from_str::<TomlValue>(&config)?

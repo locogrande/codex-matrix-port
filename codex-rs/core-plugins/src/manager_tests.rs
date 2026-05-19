@@ -41,6 +41,7 @@ use wiremock::matchers::header;
 use wiremock::matchers::method;
 use wiremock::matchers::path;
 use wiremock::matchers::query_param;
+use codex_paths;
 
 const MAX_CAPABILITY_SUMMARY_DESCRIPTION_LEN: usize = 1024;
 
@@ -57,7 +58,7 @@ fn write_plugin_with_version(
         .map(|manifest_version| format!(r#","version":"{manifest_version}""#))
         .unwrap_or_default();
     fs::write(
-        plugin_root.join(".codex-plugin/plugin.json"),
+        plugin_root.join(codex_paths::PLUGIN_JSON),
         format!(r#"{{"name":"{manifest_name}"{version}}}"#),
     )
     .unwrap();
@@ -156,7 +157,7 @@ async fn load_plugins_loads_default_skills_and_mcp_servers() {
         .join("test/sample/local");
 
     write_file(
-        &plugin_root.join(".codex-plugin/plugin.json"),
+        &plugin_root.join(codex_paths::PLUGIN_JSON),
         r#"{
   "name": "sample",
   "description": "Plugin that includes the sample MCP server and Skills"
@@ -275,7 +276,7 @@ async fn load_plugins_applies_plugin_mcp_server_policy() {
         .join("test/sample/local");
 
     write_file(
-        &plugin_root.join(".codex-plugin/plugin.json"),
+        &plugin_root.join(codex_paths::PLUGIN_JSON),
         r#"{
   "name": "sample"
 }"#,
@@ -400,7 +401,7 @@ async fn load_plugins_resolves_disabled_skill_names_against_loaded_plugin_skills
     let skill_path = plugin_root.join("skills/sample-search/SKILL.md");
 
     write_file(
-        &plugin_root.join(".codex-plugin/plugin.json"),
+        &plugin_root.join(codex_paths::PLUGIN_JSON),
         r#"{"name":"sample"}"#,
     );
     write_file(
@@ -440,7 +441,7 @@ async fn load_plugins_ignores_unknown_disabled_skill_names() {
         .join("test/sample/local");
 
     write_file(
-        &plugin_root.join(".codex-plugin/plugin.json"),
+        &plugin_root.join(codex_paths::PLUGIN_JSON),
         r#"{"name":"sample"}"#,
     );
     write_file(
@@ -484,7 +485,7 @@ async fn plugin_telemetry_metadata_uses_default_mcp_config_path() {
         .join("test/sample/local");
 
     write_file(
-        &plugin_root.join(".codex-plugin/plugin.json"),
+        &plugin_root.join(codex_paths::PLUGIN_JSON),
         r#"{
   "name": "sample"
 }"#,
@@ -529,7 +530,7 @@ async fn capability_summary_sanitizes_plugin_descriptions_to_one_line() {
         .join("test/sample/local");
 
     write_file(
-        &plugin_root.join(".codex-plugin/plugin.json"),
+        &plugin_root.join(codex_paths::PLUGIN_JSON),
         r#"{
   "name": "sample",
   "description": "Plugin that\n includes   the sample\tserver"
@@ -566,7 +567,7 @@ async fn capability_summary_truncates_overlong_plugin_descriptions() {
     let too_long = "x".repeat(MAX_CAPABILITY_SUMMARY_DESCRIPTION_LEN + 1);
 
     write_file(
-        &plugin_root.join(".codex-plugin/plugin.json"),
+        &plugin_root.join(codex_paths::PLUGIN_JSON),
         &format!(
             r#"{{
   "name": "sample",
@@ -604,7 +605,7 @@ async fn load_plugins_uses_manifest_configured_component_paths() {
         .join("test/sample/local");
 
     write_file(
-        &plugin_root.join(".codex-plugin/plugin.json"),
+        &plugin_root.join(codex_paths::PLUGIN_JSON),
         r#"{
   "name": "sample",
   "skills": "./custom-skills/",
@@ -719,7 +720,7 @@ async fn load_plugins_ignores_manifest_component_paths_without_dot_slash() {
         .join("test/sample/local");
 
     write_file(
-        &plugin_root.join(".codex-plugin/plugin.json"),
+        &plugin_root.join(codex_paths::PLUGIN_JSON),
         r#"{
   "name": "sample",
   "skills": "custom-skills",
@@ -831,7 +832,7 @@ async fn load_plugins_preserves_disabled_plugins_without_effective_contributions
         .join("test/sample/local");
 
     write_file(
-        &plugin_root.join(".codex-plugin/plugin.json"),
+        &plugin_root.join(codex_paths::PLUGIN_JSON),
         r#"{"name":"sample"}"#,
     );
     write_file(
@@ -889,7 +890,7 @@ async fn effective_apps_dedupes_connector_ids_across_plugins() {
         .join("test/plugin-b/local");
 
     write_file(
-        &plugin_a_root.join(".codex-plugin/plugin.json"),
+        &plugin_a_root.join(codex_paths::PLUGIN_JSON),
         r#"{"name":"plugin-a"}"#,
     );
     write_file(
@@ -903,7 +904,7 @@ async fn effective_apps_dedupes_connector_ids_across_plugins() {
 }"#,
     );
     write_file(
-        &plugin_b_root.join(".codex-plugin/plugin.json"),
+        &plugin_b_root.join(codex_paths::PLUGIN_JSON),
         r#"{"name":"plugin-b"}"#,
     );
     write_file(
@@ -1060,7 +1061,7 @@ async fn load_plugins_returns_empty_when_feature_disabled() {
         .join("test/sample/local");
 
     write_file(
-        &plugin_root.join(".codex-plugin/plugin.json"),
+        &plugin_root.join(codex_paths::PLUGIN_JSON),
         r#"{"name":"sample"}"#,
     );
     write_file(
@@ -1091,7 +1092,7 @@ async fn plugins_for_config_reloads_when_plugin_hooks_enablement_changes() {
         .join("test/sample/local");
 
     write_file(
-        &plugin_root.join(".codex-plugin/plugin.json"),
+        &plugin_root.join(codex_paths::PLUGIN_JSON),
         r#"{"name":"sample"}"#,
     );
     write_file(
@@ -1146,7 +1147,7 @@ async fn load_plugins_rejects_invalid_plugin_keys() {
         .join("test/sample/local");
 
     write_file(
-        &plugin_root.join(".codex-plugin/plugin.json"),
+        &plugin_root.join(codex_paths::PLUGIN_JSON),
         r#"{"name":"sample"}"#,
     );
 
@@ -1181,11 +1182,11 @@ async fn load_plugins_rejects_invalid_plugin_keys() {
 async fn install_plugin_updates_config_with_relative_path_and_plugin_key() {
     let tmp = tempfile::tempdir().unwrap();
     let repo_root = tmp.path().join("repo");
-    fs::create_dir_all(repo_root.join(".git")).unwrap();
+    fs::create_dir_all(repo_root.join(codex_paths::GIT_DIR)).unwrap();
     fs::create_dir_all(repo_root.join(".agents/plugins")).unwrap();
     write_plugin(&repo_root, "sample-plugin", "sample-plugin");
     fs::write(
-        repo_root.join(".agents/plugins/marketplace.json"),
+        repo_root.join(codex_paths::MARKETPLACE_JSON),
         r#"{
   "name": "debug",
   "plugins": [
@@ -1208,7 +1209,7 @@ async fn install_plugin_updates_config_with_relative_path_and_plugin_key() {
         .install_plugin(PluginInstallRequest {
             plugin_name: "sample-plugin".to_string(),
             marketplace_path: AbsolutePathBuf::try_from(
-                repo_root.join(".agents/plugins/marketplace.json"),
+                repo_root.join(codex_paths::MARKETPLACE_JSON),
             )
             .unwrap(),
         })
@@ -1226,7 +1227,7 @@ async fn install_plugin_updates_config_with_relative_path_and_plugin_key() {
         }
     );
 
-    let config = fs::read_to_string(tmp.path().join("config.toml")).unwrap();
+    let config = fs::read_to_string(tmp.path().join(codex_paths::CONFIG_TOML)).unwrap();
     assert!(config.contains(r#"[plugins."sample-plugin@debug"]"#));
     assert!(config.contains("enabled = true"));
 }
@@ -1242,7 +1243,7 @@ async fn install_openai_curated_plugin_uses_short_sha_cache_version() {
         .install_plugin(PluginInstallRequest {
             plugin_name: "slack".to_string(),
             marketplace_path: AbsolutePathBuf::try_from(
-                curated_root.join(".agents/plugins/marketplace.json"),
+                curated_root.join(codex_paths::MARKETPLACE_JSON),
             )
             .unwrap(),
         })
@@ -1271,7 +1272,7 @@ async fn install_openai_curated_plugin_uses_short_sha_cache_version() {
 async fn install_plugin_uses_manifest_version_for_non_curated_plugins() {
     let tmp = tempfile::tempdir().unwrap();
     let repo_root = tmp.path().join("repo");
-    fs::create_dir_all(repo_root.join(".git")).unwrap();
+    fs::create_dir_all(repo_root.join(codex_paths::GIT_DIR)).unwrap();
     fs::create_dir_all(repo_root.join(".agents/plugins")).unwrap();
     write_plugin_with_version(
         &repo_root,
@@ -1280,7 +1281,7 @@ async fn install_plugin_uses_manifest_version_for_non_curated_plugins() {
         Some("1.2.3-beta+7"),
     );
     fs::write(
-        repo_root.join(".agents/plugins/marketplace.json"),
+        repo_root.join(codex_paths::MARKETPLACE_JSON),
         r#"{
   "name": "debug",
   "plugins": [
@@ -1300,7 +1301,7 @@ async fn install_plugin_uses_manifest_version_for_non_curated_plugins() {
         .install_plugin(PluginInstallRequest {
             plugin_name: "sample-plugin".to_string(),
             marketplace_path: AbsolutePathBuf::try_from(
-                repo_root.join(".agents/plugins/marketplace.json"),
+                repo_root.join(codex_paths::MARKETPLACE_JSON),
             )
             .unwrap(),
         })
@@ -1329,12 +1330,12 @@ async fn install_plugin_supports_git_subdir_marketplace_sources() {
     let remote_repo_url = url::Url::from_directory_path(&remote_repo)
         .unwrap()
         .to_string();
-    fs::create_dir_all(repo_root.join(".git")).unwrap();
+    fs::create_dir_all(repo_root.join(codex_paths::GIT_DIR)).unwrap();
     fs::create_dir_all(repo_root.join(".agents/plugins")).unwrap();
     write_plugin(&remote_repo, "plugins/toolkit", "toolkit");
     init_git_repo(&remote_repo);
     fs::write(
-        repo_root.join(".agents/plugins/marketplace.json"),
+        repo_root.join(codex_paths::MARKETPLACE_JSON),
         format!(
             r#"{{
   "name": "debug",
@@ -1357,7 +1358,7 @@ async fn install_plugin_supports_git_subdir_marketplace_sources() {
         .install_plugin(PluginInstallRequest {
             plugin_name: "toolkit".to_string(),
             marketplace_path: AbsolutePathBuf::try_from(
-                repo_root.join(".agents/plugins/marketplace.json"),
+                repo_root.join(codex_paths::MARKETPLACE_JSON),
             )
             .unwrap(),
         })
@@ -1374,7 +1375,7 @@ async fn install_plugin_supports_git_subdir_marketplace_sources() {
             auth_policy: MarketplacePluginAuthPolicy::OnInstall,
         }
     );
-    assert!(installed_path.join(".codex-plugin/plugin.json").is_file());
+    assert!(installed_path.join(codex_paths::PLUGIN_JSON).is_file());
 }
 
 #[tokio::test]
@@ -1382,12 +1383,12 @@ async fn install_plugin_supports_relative_git_subdir_marketplace_sources() {
     let tmp = tempfile::tempdir().unwrap();
     let repo_root = tmp.path().join("marketplace");
     let remote_repo = repo_root.join("remote-plugin-repo");
-    fs::create_dir_all(repo_root.join(".git")).unwrap();
+    fs::create_dir_all(repo_root.join(codex_paths::GIT_DIR)).unwrap();
     fs::create_dir_all(repo_root.join(".agents/plugins")).unwrap();
     write_plugin(&remote_repo, "plugins/toolkit", "toolkit");
     init_git_repo(&remote_repo);
     fs::write(
-        repo_root.join(".agents/plugins/marketplace.json"),
+        repo_root.join(codex_paths::MARKETPLACE_JSON),
         r#"{
   "name": "debug",
   "plugins": [
@@ -1408,7 +1409,7 @@ async fn install_plugin_supports_relative_git_subdir_marketplace_sources() {
         .install_plugin(PluginInstallRequest {
             plugin_name: "toolkit".to_string(),
             marketplace_path: AbsolutePathBuf::try_from(
-                repo_root.join(".agents/plugins/marketplace.json"),
+                repo_root.join(codex_paths::MARKETPLACE_JSON),
             )
             .unwrap(),
         })
@@ -1425,7 +1426,7 @@ async fn install_plugin_supports_relative_git_subdir_marketplace_sources() {
             auth_policy: MarketplacePluginAuthPolicy::OnInstall,
         }
     );
-    assert!(installed_path.join(".codex-plugin/plugin.json").is_file());
+    assert!(installed_path.join(codex_paths::PLUGIN_JSON).is_file());
 }
 
 #[tokio::test]
@@ -1469,7 +1470,7 @@ enabled = true
 async fn list_marketplaces_includes_enabled_state() {
     let tmp = tempfile::tempdir().unwrap();
     let repo_root = tmp.path().join("repo");
-    fs::create_dir_all(repo_root.join(".git")).unwrap();
+    fs::create_dir_all(repo_root.join(codex_paths::GIT_DIR)).unwrap();
     fs::create_dir_all(repo_root.join(".agents/plugins")).unwrap();
     write_plugin(
         &tmp.path().join("plugins/cache/debug"),
@@ -1482,7 +1483,7 @@ async fn list_marketplaces_includes_enabled_state() {
         "disabled-plugin",
     );
     fs::write(
-        repo_root.join(".agents/plugins/marketplace.json"),
+        repo_root.join(codex_paths::MARKETPLACE_JSON),
         r#"{
   "name": "debug",
   "plugins": [
@@ -1589,10 +1590,10 @@ enabled = false
 async fn list_marketplaces_returns_empty_when_feature_disabled() {
     let tmp = tempfile::tempdir().unwrap();
     let repo_root = tmp.path().join("repo");
-    fs::create_dir_all(repo_root.join(".git")).unwrap();
+    fs::create_dir_all(repo_root.join(codex_paths::GIT_DIR)).unwrap();
     fs::create_dir_all(repo_root.join(".agents/plugins")).unwrap();
     fs::write(
-        repo_root.join(".agents/plugins/marketplace.json"),
+        repo_root.join(codex_paths::MARKETPLACE_JSON),
         r#"{
   "name": "debug",
   "plugins": [
@@ -1630,10 +1631,10 @@ enabled = true
 async fn list_marketplaces_excludes_plugins_with_explicit_empty_products() {
     let tmp = tempfile::tempdir().unwrap();
     let repo_root = tmp.path().join("repo");
-    fs::create_dir_all(repo_root.join(".git")).unwrap();
+    fs::create_dir_all(repo_root.join(codex_paths::GIT_DIR)).unwrap();
     fs::create_dir_all(repo_root.join(".agents/plugins")).unwrap();
     fs::write(
-        repo_root.join(".agents/plugins/marketplace.json"),
+        repo_root.join(codex_paths::MARKETPLACE_JSON),
         r#"{
   "name": "debug",
   "plugins": [
@@ -1707,10 +1708,10 @@ plugins = true
 async fn read_plugin_for_config_returns_plugins_disabled_when_feature_disabled() {
     let tmp = tempfile::tempdir().unwrap();
     let repo_root = tmp.path().join("repo");
-    fs::create_dir_all(repo_root.join(".git")).unwrap();
+    fs::create_dir_all(repo_root.join(codex_paths::GIT_DIR)).unwrap();
     fs::create_dir_all(repo_root.join(".agents/plugins")).unwrap();
     let marketplace_path =
-        AbsolutePathBuf::try_from(repo_root.join(".agents/plugins/marketplace.json")).unwrap();
+        AbsolutePathBuf::try_from(repo_root.join(codex_paths::MARKETPLACE_JSON)).unwrap();
     fs::write(
         marketplace_path.as_path(),
         r#"{
@@ -1757,10 +1758,10 @@ async fn read_plugin_for_config_uses_user_layer_skill_settings_only() {
     let tmp = tempfile::tempdir().unwrap();
     let repo_root = tmp.path().join("repo");
     let plugin_root = repo_root.join("enabled-plugin");
-    fs::create_dir_all(repo_root.join(".git")).unwrap();
+    fs::create_dir_all(repo_root.join(codex_paths::GIT_DIR)).unwrap();
     fs::create_dir_all(repo_root.join(".agents/plugins")).unwrap();
     write_file(
-        &repo_root.join(".agents/plugins/marketplace.json"),
+        &repo_root.join(codex_paths::MARKETPLACE_JSON),
         r#"{
   "name": "debug",
   "plugins": [
@@ -1775,7 +1776,7 @@ async fn read_plugin_for_config_uses_user_layer_skill_settings_only() {
 }"#,
     );
     write_file(
-        &plugin_root.join(".codex-plugin/plugin.json"),
+        &plugin_root.join(codex_paths::PLUGIN_JSON),
         r#"{"name":"enabled-plugin"}"#,
     );
     write_file(
@@ -1806,7 +1807,7 @@ enabled = false
             &PluginReadRequest {
                 plugin_name: "enabled-plugin".to_string(),
                 marketplace_path: AbsolutePathBuf::try_from(
-                    repo_root.join(".agents/plugins/marketplace.json"),
+                    repo_root.join(codex_paths::MARKETPLACE_JSON),
                 )
                 .unwrap(),
             },
@@ -1825,9 +1826,9 @@ async fn read_plugin_for_config_uninstalled_git_source_requires_install_without_
     let missing_remote_repo_url = url::Url::from_directory_path(&missing_remote_repo)
         .unwrap()
         .to_string();
-    fs::create_dir_all(repo_root.join(".git")).unwrap();
+    fs::create_dir_all(repo_root.join(codex_paths::GIT_DIR)).unwrap();
     write_file(
-        &repo_root.join(".agents/plugins/marketplace.json"),
+        &repo_root.join(codex_paths::MARKETPLACE_JSON),
         &format!(
             r#"{{
   "name": "debug",
@@ -1862,7 +1863,7 @@ plugins = true
             &PluginReadRequest {
                 plugin_name: "toolkit".to_string(),
                 marketplace_path: AbsolutePathBuf::try_from(
-                    repo_root.join(".agents/plugins/marketplace.json"),
+                    repo_root.join(codex_paths::MARKETPLACE_JSON),
                 )
                 .unwrap(),
             },
@@ -1900,9 +1901,9 @@ async fn read_plugin_for_config_installed_git_source_reads_from_cache_without_cl
     let missing_remote_repo_url = url::Url::from_directory_path(&missing_remote_repo)
         .unwrap()
         .to_string();
-    fs::create_dir_all(repo_root.join(".git")).unwrap();
+    fs::create_dir_all(repo_root.join(codex_paths::GIT_DIR)).unwrap();
     write_file(
-        &repo_root.join(".agents/plugins/marketplace.json"),
+        &repo_root.join(codex_paths::MARKETPLACE_JSON),
         &format!(
             r#"{{
   "name": "debug",
@@ -1922,7 +1923,7 @@ async fn read_plugin_for_config_installed_git_source_reads_from_cache_without_cl
     );
     let cached_plugin_root = tmp.path().join("plugins/cache/debug/toolkit/local");
     write_file(
-        &cached_plugin_root.join(".codex-plugin/plugin.json"),
+        &cached_plugin_root.join(codex_paths::PLUGIN_JSON),
         r#"{
   "name": "toolkit",
   "description": "Cached toolkit plugin",
@@ -1995,7 +1996,7 @@ enabled = false
             &PluginReadRequest {
                 plugin_name: "toolkit".to_string(),
                 marketplace_path: AbsolutePathBuf::try_from(
-                    repo_root.join(".agents/plugins/marketplace.json"),
+                    repo_root.join(codex_paths::MARKETPLACE_JSON),
                 )
                 .unwrap(),
             },
@@ -2056,9 +2057,9 @@ async fn list_marketplaces_installed_git_source_reads_metadata_from_cache_withou
     let missing_remote_repo_url = url::Url::from_directory_path(&missing_remote_repo)
         .unwrap()
         .to_string();
-    fs::create_dir_all(repo_root.join(".git")).unwrap();
+    fs::create_dir_all(repo_root.join(codex_paths::GIT_DIR)).unwrap();
     write_file(
-        &repo_root.join(".agents/plugins/marketplace.json"),
+        &repo_root.join(codex_paths::MARKETPLACE_JSON),
         &format!(
             r#"{{
   "name": "debug",
@@ -2078,7 +2079,7 @@ async fn list_marketplaces_installed_git_source_reads_metadata_from_cache_withou
     );
     let cached_plugin_root = tmp.path().join("plugins/cache/debug/toolkit/local");
     write_file(
-        &cached_plugin_root.join(".codex-plugin/plugin.json"),
+        &cached_plugin_root.join(codex_paths::PLUGIN_JSON),
         r##"{
   "name": "toolkit",
   "interface": {
@@ -2193,7 +2194,7 @@ plugins = true
     fs::create_dir_all(curated_root.join(".agents/plugins")).unwrap();
     fs::create_dir_all(plugin_root.join(".codex-plugin")).unwrap();
     fs::write(
-        curated_root.join(".agents/plugins/marketplace.json"),
+        curated_root.join(codex_paths::MARKETPLACE_JSON),
         r#"{
   "name": "openai-curated",
   "plugins": [
@@ -2209,7 +2210,7 @@ plugins = true
     )
     .unwrap();
     fs::write(
-        plugin_root.join(".codex-plugin/plugin.json"),
+        plugin_root.join(codex_paths::PLUGIN_JSON),
         r#"{"name":"linear"}"#,
     )
     .unwrap();
@@ -2229,7 +2230,7 @@ plugins = true
         curated_marketplace,
         ConfiguredMarketplace {
             name: "openai-curated".to_string(),
-            path: AbsolutePathBuf::try_from(curated_root.join(".agents/plugins/marketplace.json"))
+            path: AbsolutePathBuf::try_from(curated_root.join(codex_paths::MARKETPLACE_JSON))
                 .unwrap(),
             interface: None,
             plugins: vec![ConfiguredMarketplacePlugin {
@@ -2273,7 +2274,7 @@ source = "/tmp/debug"
     fs::create_dir_all(marketplace_root.join(".agents/plugins")).unwrap();
     fs::create_dir_all(plugin_root.join(".codex-plugin")).unwrap();
     fs::write(
-        marketplace_root.join(".agents/plugins/marketplace.json"),
+        marketplace_root.join(codex_paths::MARKETPLACE_JSON),
         r#"{
   "name": "debug",
   "plugins": [
@@ -2289,7 +2290,7 @@ source = "/tmp/debug"
     )
     .unwrap();
     fs::write(
-        plugin_root.join(".codex-plugin/plugin.json"),
+        plugin_root.join(codex_paths::PLUGIN_JSON),
         r#"{"name":"sample"}"#,
     )
     .unwrap();
@@ -2304,7 +2305,7 @@ source = "/tmp/debug"
         .find(|marketplace| {
             marketplace.path
                 == AbsolutePathBuf::try_from(
-                    marketplace_root.join(".agents/plugins/marketplace.json"),
+                    marketplace_root.join(codex_paths::MARKETPLACE_JSON),
                 )
                 .unwrap()
         })
@@ -2312,7 +2313,7 @@ source = "/tmp/debug"
 
     assert_eq!(
         marketplace.path,
-        AbsolutePathBuf::try_from(marketplace_root.join(".agents/plugins/marketplace.json"))
+        AbsolutePathBuf::try_from(marketplace_root.join(codex_paths::MARKETPLACE_JSON))
             .unwrap()
     );
     assert_eq!(marketplace.plugins.len(), 1);
@@ -2346,7 +2347,7 @@ source = "/tmp/debug"
     fs::create_dir_all(marketplace_root.join(".agents/plugins")).unwrap();
     fs::create_dir_all(plugin_root.join(".codex-plugin")).unwrap();
     fs::write(
-        marketplace_root.join(".agents/plugins/marketplace.json"),
+        marketplace_root.join(codex_paths::MARKETPLACE_JSON),
         r#"{
   "name": "debug",
   "plugins": [
@@ -2362,7 +2363,7 @@ source = "/tmp/debug"
     )
     .unwrap();
     fs::write(
-        plugin_root.join(".codex-plugin/plugin.json"),
+        plugin_root.join(codex_paths::PLUGIN_JSON),
         r#"{"name":"sample"}"#,
     )
     .unwrap();
@@ -2380,7 +2381,7 @@ source = "/tmp/debug"
         .find(|marketplace| {
             marketplace.path
                 == AbsolutePathBuf::try_from(
-                    marketplace_root.join(".agents/plugins/marketplace.json"),
+                    marketplace_root.join(codex_paths::MARKETPLACE_JSON),
                 )
                 .unwrap()
         })
@@ -2404,7 +2405,7 @@ plugins = true
     fs::create_dir_all(marketplace_root.join(".agents/plugins")).unwrap();
     fs::create_dir_all(plugin_root.join(".codex-plugin")).unwrap();
     fs::write(
-        marketplace_root.join(".agents/plugins/marketplace.json"),
+        marketplace_root.join(codex_paths::MARKETPLACE_JSON),
         r#"{
   "name": "debug",
   "plugins": [
@@ -2420,7 +2421,7 @@ plugins = true
     )
     .unwrap();
     fs::write(
-        plugin_root.join(".codex-plugin/plugin.json"),
+        plugin_root.join(codex_paths::PLUGIN_JSON),
         r#"{"name":"sample"}"#,
     )
     .unwrap();
@@ -2434,7 +2435,7 @@ plugins = true
         marketplaces.iter().all(|marketplace| {
             marketplace.path
                 != AbsolutePathBuf::try_from(
-                    marketplace_root.join(".agents/plugins/marketplace.json"),
+                    marketplace_root.join(codex_paths::MARKETPLACE_JSON),
                 )
                 .unwrap()
         }),
@@ -2447,12 +2448,12 @@ async fn list_marketplaces_uses_first_duplicate_plugin_entry() {
     let tmp = tempfile::tempdir().unwrap();
     let repo_a_root = tmp.path().join("repo-a");
     let repo_b_root = tmp.path().join("repo-b");
-    fs::create_dir_all(repo_a_root.join(".git")).unwrap();
-    fs::create_dir_all(repo_b_root.join(".git")).unwrap();
+    fs::create_dir_all(repo_a_root.join(codex_paths::GIT_DIR)).unwrap();
+    fs::create_dir_all(repo_b_root.join(codex_paths::GIT_DIR)).unwrap();
     fs::create_dir_all(repo_a_root.join(".agents/plugins")).unwrap();
     fs::create_dir_all(repo_b_root.join(".agents/plugins")).unwrap();
     fs::write(
-        repo_a_root.join(".agents/plugins/marketplace.json"),
+        repo_a_root.join(codex_paths::MARKETPLACE_JSON),
         r#"{
   "name": "debug",
   "plugins": [
@@ -2468,7 +2469,7 @@ async fn list_marketplaces_uses_first_duplicate_plugin_entry() {
     )
     .unwrap();
     fs::write(
-        repo_b_root.join(".agents/plugins/marketplace.json"),
+        repo_b_root.join(codex_paths::MARKETPLACE_JSON),
         r#"{
   "name": "debug",
   "plugins": [
@@ -2589,10 +2590,10 @@ enabled = false
 async fn list_marketplaces_marks_configured_plugin_uninstalled_when_cache_is_missing() {
     let tmp = tempfile::tempdir().unwrap();
     let repo_root = tmp.path().join("repo");
-    fs::create_dir_all(repo_root.join(".git")).unwrap();
+    fs::create_dir_all(repo_root.join(codex_paths::GIT_DIR)).unwrap();
     fs::create_dir_all(repo_root.join(".agents/plugins")).unwrap();
     fs::write(
-        repo_root.join(".agents/plugins/marketplace.json"),
+        repo_root.join(codex_paths::MARKETPLACE_JSON),
         r#"{
   "name": "debug",
   "plugins": [
@@ -3011,7 +3012,7 @@ async fn sync_plugins_from_remote_uses_first_duplicate_local_plugin_entry() {
     write_curated_plugin_sha(tmp.path(), TEST_CURATED_PLUGIN_SHA);
     fs::create_dir_all(curated_root.join(".agents/plugins")).unwrap();
     fs::write(
-        curated_root.join(".agents/plugins/marketplace.json"),
+        curated_root.join(codex_paths::MARKETPLACE_JSON),
         r#"{
   "name": "openai-curated",
   "plugins": [
@@ -3321,11 +3322,11 @@ fn refresh_curated_plugin_cache_migrates_full_sha_cache_version_to_short_version
 fn refresh_non_curated_plugin_cache_replaces_existing_local_version_with_manifest_version() {
     let tmp = tempfile::tempdir().unwrap();
     let repo_root = tmp.path().join("repo");
-    fs::create_dir_all(repo_root.join(".git")).unwrap();
+    fs::create_dir_all(repo_root.join(codex_paths::GIT_DIR)).unwrap();
     fs::create_dir_all(repo_root.join(".agents/plugins")).unwrap();
     write_plugin_with_version(&repo_root, "sample-plugin", "sample-plugin", Some("1.2.3"));
     write_file(
-        &repo_root.join(".agents/plugins/marketplace.json"),
+        &repo_root.join(codex_paths::MARKETPLACE_JSON),
         r#"{
   "name": "debug",
   "plugins": [
@@ -3378,11 +3379,11 @@ enabled = true
 fn refresh_non_curated_plugin_cache_reinstalls_missing_configured_plugin_with_manifest_version() {
     let tmp = tempfile::tempdir().unwrap();
     let repo_root = tmp.path().join("repo");
-    fs::create_dir_all(repo_root.join(".git")).unwrap();
+    fs::create_dir_all(repo_root.join(codex_paths::GIT_DIR)).unwrap();
     fs::create_dir_all(repo_root.join(".agents/plugins")).unwrap();
     write_plugin_with_version(&repo_root, "sample-plugin", "sample-plugin", Some("1.2.3"));
     write_file(
-        &repo_root.join(".agents/plugins/marketplace.json"),
+        &repo_root.join(codex_paths::MARKETPLACE_JSON),
         r#"{
   "name": "debug",
   "plugins": [
@@ -3429,7 +3430,7 @@ fn refresh_non_curated_plugin_cache_refreshes_configured_git_source() {
     let remote_repo_url = url::Url::from_directory_path(&remote_repo)
         .unwrap()
         .to_string();
-    fs::create_dir_all(repo_root.join(".git")).unwrap();
+    fs::create_dir_all(repo_root.join(codex_paths::GIT_DIR)).unwrap();
     write_plugin_with_version(
         &remote_repo,
         "plugins/sample-plugin",
@@ -3438,7 +3439,7 @@ fn refresh_non_curated_plugin_cache_refreshes_configured_git_source() {
     );
     init_git_repo(&remote_repo);
     write_file(
-        &repo_root.join(".agents/plugins/marketplace.json"),
+        &repo_root.join(codex_paths::MARKETPLACE_JSON),
         &format!(
             r#"{{
   "name": "debug",
@@ -3484,11 +3485,11 @@ enabled = true
 fn refresh_non_curated_plugin_cache_returns_false_when_configured_plugins_are_current() {
     let tmp = tempfile::tempdir().unwrap();
     let repo_root = tmp.path().join("repo");
-    fs::create_dir_all(repo_root.join(".git")).unwrap();
+    fs::create_dir_all(repo_root.join(codex_paths::GIT_DIR)).unwrap();
     fs::create_dir_all(repo_root.join(".agents/plugins")).unwrap();
     write_plugin_with_version(&repo_root, "sample-plugin", "sample-plugin", Some("1.2.3"));
     write_file(
-        &repo_root.join(".agents/plugins/marketplace.json"),
+        &repo_root.join(codex_paths::MARKETPLACE_JSON),
         r#"{
   "name": "debug",
   "plugins": [
@@ -3531,12 +3532,12 @@ enabled = true
 fn refresh_non_curated_plugin_cache_force_reinstalls_current_local_version() {
     let tmp = tempfile::tempdir().unwrap();
     let repo_root = tmp.path().join("repo");
-    fs::create_dir_all(repo_root.join(".git")).unwrap();
+    fs::create_dir_all(repo_root.join(codex_paths::GIT_DIR)).unwrap();
     fs::create_dir_all(repo_root.join(".agents/plugins")).unwrap();
     write_plugin(&repo_root, "sample-plugin", "sample-plugin");
     fs::write(repo_root.join("sample-plugin/skills/SKILL.md"), "new skill").unwrap();
     write_file(
-        &repo_root.join(".agents/plugins/marketplace.json"),
+        &repo_root.join(codex_paths::MARKETPLACE_JSON),
         r#"{
   "name": "debug",
   "plugins": [
@@ -3593,12 +3594,12 @@ enabled = true
 fn refresh_non_curated_plugin_cache_ignores_invalid_unconfigured_plugin_versions() {
     let tmp = tempfile::tempdir().unwrap();
     let repo_root = tmp.path().join("repo");
-    fs::create_dir_all(repo_root.join(".git")).unwrap();
+    fs::create_dir_all(repo_root.join(codex_paths::GIT_DIR)).unwrap();
     fs::create_dir_all(repo_root.join(".agents/plugins")).unwrap();
     write_plugin_with_version(&repo_root, "sample-plugin", "sample-plugin", Some("1.2.3"));
     write_plugin_with_version(&repo_root, "broken-plugin", "broken-plugin", Some("   "));
     write_file(
-        &repo_root.join(".agents/plugins/marketplace.json"),
+        &repo_root.join(codex_paths::MARKETPLACE_JSON),
         r#"{
   "name": "debug",
   "plugins": [
@@ -3654,7 +3655,7 @@ async fn load_plugins_ignores_project_config_files() {
         .join("test/sample/local");
 
     write_file(
-        &plugin_root.join(".codex-plugin/plugin.json"),
+        &plugin_root.join(codex_paths::PLUGIN_JSON),
         r#"{"name":"sample"}"#,
     );
     write_file(
@@ -3665,7 +3666,7 @@ async fn load_plugins_ignores_project_config_files() {
     let stack = ConfigLayerStack::new(
         vec![ConfigLayerEntry::new(
             ConfigLayerSource::Project {
-                dot_codex_folder: AbsolutePathBuf::try_from(project_root.join(".codex")).unwrap(),
+                dot_codex_folder: AbsolutePathBuf::try_from(project_root.join(codex_paths::CODEX_HOME_DIR)).unwrap(),
             },
             toml::from_str(&plugin_config_toml(
                 /*enabled*/ true, /*plugins_feature_enabled*/ true,

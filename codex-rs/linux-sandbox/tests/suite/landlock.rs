@@ -18,10 +18,8 @@ use codex_protocol::permissions::FileSystemSandboxPolicy;
 use codex_protocol::permissions::FileSystemSpecialPath;
 use codex_protocol::permissions::NetworkSandboxPolicy;
 use codex_utils_absolute_path::AbsolutePathBuf;
-use pretty_assertions::assert_eq;
-use std::collections::HashMap;
-use std::path::PathBuf;
-use tempfile::NamedTempFile;
+use codex_test_support::prelude::*;
+use codex_paths;
 
 // At least on GitHub CI, the arm64 tests appear to need longer timeouts.
 
@@ -508,13 +506,13 @@ async fn sandbox_blocks_git_and_codex_writes_inside_writable_root() {
     }
 
     let tmpdir = tempfile::tempdir().expect("tempdir");
-    let dot_git = tmpdir.path().join(".git");
-    let dot_codex = tmpdir.path().join(".codex");
+    let dot_git = tmpdir.path().join(codex_paths::GIT_DIR);
+    let dot_codex = tmpdir.path().join(codex_paths::CODEX_HOME_DIR);
     std::fs::create_dir_all(&dot_git).expect("create .git");
     std::fs::create_dir_all(&dot_codex).expect("create .codex");
 
     let git_target = dot_git.join("config");
-    let codex_target = dot_codex.join("config.toml");
+    let codex_target = dot_codex.join(codex_paths::CONFIG_TOML);
 
     let git_output = expect_denied(
         run_cmd_result_with_writable_roots(
@@ -564,10 +562,10 @@ async fn sandbox_blocks_codex_symlink_replacement_attack() {
     let decoy = tmpdir.path().join("decoy-codex");
     std::fs::create_dir_all(&decoy).expect("create decoy dir");
 
-    let dot_codex = tmpdir.path().join(".codex");
+    let dot_codex = tmpdir.path().join(codex_paths::CODEX_HOME_DIR);
     symlink(&decoy, &dot_codex).expect("create .codex symlink");
 
-    let codex_target = dot_codex.join("config.toml");
+    let codex_target = dot_codex.join(codex_paths::CONFIG_TOML);
 
     let codex_output = expect_denied(
         run_cmd_result_with_writable_roots(
@@ -600,7 +598,7 @@ async fn sandbox_reports_codex_symlink_build_failure_without_panicking() {
     let decoy = tmpdir.path().join("decoy-codex");
     std::fs::create_dir_all(&decoy).expect("create decoy dir");
 
-    let dot_codex = tmpdir.path().join(".codex");
+    let dot_codex = tmpdir.path().join(codex_paths::CODEX_HOME_DIR);
     symlink(&decoy, &dot_codex).expect("create .codex symlink");
 
     let output = match run_cmd_result_with_writable_roots(
@@ -717,7 +715,7 @@ fi
         "child git init should be denied",
     );
     assert_ne!(git_init_output.exit_code, 0);
-    assert!(!subdir.join(".git").exists());
+    assert!(!subdir.join(codex_paths::GIT_DIR).exists());
 
     let mkdir_codex_output = expect_denied(
         run_cmd_result_with_cwd_and_writable_roots(
@@ -732,7 +730,7 @@ fi
         "child .codex directory creation should be denied",
     );
     assert_ne!(mkdir_codex_output.exit_code, 0);
-    assert!(!subdir.join(".codex").exists());
+    assert!(!subdir.join(codex_paths::CODEX_HOME_DIR).exists());
 
     let script = format!(
         r#"set -e
@@ -758,8 +756,8 @@ printf '%s\n' '{{"message":"ok"}}' | python3 jsonl_viewer.py | grep -q ok
     );
 
     assert!(subdir.join("jsonl_viewer.py").is_file());
-    assert!(!subdir.join(".git").exists());
-    assert!(!subdir.join(".codex").exists());
+    assert!(!subdir.join(codex_paths::GIT_DIR).exists());
+    assert!(!subdir.join(codex_paths::CODEX_HOME_DIR).exists());
     assert!(!subdir.join(".agents").exists());
 }
 

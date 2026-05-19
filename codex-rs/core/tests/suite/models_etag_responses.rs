@@ -1,9 +1,7 @@
 #![cfg(not(target_os = "windows"))]
 
-use std::sync::Arc;
-use std::time::Duration;
+use codex_test_support::prelude::*;
 
-use anyhow::Result;
 use codex_features::Feature;
 use codex_login::CodexAuth;
 use codex_protocol::models::PermissionProfile;
@@ -23,7 +21,6 @@ use core_test_support::skip_if_no_network;
 use core_test_support::test_codex::test_codex;
 use core_test_support::test_codex::turn_permission_fields;
 use core_test_support::wait_for_event_with_timeout;
-use pretty_assertions::assert_eq;
 use wiremock::MockServer;
 
 #[tokio::test(flavor = "multi_thread", worker_threads = 2)]

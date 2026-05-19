@@ -1,12 +1,10 @@
-use anyhow::Result;
+use codex_test_support::prelude::*;
 use codex_core::build_prompt_input;
 use codex_core::config::ConfigBuilder;
 use codex_core::config::ConfigOverrides;
 use codex_protocol::models::ContentItem;
 use codex_protocol::models::ResponseItem;
 use codex_protocol::user_input::UserInput;
-use pretty_assertions::assert_eq;
-use tempfile::TempDir;
 
 #[tokio::test]
 async fn build_prompt_input_includes_context_and_user_message() -> Result<()> {

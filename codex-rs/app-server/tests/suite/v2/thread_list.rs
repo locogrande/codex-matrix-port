@@ -1,4 +1,4 @@
-use anyhow::Result;
+use codex_test_support::prelude::*;
 use app_test_support::McpProcess;
 use app_test_support::create_fake_rollout;
 use app_test_support::create_fake_rollout_with_source;
@@ -34,15 +34,13 @@ use codex_protocol::protocol::RolloutLine;
 use codex_protocol::protocol::SessionSource as CoreSessionSource;
 use codex_protocol::protocol::SubAgentSource;
 use core_test_support::responses;
-use pretty_assertions::assert_eq;
 use std::cmp::Reverse;
 use std::fs;
 use std::fs::FileTimes;
 use std::fs::OpenOptions;
-use std::path::Path;
-use tempfile::TempDir;
 use tokio::time::timeout;
 use uuid::Uuid;
+use codex_paths;
 
 const DEFAULT_READ_TIMEOUT: std::time::Duration = std::time::Duration::from_secs(10);
 
@@ -291,7 +289,7 @@ async fn thread_list_reports_system_error_idle_flag_after_failed_turn() -> Resul
 
 // Minimal config.toml for listing.
 fn create_minimal_config(codex_home: &std::path::Path) -> std::io::Result<()> {
-    let config_toml = codex_home.join("config.toml");
+    let config_toml = codex_home.join(codex_paths::CONFIG_TOML);
     std::fs::write(
         config_toml,
         r#"
@@ -302,7 +300,7 @@ approval_policy = "never"
 }
 
 fn create_runtime_config(codex_home: &std::path::Path, server_uri: &str) -> std::io::Result<()> {
-    let config_toml = codex_home.join("config.toml");
+    let config_toml = codex_home.join(codex_paths::CONFIG_TOML);
     std::fs::write(
         config_toml,
         format!(
@@ -561,7 +559,7 @@ async fn thread_list_respects_cwd_filters() -> Result<()> {
 async fn thread_list_respects_search_term_filter() -> Result<()> {
     let codex_home = TempDir::new()?;
     std::fs::write(
-        codex_home.path().join("config.toml"),
+        codex_home.path().join(codex_paths::CONFIG_TOML),
         r#"
 model = "mock-model"
 approval_policy = "never"
@@ -664,7 +662,7 @@ sqlite = true
 async fn thread_list_state_db_only_returns_sqlite_without_jsonl_repair() -> Result<()> {
     let codex_home = TempDir::new()?;
     std::fs::write(
-        codex_home.path().join("config.toml"),
+        codex_home.path().join(codex_paths::CONFIG_TOML),
         r#"
 model = "mock-model"
 approval_policy = "never"

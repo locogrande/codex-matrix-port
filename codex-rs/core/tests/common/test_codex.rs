@@ -1,17 +1,11 @@
 use std::future::Future;
 use std::io::ErrorKind;
 use std::mem::swap;
-use std::path::Path;
-use std::path::PathBuf;
+use codex_test_support::prelude::*;
 use std::process::Command;
-use std::sync::Arc;
 use std::sync::atomic::AtomicU64;
 use std::sync::atomic::Ordering;
-use std::time::Duration;
 
-use anyhow::Context;
-use anyhow::Result;
-use anyhow::anyhow;
 use codex_config::CloudRequirementsLoader;
 use codex_core::CodexThread;
 use codex_core::ThreadManager;
@@ -43,7 +37,6 @@ use codex_protocol::user_input::UserInput;
 use codex_utils_absolute_path::AbsolutePathBuf;
 use futures::future::BoxFuture;
 use serde_json::Value;
-use tempfile::TempDir;
 use wiremock::MockServer;
 
 use crate::PathBufExt;
@@ -1049,7 +1042,6 @@ pub fn test_codex() -> TestCodexBuilder {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use pretty_assertions::assert_eq;
     use serde_json::json;
 
     #[test]

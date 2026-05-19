@@ -18,6 +18,7 @@ use std::path::PathBuf;
 use std::sync::Arc;
 use tempfile::TempDir;
 use toml::Value as TomlValue;
+use codex_paths;
 
 const REPO_ROOT_CONFIG_DIR_NAME: &str = ".codex";
 
@@ -44,7 +45,7 @@ fn project_layers_for_cwd(cwd: &Path) -> Vec<ConfigLayerEntry> {
     };
     let project_root = cwd_dir
         .ancestors()
-        .find(|ancestor| ancestor.join(".git").exists())
+        .find(|ancestor| ancestor.join(codex_paths::GIT_DIR).exists())
         .unwrap_or(cwd_dir.as_path())
         .to_path_buf();
 
@@ -135,7 +136,7 @@ async fn load_skills_for_test(config: &TestConfig) -> SkillLoadOutcome {
 fn mark_as_git_repo(dir: &Path) {
     // Config/project-root discovery only checks for the presence of `.git` (file or dir),
     // so we can avoid shelling out to `git init` in tests.
-    fs::write(dir.join(".git"), "gitdir: fake\n").unwrap();
+    fs::write(dir.join(codex_paths::GIT_DIR), "gitdir: fake\n").unwrap();
 }
 
 fn normalized(path: &Path) -> AbsolutePathBuf {
@@ -156,8 +157,8 @@ async fn skill_roots_from_layer_stack_maps_user_to_user_and_system_cache_and_sys
     fs::create_dir_all(&user_folder)?;
 
     // The file path doesn't need to exist; it's only used to derive the config folder.
-    let system_file = system_folder.join("config.toml").abs();
-    let user_file = user_folder.join("config.toml").abs();
+    let system_file = system_folder.join(codex_paths::CONFIG_TOML).abs();
+    let user_file = user_folder.join(codex_paths::CONFIG_TOML).abs();
 
     let layers = vec![
         ConfigLayerEntry::new(
@@ -218,10 +219,10 @@ async fn skill_roots_from_layer_stack_includes_disabled_project_layers() -> anyh
     fs::create_dir_all(&user_folder)?;
 
     let project_root = tmp.path().join("repo");
-    let dot_codex = project_root.join(".codex");
+    let dot_codex = project_root.join(codex_paths::CODEX_HOME_DIR);
     fs::create_dir_all(&dot_codex)?;
 
-    let user_file = user_folder.join("config.toml").abs();
+    let user_file = user_folder.join(codex_paths::CONFIG_TOML).abs();
     let project_dot_codex = dot_codex.abs();
 
     let layers = vec![
@@ -286,7 +287,7 @@ async fn loads_skills_from_home_agents_dir_for_user_scope() -> anyhow::Result<()
     let user_folder = home_folder.join("codex");
     fs::create_dir_all(&user_folder)?;
 
-    let user_file = user_folder.join("config.toml").abs();
+    let user_file = user_folder.join(codex_paths::CONFIG_TOML).abs();
     let layers = vec![ConfigLayerEntry::new(
         ConfigLayerSource::User {
             file: user_file,
@@ -1166,7 +1167,7 @@ async fn namespaces_plugin_skills_using_plugin_name() {
     );
     fs::create_dir_all(plugin_root.join(".codex-plugin")).unwrap();
     fs::write(
-        plugin_root.join(".codex-plugin/plugin.json"),
+        plugin_root.join(codex_paths::PLUGIN_JSON),
         r#"{"name":"sample"}"#,
     )
     .unwrap();

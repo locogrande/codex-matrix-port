@@ -1,4 +1,4 @@
-use anyhow::Result;
+use codex_test_support::prelude::*;
 use app_test_support::McpProcess;
 use app_test_support::create_fake_rollout;
 use app_test_support::rollout_path;
@@ -30,11 +30,6 @@ use codex_thread_store::ThreadEventPersistenceMode;
 use codex_thread_store::ThreadPersistenceMetadata;
 use codex_thread_store::ThreadStore;
 use codex_utils_absolute_path::AbsolutePathBuf;
-use pretty_assertions::assert_eq;
-use std::path::Path;
-use std::path::PathBuf;
-use std::sync::Arc;
-use tempfile::TempDir;
 use tokio::time::timeout;
 use uuid::Uuid;
 

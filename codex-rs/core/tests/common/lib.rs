@@ -6,7 +6,7 @@ use codex_arg0::Arg0PathEntryGuard;
 use codex_utils_cargo_bin::CargoBinError;
 use ctor::ctor;
 use std::sync::OnceLock;
-use tempfile::TempDir;
+use codex_test_support::prelude::*;
 
 use codex_config::CloudRequirementsLoader;
 use codex_config::ConfigRequirementsToml;
@@ -20,7 +20,6 @@ use codex_utils_absolute_path::AbsolutePathBuf;
 pub use codex_utils_absolute_path::test_support::PathBufExt;
 pub use codex_utils_absolute_path::test_support::PathExt;
 use regex_lite::Regex;
-use std::path::PathBuf;
 
 pub mod apps_test_server;
 pub mod context_snapshot;
@@ -338,15 +337,10 @@ pub fn stdio_server_bin() -> Result<String, CargoBinError> {
 }
 
 pub mod fs_wait {
-    use anyhow::Result;
-    use anyhow::anyhow;
     use notify::RecursiveMode;
     use notify::Watcher;
-    use std::path::Path;
-    use std::path::PathBuf;
     use std::sync::mpsc;
     use std::sync::mpsc::RecvTimeoutError;
-    use std::time::Duration;
     use std::time::Instant;
     use tokio::task;
     use walkdir::WalkDir;

@@ -1,8 +1,7 @@
 #![cfg(not(target_os = "windows"))]
 #![allow(clippy::unwrap_used, clippy::expect_used)]
 
-use anyhow::Context;
-use anyhow::Result;
+use codex_test_support::prelude::*;
 use codex_config::types::McpServerConfig;
 use codex_config::types::McpServerTransportConfig;
 use codex_protocol::models::PermissionProfile;
@@ -25,8 +24,6 @@ use core_test_support::test_codex::test_codex;
 use core_test_support::wait_for_event;
 use serde_json::Value;
 use serde_json::json;
-use std::collections::HashMap;
-use std::time::Duration;
 
 fn assert_wall_time_header(output: &str) {
     let (wall_time, marker) = output

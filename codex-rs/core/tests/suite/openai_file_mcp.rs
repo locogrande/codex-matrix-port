@@ -1,10 +1,8 @@
 #![cfg(not(target_os = "windows"))]
 
 use std::fs;
-use std::path::Path;
+use codex_test_support::prelude::*;
 
-use anyhow::Context;
-use anyhow::Result;
 use codex_protocol::models::PermissionProfile;
 use codex_protocol::protocol::AskForApproval;
 use core_test_support::apps_test_server::AppsTestServer;
@@ -23,7 +21,6 @@ use core_test_support::responses::ev_response_created;
 use core_test_support::responses::mount_sse_sequence;
 use core_test_support::responses::sse;
 use core_test_support::responses::start_mock_server;
-use pretty_assertions::assert_eq;
 use serde_json::Value;
 use serde_json::json;
 use wiremock::Mock;

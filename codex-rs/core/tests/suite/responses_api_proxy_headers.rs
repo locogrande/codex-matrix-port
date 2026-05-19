@@ -1,8 +1,7 @@
 //! Verifies that parent and spawned subagent Responses API requests carry the expected window,
 //! parent-thread, and subagent identity headers.
 
-use anyhow::Result;
-use anyhow::anyhow;
+use codex_test_support::prelude::*;
 use codex_features::Feature;
 use codex_protocol::models::PermissionProfile;
 use codex_protocol::protocol::AskForApproval;
@@ -22,9 +21,7 @@ use core_test_support::skip_if_no_network;
 use core_test_support::test_codex::TestCodex;
 use core_test_support::test_codex::test_codex;
 use core_test_support::test_codex::turn_permission_fields;
-use pretty_assertions::assert_eq;
 use serde_json::json;
-use std::time::Duration;
 
 const PARENT_PROMPT: &str = "spawn a subagent and report when it is started";
 const CHILD_PROMPT: &str = "child: say done";

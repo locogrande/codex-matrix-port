@@ -1,6 +1,6 @@
-use std::time::Duration;
+use codex_test_support::prelude::*;
+use codex_paths;
 
-use anyhow::Result;
 use app_test_support::McpProcess;
 use app_test_support::create_mock_responses_server_repeating_assistant;
 use app_test_support::to_response;
@@ -23,9 +23,7 @@ use codex_app_server_protocol::ThreadResumeResponse;
 use codex_app_server_protocol::TurnStartParams;
 use codex_app_server_protocol::UserInput;
 use core_test_support::responses;
-use pretty_assertions::assert_eq;
 use std::collections::BTreeMap;
-use tempfile::TempDir;
 #[cfg(unix)]
 use tokio::io::AsyncWriteExt;
 use tokio::time::timeout;
@@ -80,7 +78,7 @@ async fn external_agent_config_import_sends_completion_notification_for_local_pl
     std::fs::create_dir_all(marketplace_root.join(".agents/plugins"))?;
     std::fs::create_dir_all(plugin_root.join(".codex-plugin"))?;
     std::fs::write(
-        marketplace_root.join(".agents/plugins/marketplace.json"),
+        marketplace_root.join(codex_paths::MARKETPLACE_JSON),
         r#"{
   "name": "debug",
   "plugins": [
@@ -95,7 +93,7 @@ async fn external_agent_config_import_sends_completion_notification_for_local_pl
 }"#,
     )?;
     std::fs::write(
-        plugin_root.join(".codex-plugin/plugin.json"),
+        plugin_root.join(codex_paths::PLUGIN_JSON),
         r#"{"name":"sample","version":"0.1.0"}"#,
     )?;
     std::fs::create_dir_all(codex_home.path().join(".claude"))?;
@@ -626,9 +624,9 @@ async fn external_agent_config_import_returns_before_background_session_import_f
         .to_string(),
     )?;
 
-    let project_config_dir = project_root.join(".codex");
+    let project_config_dir = project_root.join(codex_paths::CODEX_HOME_DIR);
     std::fs::create_dir_all(&project_config_dir)?;
-    let project_config = project_config_dir.join("config.toml");
+    let project_config = project_config_dir.join(codex_paths::CONFIG_TOML);
     let status = std::process::Command::new("mkfifo")
         .arg(&project_config)
         .status()?;
@@ -995,7 +993,7 @@ async fn external_agent_config_import_compacts_huge_session_before_first_follow_
 
 fn create_config_toml(codex_home: &std::path::Path, server_uri: &str) -> std::io::Result<()> {
     std::fs::write(
-        codex_home.join("config.toml"),
+        codex_home.join(codex_paths::CONFIG_TOML),
         format!(
             r#"
 model = "mock-model"

@@ -1,4 +1,4 @@
-use anyhow::Result;
+use codex_test_support::prelude::*;
 use codex_protocol::ThreadId;
 use codex_protocol::protocol::EventMsg;
 use codex_protocol::protocol::GitInfo;
@@ -11,8 +11,6 @@ use codex_protocol::protocol::TokenUsageInfo;
 use serde_json::json;
 use std::fs;
 use std::fs::FileTimes;
-use std::path::Path;
-use std::path::PathBuf;
 use uuid::Uuid;
 
 pub fn rollout_path(codex_home: &Path, filename_ts: &str, thread_id: &str) -> PathBuf {

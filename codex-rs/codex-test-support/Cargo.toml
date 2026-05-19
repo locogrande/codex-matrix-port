@@ -1,0 +1,30 @@
+[package]
+name = "codex-test-support"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+# Test-time prelude crate. Re-exports the small set of `use` statements that
+# show up in virtually every codex-rs integration test file. Pulled in via
+# `dev-dependencies`; never linked from production source.
+#
+# Background: Layer-6 refactor pass B (folder-5 scan, May 2026): the same
+# ~15 `use ...;` lines repeat across 70+ test files for a total of >2,000
+# duplicated lines. Importing `codex_test_support::prelude::*` collapses
+# them to a single line per file.
+
+[lib]
+path = "src/lib.rs"
+test = false
+doctest = false
+
+[lints]
+workspace = true
+
+[dependencies]
+anyhow = { workspace = true }
+pretty_assertions = { workspace = true }
+serde = { workspace = true, features = ["derive"] }
+serde_json = { workspace = true }
+tempfile = { workspace = true }
+tokio = { workspace = true, features = ["macros", "rt-multi-thread", "time", "sync"] }

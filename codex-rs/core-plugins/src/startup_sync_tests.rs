@@ -11,6 +11,7 @@ use wiremock::matchers::method;
 use wiremock::matchers::path;
 use zip::ZipWriter;
 use zip::write::SimpleFileOptions;
+use codex_paths;
 
 const TEST_CURATED_PLUGIN_SHA: &str = "0123456789abcdef0123456789abcdef01234567";
 
@@ -22,7 +23,7 @@ fn write_file(path: &Path, contents: &str) {
 fn write_curated_plugin(root: &Path, plugin_name: &str) {
     let plugin_root = root.join("plugins").join(plugin_name);
     write_file(
-        &plugin_root.join(".codex-plugin/plugin.json"),
+        &plugin_root.join(codex_paths::PLUGIN_JSON),
         &format!(r#"{{"name":"{plugin_name}"}}"#),
     );
 }
@@ -44,7 +45,7 @@ fn write_openai_curated_marketplace(root: &Path, plugin_names: &[&str]) {
         .collect::<Vec<_>>()
         .join(",\n");
     write_file(
-        &root.join(".agents/plugins/marketplace.json"),
+        &root.join(codex_paths::MARKETPLACE_JSON),
         &format!(
             r#"{{
   "name": "openai-curated",
@@ -179,7 +180,7 @@ async fn run_http_sync(
 }
 
 fn assert_curated_gmail_repo(repo_path: &Path) {
-    assert!(repo_path.join(".agents/plugins/marketplace.json").is_file());
+    assert!(repo_path.join(codex_paths::MARKETPLACE_JSON).is_file());
     assert!(
         repo_path
             .join("plugins/gmail/.codex-plugin/plugin.json")
@@ -299,7 +300,7 @@ exit 1
 
     assert_eq!(synced_sha, sha);
     let repo_path = curated_plugins_repo_path(tmp.path());
-    assert!(repo_path.join(".git").is_dir());
+    assert!(repo_path.join(codex_paths::GIT_DIR).is_dir());
     assert_curated_gmail_repo(&repo_path);
     assert_eq!(read_curated_plugins_sha(tmp.path()).as_deref(), Some(sha));
 }
@@ -318,7 +319,7 @@ fn sync_openai_plugins_repo_via_git_succeeds_with_local_rewritten_remote() {
     std::fs::create_dir_all(work_repo.join("plugins/gmail/.codex-plugin"))
         .expect("create plugin dir");
     std::fs::write(
-        work_repo.join(".agents/plugins/marketplace.json"),
+        work_repo.join(codex_paths::MARKETPLACE_JSON),
         r#"{"name":"openai-curated","plugins":[{"name":"gmail","source":{"source":"local","path":"./plugins/gmail"}}]}"#,
     )
     .expect("write marketplace");
@@ -541,7 +542,7 @@ async fn sync_openai_plugins_repo_skips_archive_download_when_sha_matches() {
     let repo_path = curated_plugins_repo_path(tmp.path());
     std::fs::create_dir_all(repo_path.join(".agents/plugins")).expect("create repo");
     std::fs::write(
-        repo_path.join(".agents/plugins/marketplace.json"),
+        repo_path.join(codex_paths::MARKETPLACE_JSON),
         r#"{"name":"openai-curated","plugins":[]}"#,
     )
     .expect("write marketplace");
@@ -562,7 +563,7 @@ async fn sync_openai_plugins_repo_skips_archive_download_when_sha_matches() {
     .expect("sync should succeed");
 
     assert_eq!(read_curated_plugins_sha(tmp.path()).as_deref(), Some(sha));
-    assert!(repo_path.join(".agents/plugins/marketplace.json").is_file());
+    assert!(repo_path.join(codex_paths::MARKETPLACE_JSON).is_file());
 }
 
 #[tokio::test]
@@ -663,7 +664,7 @@ fn read_extracted_backup_archive_git_sha_reads_head_ref_from_extracted_repo() {
 #[test]
 fn read_extracted_backup_archive_git_sha_rejects_non_refs_head_target() {
     let tmp = tempdir().expect("tempdir");
-    std::fs::create_dir_all(tmp.path().join(".git")).expect("create git dir");
+    std::fs::create_dir_all(tmp.path().join(codex_paths::GIT_DIR)).expect("create git dir");
     std::fs::write(tmp.path().join(".git/HEAD"), "ref: HEAD\n").expect("write HEAD");
 
     let err = read_extracted_backup_archive_git_sha(tmp.path())
@@ -675,7 +676,7 @@ fn read_extracted_backup_archive_git_sha_rejects_non_refs_head_target() {
 #[test]
 fn read_extracted_backup_archive_git_sha_rejects_path_traversal_ref() {
     let tmp = tempdir().expect("tempdir");
-    std::fs::create_dir_all(tmp.path().join(".git")).expect("create git dir");
+    std::fs::create_dir_all(tmp.path().join(codex_paths::GIT_DIR)).expect("create git dir");
     std::fs::write(tmp.path().join(".git/HEAD"), "ref: refs/heads/../../evil\n")
         .expect("write HEAD");
 

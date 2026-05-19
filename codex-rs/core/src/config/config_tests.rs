@@ -88,6 +88,7 @@ use codex_protocol::protocol::RealtimeVoice;
 use codex_protocol::protocol::SandboxPolicy;
 use serde::Deserialize;
 use tempfile::tempdir;
+use codex_paths;
 
 use super::*;
 use core_test_support::PathBufExt;
@@ -816,7 +817,7 @@ async fn permissions_profiles_proxy_policy_does_not_start_managed_network_proxy_
 -> std::io::Result<()> {
     let codex_home = TempDir::new()?;
     let cwd = TempDir::new()?;
-    std::fs::write(cwd.path().join(".git"), "gitdir: nowhere")?;
+    std::fs::write(cwd.path().join(codex_paths::GIT_DIR), "gitdir: nowhere")?;
 
     let config = Config::load_from_base_config_with_overrides(
         ConfigToml {
@@ -968,7 +969,7 @@ async fn network_proxy_feature_matrix_preserves_sandbox_network_semantics() -> s
     for case in cases {
         let codex_home = TempDir::new()?;
         let cwd = TempDir::new()?;
-        std::fs::write(cwd.path().join(".git"), "gitdir: nowhere")?;
+        std::fs::write(cwd.path().join(codex_paths::GIT_DIR), "gitdir: nowhere")?;
         let features = case
             .proxy_enabled
             .then(|| toml::from_str("network_proxy = true").expect("valid features"));
@@ -1273,7 +1274,7 @@ async fn permissions_profiles_network_disabled_by_default_does_not_start_proxy()
 -> std::io::Result<()> {
     let codex_home = TempDir::new()?;
     let cwd = TempDir::new()?;
-    std::fs::write(cwd.path().join(".git"), "gitdir: nowhere")?;
+    std::fs::write(cwd.path().join(codex_paths::GIT_DIR), "gitdir: nowhere")?;
 
     let config = Config::load_from_base_config_with_overrides(
         ConfigToml {
@@ -1321,7 +1322,7 @@ async fn default_permissions_profile_populates_runtime_sandbox_policy() -> std::
     let codex_home = TempDir::new()?;
     let cwd = TempDir::new()?;
     std::fs::create_dir_all(cwd.path().join("docs"))?;
-    std::fs::write(cwd.path().join(".git"), "gitdir: nowhere")?;
+    std::fs::write(cwd.path().join(codex_paths::GIT_DIR), "gitdir: nowhere")?;
 
     let cfg = ConfigToml {
         default_permissions: Some("workspace".to_string()),
@@ -1364,7 +1365,7 @@ async fn default_permissions_profile_populates_runtime_sandbox_policy() -> std::
     .await?;
 
     let cwd_root = cwd.path().abs();
-    let memories_root = codex_home.path().join("memories").abs();
+    let memories_root = codex_home.path().join(codex_paths::MEMORIES_DIR).abs();
     assert_eq!(
         config.permissions.file_system_sandbox_policy(),
         FileSystemSandboxPolicy::restricted(vec![
@@ -1407,7 +1408,7 @@ async fn default_permissions_profile_populates_runtime_sandbox_policy() -> std::
         !config
             .permissions
             .file_system_sandbox_policy()
-            .can_write_path_with_cwd(&cwd.path().join(".git"), cwd.path())
+            .can_write_path_with_cwd(&cwd.path().join(codex_paths::GIT_DIR), cwd.path())
     );
     assert_eq!(
         config.permissions.network_sandbox_policy(),
@@ -1600,7 +1601,7 @@ async fn permission_profile_override_applies_runtime_roots_to_legacy_projection(
     )
     .await?;
 
-    let memories_root = codex_home.path().join("memories").abs();
+    let memories_root = codex_home.path().join(codex_paths::MEMORIES_DIR).abs();
     assert!(
         config
             .permissions
@@ -1683,8 +1684,8 @@ async fn workspace_root_glob_none_compiles_to_filesystem_pattern_entry() -> std:
     let codex_home = TempDir::new()?;
     let cwd = TempDir::new()?;
     let extra_root = TempDir::new()?;
-    tokio::fs::write(cwd.path().join(".git"), "gitdir: nowhere").await?;
-    tokio::fs::write(extra_root.path().join(".git"), "gitdir: nowhere").await?;
+    tokio::fs::write(cwd.path().join(codex_paths::GIT_DIR), "gitdir: nowhere").await?;
+    tokio::fs::write(extra_root.path().join(codex_paths::GIT_DIR), "gitdir: nowhere").await?;
 
     let config = Config::load_from_base_config_with_overrides(
         ConfigToml {
@@ -1764,7 +1765,7 @@ async fn workspace_root_glob_none_compiles_to_filesystem_pattern_entry() -> std:
 async fn permissions_profiles_require_default_permissions() -> std::io::Result<()> {
     let codex_home = TempDir::new()?;
     let cwd = TempDir::new()?;
-    std::fs::write(cwd.path().join(".git"), "gitdir: nowhere")?;
+    std::fs::write(cwd.path().join(codex_paths::GIT_DIR), "gitdir: nowhere")?;
 
     let err = Config::load_from_base_config_with_overrides(
         ConfigToml {
@@ -1836,7 +1837,7 @@ async fn default_permissions_can_select_builtin_profile_without_permissions_tabl
         "expected :workspace to allow writing the project root, policy: {policy:?}"
     );
     assert!(
-        !policy.can_write_path_with_cwd(&cwd.path().join(".git"), cwd.path()),
+        !policy.can_write_path_with_cwd(&cwd.path().join(codex_paths::GIT_DIR), cwd.path()),
         "expected :workspace to protect project metadata, policy: {policy:?}"
     );
     Ok(())
@@ -1886,8 +1887,8 @@ async fn workspace_profile_applies_rules_to_runtime_and_profile_workspace_roots(
     let runtime_root = temp_dir.path().join("backend");
     let profile_root = temp_dir.path().join("shared");
     for root in [&cwd, &runtime_root, &profile_root] {
-        std::fs::create_dir_all(root.join(".git"))?;
-        std::fs::create_dir_all(root.join(".codex"))?;
+        std::fs::create_dir_all(root.join(codex_paths::GIT_DIR))?;
+        std::fs::create_dir_all(root.join(codex_paths::CODEX_HOME_DIR))?;
     }
 
     let config = Config::load_from_base_config_with_overrides(
@@ -1956,11 +1957,11 @@ async fn workspace_profile_applies_rules_to_runtime_and_profile_workspace_roots(
             "expected workspace root to be writable, policy: {policy:?}"
         );
         assert!(
-            !policy.can_write_path_with_cwd(&root.join(".git"), cwd.as_path()),
+            !policy.can_write_path_with_cwd(&root.join(codex_paths::GIT_DIR), cwd.as_path()),
             "expected .git carveout under {root:?}, policy: {policy:?}"
         );
         assert!(
-            !policy.can_write_path_with_cwd(&root.join(".codex"), cwd.as_path()),
+            !policy.can_write_path_with_cwd(&root.join(codex_paths::CODEX_HOME_DIR), cwd.as_path()),
             "expected .codex carveout under {root:?}, policy: {policy:?}"
         );
     }
@@ -2065,7 +2066,7 @@ async fn empty_config_defaults_to_builtin_profile_for_trusted_project() -> std::
             "expected trusted project fallback to use :workspace, policy: {policy:?}"
         );
         assert!(
-            !policy.can_write_path_with_cwd(&cwd.path().join(".codex"), cwd.path()),
+            !policy.can_write_path_with_cwd(&cwd.path().join(codex_paths::CODEX_HOME_DIR), cwd.path()),
             "expected :workspace metadata carveouts, policy: {policy:?}"
         );
     }
@@ -2343,7 +2344,7 @@ async fn permissions_profiles_allow_direct_write_roots_outside_workspace_root()
 -> std::io::Result<()> {
     let codex_home = TempDir::new()?;
     let cwd = TempDir::new()?;
-    std::fs::write(cwd.path().join(".git"), "gitdir: nowhere")?;
+    std::fs::write(cwd.path().join(codex_paths::GIT_DIR), "gitdir: nowhere")?;
     let external_write_dir = TempDir::new()?;
     let external_write_path =
         AbsolutePathBuf::from_absolute_path(std::fs::canonicalize(external_write_dir.path())?)?;
@@ -2378,7 +2379,7 @@ async fn permissions_profiles_allow_direct_write_roots_outside_workspace_root()
     .await?;
 
     let memories_root = AbsolutePathBuf::from_absolute_path(std::fs::canonicalize(
-        codex_home.path().join("memories"),
+        codex_home.path().join(codex_paths::MEMORIES_DIR),
     )?)?;
     assert!(
         config
@@ -2403,7 +2404,7 @@ async fn permissions_profiles_reject_nested_entries_for_non_workspace_roots() ->
 {
     let codex_home = TempDir::new()?;
     let cwd = TempDir::new()?;
-    std::fs::write(cwd.path().join(".git"), "gitdir: nowhere")?;
+    std::fs::write(cwd.path().join(codex_paths::GIT_DIR), "gitdir: nowhere")?;
 
     let err = Config::load_from_base_config_with_overrides(
         ConfigToml {
@@ -2451,7 +2452,7 @@ async fn load_workspace_permission_profile(
 ) -> std::io::Result<Config> {
     let codex_home = TempDir::new()?;
     let cwd = TempDir::new()?;
-    std::fs::write(cwd.path().join(".git"), "gitdir: nowhere")?;
+    std::fs::write(cwd.path().join(codex_paths::GIT_DIR), "gitdir: nowhere")?;
 
     Config::load_from_base_config_with_overrides(
         ConfigToml {
@@ -2610,7 +2611,7 @@ async fn permissions_profiles_allow_empty_filesystem_with_warning() -> std::io::
 async fn permissions_profiles_reject_workspace_root_parent_traversal() -> std::io::Result<()> {
     let codex_home = TempDir::new()?;
     let cwd = TempDir::new()?;
-    std::fs::write(cwd.path().join(".git"), "gitdir: nowhere")?;
+    std::fs::write(cwd.path().join(codex_paths::GIT_DIR), "gitdir: nowhere")?;
 
     let err = Config::load_from_base_config_with_overrides(
         ConfigToml {
@@ -2657,7 +2658,7 @@ async fn permissions_profiles_reject_workspace_root_parent_traversal() -> std::i
 async fn permissions_profiles_allow_network_enablement() -> std::io::Result<()> {
     let codex_home = TempDir::new()?;
     let cwd = TempDir::new()?;
-    std::fs::write(cwd.path().join(".git"), "gitdir: nowhere")?;
+    std::fs::write(cwd.path().join(codex_paths::GIT_DIR), "gitdir: nowhere")?;
 
     let config = Config::load_from_base_config_with_overrides(
         ConfigToml {
@@ -3765,7 +3766,7 @@ async fn rebuild_preserving_session_layers_refreshes_plugin_derived_mcp_config()
         .join("test/sample/local");
     std::fs::create_dir_all(plugin_root.join(".codex-plugin"))?;
     std::fs::write(
-        plugin_root.join(".codex-plugin/plugin.json"),
+        plugin_root.join(codex_paths::PLUGIN_JSON),
         r#"{"name":"sample"}"#,
     )?;
     std::fs::write(
@@ -3862,7 +3863,7 @@ async fn to_mcp_config_applies_plugin_mcp_cloud_requirements() -> anyhow::Result
         .join("test/sample/local");
     std::fs::create_dir_all(plugin_root.join(".codex-plugin"))?;
     std::fs::write(
-        plugin_root.join(".codex-plugin/plugin.json"),
+        plugin_root.join(codex_paths::PLUGIN_JSON),
         r#"{"name":"sample"}"#,
     )?;
     std::fs::write(
@@ -3948,7 +3949,7 @@ async fn to_mcp_config_empty_mcp_requirements_disable_plugin_mcps() -> anyhow::R
         .join("test/sample/local");
     std::fs::create_dir_all(plugin_root.join(".codex-plugin"))?;
     std::fs::write(
-        plugin_root.join(".codex-plugin/plugin.json"),
+        plugin_root.join(codex_paths::PLUGIN_JSON),
         r#"{"name":"sample"}"#,
     )?;
     std::fs::write(
@@ -4071,7 +4072,7 @@ async fn sqlite_home_defaults_to_codex_home_for_workspace_write() -> std::io::Re
 #[tokio::test]
 async fn workspace_write_always_includes_memories_root_once() -> std::io::Result<()> {
     let codex_home = TempDir::new()?;
-    let memories_root = codex_home.path().join("memories");
+    let memories_root = codex_home.path().join(codex_paths::MEMORIES_DIR);
     let config = Config::load_from_base_config_with_overrides(
         ConfigToml {
             sandbox_workspace_write: Some(SandboxWorkspaceWrite {
@@ -4368,7 +4369,7 @@ trust_level = "trusted"
 "#,
         ),
     )?;
-    let project_config_dir = workspace.path().join(".codex");
+    let project_config_dir = workspace.path().join(codex_paths::CODEX_HOME_DIR);
     std::fs::create_dir_all(&project_config_dir)?;
     std::fs::write(
         project_config_dir.join(CONFIG_TOML_FILE),
@@ -6557,7 +6558,7 @@ async fn agent_role_file_without_developer_instructions_is_dropped_with_warning(
     let codex_home = TempDir::new()?;
     let repo_root = TempDir::new()?;
     let nested_cwd = repo_root.path().join("packages").join("app");
-    std::fs::create_dir_all(repo_root.path().join(".git"))?;
+    std::fs::create_dir_all(repo_root.path().join(codex_paths::GIT_DIR))?;
     std::fs::create_dir_all(&nested_cwd)?;
 
     let workspace_key = repo_root.path().to_string_lossy().replace('\\', "\\\\");
@@ -6571,7 +6572,7 @@ trust_level = "trusted"
     )
     .await?;
 
-    let standalone_agents_dir = repo_root.path().join(".codex").join("agents");
+    let standalone_agents_dir = repo_root.path().join(codex_paths::CODEX_HOME_DIR).join("agents");
     tokio::fs::create_dir_all(&standalone_agents_dir).await?;
     tokio::fs::write(
         standalone_agents_dir.join("researcher.toml"),
@@ -6728,7 +6729,7 @@ async fn discovered_agent_role_file_without_name_is_dropped_with_warning() -> st
     let codex_home = TempDir::new()?;
     let repo_root = TempDir::new()?;
     let nested_cwd = repo_root.path().join("packages").join("app");
-    std::fs::create_dir_all(repo_root.path().join(".git"))?;
+    std::fs::create_dir_all(repo_root.path().join(codex_paths::GIT_DIR))?;
     std::fs::create_dir_all(&nested_cwd)?;
 
     let workspace_key = repo_root.path().to_string_lossy().replace('\\', "\\\\");
@@ -6742,7 +6743,7 @@ trust_level = "trusted"
     )
     .await?;
 
-    let standalone_agents_dir = repo_root.path().join(".codex").join("agents");
+    let standalone_agents_dir = repo_root.path().join(codex_paths::CODEX_HOME_DIR).join("agents");
     tokio::fs::create_dir_all(&standalone_agents_dir).await?;
     tokio::fs::write(
         standalone_agents_dir.join("researcher.toml"),
@@ -6928,7 +6929,7 @@ async fn discovers_multiple_standalone_agent_role_files() -> std::io::Result<()>
     let codex_home = TempDir::new()?;
     let repo_root = TempDir::new()?;
     let nested_cwd = repo_root.path().join("packages").join("app");
-    std::fs::create_dir_all(repo_root.path().join(".git"))?;
+    std::fs::create_dir_all(repo_root.path().join(codex_paths::GIT_DIR))?;
     std::fs::create_dir_all(&nested_cwd)?;
 
     let workspace_key = repo_root.path().to_string_lossy().replace('\\', "\\\\");
@@ -6943,7 +6944,7 @@ trust_level = "trusted"
 
     let root_agent = repo_root
         .path()
-        .join(".codex")
+        .join(codex_paths::CODEX_HOME_DIR)
         .join("agents")
         .join("root.toml");
     std::fs::create_dir_all(
@@ -6963,7 +6964,7 @@ developer_instructions = "Research carefully"
     let nested_agent = repo_root
         .path()
         .join("packages")
-        .join(".codex")
+        .join(codex_paths::CODEX_HOME_DIR)
         .join("agents")
         .join("review")
         .join("nested.toml");
@@ -6985,7 +6986,7 @@ developer_instructions = "Review carefully"
     let sibling_agent = repo_root
         .path()
         .join("packages")
-        .join(".codex")
+        .join(codex_paths::CODEX_HOME_DIR)
         .join("agents")
         .join("writer.toml");
     std::fs::create_dir_all(
@@ -7059,7 +7060,7 @@ async fn mixed_legacy_and_standalone_agent_role_sources_merge_with_precedence()
     let codex_home = TempDir::new()?;
     let repo_root = TempDir::new()?;
     let nested_cwd = repo_root.path().join("packages").join("app");
-    std::fs::create_dir_all(repo_root.path().join(".git"))?;
+    std::fs::create_dir_all(repo_root.path().join(codex_paths::GIT_DIR))?;
     std::fs::create_dir_all(&nested_cwd)?;
 
     let workspace_key = repo_root.path().to_string_lossy().replace('\\', "\\\\");
@@ -7102,7 +7103,7 @@ model = "gpt-4.1"
     )
     .await?;
 
-    let standalone_agents_dir = repo_root.path().join(".codex").join("agents");
+    let standalone_agents_dir = repo_root.path().join(codex_paths::CODEX_HOME_DIR).join("agents");
     tokio::fs::create_dir_all(&standalone_agents_dir).await?;
     tokio::fs::write(
         standalone_agents_dir.join("researcher.toml"),
@@ -7205,7 +7206,7 @@ async fn higher_precedence_agent_role_can_inherit_description_from_lower_layer()
     let codex_home = TempDir::new()?;
     let repo_root = TempDir::new()?;
     let nested_cwd = repo_root.path().join("packages").join("app");
-    std::fs::create_dir_all(repo_root.path().join(".git"))?;
+    std::fs::create_dir_all(repo_root.path().join(codex_paths::GIT_DIR))?;
     std::fs::create_dir_all(&nested_cwd)?;
 
     let workspace_key = repo_root.path().to_string_lossy().replace('\\', "\\\\");
@@ -7234,7 +7235,7 @@ model = "gpt-5.2"
     )
     .await?;
 
-    let standalone_agents_dir = repo_root.path().join(".codex").join("agents");
+    let standalone_agents_dir = repo_root.path().join(codex_paths::CODEX_HOME_DIR).join("agents");
     tokio::fs::create_dir_all(&standalone_agents_dir).await?;
     tokio::fs::write(
         standalone_agents_dir.join("researcher.toml"),
@@ -7571,7 +7572,7 @@ model_verbosity = "high"
     let cwd = cwd_temp_dir.path().to_path_buf();
     // Make it look like a Git repo so it does not search for AGENTS.md in
     // a parent folder, either.
-    std::fs::write(cwd.join(".git"), "gitdir: nowhere")?;
+    std::fs::write(cwd.join(codex_paths::GIT_DIR), "gitdir: nowhere")?;
 
     let codex_home_temp_dir = TempDir::new().unwrap();
 
@@ -10763,7 +10764,7 @@ disabled_tools = [
         ),
     )?;
 
-    let project_config_dir = workspace.path().join(".codex");
+    let project_config_dir = workspace.path().join(codex_paths::CODEX_HOME_DIR);
     std::fs::create_dir_all(&project_config_dir)?;
     std::fs::write(
         project_config_dir.join(CONFIG_TOML_FILE),

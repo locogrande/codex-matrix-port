@@ -1,4 +1,4 @@
-use anyhow::Result;
+use codex_test_support::prelude::*;
 use app_test_support::McpProcess;
 use app_test_support::create_final_assistant_message_sse_response;
 use app_test_support::create_mock_responses_server_sequence_unchecked;
@@ -17,11 +17,7 @@ use codex_app_server_protocol::UserInput as V2UserInput;
 use codex_utils_absolute_path::AbsolutePathBuf;
 use codex_utils_cargo_bin::cargo_bin;
 use core_test_support::fs_wait;
-use pretty_assertions::assert_eq;
 use serde_json::Value;
-use std::path::Path;
-use std::time::Duration;
-use tempfile::TempDir;
 use tokio::time::timeout;
 
 const DEFAULT_READ_TIMEOUT: std::time::Duration = std::time::Duration::from_secs(10);

@@ -1,4 +1,4 @@
-use anyhow::Result;
+use codex_test_support::prelude::*;
 use app_test_support::ChatGptAuthFixture;
 use app_test_support::McpProcess;
 use app_test_support::to_response;
@@ -14,15 +14,13 @@ use codex_app_server_protocol::LoginAccountResponse;
 use codex_app_server_protocol::RequestId;
 use codex_config::types::AuthCredentialsStoreMode;
 use codex_login::REFRESH_TOKEN_URL_OVERRIDE_ENV_VAR;
-use pretty_assertions::assert_eq;
-use std::path::Path;
-use tempfile::TempDir;
 use tokio::time::timeout;
 use wiremock::Mock;
 use wiremock::MockServer;
 use wiremock::ResponseTemplate;
 use wiremock::matchers::method;
 use wiremock::matchers::path;
+use codex_paths;
 
 // Bazel CI can spend tens of seconds starting app-server subprocesses or
 // processing auth RPCs under load.
@@ -32,7 +30,7 @@ fn create_config_toml_custom_provider(
     codex_home: &Path,
     requires_openai_auth: bool,
 ) -> std::io::Result<()> {
-    let config_toml = codex_home.join("config.toml");
+    let config_toml = codex_home.join(codex_paths::CONFIG_TOML);
     let requires_line = if requires_openai_auth {
         "requires_openai_auth = true\n"
     } else {
@@ -62,7 +60,7 @@ stream_max_retries = 0
 }
 
 fn create_config_toml(codex_home: &Path) -> std::io::Result<()> {
-    let config_toml = codex_home.join("config.toml");
+    let config_toml = codex_home.join(codex_paths::CONFIG_TOML);
     std::fs::write(
         config_toml,
         r#"
@@ -77,7 +75,7 @@ shell_snapshot = false
 }
 
 fn create_config_toml_forced_login(codex_home: &Path, forced_method: &str) -> std::io::Result<()> {
-    let config_toml = codex_home.join("config.toml");
+    let config_toml = codex_home.join(codex_paths::CONFIG_TOML);
     let contents = format!(
         r#"
 model = "mock-model"

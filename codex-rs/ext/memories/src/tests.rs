@@ -1,5 +1,6 @@
 use std::path::Path;
 use std::sync::Arc;
+use codex_paths;
 
 use codex_extension_api::ContextContributor;
 use codex_extension_api::ExtensionData;
@@ -78,7 +79,7 @@ fn tools_are_contributed_when_enabled() {
 #[tokio::test]
 async fn prompt_contribution_uses_memory_summary_when_enabled() {
     let tempdir = tempfile::tempdir().expect("tempdir");
-    let memories_dir = tempdir.path().join("memories");
+    let memories_dir = tempdir.path().join(codex_paths::MEMORIES_DIR);
     tokio::fs::create_dir_all(&memories_dir)
         .await
         .expect("create memories dir");
@@ -112,7 +113,7 @@ async fn prompt_contribution_uses_memory_summary_when_enabled() {
 #[tokio::test]
 async fn read_tool_reads_memory_file() {
     let tempdir = tempfile::tempdir().expect("tempdir");
-    let memory_root = tempdir.path().join("memories");
+    let memory_root = tempdir.path().join(codex_paths::MEMORIES_DIR);
     tokio::fs::create_dir_all(&memory_root)
         .await
         .expect("create memories dir");
@@ -155,7 +156,7 @@ async fn read_tool_reads_memory_file() {
 #[tokio::test]
 async fn search_tool_accepts_multiple_queries() {
     let tempdir = tempfile::tempdir().expect("tempdir");
-    let memory_root = tempdir.path().join("memories");
+    let memory_root = tempdir.path().join(codex_paths::MEMORIES_DIR);
     tokio::fs::create_dir_all(&memory_root)
         .await
         .expect("create memories dir");
@@ -223,7 +224,7 @@ async fn search_tool_accepts_multiple_queries() {
 #[tokio::test]
 async fn search_tool_accepts_windowed_all_match_mode() {
     let tempdir = tempfile::tempdir().expect("tempdir");
-    let memory_root = tempdir.path().join("memories");
+    let memory_root = tempdir.path().join(codex_paths::MEMORIES_DIR);
     tokio::fs::create_dir_all(&memory_root)
         .await
         .expect("create memories dir");
@@ -278,7 +279,7 @@ async fn search_tool_accepts_windowed_all_match_mode() {
 #[tokio::test]
 async fn search_tool_rejects_legacy_single_query() {
     let tempdir = tempfile::tempdir().expect("tempdir");
-    let memory_root = tempdir.path().join("memories");
+    let memory_root = tempdir.path().join(codex_paths::MEMORIES_DIR);
     tokio::fs::create_dir_all(&memory_root)
         .await
         .expect("create memories dir");

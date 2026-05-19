@@ -1,7 +1,5 @@
-use std::time::Duration;
+use codex_test_support::prelude::*;
 
-use anyhow::Context;
-use anyhow::Result;
 use app_test_support::McpProcess;
 use app_test_support::to_response;
 use codex_app_server_protocol::JSONRPCResponse;
@@ -11,8 +9,6 @@ use codex_app_server_protocol::RequestId;
 use codex_config::MarketplaceConfigUpdate;
 use codex_config::record_user_marketplace;
 use codex_core_plugins::installed_marketplaces::marketplace_install_root;
-use pretty_assertions::assert_eq;
-use tempfile::TempDir;
 use tokio::time::timeout;
 
 const DEFAULT_TIMEOUT: Duration = Duration::from_secs(10);

@@ -11,16 +11,14 @@ use core_test_support::skip_if_no_network;
 use core_test_support::test_codex::TestCodex;
 use core_test_support::test_codex::test_codex;
 use core_test_support::wait_for_event;
-use pretty_assertions::assert_eq;
+use codex_test_support::prelude::*;
 use serde_json::Value;
 use serde_json::json;
-use tempfile::TempDir;
 
 use responses::ev_assistant_message;
 use responses::ev_completed;
 use responses::sse;
 use responses::start_mock_server;
-use std::time::Duration;
 
 #[tokio::test(flavor = "multi_thread", worker_threads = 2)]
 async fn summarize_context_three_requests_and_instructions() -> anyhow::Result<()> {

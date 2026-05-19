@@ -6,6 +6,7 @@ use codex_app_server_protocol::AuthMode;
 use codex_protocol::account::PlanType as AccountPlanType;
 use codex_protocol::auth::KnownPlan as InternalKnownPlan;
 use codex_protocol::auth::PlanType as InternalPlanType;
+use codex_paths;
 
 use base64::Engine;
 use codex_protocol::config_types::ForcedLoginMethod;
@@ -60,7 +61,7 @@ async fn refresh_without_id_token() {
 #[test]
 fn login_with_api_key_overwrites_existing_auth_json() {
     let dir = tempdir().unwrap();
-    let auth_path = dir.path().join("auth.json");
+    let auth_path = dir.path().join(codex_paths::AUTH_JSON);
     let stale_auth = json!({
         "OPENAI_API_KEY": "sk-old",
         "tokens": {
@@ -90,7 +91,7 @@ fn login_with_api_key_overwrites_existing_auth_json() {
 #[tokio::test]
 async fn login_with_access_token_writes_only_token() {
     let dir = tempdir().unwrap();
-    let auth_path = dir.path().join("auth.json");
+    let auth_path = dir.path().join(codex_paths::AUTH_JSON);
     let record = agent_identity_record(WORKSPACE_ID_ALLOWED);
     let agent_identity =
         signed_agent_identity_jwt(&record, json!(record.plan_type)).expect("signed agent identity");
@@ -255,7 +256,7 @@ async fn pro_account_with_no_api_key_uses_chatgpt_auth() {
 async fn loads_api_key_from_auth_json() {
     let dir = tempdir().unwrap();
     let _access_token_guard = remove_access_token_env_var();
-    let auth_file = dir.path().join("auth.json");
+    let auth_file = dir.path().join(codex_paths::AUTH_JSON);
     std::fs::write(
         auth_file,
         r#"{"OPENAI_API_KEY":"sk-test-key","tokens":null,"last_refresh":null}"#,
@@ -804,7 +805,7 @@ async fn enforce_login_restrictions_logs_out_for_method_mismatch() {
         .expect_err("expected method mismatch to error");
     assert!(err.to_string().contains("ChatGPT login is required"));
     assert!(
-        !codex_home.path().join("auth.json").exists(),
+        !codex_home.path().join(codex_paths::AUTH_JSON).exists(),
         "auth.json should be removed on mismatch"
     );
 }
@@ -839,7 +840,7 @@ async fn enforce_login_restrictions_logs_out_for_workspace_mismatch() {
             .contains(&format!("workspace(s) {WORKSPACE_ID_ALLOWED}"))
     );
     assert!(
-        !codex_home.path().join("auth.json").exists(),
+        !codex_home.path().join(codex_paths::AUTH_JSON).exists(),
         "auth.json should be removed on mismatch"
     );
 }
@@ -870,7 +871,7 @@ async fn enforce_login_restrictions_allows_matching_workspace() {
         .await
         .expect("matching workspace should succeed");
     assert!(
-        codex_home.path().join("auth.json").exists(),
+        codex_home.path().join(codex_paths::AUTH_JSON).exists(),
         "auth.json should remain when restrictions pass"
     );
 }
@@ -958,7 +959,7 @@ async fn enforce_login_restrictions_logs_out_for_agent_identity_workspace_mismat
         "current credentials belong to {WORKSPACE_ID_DISALLOWED}"
     )));
     assert!(
-        !codex_home.path().join("auth.json").exists(),
+        !codex_home.path().join(codex_paths::AUTH_JSON).exists(),
         "auth.json should be removed on mismatch"
     );
     server.verify().await;
@@ -983,7 +984,7 @@ async fn enforce_login_restrictions_allows_api_key_if_login_method_not_set_but_f
         .await
         .expect("matching workspace should succeed");
     assert!(
-        codex_home.path().join("auth.json").exists(),
+        codex_home.path().join(codex_paths::AUTH_JSON).exists(),
         "auth.json should remain when restrictions pass"
     );
 }

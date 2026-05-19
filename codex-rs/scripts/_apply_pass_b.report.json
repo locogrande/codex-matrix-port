@@ -1,0 +1,831 @@
+{
+  "files_scanned": 311,
+  "files_modified": 160,
+  "use_lines_removed": 703,
+  "prelude_lines_added": 160,
+  "cargo_files_modified": [
+    "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/app-server/Cargo.toml",
+    "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/app-server/tests/common/Cargo.toml",
+    "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/app-server-protocol/Cargo.toml",
+    "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/apply-patch/Cargo.toml",
+    "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/cli/Cargo.toml",
+    "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/codex-api/Cargo.toml",
+    "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/codex-client/Cargo.toml",
+    "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/core/Cargo.toml",
+    "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/core/tests/common/Cargo.toml",
+    "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/exec/Cargo.toml",
+    "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/exec-server/Cargo.toml",
+    "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/execpolicy/Cargo.toml",
+    "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/linux-sandbox/Cargo.toml",
+    "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/login/Cargo.toml",
+    "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/mcp-server/Cargo.toml",
+    "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/mcp-server/tests/common/Cargo.toml",
+    "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/otel/Cargo.toml",
+    "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/rmcp-client/Cargo.toml",
+    "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/stdio-to-uds/Cargo.toml",
+    "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/tui/Cargo.toml"
+  ],
+  "modified_files": [
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/app-server/tests/common/auth_fixtures.rs",
+      "removed": 3,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/app-server/tests/common/rollout.rs",
+      "removed": 3,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/app-server/tests/suite/auth.rs",
+      "removed": 4,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/app-server/tests/suite/conversation_summary.rs",
+      "removed": 6,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/app-server/tests/suite/fuzzy_file_search.rs",
+      "removed": 5,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/app-server/tests/suite/v2/account.rs",
+      "removed": 6,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/app-server/tests/suite/v2/analytics.rs",
+      "removed": 6,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/app-server/tests/suite/v2/app_list.rs",
+      "removed": 7,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/app-server/tests/suite/v2/attestation.rs",
+      "removed": 5,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/app-server/tests/suite/v2/client_metadata.rs",
+      "removed": 5,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/app-server/tests/suite/v2/collaboration_mode_list.rs",
+      "removed": 4,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/app-server/tests/suite/v2/command_exec.rs",
+      "removed": 6,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/app-server/tests/suite/v2/compaction.rs",
+      "removed": 3,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/app-server/tests/suite/v2/config_rpc.rs",
+      "removed": 3,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/app-server/tests/suite/v2/connection_handling_websocket.rs",
+      "removed": 5,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/app-server/tests/suite/v2/connection_handling_websocket_unix.rs",
+      "removed": 4,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/app-server/tests/suite/v2/dynamic_tools.rs",
+      "removed": 6,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/app-server/tests/suite/v2/experimental_api.rs",
+      "removed": 5,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/app-server/tests/suite/v2/experimental_feature_list.rs",
+      "removed": 4,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/app-server/tests/suite/v2/external_agent_config.rs",
+      "removed": 4,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/app-server/tests/suite/v2/fs.rs",
+      "removed": 5,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/app-server/tests/suite/v2/hooks_list.rs",
+      "removed": 4,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/app-server/tests/suite/v2/initialize.rs",
+      "removed": 5,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/app-server/tests/suite/v2/marketplace_add.rs",
+      "removed": 3,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/app-server/tests/suite/v2/marketplace_remove.rs",
+      "removed": 5,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/app-server/tests/suite/v2/marketplace_upgrade.rs",
+      "removed": 6,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/app-server/tests/suite/v2/mcp_resource.rs",
+      "removed": 5,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/app-server/tests/suite/v2/mcp_server_elicitation.rs",
+      "removed": 4,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/app-server/tests/suite/v2/mcp_server_status.rs",
+      "removed": 5,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/app-server/tests/suite/v2/mcp_tool.rs",
+      "removed": 5,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/app-server/tests/suite/v2/memory_reset.rs",
+      "removed": 5,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/app-server/tests/suite/v2/model_list.rs",
+      "removed": 4,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/app-server/tests/suite/v2/model_provider_capabilities_read.rs",
+      "removed": 4,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/app-server/tests/suite/v2/output_schema.rs",
+      "removed": 4,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/app-server/tests/suite/v2/plan_item.rs",
+      "removed": 6,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/app-server/tests/suite/v2/plugin_install.rs",
+      "removed": 6,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/app-server/tests/suite/v2/plugin_list.rs",
+      "removed": 5,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/app-server/tests/suite/v2/plugin_read.rs",
+      "removed": 5,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/app-server/tests/suite/v2/plugin_share.rs",
+      "removed": 6,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/app-server/tests/suite/v2/plugin_uninstall.rs",
+      "removed": 5,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/app-server/tests/suite/v2/process_exec.rs",
+      "removed": 6,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/app-server/tests/suite/v2/rate_limits.rs",
+      "removed": 4,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/app-server/tests/suite/v2/realtime_conversation.rs",
+      "removed": 7,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/app-server/tests/suite/v2/remote_control.rs",
+      "removed": 5,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/app-server/tests/suite/v2/remote_thread_store.rs",
+      "removed": 5,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/app-server/tests/suite/v2/review.rs",
+      "removed": 3,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/app-server/tests/suite/v2/safety_check_downgrade.rs",
+      "removed": 3,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/app-server/tests/suite/v2/skills_list.rs",
+      "removed": 5,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/app-server/tests/suite/v2/thread_archive.rs",
+      "removed": 4,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/app-server/tests/suite/v2/thread_fork.rs",
+      "removed": 4,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/app-server/tests/suite/v2/thread_inject_items.rs",
+      "removed": 4,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/app-server/tests/suite/v2/thread_list.rs",
+      "removed": 4,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/app-server/tests/suite/v2/thread_loaded_list.rs",
+      "removed": 4,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/app-server/tests/suite/v2/thread_memory_mode_set.rs",
+      "removed": 5,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/app-server/tests/suite/v2/thread_metadata_update.rs",
+      "removed": 5,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/app-server/tests/suite/v2/thread_name_websocket.rs",
+      "removed": 5,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/app-server/tests/suite/v2/thread_read.rs",
+      "removed": 5,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/app-server/tests/suite/v2/thread_resume.rs",
+      "removed": 6,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/app-server/tests/suite/v2/thread_rollback.rs",
+      "removed": 3,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/app-server/tests/suite/v2/thread_shell_command.rs",
+      "removed": 4,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/app-server/tests/suite/v2/thread_start.rs",
+      "removed": 5,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/app-server/tests/suite/v2/thread_unarchive.rs",
+      "removed": 6,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/app-server/tests/suite/v2/thread_unsubscribe.rs",
+      "removed": 3,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/app-server/tests/suite/v2/turn_start.rs",
+      "removed": 6,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/app-server/tests/suite/v2/turn_start_zsh_fork.rs",
+      "removed": 4,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/app-server/tests/suite/v2/windows_sandbox_setup.rs",
+      "removed": 4,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/app-server-protocol/tests/schema_fixtures.rs",
+      "removed": 4,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/apply-patch/tests/suite/scenarios.rs",
+      "removed": 4,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/apply-patch/tests/suite/tool.rs",
+      "removed": 4,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/cli/tests/app_server.rs",
+      "removed": 3,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/cli/tests/debug_clear_memories.rs",
+      "removed": 3,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/cli/tests/debug_models.rs",
+      "removed": 3,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/cli/tests/features.rs",
+      "removed": 4,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/cli/tests/login.rs",
+      "removed": 4,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/cli/tests/marketplace_add.rs",
+      "removed": 4,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/cli/tests/marketplace_remove.rs",
+      "removed": 3,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/cli/tests/marketplace_upgrade.rs",
+      "removed": 3,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/cli/tests/mcp_add_remove.rs",
+      "removed": 4,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/cli/tests/mcp_list.rs",
+      "removed": 4,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/cli/tests/plugin_cli.rs",
+      "removed": 3,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/cli/tests/update.rs",
+      "removed": 3,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/codex-api/tests/clients.rs",
+      "removed": 4,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/codex-api/tests/sse_end_to_end.rs",
+      "removed": 4,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/codex-client/tests/ca_env.rs",
+      "removed": 5,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/core/src/session/tests/guardian_tests.rs",
+      "removed": 4,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/core/tests/responses_headers.rs",
+      "removed": 3,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/core/tests/common/lib.rs",
+      "removed": 7,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/core/tests/common/process.rs",
+      "removed": 3,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/core/tests/common/responses.rs",
+      "removed": 4,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/core/tests/common/test_codex.rs",
+      "removed": 9,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/core/tests/common/zsh_fork.rs",
+      "removed": 3,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/core/tests/suite/agent_websocket.rs",
+      "removed": 3,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/core/tests/suite/apply_patch_cli.rs",
+      "removed": 3,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/core/tests/suite/approvals.rs",
+      "removed": 7,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/core/tests/suite/client.rs",
+      "removed": 3,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/core/tests/suite/client_websockets.rs",
+      "removed": 4,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/core/tests/suite/code_mode.rs",
+      "removed": 5,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/core/tests/suite/compact.rs",
+      "removed": 3,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/core/tests/suite/compact_remote.rs",
+      "removed": 3,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/core/tests/suite/compact_remote_parity.rs",
+      "removed": 4,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/core/tests/suite/compact_resume_fork.rs",
+      "removed": 4,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/core/tests/suite/hooks.rs",
+      "removed": 7,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/core/tests/suite/hooks_mcp.rs",
+      "removed": 6,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/core/tests/suite/image_rollout.rs",
+      "removed": 4,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/core/tests/suite/items.rs",
+      "removed": 3,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/core/tests/suite/mcp_turn_metadata.rs",
+      "removed": 3,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/core/tests/suite/models_cache_ttl.rs",
+      "removed": 4,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/core/tests/suite/models_etag_responses.rs",
+      "removed": 4,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/core/tests/suite/model_switching.rs",
+      "removed": 4,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/core/tests/suite/openai_file_mcp.rs",
+      "removed": 4,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/core/tests/suite/permissions_messages.rs",
+      "removed": 3,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/core/tests/suite/personality_migration.rs",
+      "removed": 3,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/core/tests/suite/plugins.rs",
+      "removed": 5,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/core/tests/suite/prompt_caching.rs",
+      "removed": 9,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/core/tests/suite/prompt_debug_tests.rs",
+      "removed": 3,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/core/tests/suite/realtime_conversation.rs",
+      "removed": 5,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/core/tests/suite/remote_env.rs",
+      "removed": 5,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/core/tests/suite/remote_models.rs",
+      "removed": 3,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/core/tests/suite/request_permissions.rs",
+      "removed": 3,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/core/tests/suite/request_permissions_tool.rs",
+      "removed": 3,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/core/tests/suite/responses_api_proxy_headers.rs",
+      "removed": 4,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/core/tests/suite/resume.rs",
+      "removed": 6,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/core/tests/suite/review.rs",
+      "removed": 4,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/core/tests/suite/rmcp_client.rs",
+      "removed": 6,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/core/tests/suite/rollout_list_find.rs",
+      "removed": 4,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/core/tests/suite/search_tool.rs",
+      "removed": 4,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/core/tests/suite/shell_snapshot.rs",
+      "removed": 5,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/core/tests/suite/skill_approval.rs",
+      "removed": 3,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/core/tests/suite/sqlite_state.rs",
+      "removed": 3,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/core/tests/suite/subagent_notifications.rs",
+      "removed": 4,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/core/tests/suite/tools.rs",
+      "removed": 3,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/core/tests/suite/truncation.rs",
+      "removed": 4,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/core/tests/suite/unified_exec.rs",
+      "removed": 6,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/core/tests/suite/user_notification.rs",
+      "removed": 3,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/core/tests/suite/user_shell_cmd.rs",
+      "removed": 4,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/core/tests/suite/view_image.rs",
+      "removed": 4,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/core/tests/suite/windows_sandbox.rs",
+      "removed": 5,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/core/tests/suite/window_headers.rs",
+      "removed": 3,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/exec/tests/suite/resume.rs",
+      "removed": 3,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/exec-server/tests/exec_process.rs",
+      "removed": 5,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/exec-server/tests/file_system.rs",
+      "removed": 7,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/exec-server/tests/http_client.rs",
+      "removed": 5,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/exec-server/tests/relay.rs",
+      "removed": 8,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/exec-server/tests/common/exec_server.rs",
+      "removed": 4,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/exec-server/tests/common/mod.rs",
+      "removed": 3,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/execpolicy/tests/basic.rs",
+      "removed": 6,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/linux-sandbox/tests/suite/landlock.rs",
+      "removed": 4,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/linux-sandbox/tests/suite/managed_proxy.rs",
+      "removed": 3,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/login/tests/suite/auth_refresh.rs",
+      "removed": 5,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/login/tests/suite/device_code_login.rs",
+      "removed": 3,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/login/tests/suite/login_server_e2e.rs",
+      "removed": 5,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/login/tests/suite/logout.rs",
+      "removed": 4,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/mcp-server/tests/common/mcp_process.rs",
+      "removed": 3,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/mcp-server/tests/suite/codex_tool.rs",
+      "removed": 5,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/otel/tests/suite/otlp_http_loopback.rs",
+      "removed": 3,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/rmcp-client/tests/process_group_cleanup.rs",
+      "removed": 6,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/rmcp-client/tests/resources.rs",
+      "removed": 3,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/rmcp-client/tests/streamable_http_test_support.rs",
+      "removed": 5,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/stdio-to-uds/tests/stdio_to_uds.rs",
+      "removed": 3,
+      "added": 1
+    },
+    {
+      "path": "C:/Users/yonat/Desktop/codex-matrix-port/codex-rs/tui/tests/suite/resize_reflow.rs",
+      "removed": 6,
+      "added": 1
+    }
+  ],
+  "net_loc_delta": -543
+}

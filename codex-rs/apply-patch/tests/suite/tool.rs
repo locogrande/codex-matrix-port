@@ -1,9 +1,6 @@
 use assert_cmd::Command;
-use pretty_assertions::assert_eq;
+use codex_test_support::prelude::*;
 use std::fs;
-use std::path::Path;
-use std::path::PathBuf;
-use tempfile::tempdir;
 
 fn run_apply_patch_in_dir(dir: &Path, patch: &str) -> anyhow::Result<assert_cmd::assert::Assert> {
     let mut cmd = Command::new(codex_utils_cargo_bin::cargo_bin("apply_patch")?);

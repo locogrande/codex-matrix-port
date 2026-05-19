@@ -1,10 +1,7 @@
 use std::any::Any;
 use std::fs;
-use std::path::PathBuf;
-use std::sync::Arc;
+use codex_test_support::prelude::*;
 
-use anyhow::Context;
-use anyhow::Result;
 use codex_execpolicy::Decision;
 use codex_execpolicy::Error;
 use codex_execpolicy::Evaluation;
@@ -19,8 +16,6 @@ use codex_execpolicy::RuleMatch;
 use codex_execpolicy::RuleRef;
 use codex_execpolicy::blocking_append_allow_prefix_rule;
 use codex_utils_absolute_path::AbsolutePathBuf;
-use pretty_assertions::assert_eq;
-use tempfile::tempdir;
 
 fn tokens(cmd: &[&str]) -> Vec<String> {
     cmd.iter().map(std::string::ToString::to_string).collect()

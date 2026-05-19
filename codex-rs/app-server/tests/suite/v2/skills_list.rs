@@ -1,7 +1,6 @@
-use std::time::Duration;
+use codex_test_support::prelude::*;
+use codex_paths;
 
-use anyhow::Context;
-use anyhow::Result;
 use app_test_support::ChatGptAuthFixture;
 use app_test_support::McpProcess;
 use app_test_support::create_mock_responses_server_repeating_assistant;
@@ -18,8 +17,6 @@ use codex_app_server_protocol::SkillsListResponse;
 use codex_app_server_protocol::ThreadStartParams;
 use codex_config::types::AuthCredentialsStoreMode;
 use codex_exec_server::CODEX_EXEC_SERVER_URL_ENV_VAR;
-use pretty_assertions::assert_eq;
-use tempfile::TempDir;
 use tokio::time::timeout;
 use wiremock::Mock;
 use wiremock::MockServer;
@@ -45,7 +42,7 @@ fn write_plugins_enabled_config_with_base_url(
     base_url: &str,
 ) -> std::io::Result<()> {
     std::fs::write(
-        codex_home.join("config.toml"),
+        codex_home.join(codex_paths::CONFIG_TOML),
         format!(
             r#"chatgpt_base_url = "{base_url}"
 
@@ -61,7 +58,7 @@ fn write_remote_plugins_enabled_config_with_base_url(
     base_url: &str,
 ) -> std::io::Result<()> {
     std::fs::write(
-        codex_home.join("config.toml"),
+        codex_home.join(codex_paths::CONFIG_TOML),
         format!(
             r#"chatgpt_base_url = "{base_url}"
 
@@ -78,10 +75,10 @@ fn write_plugin_with_skill(
     plugin_name: &str,
     skill_name: &str,
 ) -> Result<()> {
-    std::fs::create_dir_all(repo_root.join(".git"))?;
+    std::fs::create_dir_all(repo_root.join(codex_paths::GIT_DIR))?;
     std::fs::create_dir_all(repo_root.join(".agents/plugins"))?;
     std::fs::write(
-        repo_root.join(".agents/plugins/marketplace.json"),
+        repo_root.join(codex_paths::MARKETPLACE_JSON),
         format!(
             r#"{{
   "name": "local-marketplace",
@@ -101,7 +98,7 @@ fn write_plugin_with_skill(
     let plugin_root = repo_root.join(plugin_name);
     std::fs::create_dir_all(plugin_root.join(".codex-plugin"))?;
     std::fs::write(
-        plugin_root.join(".codex-plugin/plugin.json"),
+        plugin_root.join(codex_paths::PLUGIN_JSON),
         format!(r#"{{"name":"{plugin_name}"}}"#),
     )?;
 
@@ -120,7 +117,7 @@ fn write_cached_remote_plugin_with_skill(
     let plugin_root = codex_home.join("plugins/cache/chatgpt-global/linear/local");
     std::fs::create_dir_all(plugin_root.join(".codex-plugin"))?;
     std::fs::write(
-        plugin_root.join(".codex-plugin/plugin.json"),
+        plugin_root.join(codex_paths::PLUGIN_JSON),
         r#"{"name":"linear"}"#,
     )?;
 

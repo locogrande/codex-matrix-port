@@ -4,6 +4,7 @@ use std::process::Command;
 use std::process::Output;
 use std::process::Stdio;
 use std::time::Duration;
+use codex_paths;
 
 use codex_otel::CURATED_PLUGINS_STARTUP_SYNC_FINAL_METRIC;
 use codex_otel::CURATED_PLUGINS_STARTUP_SYNC_METRIC;
@@ -141,7 +142,7 @@ fn sync_openai_plugins_repo_via_git(codex_home: &Path, git_binary: &str) -> Resu
     let remote_sha = git_ls_remote_head_sha(git_binary)?;
     let local_sha = read_local_git_or_sha_file(&repo_path, &sha_path, git_binary);
 
-    if local_sha.as_deref() == Some(remote_sha.as_str()) && repo_path.join(".git").is_dir() {
+    if local_sha.as_deref() == Some(remote_sha.as_str()) && repo_path.join(codex_paths::GIT_DIR).is_dir() {
         return Ok(remote_sha);
     }
 
@@ -223,7 +224,7 @@ fn sync_openai_plugins_repo_via_backup_archive(
 
 pub fn has_local_curated_plugins_snapshot(codex_home: &Path) -> bool {
     curated_plugins_repo_path(codex_home)
-        .join(".agents/plugins/marketplace.json")
+        .join(codex_paths::MARKETPLACE_JSON)
         .is_file()
         && codex_home.join(CURATED_PLUGINS_SHA_FILE).is_file()
 }
@@ -369,12 +370,12 @@ fn emit_curated_plugins_startup_sync_counter(
 }
 
 fn ensure_marketplace_manifest_exists(repo_path: &Path) -> Result<(), String> {
-    if repo_path.join(".agents/plugins/marketplace.json").is_file() {
+    if repo_path.join(codex_paths::MARKETPLACE_JSON).is_file() {
         return Ok(());
     }
     Err(format!(
         "curated plugins archive missing marketplace manifest at {}",
-        repo_path.join(".agents/plugins/marketplace.json").display()
+        repo_path.join(codex_paths::MARKETPLACE_JSON).display()
     ))
 }
 
@@ -456,7 +457,7 @@ fn read_local_git_or_sha_file(
     sha_path: &Path,
     git_binary: &str,
 ) -> Option<String> {
-    if repo_path.join(".git").is_dir()
+    if repo_path.join(codex_paths::GIT_DIR).is_dir()
         && let Ok(sha) = git_head_sha(repo_path, git_binary)
     {
         return Some(sha);
@@ -659,7 +660,7 @@ async fn fetch_curated_repo_backup_archive_zip(
 }
 
 fn read_extracted_backup_archive_git_sha(repo_path: &Path) -> Result<Option<String>, String> {
-    let git_dir = repo_path.join(".git");
+    let git_dir = repo_path.join(codex_paths::GIT_DIR);
     if !git_dir.is_dir() {
         return Ok(None);
     }

@@ -11,6 +11,7 @@ use core_test_support::PathBufExt;
 use core_test_support::PathExt;
 use core_test_support::skip_if_sandbox;
 use std::fs;
+use codex_paths;
 #[cfg(unix)]
 use std::os::unix::fs::PermissionsExt;
 use std::path::PathBuf;
@@ -589,14 +590,14 @@ async fn resolve_root_git_project_for_trust_detects_worktree_and_returns_main_ro
 async fn resolve_root_git_project_for_trust_detects_worktree_pointer_without_git_command() {
     let tmp = TempDir::new().expect("tempdir");
     let repo_root = tmp.path().join("repo");
-    let common_dir = repo_root.join(".git");
+    let common_dir = repo_root.join(codex_paths::GIT_DIR);
     let worktree_git_dir = common_dir.join("worktrees").join("feature-x");
     let worktree_root = tmp.path().join("wt");
     std::fs::create_dir_all(&worktree_git_dir).unwrap();
     std::fs::create_dir_all(&worktree_root).unwrap();
     std::fs::create_dir_all(worktree_root.join("nested")).unwrap();
     std::fs::write(
-        worktree_root.join(".git"),
+        worktree_root.join(codex_paths::GIT_DIR),
         format!("gitdir: {}\n", worktree_git_dir.display()),
     )
     .unwrap();
@@ -622,7 +623,7 @@ async fn resolve_root_git_project_for_trust_non_worktrees_gitdir_returns_none() 
 
     // `.git` is a file but does not point to a worktrees path
     std::fs::write(
-        proj.join(".git"),
+        proj.join(codex_paths::GIT_DIR),
         format!(
             "gitdir: {}\n",
             tmp.path().join("some/other/location").display()

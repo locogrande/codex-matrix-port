@@ -1,12 +1,9 @@
 use std::borrow::Cow;
 use std::collections::BTreeMap;
-use std::collections::HashMap;
-use std::sync::Arc;
+use codex_test_support::prelude::*;
 use std::sync::Mutex as StdMutex;
-use std::time::Duration;
+use codex_paths;
 
-use anyhow::Result;
-use anyhow::bail;
 use app_test_support::ChatGptAuthFixture;
 use app_test_support::McpProcess;
 use app_test_support::to_response;
@@ -38,7 +35,6 @@ use codex_app_server_protocol::ThreadStartResponse;
 use codex_config::types::AuthCredentialsStoreMode;
 use codex_login::AuthDotJson;
 use codex_login::save_auth;
-use pretty_assertions::assert_eq;
 use rmcp::handler::server::ServerHandler;
 use rmcp::model::JsonObject;
 use rmcp::model::ListToolsResult;
@@ -51,7 +47,6 @@ use rmcp::transport::StreamableHttpServerConfig;
 use rmcp::transport::StreamableHttpService;
 use rmcp::transport::streamable_http_server::session::local::LocalSessionManager;
 use serde_json::json;
-use tempfile::TempDir;
 use tokio::net::TcpListener;
 use tokio::task::JoinHandle;
 use tokio::time::timeout;
@@ -259,7 +254,7 @@ async fn list_apps_uses_thread_feature_flag_when_thread_id_is_provided() -> Resu
     let ThreadStartResponse { thread, .. } = to_response(start_response)?;
 
     std::fs::write(
-        codex_home.path().join("config.toml"),
+        codex_home.path().join(codex_paths::CONFIG_TOML),
         format!(
             r#"
 chatgpt_base_url = "{server_url}"
@@ -339,7 +334,7 @@ async fn list_apps_reports_is_enabled_from_config() -> Result<()> {
 
     let codex_home = TempDir::new()?;
     std::fs::write(
-        codex_home.path().join("config.toml"),
+        codex_home.path().join(codex_paths::CONFIG_TOML),
         format!(
             r#"
 chatgpt_base_url = "{server_url}"
@@ -1645,7 +1640,7 @@ fn connector_tool(connector_id: &str, connector_name: &str) -> Result<Tool> {
 }
 
 fn write_connectors_config(codex_home: &std::path::Path, base_url: &str) -> std::io::Result<()> {
-    let config_toml = codex_home.join("config.toml");
+    let config_toml = codex_home.join(codex_paths::CONFIG_TOML);
     std::fs::write(
         config_toml,
         format!(

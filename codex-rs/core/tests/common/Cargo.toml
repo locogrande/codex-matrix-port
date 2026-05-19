@@ -46,7 +46,8 @@ walkdir = { workspace = true }
 wiremock = { workspace = true }
 shlex = { workspace = true }
 zstd = { workspace = true }
+codex-test-support = { workspace = true }
+pretty_assertions = { workspace = true }
 
 [dev-dependencies]
-pretty_assertions = { workspace = true }
 reqwest = { workspace = true }

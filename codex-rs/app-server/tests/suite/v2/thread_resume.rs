@@ -1,4 +1,4 @@
-use anyhow::Result;
+use codex_test_support::prelude::*;
 use app_test_support::ChatGptAuthFixture;
 use app_test_support::McpProcess;
 use app_test_support::create_apply_patch_sse_response;
@@ -75,15 +75,10 @@ use codex_state::StateRuntime;
 use codex_utils_absolute_path::AbsolutePathBuf;
 use core_test_support::responses;
 use core_test_support::skip_if_no_network;
-use pretty_assertions::assert_eq;
 use serde_json::json;
 use std::fs::FileTimes;
 use std::io::Write;
-use std::path::Path;
-use std::path::PathBuf;
 use std::process::Command;
-use std::time::Duration;
-use tempfile::TempDir;
 use tokio::time::timeout;
 use uuid::Uuid;
 use wiremock::Mock;
@@ -91,6 +86,7 @@ use wiremock::MockServer;
 use wiremock::ResponseTemplate;
 use wiremock::matchers::method;
 use wiremock::matchers::path;
+use codex_paths;
 
 use super::analytics::assert_basic_thread_initialized_event;
 use super::analytics::mount_analytics_capture;
@@ -262,7 +258,7 @@ async fn thread_goal_get_rejects_unmaterialized_thread() -> Result<()> {
     let server = create_mock_responses_server_repeating_assistant("Done").await;
     let codex_home = TempDir::new()?;
     create_config_toml(codex_home.path(), &server.uri())?;
-    let config_path = codex_home.path().join("config.toml");
+    let config_path = codex_home.path().join(codex_paths::CONFIG_TOML);
     let config = std::fs::read_to_string(&config_path)?;
     std::fs::write(
         &config_path,
@@ -696,7 +692,7 @@ async fn thread_resume_keeps_paused_goal_paused() -> Result<()> {
     let server = create_mock_responses_server_repeating_assistant("Done").await;
     let codex_home = TempDir::new()?;
     create_config_toml(codex_home.path(), &server.uri())?;
-    let config_path = codex_home.path().join("config.toml");
+    let config_path = codex_home.path().join(codex_paths::CONFIG_TOML);
     let config = std::fs::read_to_string(&config_path)?;
     std::fs::write(
         &config_path,
@@ -800,7 +796,7 @@ async fn thread_goal_set_preserves_budget_limited_same_objective() -> Result<()>
     let server = create_mock_responses_server_repeating_assistant("Done").await;
     let codex_home = TempDir::new()?;
     create_config_toml(codex_home.path(), &server.uri())?;
-    let config_path = codex_home.path().join("config.toml");
+    let config_path = codex_home.path().join(codex_paths::CONFIG_TOML);
     let config = std::fs::read_to_string(&config_path)?;
     std::fs::write(
         &config_path,
@@ -898,7 +894,7 @@ async fn thread_goal_set_edits_objective_without_resetting_usage() -> Result<()>
     let server = create_mock_responses_server_repeating_assistant("Done").await;
     let codex_home = TempDir::new()?;
     create_config_toml(codex_home.path(), &server.uri())?;
-    let config_path = codex_home.path().join("config.toml");
+    let config_path = codex_home.path().join(codex_paths::CONFIG_TOML);
     let config = std::fs::read_to_string(&config_path)?;
     std::fs::write(
         &config_path,
@@ -994,7 +990,7 @@ async fn thread_goal_clear_deletes_goal_and_notifies() -> Result<()> {
     let server = create_mock_responses_server_repeating_assistant("Done").await;
     let codex_home = TempDir::new()?;
     create_config_toml(codex_home.path(), &server.uri())?;
-    let config_path = codex_home.path().join("config.toml");
+    let config_path = codex_home.path().join(codex_paths::CONFIG_TOML);
     let config = std::fs::read_to_string(&config_path)?;
     std::fs::write(
         &config_path,
@@ -1456,7 +1452,7 @@ async fn thread_resume_token_usage_replay_can_belong_to_interrupted_turn() -> Re
 async fn thread_resume_prefers_persisted_git_metadata_for_local_threads() -> Result<()> {
     let server = create_mock_responses_server_repeating_assistant("Done").await;
     let codex_home = TempDir::new()?;
-    let config_toml = codex_home.path().join("config.toml");
+    let config_toml = codex_home.path().join(codex_paths::CONFIG_TOML);
     std::fs::write(
         &config_toml,
         format!(
@@ -3243,7 +3239,7 @@ async fn thread_resume_accepts_personality_override() -> Result<()> {
 
 // Helper to create a config.toml pointing at the mock model server.
 fn create_config_toml(codex_home: &std::path::Path, server_uri: &str) -> std::io::Result<()> {
-    let config_toml = codex_home.join("config.toml");
+    let config_toml = codex_home.join(codex_paths::CONFIG_TOML);
     std::fs::write(
         config_toml,
         format!(
@@ -3273,7 +3269,7 @@ fn create_config_toml_with_chatgpt_base_url(
     server_uri: &str,
     chatgpt_base_url: &str,
 ) -> std::io::Result<()> {
-    let config_toml = codex_home.join("config.toml");
+    let config_toml = codex_home.join(codex_paths::CONFIG_TOML);
     std::fs::write(
         config_toml,
         format!(
@@ -3303,7 +3299,7 @@ fn create_config_toml_with_required_broken_mcp(
     codex_home: &std::path::Path,
     server_uri: &str,
 ) -> std::io::Result<()> {
-    let config_toml = codex_home.join("config.toml");
+    let config_toml = codex_home.join(codex_paths::CONFIG_TOML);
     std::fs::write(
         config_toml,
         format!(

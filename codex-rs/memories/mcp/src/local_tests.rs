@@ -3,6 +3,7 @@ use crate::backend::DEFAULT_LIST_MAX_RESULTS;
 use crate::backend::DEFAULT_SEARCH_MAX_RESULTS;
 use pretty_assertions::assert_eq;
 use tempfile::TempDir;
+use codex_paths;
 
 fn backend(tempdir: &TempDir) -> LocalMemoriesBackend {
     LocalMemoriesBackend::from_memory_root(tempdir.path())
@@ -27,7 +28,7 @@ async fn list_returns_shallow_memory_paths() {
     tokio::fs::create_dir_all(tempdir.path().join("skills/example"))
         .await
         .expect("create skills dir");
-    tokio::fs::create_dir_all(tempdir.path().join(".git"))
+    tokio::fs::create_dir_all(tempdir.path().join(codex_paths::GIT_DIR))
         .await
         .expect("create hidden dir");
     tokio::fs::write(tempdir.path().join("MEMORY.md"), "summary")
@@ -203,7 +204,7 @@ async fn list_scoped_directory_is_shallow() {
 #[tokio::test]
 async fn list_rejects_hidden_scoped_paths() {
     let tempdir = TempDir::new().expect("tempdir");
-    tokio::fs::create_dir_all(tempdir.path().join(".git"))
+    tokio::fs::create_dir_all(tempdir.path().join(codex_paths::GIT_DIR))
         .await
         .expect("create hidden dir");
 
@@ -344,7 +345,7 @@ async fn read_supports_line_offset() {
 #[tokio::test]
 async fn read_rejects_hidden_paths() {
     let tempdir = TempDir::new().expect("tempdir");
-    tokio::fs::create_dir_all(tempdir.path().join(".git"))
+    tokio::fs::create_dir_all(tempdir.path().join(codex_paths::GIT_DIR))
         .await
         .expect("create hidden dir");
     tokio::fs::write(tempdir.path().join(".git/HEAD"), "ref: refs/heads/main\n")
@@ -611,7 +612,7 @@ async fn search_preserves_global_lexicographic_path_order() {
 #[tokio::test]
 async fn search_skips_hidden_paths() {
     let tempdir = TempDir::new().expect("tempdir");
-    tokio::fs::create_dir_all(tempdir.path().join(".git"))
+    tokio::fs::create_dir_all(tempdir.path().join(codex_paths::GIT_DIR))
         .await
         .expect("create hidden dir");
     tokio::fs::write(tempdir.path().join("MEMORY.md"), "needle visible\n")
@@ -644,7 +645,7 @@ async fn search_skips_hidden_paths() {
 #[tokio::test]
 async fn search_rejects_hidden_scoped_paths() {
     let tempdir = TempDir::new().expect("tempdir");
-    tokio::fs::create_dir_all(tempdir.path().join(".git"))
+    tokio::fs::create_dir_all(tempdir.path().join(codex_paths::GIT_DIR))
         .await
         .expect("create hidden dir");
 

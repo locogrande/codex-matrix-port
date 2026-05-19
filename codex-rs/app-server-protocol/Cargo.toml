@@ -37,6 +37,7 @@ tracing = { workspace = true }
 uuid = { workspace = true, features = ["serde", "v7"] }
 
 [dev-dependencies]
+codex-test-support = { workspace = true }
 anyhow = { workspace = true }
 codex-utils-cargo-bin = { workspace = true }
 pretty_assertions = { workspace = true }

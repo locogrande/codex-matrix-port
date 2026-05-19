@@ -1,9 +1,8 @@
 #![allow(clippy::expect_used)]
 
 use std::fs;
-use std::path::PathBuf;
+use codex_test_support::prelude::*;
 
-use anyhow::Result;
 use codex_core::compact::SUMMARY_PREFIX;
 use codex_features::Feature;
 use codex_login::CodexAuth;
@@ -38,7 +37,6 @@ use core_test_support::test_codex::test_codex;
 use core_test_support::wait_for_event;
 use core_test_support::wait_for_event_match;
 use core_test_support::wait_for_event_with_timeout;
-use pretty_assertions::assert_eq;
 use serde_json::Value;
 use serde_json::json;
 use tokio::time::Duration;

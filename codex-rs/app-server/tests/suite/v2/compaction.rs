@@ -7,7 +7,7 @@
 
 #![expect(clippy::expect_used)]
 
-use anyhow::Result;
+use codex_test_support::prelude::*;
 use app_test_support::ChatGptAuthFixture;
 use app_test_support::McpProcess;
 use app_test_support::to_response;
@@ -33,9 +33,7 @@ use codex_protocol::models::ContentItem;
 use codex_protocol::models::ResponseItem;
 use core_test_support::responses;
 use core_test_support::skip_if_no_network;
-use pretty_assertions::assert_eq;
 use std::collections::BTreeMap;
-use tempfile::TempDir;
 use tokio::time::timeout;
 
 // macOS and Windows Bazel CI can spend tens of seconds starting app-server

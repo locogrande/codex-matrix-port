@@ -18,6 +18,7 @@ use std::fs;
 use std::path::PathBuf;
 use std::sync::Arc;
 use tempfile::TempDir;
+use codex_paths;
 
 fn write_user_skill(codex_home: &TempDir, dir: &str, name: &str, description: &str) {
     let skill_dir = codex_home.path().join("skills").join(dir);
@@ -44,7 +45,7 @@ fn write_plugin_skill(
     fs::create_dir_all(plugin_root.join(".codex-plugin")).unwrap();
     fs::create_dir_all(&skill_dir).unwrap();
     fs::write(
-        plugin_root.join(".codex-plugin/plugin.json"),
+        plugin_root.join(codex_paths::PLUGIN_JSON),
         format!(r#"{{"name":"{plugin_name}"}}"#),
     )
     .unwrap();
@@ -268,7 +269,7 @@ async fn skills_for_config_disables_plugin_skills_by_name() {
 async fn skills_for_cwd_loads_repo_and_user_roots_with_local_fs() {
     let codex_home = tempfile::tempdir().expect("tempdir");
     let cwd = tempfile::tempdir().expect("tempdir");
-    let repo_dot_codex = cwd.path().join(".codex");
+    let repo_dot_codex = cwd.path().join(codex_paths::CODEX_HOME_DIR);
     fs::create_dir_all(&repo_dot_codex).expect("create repo config dir");
 
     write_user_skill(&codex_home, "user", "user-skill", "from local user root");
@@ -331,7 +332,7 @@ async fn skills_for_cwd_loads_repo_and_user_roots_with_local_fs() {
 async fn skills_for_cwd_without_fs_skips_repo_roots() {
     let codex_home = tempfile::tempdir().expect("tempdir");
     let cwd = tempfile::tempdir().expect("tempdir");
-    let repo_dot_codex = cwd.path().join(".codex");
+    let repo_dot_codex = cwd.path().join(codex_paths::CODEX_HOME_DIR);
     fs::create_dir_all(&repo_dot_codex).expect("create repo config dir");
 
     write_user_skill(&codex_home, "user", "user-skill", "from local user root");
@@ -495,7 +496,7 @@ fn disabled_paths_for_skills_allows_session_flags_to_override_user_layer() {
     let tempdir = tempfile::tempdir().expect("tempdir");
     let skill_path = write_demo_skill(&tempdir);
     let skill = test_skill("demo-skill", skill_path.clone());
-    let user_file = AbsolutePathBuf::try_from(tempdir.path().join("config.toml"))
+    let user_file = AbsolutePathBuf::try_from(tempdir.path().join(codex_paths::CONFIG_TOML))
         .expect("user config path should be absolute");
     let user_layer = ConfigLayerEntry::new(
         ConfigLayerSource::User {
@@ -530,7 +531,7 @@ fn disabled_paths_for_skills_allows_session_flags_to_disable_user_enabled_skill(
     let tempdir = tempfile::tempdir().expect("tempdir");
     let skill_path = write_demo_skill(&tempdir);
     let skill = test_skill("demo-skill", skill_path.clone());
-    let user_file = AbsolutePathBuf::try_from(tempdir.path().join("config.toml"))
+    let user_file = AbsolutePathBuf::try_from(tempdir.path().join(codex_paths::CONFIG_TOML))
         .expect("user config path should be absolute");
     let user_layer = ConfigLayerEntry::new(
         ConfigLayerSource::User {
@@ -568,7 +569,7 @@ fn disabled_paths_for_skills_disables_matching_name_selectors() {
     let tempdir = tempfile::tempdir().expect("tempdir");
     let skill_path = write_demo_skill(&tempdir);
     let skill = test_skill("github:yeet", skill_path.clone());
-    let user_file = AbsolutePathBuf::try_from(tempdir.path().join("config.toml"))
+    let user_file = AbsolutePathBuf::try_from(tempdir.path().join(codex_paths::CONFIG_TOML))
         .expect("user config path should be absolute");
     let user_layer = ConfigLayerEntry::new(
         ConfigLayerSource::User {
@@ -601,7 +602,7 @@ fn disabled_paths_for_skills_allows_name_selector_to_override_path_selector() {
     let tempdir = tempfile::tempdir().expect("tempdir");
     let skill_path = write_demo_skill(&tempdir);
     let skill = test_skill("github:yeet", skill_path.clone());
-    let user_file = AbsolutePathBuf::try_from(tempdir.path().join("config.toml"))
+    let user_file = AbsolutePathBuf::try_from(tempdir.path().join(codex_paths::CONFIG_TOML))
         .expect("user config path should be absolute");
     let user_layer = ConfigLayerEntry::new(
         ConfigLayerSource::User {

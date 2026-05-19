@@ -29,5 +29,6 @@ starlark = { workspace = true }
 thiserror = { workspace = true }
 
 [dev-dependencies]
+codex-test-support = { workspace = true }
 pretty_assertions = { workspace = true }
 tempfile = { workspace = true }

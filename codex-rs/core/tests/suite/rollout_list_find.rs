@@ -1,7 +1,6 @@
 #![allow(clippy::unwrap_used, clippy::expect_used)]
 use std::io::Write;
-use std::path::Path;
-use std::path::PathBuf;
+use codex_test_support::prelude::*;
 
 use chrono::Utc;
 use codex_core::RolloutRecorder;
@@ -16,8 +15,6 @@ use codex_protocol::protocol::SessionSource;
 use codex_rollout::StateDbHandle;
 use codex_state::StateRuntime;
 use codex_state::ThreadMetadataBuilder;
-use pretty_assertions::assert_eq;
-use tempfile::TempDir;
 use uuid::Uuid;
 
 /// Create <subdir>/YYYY/MM/DD and write a minimal rollout file containing the

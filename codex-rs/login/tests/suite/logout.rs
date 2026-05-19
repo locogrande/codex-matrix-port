@@ -1,5 +1,4 @@
-use anyhow::Context;
-use anyhow::Result;
+use codex_test_support::prelude::*;
 use base64::Engine;
 use codex_app_server_protocol::AuthMode;
 use codex_config::types::AuthCredentialsStoreMode;
@@ -12,16 +11,15 @@ use codex_login::save_auth;
 use codex_login::token_data::IdTokenInfo;
 use codex_login::token_data::TokenData;
 use core_test_support::skip_if_no_network;
-use pretty_assertions::assert_eq;
 use serde_json::Value;
 use serde_json::json;
 use std::ffi::OsString;
-use tempfile::TempDir;
 use wiremock::Mock;
 use wiremock::MockServer;
 use wiremock::ResponseTemplate;
 use wiremock::matchers::method;
 use wiremock::matchers::path;
+use codex_paths;
 
 const ACCESS_TOKEN: &str = "access-token";
 const REFRESH_TOKEN: &str = "refresh-token";
@@ -55,7 +53,7 @@ async fn logout_with_revoke_revokes_refresh_token_then_removes_auth() -> Result<
     let removed = logout_with_revoke(codex_home.path(), AuthCredentialsStoreMode::File).await?;
 
     assert!(removed);
-    assert!(!codex_home.path().join("auth.json").exists());
+    assert!(!codex_home.path().join(codex_paths::AUTH_JSON).exists());
 
     let requests = server
         .received_requests()
@@ -107,7 +105,7 @@ async fn logout_with_revoke_removes_auth_when_revoke_fails() -> Result<()> {
     let removed = logout_with_revoke(codex_home.path(), AuthCredentialsStoreMode::File).await?;
 
     assert!(removed);
-    assert!(!codex_home.path().join("auth.json").exists());
+    assert!(!codex_home.path().join(codex_paths::AUTH_JSON).exists());
 
     server.verify().await;
     Ok(())
@@ -155,7 +153,7 @@ async fn auth_manager_logout_with_revoke_uses_cached_auth() -> Result<()> {
 
     assert!(removed);
     assert!(manager.auth_cached().is_none());
-    assert!(!codex_home.path().join("auth.json").exists());
+    assert!(!codex_home.path().join(codex_paths::AUTH_JSON).exists());
 
     let requests = server
         .received_requests()

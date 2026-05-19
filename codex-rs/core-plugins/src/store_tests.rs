@@ -2,6 +2,7 @@ use super::*;
 use codex_plugin::PluginId;
 use pretty_assertions::assert_eq;
 use tempfile::tempdir;
+use codex_paths;
 
 fn write_plugin_with_version(
     root: &Path,
@@ -16,7 +17,7 @@ fn write_plugin_with_version(
         .map(|manifest_version| format!(r#","version":"{manifest_version}""#))
         .unwrap_or_default();
     fs::write(
-        plugin_root.join(".codex-plugin/plugin.json"),
+        plugin_root.join(codex_paths::PLUGIN_JSON),
         format!(r#"{{"name":"{manifest_name}"{version}}}"#),
     )
     .unwrap();
@@ -67,7 +68,7 @@ fn install_copies_plugin_into_default_marketplace() {
             installed_path: AbsolutePathBuf::try_from(installed_path.clone()).unwrap(),
         }
     );
-    assert!(installed_path.join(".codex-plugin/plugin.json").is_file());
+    assert!(installed_path.join(codex_paths::PLUGIN_JSON).is_file());
     assert!(installed_path.join("skills/SKILL.md").is_file());
 }
 
@@ -148,7 +149,7 @@ fn install_with_version_uses_requested_cache_version() {
             installed_path: AbsolutePathBuf::try_from(installed_path.clone()).unwrap(),
         }
     );
-    assert!(installed_path.join(".codex-plugin/plugin.json").is_file());
+    assert!(installed_path.join(codex_paths::PLUGIN_JSON).is_file());
 }
 
 #[test]
@@ -180,7 +181,7 @@ fn install_uses_manifest_version_when_present() {
             installed_path: AbsolutePathBuf::try_from(installed_path.clone()).unwrap(),
         }
     );
-    assert!(installed_path.join(".codex-plugin/plugin.json").is_file());
+    assert!(installed_path.join(codex_paths::PLUGIN_JSON).is_file());
 }
 
 #[test]

@@ -1,4 +1,4 @@
-use anyhow::Result;
+use codex_test_support::prelude::*;
 use codex_core::ThreadConfigSnapshot;
 use codex_core::config::AgentRoleConfig;
 use codex_features::Feature;
@@ -17,11 +17,8 @@ use core_test_support::responses::start_mock_server;
 use core_test_support::skip_if_no_network;
 use core_test_support::test_codex::TestCodex;
 use core_test_support::test_codex::test_codex;
-use pretty_assertions::assert_eq;
 use serde_json::json;
 use std::fs;
-use std::path::Path;
-use std::time::Duration;
 use tokio::time::Instant;
 use tokio::time::sleep;
 use wiremock::MockServer;

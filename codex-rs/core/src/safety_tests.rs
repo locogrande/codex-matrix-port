@@ -10,6 +10,7 @@ use codex_utils_absolute_path::AbsolutePathBuf;
 use core_test_support::PathExt;
 use pretty_assertions::assert_eq;
 use tempfile::TempDir;
+use codex_paths;
 
 #[test]
 fn test_writable_roots_constraint() {
@@ -288,7 +289,7 @@ fn explicit_read_only_subpaths_prevent_auto_approval_for_external_sandbox() {
 fn missing_project_dot_codex_config_requires_approval() {
     let tmp = TempDir::new().unwrap();
     let cwd = tmp.path().abs();
-    let config_path = cwd.join(".codex").join("config.toml");
+    let config_path = cwd.join(codex_paths::CODEX_HOME_DIR).join(codex_paths::CONFIG_TOML);
     let action = ApplyPatchAction::new_add_for_test(&config_path, "".to_string());
     let permission_profile = PermissionProfile::workspace_write_with(
         &[],
@@ -301,7 +302,7 @@ fn missing_project_dot_codex_config_requires_approval() {
         .entries
         .push(FileSystemSandboxEntry {
             path: FileSystemPath::Path {
-                path: cwd.join(".codex"),
+                path: cwd.join(codex_paths::CODEX_HOME_DIR),
             },
             access: FileSystemAccessMode::Read,
         });

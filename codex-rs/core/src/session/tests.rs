@@ -20,6 +20,7 @@ use codex_config::RequirementSource;
 use codex_config::Sourced;
 use codex_config::loader::project_trust_key;
 use codex_config::types::ToolSuggestDisabledTool;
+use codex_paths;
 
 use codex_features::Feature;
 use codex_features::Features;
@@ -9748,12 +9749,12 @@ async fn session_start_hooks_only_load_from_trusted_project_layers() -> std::io:
     let codex_home = temp.path().join("home");
     let project_root = temp.path().join("project");
     let nested = project_root.join("nested");
-    let root_dot_codex = project_root.join(".codex");
-    let nested_dot_codex = nested.join(".codex");
+    let root_dot_codex = project_root.join(codex_paths::CODEX_HOME_DIR);
+    let nested_dot_codex = nested.join(codex_paths::CODEX_HOME_DIR);
 
     std::fs::create_dir_all(&codex_home)?;
     std::fs::create_dir_all(&nested_dot_codex)?;
-    std::fs::write(project_root.join(".git"), "gitdir: here")?;
+    std::fs::write(project_root.join(codex_paths::GIT_DIR), "gitdir: here")?;
     write_project_hooks(&root_dot_codex)?;
     write_project_hooks(&nested_dot_codex)?;
     write_project_trust_config(&codex_home, &[(&nested, TrustLevel::Trusted)]).await?;
@@ -9794,9 +9795,9 @@ async fn session_start_hooks_require_project_trust_without_config_toml() -> std:
     let temp = tempfile::tempdir()?;
     let project_root = temp.path().join("project");
     let nested = project_root.join("nested");
-    let dot_codex = project_root.join(".codex");
+    let dot_codex = project_root.join(codex_paths::CODEX_HOME_DIR);
     std::fs::create_dir_all(&nested)?;
-    std::fs::write(project_root.join(".git"), "gitdir: here")?;
+    std::fs::write(project_root.join(codex_paths::GIT_DIR), "gitdir: here")?;
     write_project_hooks(&dot_codex)?;
 
     let cases = [

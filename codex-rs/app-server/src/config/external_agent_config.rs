@@ -31,6 +31,7 @@ use std::io;
 use std::path::Path;
 use std::path::PathBuf;
 use toml::Value as TomlValue;
+use codex_paths;
 
 const EXTERNAL_AGENT_CONFIG_DETECT_METRIC: &str = "codex.external_agent_config.detect";
 const EXTERNAL_AGENT_CONFIG_IMPORT_METRIC: &str = "codex.external_agent_config.import";
@@ -270,8 +271,8 @@ impl ExternalAgentConfigService {
         );
         let settings = effective_external_settings(&source_settings)?;
         let target_config = repo_root.map_or_else(
-            || self.codex_home.join("config.toml"),
-            |repo_root| repo_root.join(".codex").join("config.toml"),
+            || self.codex_home.join(codex_paths::CONFIG_TOML),
+            |repo_root| repo_root.join(codex_paths::CODEX_HOME_DIR).join(codex_paths::CONFIG_TOML),
         );
         if let Some(settings) = settings.as_ref() {
             let migrated = build_config_from_external(settings)?;
@@ -359,7 +360,7 @@ impl ExternalAgentConfigService {
         );
         let target_hooks = repo_root.map_or_else(
             || self.codex_home.join("hooks.json"),
-            |repo_root| repo_root.join(".codex").join("hooks.json"),
+            |repo_root| repo_root.join(codex_paths::CODEX_HOME_DIR).join("hooks.json"),
         );
         let hook_event_names =
             hook_migration_event_names(source_external_agent_dir.as_path(), &target_hooks)?;
@@ -442,7 +443,7 @@ impl ExternalAgentConfigService {
         let source_subagents = source_external_agent_dir.join("agents");
         let target_subagents = repo_root.map_or_else(
             || self.codex_home.join("agents"),
-            |repo_root| repo_root.join(".codex").join("agents"),
+            |repo_root| repo_root.join(codex_paths::CODEX_HOME_DIR).join("agents"),
         );
         let subagents_count = count_missing_subagents(&source_subagents, &target_subagents)?;
         if subagents_count > 0 {
@@ -775,14 +776,14 @@ impl ExternalAgentConfigService {
         let (source_settings, target_config) = if let Some(repo_root) = repo_root.as_ref() {
             (
                 repo_root.join(EXTERNAL_AGENT_DIR).join("settings.json"),
-                repo_root.join(".codex").join("config.toml"),
+                repo_root.join(codex_paths::CODEX_HOME_DIR).join(codex_paths::CONFIG_TOML),
             )
         } else if cwd.is_some_and(|cwd| !cwd.as_os_str().is_empty()) {
             return Ok(());
         } else {
             (
                 self.external_agent_home.join("settings.json"),
-                self.codex_home.join("config.toml"),
+                self.codex_home.join(codex_paths::CONFIG_TOML),
             )
         };
         let Some(settings) = effective_external_settings(&source_settings)? else {
@@ -824,14 +825,14 @@ impl ExternalAgentConfigService {
         let (source_settings, target_config) = if let Some(repo_root) = repo_root.as_ref() {
             (
                 repo_root.join(EXTERNAL_AGENT_DIR).join("settings.json"),
-                repo_root.join(".codex").join("config.toml"),
+                repo_root.join(codex_paths::CODEX_HOME_DIR).join(codex_paths::CONFIG_TOML),
             )
         } else if cwd.is_some_and(|cwd| !cwd.as_os_str().is_empty()) {
             return Ok(());
         } else {
             (
                 self.external_agent_home.join("settings.json"),
-                self.codex_home.join("config.toml"),
+                self.codex_home.join(codex_paths::CONFIG_TOML),
             )
         };
         let settings = self.mcp_settings(
@@ -873,7 +874,7 @@ impl ExternalAgentConfigService {
         let (source_agents, target_agents) = if let Some(repo_root) = find_repo_root(cwd)? {
             (
                 repo_root.join(EXTERNAL_AGENT_DIR).join("agents"),
-                repo_root.join(".codex").join("agents"),
+                repo_root.join(codex_paths::CODEX_HOME_DIR).join("agents"),
             )
         } else if cwd.is_some_and(|cwd| !cwd.as_os_str().is_empty()) {
             return Ok(0);
@@ -892,7 +893,7 @@ impl ExternalAgentConfigService {
             if let Some(repo_root) = find_repo_root(cwd)? {
                 (
                     repo_root.join(EXTERNAL_AGENT_DIR),
-                    repo_root.join(".codex").join("hooks.json"),
+                    repo_root.join(codex_paths::CODEX_HOME_DIR).join("hooks.json"),
                 )
             } else if cwd.is_some_and(|cwd| !cwd.as_os_str().is_empty()) {
                 return Ok(());
@@ -1277,7 +1278,7 @@ fn find_repo_root(cwd: Option<&Path>) -> io::Result<Option<PathBuf>> {
 
     let fallback = current.clone();
     loop {
-        let git_path = current.join(".git");
+        let git_path = current.join(codex_paths::GIT_DIR);
         if git_path.is_dir() || git_path.is_file() {
             return Ok(Some(current));
         }

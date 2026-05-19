@@ -1,10 +1,8 @@
-use std::collections::HashMap;
+use codex_test_support::prelude::*;
 use std::ffi::OsStr;
 use std::fs;
 use std::sync::OnceLock;
 
-use anyhow::Context;
-use anyhow::Result;
 use codex_exec_server::CreateDirectoryOptions;
 use codex_features::Feature;
 use codex_protocol::models::PermissionProfile;
@@ -38,7 +36,6 @@ use core_test_support::test_codex::turn_permission_fields;
 use core_test_support::wait_for_event;
 use core_test_support::wait_for_event_match;
 use core_test_support::wait_for_event_with_timeout;
-use pretty_assertions::assert_eq;
 use regex_lite::Regex;
 use serde_json::Value;
 use serde_json::json;
@@ -878,8 +875,6 @@ async fn unified_exec_network_denial_test(
     server: &wiremock::MockServer,
 ) -> Result<(TestCodex, PermissionProfile)> {
     use codex_config::Constrained;
-    use std::sync::Arc;
-    use tempfile::TempDir;
 
     let home = Arc::new(TempDir::new()?);
     fs::write(

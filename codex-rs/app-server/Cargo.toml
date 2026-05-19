@@ -94,6 +94,7 @@ tracing-subscriber = { workspace = true, features = ["env-filter", "fmt", "json"
 uuid = { workspace = true, features = ["serde", "v7"] }
 
 [dev-dependencies]
+codex-test-support = { workspace = true }
 app_test_support = { workspace = true }
 axum = { workspace = true, default-features = false, features = [
     "http1",

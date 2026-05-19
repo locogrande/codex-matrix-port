@@ -1,9 +1,7 @@
-use std::path::Path;
+use codex_test_support::prelude::*;
 use std::process::Command;
-use std::time::Duration;
+use codex_paths;
 
-use anyhow::Context;
-use anyhow::Result;
 use app_test_support::McpProcess;
 use app_test_support::to_response;
 use codex_app_server_protocol::JSONRPCResponse;
@@ -13,8 +11,6 @@ use codex_app_server_protocol::RequestId;
 use codex_config::MarketplaceConfigUpdate;
 use codex_config::record_user_marketplace;
 use codex_utils_absolute_path::AbsolutePathBuf;
-use pretty_assertions::assert_eq;
-use tempfile::TempDir;
 use tokio::time::timeout;
 
 #[cfg(windows)]
@@ -39,7 +35,7 @@ fn run_git(cwd: &Path, args: &[&str]) -> Result<String> {
 fn write_marketplace_files(root: &Path, marketplace_name: &str, marker: &str) -> Result<()> {
     std::fs::create_dir_all(root.join(".agents/plugins"))?;
     std::fs::write(
-        root.join(".agents/plugins/marketplace.json"),
+        root.join(codex_paths::MARKETPLACE_JSON),
         format!(r#"{{"name":"{marketplace_name}","plugins":[]}}"#),
     )?;
     std::fs::write(root.join("marker.txt"), marker)?;
@@ -106,7 +102,7 @@ fn record_git_marketplace(
 }
 
 fn disable_plugin_startup_tasks(codex_home: &Path) -> Result<()> {
-    let config_path = codex_home.join("config.toml");
+    let config_path = codex_home.join(codex_paths::CONFIG_TOML);
     let config = std::fs::read_to_string(&config_path)?;
     std::fs::write(
         config_path,
@@ -192,7 +188,7 @@ async fn marketplace_upgrade_all_configured_git_marketplaces() -> Result<()> {
         std::fs::read_to_string(tools_root.as_path().join("marker.txt"))?,
         "tools new"
     );
-    let config = std::fs::read_to_string(codex_home.path().join("config.toml"))?;
+    let config = std::fs::read_to_string(codex_home.path().join(codex_paths::CONFIG_TOML))?;
     assert!(config.contains(&debug_new_revision));
     assert!(config.contains(&tools_new_revision));
     Ok(())

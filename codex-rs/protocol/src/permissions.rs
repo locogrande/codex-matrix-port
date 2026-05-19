@@ -3,6 +3,7 @@ use std::ffi::OsStr;
 use std::io;
 use std::path::Path;
 use std::path::PathBuf;
+use codex_paths;
 
 use codex_utils_absolute_path::AbsolutePathBuf;
 use codex_utils_absolute_path::canonicalize_preserving_symlinks;
@@ -1919,7 +1920,7 @@ mod tests {
             cwd.path().canonicalize().expect("canonicalize cwd"),
         )
         .expect("absolute canonical root");
-        let expected_dot_codex = expected_root.join(".codex");
+        let expected_dot_codex = expected_root.join(codex_paths::CODEX_HOME_DIR);
 
         let policy = FileSystemSandboxPolicy::restricted(vec![FileSystemSandboxEntry {
             path: FileSystemPath::Special {
@@ -2013,7 +2014,7 @@ mod tests {
             cwd.path().canonicalize().expect("canonicalize cwd"),
         )
         .expect("absolute canonical root");
-        let explicit_dot_codex = expected_root.join(".codex");
+        let explicit_dot_codex = expected_root.join(codex_paths::CODEX_HOME_DIR);
 
         let policy = FileSystemSandboxPolicy::restricted(vec![
             FileSystemSandboxEntry {
@@ -2049,7 +2050,7 @@ mod tests {
         );
         assert!(
             policy.can_write_path_with_cwd(
-                explicit_dot_codex.join("config.toml").as_path(),
+                explicit_dot_codex.join(codex_paths::CONFIG_TOML).as_path(),
                 cwd.path()
             )
         );
@@ -2058,9 +2059,9 @@ mod tests {
     #[test]
     fn filesystem_policy_blocks_protected_metadata_path_writes_by_default() {
         let cwd = TempDir::new().expect("tempdir");
-        let dot_git_config = cwd.path().join(".git").join("config");
+        let dot_git_config = cwd.path().join(codex_paths::GIT_DIR).join("config");
         let dot_agents_config = cwd.path().join(".agents").join("config");
-        let dot_codex_config = cwd.path().join(".codex").join("config.toml");
+        let dot_codex_config = cwd.path().join(codex_paths::CODEX_HOME_DIR).join(codex_paths::CONFIG_TOML);
         let root = AbsolutePathBuf::from_absolute_path(cwd.path()).expect("absolute cwd");
         let file_system_policy =
             FileSystemSandboxPolicy::restricted(vec![FileSystemSandboxEntry {
@@ -2171,7 +2172,7 @@ mod tests {
         let real_root = cwd.path().join("real");
         let link_root = cwd.path().join("link");
         let blocked = real_root.join("blocked");
-        let codex_dir = real_root.join(".codex");
+        let codex_dir = real_root.join(codex_paths::CODEX_HOME_DIR);
 
         fs::create_dir_all(&blocked).expect("create blocked");
         fs::create_dir_all(&codex_dir).expect("create .codex");
@@ -2182,7 +2183,7 @@ mod tests {
         let link_blocked = link_root.join("blocked");
         let expected_root = link_root.clone();
         let expected_blocked = link_blocked.clone();
-        let expected_codex = link_root.join(".codex");
+        let expected_codex = link_root.join(codex_paths::CODEX_HOME_DIR);
 
         let policy = FileSystemSandboxPolicy::restricted(vec![
             FileSystemSandboxEntry {
@@ -2223,7 +2224,7 @@ mod tests {
         let link_root = cwd.path().join("link");
         let blocked = real_root.join("blocked");
         let agents_dir = real_root.join(".agents");
-        let codex_dir = real_root.join(".codex");
+        let codex_dir = real_root.join(codex_paths::CODEX_HOME_DIR);
 
         fs::create_dir_all(&blocked).expect("create blocked");
         fs::create_dir_all(&agents_dir).expect("create .agents");
@@ -2236,7 +2237,7 @@ mod tests {
             AbsolutePathBuf::from_absolute_path(&link_root).expect("absolute symlinked root");
         let expected_blocked = link_blocked.clone();
         let expected_agents = expected_root.join(".agents");
-        let expected_codex = expected_root.join(".codex");
+        let expected_codex = expected_root.join(codex_paths::CODEX_HOME_DIR);
 
         let policy = FileSystemSandboxPolicy::restricted(vec![
             FileSystemSandboxEntry {
@@ -2292,7 +2293,7 @@ mod tests {
         let cwd = TempDir::new().expect("tempdir");
         let root = cwd.path().join("root");
         let decoy = root.join("decoy-codex");
-        let dot_codex = root.join(".codex");
+        let dot_codex = root.join(codex_paths::CODEX_HOME_DIR);
         fs::create_dir_all(&decoy).expect("create decoy");
         symlink_dir(&decoy, &dot_codex).expect("create .codex symlink");
 
@@ -2301,7 +2302,7 @@ mod tests {
             root.as_path()
                 .canonicalize()
                 .expect("canonicalize root")
-                .join(".codex"),
+                .join(codex_paths::CODEX_HOME_DIR),
         )
         .expect("absolute .codex symlink");
         let unexpected_decoy =
@@ -2477,7 +2478,7 @@ mod tests {
         let real_tmpdir = cwd.path().join("real-tmpdir");
         let link_tmpdir = cwd.path().join("link-tmpdir");
         let blocked = real_tmpdir.join("blocked");
-        let codex_dir = real_tmpdir.join(".codex");
+        let codex_dir = real_tmpdir.join(codex_paths::CODEX_HOME_DIR);
 
         fs::create_dir_all(&blocked).expect("create blocked");
         fs::create_dir_all(&codex_dir).expect("create .codex");
@@ -2488,7 +2489,7 @@ mod tests {
         let expected_root =
             AbsolutePathBuf::from_absolute_path(&link_tmpdir).expect("absolute symlinked tmpdir");
         let expected_blocked = link_blocked.clone();
-        let expected_codex = expected_root.join(".codex");
+        let expected_codex = expected_root.join(codex_paths::CODEX_HOME_DIR);
 
         unsafe {
             std::env::set_var("TMPDIR", &link_tmpdir);
@@ -2901,13 +2902,13 @@ mod tests {
                 },
                 FileSystemSandboxEntry {
                     path: FileSystemPath::Path {
-                        path: first.join(".git"),
+                        path: first.join(codex_paths::GIT_DIR),
                     },
                     access: FileSystemAccessMode::Read,
                 },
                 FileSystemSandboxEntry {
                     path: FileSystemPath::Path {
-                        path: second.join(".git"),
+                        path: second.join(codex_paths::GIT_DIR),
                     },
                     access: FileSystemAccessMode::Read,
                 },
@@ -2967,7 +2968,7 @@ mod tests {
         let temp_dir = TempDir::new().expect("tempdir");
         let extra = AbsolutePathBuf::from_absolute_path(temp_dir.path().join("extra"))
             .expect("resolve extra root");
-        std::fs::create_dir_all(extra.join(".git")).expect("create .git dir");
+        std::fs::create_dir_all(extra.join(codex_paths::GIT_DIR)).expect("create .git dir");
         let policy = FileSystemSandboxPolicy::restricted(vec![FileSystemSandboxEntry {
             path: FileSystemPath::Special {
                 value: FileSystemSpecialPath::project_roots(/*subpath*/ None),
@@ -2995,7 +2996,7 @@ mod tests {
                 },
                 FileSystemSandboxEntry {
                     path: FileSystemPath::Path {
-                        path: extra.join(".git")
+                        path: extra.join(codex_paths::GIT_DIR)
                     },
                     access: FileSystemAccessMode::Read,
                 },

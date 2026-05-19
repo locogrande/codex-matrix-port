@@ -1,7 +1,6 @@
-use std::time::Duration;
+use codex_test_support::prelude::*;
+use codex_paths;
 
-use anyhow::Result;
-use anyhow::bail;
 use app_test_support::ChatGptAuthFixture;
 use app_test_support::McpProcess;
 use app_test_support::to_response;
@@ -23,8 +22,6 @@ use codex_protocol::config_types::TrustLevel;
 use codex_utils_absolute_path::AbsolutePathBuf;
 use flate2::Compression;
 use flate2::write::GzEncoder;
-use pretty_assertions::assert_eq;
-use tempfile::TempDir;
 use tokio::time::timeout;
 use wiremock::Mock;
 use wiremock::MockServer;
@@ -44,7 +41,7 @@ const ALTERNATE_PLUGIN_MANIFEST_RELATIVE_PATH: &str = ".claude-plugin/plugin.jso
 
 fn write_plugins_enabled_config(codex_home: &std::path::Path) -> std::io::Result<()> {
     std::fs::write(
-        codex_home.join("config.toml"),
+        codex_home.join(codex_paths::CONFIG_TOML),
         r#"[features]
 plugins = true
 "#,
@@ -56,7 +53,7 @@ fn write_plugins_enabled_config_with_base_url(
     base_url: &str,
 ) -> std::io::Result<()> {
     std::fs::write(
-        codex_home.join("config.toml"),
+        codex_home.join(codex_paths::CONFIG_TOML),
         format!(
             r#"chatgpt_base_url = "{base_url}"
 
@@ -71,11 +68,11 @@ plugins = true
 async fn plugin_list_skips_invalid_marketplace_file_and_reports_error() -> Result<()> {
     let codex_home = TempDir::new()?;
     let repo_root = TempDir::new()?;
-    std::fs::create_dir_all(repo_root.path().join(".git"))?;
+    std::fs::create_dir_all(repo_root.path().join(codex_paths::GIT_DIR))?;
     std::fs::create_dir_all(repo_root.path().join(".agents/plugins"))?;
     write_plugins_enabled_config(codex_home.path())?;
     let marketplace_path =
-        AbsolutePathBuf::try_from(repo_root.path().join(".agents/plugins/marketplace.json"))?;
+        AbsolutePathBuf::try_from(repo_root.path().join(codex_paths::MARKETPLACE_JSON))?;
     std::fs::write(marketplace_path.as_path(), "{not json")?;
 
     let home = codex_home.path().to_string_lossy().into_owned();
@@ -157,26 +154,26 @@ async fn plugin_list_keeps_valid_marketplaces_when_another_marketplace_fails_to_
     let codex_home = TempDir::new()?;
     let valid_repo_root = TempDir::new()?;
     let invalid_repo_root = TempDir::new()?;
-    std::fs::create_dir_all(valid_repo_root.path().join(".git"))?;
+    std::fs::create_dir_all(valid_repo_root.path().join(codex_paths::GIT_DIR))?;
     std::fs::create_dir_all(valid_repo_root.path().join(".agents/plugins"))?;
     std::fs::create_dir_all(
         valid_repo_root
             .path()
             .join("plugins/valid-plugin/.codex-plugin"),
     )?;
-    std::fs::create_dir_all(invalid_repo_root.path().join(".git"))?;
+    std::fs::create_dir_all(invalid_repo_root.path().join(codex_paths::GIT_DIR))?;
     std::fs::create_dir_all(invalid_repo_root.path().join(".agents/plugins"))?;
     write_plugins_enabled_config(codex_home.path())?;
 
     let valid_marketplace_path = AbsolutePathBuf::try_from(
         valid_repo_root
             .path()
-            .join(".agents/plugins/marketplace.json"),
+            .join(codex_paths::MARKETPLACE_JSON),
     )?;
     let invalid_marketplace_path = AbsolutePathBuf::try_from(
         invalid_repo_root
             .path()
-            .join(".agents/plugins/marketplace.json"),
+            .join(codex_paths::MARKETPLACE_JSON),
     )?;
     let valid_plugin_path =
         AbsolutePathBuf::try_from(valid_repo_root.path().join("plugins/valid-plugin"))?;
@@ -278,7 +275,7 @@ async fn plugin_list_returns_empty_when_workspace_codex_plugins_disabled() -> Re
     let codex_home = TempDir::new()?;
     let repo_root = TempDir::new()?;
     let server = MockServer::start().await;
-    std::fs::create_dir_all(repo_root.path().join(".git"))?;
+    std::fs::create_dir_all(repo_root.path().join(codex_paths::GIT_DIR))?;
     std::fs::create_dir_all(repo_root.path().join(".agents/plugins"))?;
     write_plugins_enabled_config_with_base_url(
         codex_home.path(),
@@ -295,7 +292,7 @@ async fn plugin_list_returns_empty_when_workspace_codex_plugins_disabled() -> Re
     )?;
 
     std::fs::write(
-        repo_root.path().join(".agents/plugins/marketplace.json"),
+        repo_root.path().join(codex_paths::MARKETPLACE_JSON),
         r#"{
   "name": "codex-curated",
   "plugins": [
@@ -362,7 +359,7 @@ async fn plugin_list_reuses_cached_workspace_codex_plugins_setting() -> Result<(
     let codex_home = TempDir::new()?;
     let repo_root = TempDir::new()?;
     let server = MockServer::start().await;
-    std::fs::create_dir_all(repo_root.path().join(".git"))?;
+    std::fs::create_dir_all(repo_root.path().join(codex_paths::GIT_DIR))?;
     std::fs::create_dir_all(repo_root.path().join(".agents/plugins"))?;
     std::fs::create_dir_all(repo_root.path().join("demo-plugin/.codex-plugin"))?;
     write_plugins_enabled_config_with_base_url(
@@ -380,7 +377,7 @@ async fn plugin_list_reuses_cached_workspace_codex_plugins_setting() -> Result<(
     )?;
 
     std::fs::write(
-        repo_root.path().join(".agents/plugins/marketplace.json"),
+        repo_root.path().join(codex_paths::MARKETPLACE_JSON),
         r#"{
   "name": "local-marketplace",
   "plugins": [
@@ -451,7 +448,7 @@ async fn plugin_list_uses_alternate_discoverable_manifest_and_keeps_undiscoverab
     let codex_home = TempDir::new()?;
     let repo_root = TempDir::new()?;
     let valid_plugin_root = repo_root.path().join("plugins/valid-plugin");
-    std::fs::create_dir_all(repo_root.path().join(".git"))?;
+    std::fs::create_dir_all(repo_root.path().join(codex_paths::GIT_DIR))?;
     std::fs::create_dir_all(
         repo_root
             .path()
@@ -596,7 +593,7 @@ async fn plugin_list_accepts_omitted_cwds() -> Result<()> {
     std::fs::create_dir_all(codex_home.path().join(".agents/plugins"))?;
     write_plugins_enabled_config(codex_home.path())?;
     std::fs::write(
-        codex_home.path().join(".agents/plugins/marketplace.json"),
+        codex_home.path().join(codex_paths::MARKETPLACE_JSON),
         r#"{
   "name": "codex-curated",
   "plugins": [
@@ -642,12 +639,12 @@ async fn plugin_list_returns_share_context_for_shared_local_plugin() -> Result<(
     let codex_home = TempDir::new()?;
     let repo_root = TempDir::new()?;
     let plugin_root = repo_root.path().join("plugins/demo-plugin");
-    std::fs::create_dir_all(repo_root.path().join(".git"))?;
+    std::fs::create_dir_all(repo_root.path().join(codex_paths::GIT_DIR))?;
     std::fs::create_dir_all(repo_root.path().join(".agents/plugins"))?;
     std::fs::create_dir_all(plugin_root.join(".codex-plugin"))?;
     write_plugins_enabled_config(codex_home.path())?;
     std::fs::write(
-        repo_root.path().join(".agents/plugins/marketplace.json"),
+        repo_root.path().join(codex_paths::MARKETPLACE_JSON),
         r#"{
   "name": "codex-curated",
   "plugins": [
@@ -662,7 +659,7 @@ async fn plugin_list_returns_share_context_for_shared_local_plugin() -> Result<(
 }"#,
     )?;
     std::fs::write(
-        plugin_root.join(".codex-plugin/plugin.json"),
+        plugin_root.join(codex_paths::PLUGIN_JSON),
         r#"{"name":"demo-plugin","version":"1.2.3"}"#,
     )?;
     write_plugin_share_local_path_mapping(
@@ -714,12 +711,12 @@ async fn plugin_list_returns_share_context_for_shared_local_plugin() -> Result<(
 async fn plugin_list_includes_install_and_enabled_state_from_config() -> Result<()> {
     let codex_home = TempDir::new()?;
     let repo_root = TempDir::new()?;
-    std::fs::create_dir_all(repo_root.path().join(".git"))?;
+    std::fs::create_dir_all(repo_root.path().join(codex_paths::GIT_DIR))?;
     std::fs::create_dir_all(repo_root.path().join(".agents/plugins"))?;
     write_installed_plugin(&codex_home, "codex-curated", "enabled-plugin")?;
     write_installed_plugin(&codex_home, "codex-curated", "disabled-plugin")?;
     std::fs::write(
-        repo_root.path().join(".agents/plugins/marketplace.json"),
+        repo_root.path().join(codex_paths::MARKETPLACE_JSON),
         r#"{
   "name": "codex-curated",
   "interface": {
@@ -751,7 +748,7 @@ async fn plugin_list_includes_install_and_enabled_state_from_config() -> Result<
 }"#,
     )?;
     std::fs::write(
-        codex_home.path().join("config.toml"),
+        codex_home.path().join(codex_paths::CONFIG_TOML),
         r#"[features]
 plugins = true
 
@@ -787,7 +784,7 @@ enabled = false
             marketplace.path.as_ref()
                 == Some(
                     &AbsolutePathBuf::try_from(
-                        repo_root.path().join(".agents/plugins/marketplace.json"),
+                        repo_root.path().join(codex_paths::MARKETPLACE_JSON),
                     )
                     .expect("absolute marketplace path"),
                 )
@@ -851,7 +848,7 @@ async fn plugin_list_uses_home_config_for_enabled_state() -> Result<()> {
     std::fs::create_dir_all(codex_home.path().join(".agents/plugins"))?;
     write_installed_plugin(&codex_home, "codex-curated", "shared-plugin")?;
     std::fs::write(
-        codex_home.path().join(".agents/plugins/marketplace.json"),
+        codex_home.path().join(codex_paths::MARKETPLACE_JSON),
         r#"{
   "name": "codex-curated",
   "plugins": [
@@ -866,7 +863,7 @@ async fn plugin_list_uses_home_config_for_enabled_state() -> Result<()> {
 }"#,
     )?;
     std::fs::write(
-        codex_home.path().join("config.toml"),
+        codex_home.path().join(codex_paths::CONFIG_TOML),
         r#"[features]
 plugins = true
 
@@ -876,12 +873,12 @@ enabled = true
     )?;
 
     let workspace_enabled = TempDir::new()?;
-    std::fs::create_dir_all(workspace_enabled.path().join(".git"))?;
+    std::fs::create_dir_all(workspace_enabled.path().join(codex_paths::GIT_DIR))?;
     std::fs::create_dir_all(workspace_enabled.path().join(".agents/plugins"))?;
     std::fs::write(
         workspace_enabled
             .path()
-            .join(".agents/plugins/marketplace.json"),
+            .join(codex_paths::MARKETPLACE_JSON),
         r#"{
   "name": "codex-curated",
   "plugins": [
@@ -895,7 +892,7 @@ enabled = true
   ]
 }"#,
     )?;
-    std::fs::create_dir_all(workspace_enabled.path().join(".codex"))?;
+    std::fs::create_dir_all(workspace_enabled.path().join(codex_paths::CODEX_HOME_DIR))?;
     std::fs::write(
         workspace_enabled.path().join(".codex/config.toml"),
         r#"[plugins."shared-plugin@codex-curated"]
@@ -954,12 +951,12 @@ async fn plugin_list_returns_plugin_interface_with_absolute_asset_paths() -> Res
     let codex_home = TempDir::new()?;
     let repo_root = TempDir::new()?;
     let plugin_root = repo_root.path().join("plugins/demo-plugin");
-    std::fs::create_dir_all(repo_root.path().join(".git"))?;
+    std::fs::create_dir_all(repo_root.path().join(codex_paths::GIT_DIR))?;
     std::fs::create_dir_all(repo_root.path().join(".agents/plugins"))?;
     std::fs::create_dir_all(plugin_root.join(".codex-plugin"))?;
     write_plugins_enabled_config(codex_home.path())?;
     std::fs::write(
-        repo_root.path().join(".agents/plugins/marketplace.json"),
+        repo_root.path().join(codex_paths::MARKETPLACE_JSON),
         r#"{
   "name": "codex-curated",
   "plugins": [
@@ -979,7 +976,7 @@ async fn plugin_list_returns_plugin_interface_with_absolute_asset_paths() -> Res
 }"#,
     )?;
     std::fs::write(
-        plugin_root.join(".codex-plugin/plugin.json"),
+        plugin_root.join(codex_paths::PLUGIN_JSON),
         r##"{
   "name": "demo-plugin",
   "interface": {
@@ -1088,12 +1085,12 @@ async fn plugin_list_accepts_legacy_string_default_prompt() -> Result<()> {
     let codex_home = TempDir::new()?;
     let repo_root = TempDir::new()?;
     let plugin_root = repo_root.path().join("plugins/demo-plugin");
-    std::fs::create_dir_all(repo_root.path().join(".git"))?;
+    std::fs::create_dir_all(repo_root.path().join(codex_paths::GIT_DIR))?;
     std::fs::create_dir_all(repo_root.path().join(".agents/plugins"))?;
     std::fs::create_dir_all(plugin_root.join(".codex-plugin"))?;
     write_plugins_enabled_config(codex_home.path())?;
     std::fs::write(
-        repo_root.path().join(".agents/plugins/marketplace.json"),
+        repo_root.path().join(codex_paths::MARKETPLACE_JSON),
         r#"{
   "name": "codex-curated",
   "plugins": [
@@ -1108,7 +1105,7 @@ async fn plugin_list_accepts_legacy_string_default_prompt() -> Result<()> {
 }"#,
     )?;
     std::fs::write(
-        plugin_root.join(".codex-plugin/plugin.json"),
+        plugin_root.join(codex_paths::PLUGIN_JSON),
         r##"{
   "name": "demo-plugin",
   "interface": {
@@ -1158,10 +1155,10 @@ async fn plugin_list_returns_installed_git_source_interface_from_cache() -> Resu
     let missing_remote_repo_url = url::Url::from_directory_path(&missing_remote_repo)
         .unwrap()
         .to_string();
-    std::fs::create_dir_all(repo_root.path().join(".git"))?;
+    std::fs::create_dir_all(repo_root.path().join(codex_paths::GIT_DIR))?;
     std::fs::create_dir_all(repo_root.path().join(".agents/plugins"))?;
     std::fs::write(
-        repo_root.path().join(".agents/plugins/marketplace.json"),
+        repo_root.path().join(codex_paths::MARKETPLACE_JSON),
         format!(
             r#"{{
   "name": "debug",
@@ -1182,7 +1179,7 @@ async fn plugin_list_returns_installed_git_source_interface_from_cache() -> Resu
     let cached_plugin_root = codex_home.path().join("plugins/cache/debug/toolkit/local");
     std::fs::create_dir_all(cached_plugin_root.join(".codex-plugin"))?;
     std::fs::write(
-        cached_plugin_root.join(".codex-plugin/plugin.json"),
+        cached_plugin_root.join(codex_paths::PLUGIN_JSON),
         r##"{
   "name": "toolkit",
   "interface": {
@@ -1196,7 +1193,7 @@ async fn plugin_list_returns_installed_git_source_interface_from_cache() -> Resu
 }"##,
     )?;
     std::fs::write(
-        codex_home.path().join("config.toml"),
+        codex_home.path().join(codex_paths::CONFIG_TOML),
         r#"[features]
 plugins = true
 
@@ -1343,7 +1340,7 @@ async fn app_server_startup_remote_plugin_sync_runs_once() -> Result<()> {
             .await?;
     }
 
-    let config = std::fs::read_to_string(codex_home.path().join("config.toml"))?;
+    let config = std::fs::read_to_string(codex_home.path().join(codex_paths::CONFIG_TOML))?;
     assert!(config.contains(r#"[plugins."linear@openai-curated"]"#));
 
     {
@@ -1395,9 +1392,9 @@ async fn app_server_startup_sync_downloads_remote_installed_plugin_bundles() -> 
     .await?;
     timeout(DEFAULT_TIMEOUT, mcp.initialize()).await??;
 
-    wait_for_path_exists(&installed_path.join(".codex-plugin/plugin.json")).await?;
+    wait_for_path_exists(&installed_path.join(codex_paths::PLUGIN_JSON)).await?;
     assert!(installed_path.join("skills/plan-work/SKILL.md").is_file());
-    let config = std::fs::read_to_string(codex_home.path().join("config.toml"))?;
+    let config = std::fs::read_to_string(codex_home.path().join(codex_paths::CONFIG_TOML))?;
     assert!(!config.contains("linear@chatgpt-global"));
     Ok(())
 }
@@ -1476,10 +1473,10 @@ async fn plugin_list_sync_upgrades_and_removes_remote_installed_plugin_bundles()
         vec![("linear@chatgpt-global".to_string(), true, true)]
     );
 
-    wait_for_path_exists(&new_path.join(".codex-plugin/plugin.json")).await?;
+    wait_for_path_exists(&new_path.join(codex_paths::PLUGIN_JSON)).await?;
     wait_for_path_missing(&old_path).await?;
     wait_for_path_missing(&stale_path).await?;
-    let config = std::fs::read_to_string(codex_home.path().join("config.toml"))?;
+    let config = std::fs::read_to_string(codex_home.path().join(codex_paths::CONFIG_TOML))?;
     assert!(!config.contains("linear@chatgpt-global"));
     Ok(())
 }
@@ -2002,7 +1999,7 @@ async fn plugin_list_omits_shared_with_me_kind_when_plugin_sharing_disabled() ->
     let codex_home = TempDir::new()?;
     let server = MockServer::start().await;
     std::fs::write(
-        codex_home.path().join("config.toml"),
+        codex_home.path().join(codex_paths::CONFIG_TOML),
         format!(
             r#"chatgpt_base_url = "{}/backend-api/"
 
@@ -2212,7 +2209,7 @@ async fn plugin_list_remote_marketplace_replaces_local_marketplace_with_same_nam
         .join(".agents/plugins/plugins/local-linear/.codex-plugin");
     std::fs::create_dir_all(&local_plugin_root)?;
     std::fs::write(
-        codex_home.path().join(".agents/plugins/marketplace.json"),
+        codex_home.path().join(codex_paths::MARKETPLACE_JSON),
         r#"{
   "name": "chatgpt-global",
   "plugins": [
@@ -2323,7 +2320,7 @@ async fn plugin_list_does_not_fetch_remote_marketplaces_when_plugins_disabled() 
     let codex_home = TempDir::new()?;
     let server = MockServer::start().await;
     std::fs::write(
-        codex_home.path().join("config.toml"),
+        codex_home.path().join(codex_paths::CONFIG_TOML),
         format!(
             r#"
 chatgpt_base_url = "{}/backend-api/"
@@ -2726,7 +2723,7 @@ fn write_installed_plugin_with_version(
 
 fn write_plugin_sync_config(codex_home: &std::path::Path, base_url: &str) -> std::io::Result<()> {
     std::fs::write(
-        codex_home.join("config.toml"),
+        codex_home.join(codex_paths::CONFIG_TOML),
         format!(
             r#"
 chatgpt_base_url = "{base_url}"
@@ -2752,7 +2749,7 @@ fn write_remote_plugin_catalog_config(
     base_url: &str,
 ) -> std::io::Result<()> {
     std::fs::write(
-        codex_home.join("config.toml"),
+        codex_home.join(codex_paths::CONFIG_TOML),
         format!(
             r#"
 chatgpt_base_url = "{base_url}"
@@ -2770,7 +2767,7 @@ fn write_openai_curated_marketplace(
     plugin_names: &[&str],
 ) -> std::io::Result<()> {
     let curated_root = codex_home.join(".tmp/plugins");
-    std::fs::create_dir_all(curated_root.join(".git"))?;
+    std::fs::create_dir_all(curated_root.join(codex_paths::GIT_DIR))?;
     std::fs::create_dir_all(curated_root.join(".agents/plugins"))?;
     let plugins = plugin_names
         .iter()
@@ -2788,7 +2785,7 @@ fn write_openai_curated_marketplace(
         .collect::<Vec<_>>()
         .join(",\n");
     std::fs::write(
-        curated_root.join(".agents/plugins/marketplace.json"),
+        curated_root.join(codex_paths::MARKETPLACE_JSON),
         format!(
             r#"{{
   "name": "openai-curated",

@@ -1,15 +1,14 @@
 #![allow(clippy::unwrap_used, clippy::expect_used)]
-use anyhow::Context;
+use codex_test_support::prelude::*;
 use core_test_support::responses;
 use core_test_support::skip_if_no_network;
 use core_test_support::test_codex_exec::test_codex_exec;
-use pretty_assertions::assert_eq;
 use serde_json::Value;
 use std::string::ToString;
-use tempfile::TempDir;
 use uuid::Uuid;
 use walkdir::WalkDir;
 use wiremock::MockServer;
+use codex_paths;
 
 /// Utility: scan the sessions dir for a rollout file that contains `marker`
 /// in any response_item.message.content entry. Returns the absolute path.
@@ -149,7 +148,7 @@ async fn exec_resume_last_appends_to_existing_file() -> anyhow::Result<()> {
         .success();
 
     // Find the created session file containing the marker.
-    let sessions_dir = test.home_path().join("sessions");
+    let sessions_dir = test.home_path().join(codex_paths::SESSIONS_DIR);
     let path = find_session_file_containing_marker(&sessions_dir, &marker)
         .expect("no session file found after first run");
 
@@ -202,7 +201,7 @@ async fn exec_resume_last_accepts_prompt_after_flag_in_json_mode() -> anyhow::Re
         .success();
 
     // Find the created session file containing the marker.
-    let sessions_dir = test.home_path().join("sessions");
+    let sessions_dir = test.home_path().join(codex_paths::SESSIONS_DIR);
     let path = find_session_file_containing_marker(&sessions_dir, &marker)
         .expect("no session file found after first run");
 
@@ -264,7 +263,7 @@ async fn exec_resume_last_respects_cwd_filter_and_all_flag() -> anyhow::Result<(
         .assert()
         .success();
 
-    let sessions_dir = test.home_path().join("sessions");
+    let sessions_dir = test.home_path().join(codex_paths::SESSIONS_DIR);
     find_session_file_containing_marker(&sessions_dir, &marker_a)
         .expect("no session file found for marker_a");
     let path_b = find_session_file_containing_marker(&sessions_dir, &marker_b)
@@ -396,7 +395,7 @@ async fn exec_resume_by_id_appends_to_existing_file() -> anyhow::Result<()> {
         .assert()
         .success();
 
-    let sessions_dir = test.home_path().join("sessions");
+    let sessions_dir = test.home_path().join(codex_paths::SESSIONS_DIR);
     let path = find_session_file_containing_marker(&sessions_dir, &marker)
         .expect("no session file found after first run");
     let session_id = extract_conversation_id(&path);
@@ -455,7 +454,7 @@ async fn exec_resume_preserves_cli_configuration_overrides() -> anyhow::Result<(
         .assert()
         .success();
 
-    let sessions_dir = test.home_path().join("sessions");
+    let sessions_dir = test.home_path().join(codex_paths::SESSIONS_DIR);
     let path = find_session_file_containing_marker(&sessions_dir, &marker)
         .expect("no session file found after first run");
 
@@ -554,7 +553,7 @@ async fn exec_resume_accepts_images_after_subcommand() -> anyhow::Result<()> {
         .assert()
         .success();
 
-    let sessions_dir = test.home_path().join("sessions");
+    let sessions_dir = test.home_path().join(codex_paths::SESSIONS_DIR);
     let resumed_path = find_session_file_containing_marker(&sessions_dir, &marker2)
         .expect("no session file found after resume with images");
     let image_count = last_user_image_count(&resumed_path);
