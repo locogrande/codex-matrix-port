@@ -20,7 +20,6 @@ use super::util::try_parse_error_message;
 use crate::default_client::create_client;
 use crate::token_data::TokenData;
 
-use matrix_test_macro as matrix;
 const REVOKE_HTTP_TIMEOUT: Duration = Duration::from_secs(10);
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -179,6 +178,7 @@ mod tests {
     use wiremock::matchers::method;
     use wiremock::matchers::path;
 
+    use matrix_test_macro as matrix;
     #[test]
     fn derives_revoke_url_from_refresh_token_override() {
         assert_eq!(

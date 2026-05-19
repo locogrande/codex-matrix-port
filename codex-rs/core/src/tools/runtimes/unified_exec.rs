@@ -1,4 +1,3 @@
-use matrix_test_macro as matrix;
 /*
 Runtime: unified exec
 
@@ -376,6 +375,7 @@ mod tests {
     use std::time::Duration;
     use tempfile::tempdir;
 
+    use matrix_test_macro as matrix;
     #[test]
     fn unified_exec_options_combines_default_timeout_with_network_denial_cancellation() {
         let cancellation = CancellationToken::new();

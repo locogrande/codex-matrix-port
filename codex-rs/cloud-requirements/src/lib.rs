@@ -42,7 +42,6 @@ use tokio::task::JoinHandle;
 use tokio::time::sleep;
 use tokio::time::timeout;
 
-use matrix_test_macro as matrix;
 const CLOUD_REQUIREMENTS_TIMEOUT: Duration = Duration::from_secs(15);
 const CLOUD_REQUIREMENTS_MAX_ATTEMPTS: usize = 5;
 const CLOUD_REQUIREMENTS_CACHE_FILENAME: &str = "cloud-requirements-cache.json";
@@ -851,6 +850,7 @@ mod tests {
     use tempfile::TempDir;
     use tempfile::tempdir;
 
+    use matrix_test_macro as matrix;
     struct EnvVarGuard {
         key: &'static str,
         original: Option<OsString>,

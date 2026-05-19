@@ -7,7 +7,6 @@
 use super::*;
 use codex_paths;
 
-use matrix_test_macro as matrix;
 impl App {
     pub(super) async fn rebuild_config_for_cwd(&self, cwd: PathBuf) -> Result<Config> {
         let mut overrides = self.harness_overrides.clone();
@@ -596,6 +595,7 @@ mod tests {
     use pretty_assertions::assert_eq;
     use tempfile::tempdir;
 
+    use matrix_test_macro as matrix;
     #[matrix::test]
     async fn update_reasoning_effort_updates_collaboration_mode() {
         let mut app = make_test_app().await;

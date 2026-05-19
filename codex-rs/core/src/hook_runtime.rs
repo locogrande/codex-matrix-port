@@ -39,7 +39,6 @@ use crate::session::turn_context::TurnContext;
 use crate::tools::hook_names::HookToolName;
 use crate::tools::sandboxing::PermissionRequestPayload;
 
-use matrix_test_macro as matrix;
 pub(crate) struct HookRuntimeOutcome {
     pub should_stop: bool,
     pub additional_contexts: Vec<String>,
@@ -623,6 +622,7 @@ mod tests {
     use codex_utils_absolute_path::test_support::PathBufExt;
     use codex_utils_absolute_path::test_support::test_path_buf;
 
+    use matrix_test_macro as matrix;
     #[test]
     fn additional_context_messages_stay_separate_and_ordered() {
         let messages = additional_context_messages(vec![

@@ -14,7 +14,6 @@ use crate::url::is_openai_compatible_base_url;
 use codex_core::config::Config;
 use codex_model_provider_info::ModelProviderInfo;
 use codex_model_provider_info::OLLAMA_OSS_PROVIDER_ID;
-use matrix_test_macro as matrix;
 #[cfg(test)]
 use codex_model_provider_info::WireApi;
 #[cfg(test)]
@@ -266,6 +265,7 @@ mod tests {
     use super::*;
     use pretty_assertions::assert_eq;
 
+    use matrix_test_macro as matrix;
     // Happy-path tests using a mock HTTP server; skip if sandbox network is disabled.
     #[matrix::test]
     async fn test_fetch_models_happy_path() {

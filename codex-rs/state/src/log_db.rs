@@ -44,7 +44,6 @@ use uuid::Uuid;
 use crate::LogEntry;
 use crate::StateRuntime;
 
-use matrix_test_macro as matrix;
 const LOG_QUEUE_CAPACITY: usize = 512;
 const LOG_BATCH_SIZE: usize = 128;
 const LOG_FLUSH_INTERVAL: Duration = Duration::from_secs(2);
@@ -466,6 +465,7 @@ mod tests {
 
     use super::*;
 
+    use matrix_test_macro as matrix;
     fn temp_codex_home() -> std::path::PathBuf {
         std::env::temp_dir().join(format!("codex-state-log-db-{}", Uuid::new_v4()))
     }

@@ -6,7 +6,6 @@ use std::fmt;
 use std::future::Future;
 use thiserror::Error;
 
-use matrix_test_macro as matrix;
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum CloudRequirementsLoadErrorCode {
     Auth,
@@ -90,6 +89,7 @@ mod tests {
     use std::sync::atomic::AtomicUsize;
     use std::sync::atomic::Ordering;
 
+    use matrix_test_macro as matrix;
     #[matrix::test]
     async fn shared_future_runs_once() {
         let counter = Arc::new(AtomicUsize::new(0));

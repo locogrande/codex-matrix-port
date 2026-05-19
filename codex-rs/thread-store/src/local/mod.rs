@@ -1,4 +1,3 @@
-use matrix_test_macro as matrix;
 mod archive_thread;
 mod create_thread;
 mod helpers;
@@ -302,6 +301,7 @@ mod tests {
     use crate::local::test_support::write_archived_session_file;
     use crate::local::test_support::write_session_file;
 
+    use matrix_test_macro as matrix;
     #[matrix::test]
     async fn live_writer_lifecycle_writes_and_closes() {
         let home = TempDir::new().expect("temp dir");

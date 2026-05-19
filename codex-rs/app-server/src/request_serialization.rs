@@ -13,7 +13,6 @@ use tracing::Instrument;
 use crate::connection_rpc_gate::ConnectionRpcGate;
 use crate::outgoing_message::ConnectionId;
 
-use matrix_test_macro as matrix;
 type BoxFutureUnit = Pin<Box<dyn Future<Output = ()> + Send + 'static>>;
 
 #[derive(Clone, Debug, Eq, Hash, PartialEq)]
@@ -213,6 +212,7 @@ mod tests {
     use tokio::time::Duration;
     use tokio::time::timeout;
 
+    use matrix_test_macro as matrix;
     const FIRST_REQUEST_VALUE: i32 = 1;
     const SECOND_REQUEST_VALUE: i32 = 2;
     const THIRD_REQUEST_VALUE: i32 = 3;

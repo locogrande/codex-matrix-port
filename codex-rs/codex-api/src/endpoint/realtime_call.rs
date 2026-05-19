@@ -21,7 +21,6 @@ use std::sync::Arc;
 use tracing::instrument;
 use tracing::trace;
 
-use matrix_test_macro as matrix;
 const MULTIPART_BOUNDARY: &str = "codex-realtime-call-boundary";
 const MULTIPART_CONTENT_TYPE: &str = "multipart/form-data; boundary=codex-realtime-call-boundary";
 
@@ -238,6 +237,7 @@ mod tests {
     use std::sync::Mutex;
     use std::time::Duration;
 
+    use matrix_test_macro as matrix;
     #[derive(Clone)]
     struct CapturingTransport {
         last_request: Arc<Mutex<Option<Request>>>,

@@ -27,7 +27,6 @@ use std::time::Duration;
 
 use super::format_exec_output_str;
 
-use matrix_test_macro as matrix;
 #[derive(Clone, Copy)]
 pub(crate) struct ToolEventCtx<'a> {
     pub session: &'a Session,
@@ -618,6 +617,7 @@ mod tests {
     use tempfile::tempdir;
     use tokio::sync::Mutex;
 
+    use matrix_test_macro as matrix;
     async fn assert_failed_apply_patch_tracks_committed_delta(
         out: Result<ExecToolCallOutput, ToolError>,
         expected_status: PatchApplyStatus,

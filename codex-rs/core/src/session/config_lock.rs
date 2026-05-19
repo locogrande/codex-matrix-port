@@ -18,7 +18,6 @@ use crate::config_lock::validate_config_lock_replay;
 
 use super::SessionConfiguration;
 
-use matrix_test_macro as matrix;
 pub(crate) async fn validate_config_lock_if_configured(
     session_configuration: &SessionConfiguration,
 ) -> anyhow::Result<()> {
@@ -212,6 +211,7 @@ mod tests {
     use pretty_assertions::assert_eq;
     use std::sync::Arc;
 
+    use matrix_test_macro as matrix;
     #[matrix::test]
     async fn lock_contains_prompts_and_materializes_features() {
         let mut sc = crate::session::tests::make_session_configuration_for_tests().await;

@@ -21,7 +21,6 @@ use tokio::time::timeout;
 use tracing::debug;
 use tracing::trace;
 
-use matrix_test_macro as matrix;
 const X_REASONING_INCLUDED_HEADER: &str = "x-reasoning-included";
 const OPENAI_MODEL_HEADER: &str = "openai-model";
 const REQUEST_ID_HEADER: &str = "x-request-id";
@@ -574,6 +573,7 @@ mod tests {
     use tokio_test::io::Builder as IoBuilder;
     use tokio_util::io::ReaderStream;
 
+    use matrix_test_macro as matrix;
     async fn collect_events(chunks: &[&[u8]]) -> Vec<Result<ResponseEvent, ApiError>> {
         let mut builder = IoBuilder::new();
         for chunk in chunks {

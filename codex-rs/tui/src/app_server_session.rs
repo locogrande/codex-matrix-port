@@ -121,7 +121,6 @@ use color_eyre::eyre::WrapErr;
 use std::collections::HashMap;
 use std::path::PathBuf;
 
-use matrix_test_macro as matrix;
 fn bootstrap_request_error(context: &'static str, err: TypedRequestError) -> color_eyre::Report {
     color_eyre::eyre::eyre!("{context}: {err}")
 }
@@ -1627,6 +1626,7 @@ mod tests {
     use pretty_assertions::assert_eq;
     use tempfile::TempDir;
 
+    use matrix_test_macro as matrix;
     async fn build_config(temp_dir: &TempDir) -> Config {
         ConfigBuilder::default()
             .codex_home(temp_dir.path().to_path_buf())

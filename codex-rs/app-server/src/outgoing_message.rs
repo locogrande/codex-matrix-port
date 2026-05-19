@@ -27,7 +27,6 @@ use tracing::warn;
 
 use crate::error_code::internal_error;
 use crate::server_request_error::TURN_TRANSITION_PENDING_REQUEST_ERROR_REASON;
-use matrix_test_macro as matrix;
 pub(crate) use codex_app_server_transport::ConnectionId;
 pub(crate) use codex_app_server_transport::OutgoingError;
 pub(crate) use codex_app_server_transport::OutgoingMessage;
@@ -725,6 +724,7 @@ mod tests {
 
     use super::*;
 
+    use matrix_test_macro as matrix;
     #[test]
     fn verify_server_notification_serialization() {
         let notification =

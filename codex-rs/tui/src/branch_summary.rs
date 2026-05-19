@@ -10,7 +10,6 @@
 //! rather than a user-visible error. The status line can then render whichever pieces are available
 //! without blocking the rest of the UI.
 
-use matrix_test_macro as matrix;
 #[cfg(test)]
 use std::collections::VecDeque;
 use std::path::Path;
@@ -518,6 +517,7 @@ mod tests {
     use std::pin::Pin;
     use std::sync::Mutex;
 
+    use matrix_test_macro as matrix;
     #[matrix::test]
     async fn branch_diff_stats_prefers_remote_default_ref_over_stale_local_branch() {
         let runner = FakeRunner::new(vec![

@@ -15,7 +15,6 @@ use codex_paths;
 
 use crate::operations::run_git_for_status;
 
-use matrix_test_macro as matrix;
 const BASELINE_COMMIT_MESSAGE: &str =
     "Initialize Codex git baseline\n\nCo-authored-by: Codex <noreply@openai.com>";
 
@@ -535,6 +534,7 @@ mod tests {
     use std::process::Command;
     use tempfile::TempDir;
 
+    use matrix_test_macro as matrix;
     fn git_stdout(root: &Path, args: &[&str]) -> String {
         let output = Command::new("git")
             .current_dir(root)

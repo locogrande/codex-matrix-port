@@ -64,7 +64,6 @@ use http::HeaderValue;
 use serde::Serialize;
 use supports_color::Stream;
 
-use matrix_test_macro as matrix;
 mod background;
 mod output;
 mod progress;
@@ -2873,6 +2872,7 @@ mod tests {
 
     use super::*;
 
+    use matrix_test_macro as matrix;
     #[derive(Default)]
     struct RecordingProgress {
         events: Mutex<Vec<String>>,

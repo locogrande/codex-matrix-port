@@ -16,7 +16,6 @@ use crate::tools::registry::PostToolUsePayload;
 use crate::tools::registry::PreToolUsePayload;
 use crate::tools::registry::ToolExecutor;
 
-use matrix_test_macro as matrix;
 pub(crate) struct ExtensionToolAdapter(Arc<dyn codex_tools::ToolExecutor<ExtensionToolCall>>);
 
 impl ExtensionToolAdapter {
@@ -120,6 +119,7 @@ mod tests {
     use crate::tools::registry::PreToolUsePayload;
     use crate::turn_diff_tracker::TurnDiffTracker;
 
+    use matrix_test_macro as matrix;
     struct StubExtensionExecutor;
 
     #[async_trait::async_trait]

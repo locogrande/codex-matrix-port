@@ -1,7 +1,6 @@
 use std::time::Duration;
 use std::time::Instant;
 
-use matrix_test_macro as matrix;
 // Environment filter data models for the TUI
 #[derive(Clone, Debug, Default)]
 pub struct EnvironmentRow {
@@ -357,6 +356,7 @@ mod tests {
     use chrono::Utc;
     use codex_cloud_tasks_client::CloudTaskError;
 
+    use matrix_test_macro as matrix;
     struct FakeBackend {
         // maps env key to titles
         by_env: std::collections::HashMap<Option<String>, Vec<&'static str>>,

@@ -11,7 +11,6 @@ use http::Method;
 use http::header::ETAG;
 use std::sync::Arc;
 
-use matrix_test_macro as matrix;
 pub struct ModelsClient<T: HttpTransport> {
     session: EndpointSession<T>,
 }
@@ -92,6 +91,7 @@ mod tests {
     use std::sync::Mutex;
     use std::time::Duration;
 
+    use matrix_test_macro as matrix;
     #[derive(Clone)]
     struct CapturingTransport {
         last_request: Arc<Mutex<Option<Request>>>,

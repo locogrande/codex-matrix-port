@@ -8,7 +8,6 @@
 //! On finalization, `finalize_and_drain_source()` flushes whatever remains (the last line, which
 //! may lack a trailing newline).
 
-use matrix_test_macro as matrix;
 #[cfg(test)]
 use ratatui::text::Line;
 use std::path::Path;
@@ -223,6 +222,7 @@ mod tests {
     use super::*;
     use ratatui::style::Color;
 
+    use matrix_test_macro as matrix;
     #[matrix::test]
     async fn no_commit_until_newline() {
         let mut c = super::MarkdownStreamCollector::new(/*width*/ None, &super::test_cwd());

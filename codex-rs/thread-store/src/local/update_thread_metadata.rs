@@ -28,7 +28,6 @@ use crate::ThreadStoreResult;
 use crate::UpdateThreadMetadataParams;
 use crate::local::read_thread;
 
-use matrix_test_macro as matrix;
 struct ResolvedRolloutPath {
     path: PathBuf,
     archived: bool,
@@ -635,6 +634,7 @@ mod tests {
     use crate::local::test_support::write_archived_session_file;
     use crate::local::test_support::write_session_file;
 
+    use matrix_test_macro as matrix;
     #[matrix::test]
     async fn update_thread_metadata_sets_name_on_active_rollout_and_indexes_name() {
         let home = TempDir::new().expect("temp dir");

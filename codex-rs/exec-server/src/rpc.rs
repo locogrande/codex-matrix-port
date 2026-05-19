@@ -25,7 +25,6 @@ use crate::connection::JsonRpcConnection;
 use crate::connection::JsonRpcConnectionEvent;
 use crate::connection::JsonRpcTransport;
 
-use matrix_test_macro as matrix;
 #[derive(Debug)]
 pub(crate) enum RpcCallError {
     /// The underlying JSON-RPC transport closed before this call completed.
@@ -537,6 +536,7 @@ mod tests {
     use super::RpcClient;
     use crate::connection::JsonRpcConnection;
 
+    use matrix_test_macro as matrix;
     async fn read_jsonrpc_line<R>(lines: &mut tokio::io::Lines<BufReader<R>>) -> JSONRPCMessage
     where
         R: tokio::io::AsyncRead + Unpin,

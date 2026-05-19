@@ -54,7 +54,6 @@ use tracing::error;
 use tracing::info;
 use tracing::warn;
 
-use matrix_test_macro as matrix;
 pub(super) const REMOTE_CONTROL_PROTOCOL_VERSION: &str = "3";
 pub(super) const REMOTE_CONTROL_ACCOUNT_ID_HEADER: &str = "chatgpt-account-id";
 pub(super) const REMOTE_CONTROL_INSTALLATION_ID_HEADER: &str = "x-codex-installation-id";
@@ -1270,6 +1269,7 @@ mod tests {
     use tokio::time::timeout;
     use tokio_tungstenite::accept_async;
 
+    use matrix_test_macro as matrix;
     // Windows Bazel CI can take longer than a few seconds for the websocket
     // client connection attempt to reach the local test listener.
     #[cfg(windows)]

@@ -21,7 +21,6 @@ use crate::process::ExecBackend;
 use crate::remote_file_system::RemoteFileSystem;
 use crate::remote_process::RemoteProcess;
 
-use matrix_test_macro as matrix;
 pub const CODEX_EXEC_SERVER_URL_ENV_VAR: &str = "CODEX_EXEC_SERVER_URL";
 
 /// Owns the execution/filesystem environments available to the Codex runtime.
@@ -461,6 +460,7 @@ mod tests {
     use crate::environment_provider::EnvironmentProviderSnapshot;
     use pretty_assertions::assert_eq;
 
+    use matrix_test_macro as matrix;
     struct TestEnvironmentProvider {
         snapshot: EnvironmentProviderSnapshot,
     }

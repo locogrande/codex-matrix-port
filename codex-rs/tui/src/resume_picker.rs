@@ -4,7 +4,6 @@ use std::path::Path;
 use std::path::PathBuf;
 use std::sync::Arc;
 
-use matrix_test_macro as matrix;
 mod transcript;
 
 use crate::app_server_session::AppServerSession;
@@ -3199,6 +3198,7 @@ mod tests {
     use std::sync::Mutex;
     use tempfile::tempdir;
 
+    use matrix_test_macro as matrix;
     fn page(
         rows: Vec<Row>,
         next_cursor: Option<&str>,

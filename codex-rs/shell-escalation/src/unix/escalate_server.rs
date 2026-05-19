@@ -26,7 +26,6 @@ use crate::unix::escalation_policy::EscalationPolicy;
 use crate::unix::socket::AsyncDatagramSocket;
 use crate::unix::socket::AsyncSocket;
 
-use matrix_test_macro as matrix;
 /// Adapter for running the shell command after the escalation server has been set up.
 ///
 /// This lets `shell-escalation` own the Unix escalation protocol while the caller
@@ -396,6 +395,7 @@ mod tests {
     use tokio::time::Instant;
     use tokio::time::sleep;
 
+    use matrix_test_macro as matrix;
     static ESCALATE_SERVER_TEST_LOCK: LazyLock<Semaphore> = LazyLock::new(|| Semaphore::new(1));
 
     struct DeterministicEscalationPolicy {

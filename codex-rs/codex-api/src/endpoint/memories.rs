@@ -12,7 +12,6 @@ use serde::Deserialize;
 use serde_json::to_value;
 use std::sync::Arc;
 
-use matrix_test_macro as matrix;
 pub struct MemoriesClient<T: HttpTransport> {
     session: EndpointSession<T>,
 }
@@ -87,6 +86,7 @@ mod tests {
     use std::sync::Mutex;
     use std::time::Duration;
 
+    use matrix_test_macro as matrix;
     #[derive(Clone, Default)]
     struct DummyTransport;
 

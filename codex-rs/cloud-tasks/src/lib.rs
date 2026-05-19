@@ -1,4 +1,3 @@
-use matrix_test_macro as matrix;
 mod app;
 mod cli;
 pub(crate) mod env_detect;
@@ -2143,6 +2142,7 @@ mod tests {
     use ratatui::buffer::Buffer;
     use ratatui::layout::Rect;
 
+    use matrix_test_macro as matrix;
     struct StubGitInfo {
         default_branch: Option<String>,
         current_branch: Option<String>,

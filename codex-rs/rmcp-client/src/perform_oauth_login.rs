@@ -31,7 +31,6 @@ use crate::utils::apply_default_headers;
 use crate::utils::build_default_headers;
 use codex_config::types::OAuthCredentialsStoreMode;
 
-use matrix_test_macro as matrix;
 struct OauthHeaders {
     http_headers: Option<HashMap<String, String>>,
     env_http_headers: Option<HashMap<String, String>>,
@@ -673,6 +672,7 @@ mod tests {
     use super::parse_oauth_callback;
     use super::start_authorization;
 
+    use matrix_test_macro as matrix;
     async fn spawn_oauth_metadata_server() -> String {
         let listener = TcpListener::bind("127.0.0.1:0")
             .await
