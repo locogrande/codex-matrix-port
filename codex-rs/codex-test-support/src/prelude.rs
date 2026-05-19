@@ -6,9 +6,10 @@
 //! are deliberately NOT re-exported — those stay in the individual test
 //! files where they make their meaning clear.
 
-// pretty_assertions — the workspace's preferred assert macros.
-pub use pretty_assertions::assert_eq;
-pub use pretty_assertions::assert_ne;
+// pretty_assertions::{assert_eq, assert_ne} are deliberately NOT re-exported:
+// a glob import that includes them is ambiguous with std's prelude assert_eq /
+// assert_ne. Test files that want pretty output must `use pretty_assertions::*;`
+// directly (named imports shadow std prelude; glob does not).
 
 // std::path
 pub use std::path::Path;
