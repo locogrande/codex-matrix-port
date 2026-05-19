@@ -4,6 +4,7 @@ use codex_protocol::protocol::RealtimeOutputModality;
 use codex_protocol::protocol::RealtimeVoice;
 use codex_protocol::protocol::RealtimeVoicesList;
 use crate::derives::*;
+use crate::mirror_from;
 use serde_json::Value as JsonValue;
 
 /// EXPERIMENTAL - thread realtime audio chunk.
@@ -18,43 +19,12 @@ pub struct ThreadRealtimeAudioChunk {
     pub item_id: Option<String>,
 }
 
-impl From<CoreRealtimeAudioFrame> for ThreadRealtimeAudioChunk {
-    fn from(value: CoreRealtimeAudioFrame) -> Self {
-        let CoreRealtimeAudioFrame {
-            data,
-            sample_rate,
-            num_channels,
-            samples_per_channel,
-            item_id,
-        } = value;
-        Self {
-            data,
-            sample_rate,
-            num_channels,
-            samples_per_channel,
-            item_id,
-        }
-    }
-}
-
-impl From<ThreadRealtimeAudioChunk> for CoreRealtimeAudioFrame {
-    fn from(value: ThreadRealtimeAudioChunk) -> Self {
-        let ThreadRealtimeAudioChunk {
-            data,
-            sample_rate,
-            num_channels,
-            samples_per_channel,
-            item_id,
-        } = value;
-        Self {
-            data,
-            sample_rate,
-            num_channels,
-            samples_per_channel,
-            item_id,
-        }
-    }
-}
+mirror_from!(CoreRealtimeAudioFrame => ThreadRealtimeAudioChunk {
+    data, sample_rate, num_channels, samples_per_channel, item_id,
+});
+mirror_from!(ThreadRealtimeAudioChunk => CoreRealtimeAudioFrame {
+    data, sample_rate, num_channels, samples_per_channel, item_id,
+});
 
 /// EXPERIMENTAL - start a thread-scoped realtime session.
 #[derive(Serialize, Deserialize, Debug, Clone, PartialEq, JsonSchema, TS)]

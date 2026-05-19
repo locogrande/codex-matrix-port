@@ -760,18 +760,9 @@ impl From<CoreSkillDependencies> for SkillDependencies {
     }
 }
 
-impl From<CoreSkillToolDependency> for SkillToolDependency {
-    fn from(value: CoreSkillToolDependency) -> Self {
-        Self {
-            r#type: value.r#type,
-            value: value.value,
-            description: value.description,
-            transport: value.transport,
-            command: value.command,
-            url: value.url,
-        }
-    }
-}
+mirror_from!(CoreSkillToolDependency => SkillToolDependency {
+    r#type, value, description, transport, command, url,
+});
 
 impl From<CoreSkillScope> for SkillScope {
     fn from(value: CoreSkillScope) -> Self {
