@@ -181,30 +181,9 @@ struct ToolSerde {
     meta: Option<serde_json::Value>,
 }
 
-impl From<ToolSerde> for Tool {
-    fn from(value: ToolSerde) -> Self {
-        let ToolSerde {
-            name,
-            title,
-            description,
-            input_schema,
-            output_schema,
-            annotations,
-            icons,
-            meta,
-        } = value;
-        Self {
-            name,
-            title,
-            description,
-            input_schema,
-            output_schema,
-            annotations,
-            icons,
-            meta,
-        }
-    }
-}
+crate::mirror_from!(ToolSerde => Tool {
+    name, title, description, input_schema, output_schema, annotations, icons, meta,
+});
 
 #[derive(Debug, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -227,32 +206,9 @@ struct ResourceSerde {
     meta: Option<serde_json::Value>,
 }
 
-impl From<ResourceSerde> for Resource {
-    fn from(value: ResourceSerde) -> Self {
-        let ResourceSerde {
-            annotations,
-            description,
-            mime_type,
-            name,
-            size,
-            title,
-            uri,
-            icons,
-            meta,
-        } = value;
-        Self {
-            annotations,
-            description,
-            mime_type,
-            name,
-            size,
-            title,
-            uri,
-            icons,
-            meta,
-        }
-    }
-}
+crate::mirror_from!(ResourceSerde => Resource {
+    annotations, description, mime_type, name, size, title, uri, icons, meta,
+});
 
 #[derive(Debug, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -270,26 +226,9 @@ struct ResourceTemplateSerde {
     mime_type: Option<String>,
 }
 
-impl From<ResourceTemplateSerde> for ResourceTemplate {
-    fn from(value: ResourceTemplateSerde) -> Self {
-        let ResourceTemplateSerde {
-            annotations,
-            uri_template,
-            name,
-            title,
-            description,
-            mime_type,
-        } = value;
-        Self {
-            annotations,
-            uri_template,
-            name,
-            title,
-            description,
-            mime_type,
-        }
-    }
-}
+crate::mirror_from!(ResourceTemplateSerde => ResourceTemplate {
+    annotations, uri_template, name, title, description, mime_type,
+});
 
 impl Tool {
     pub fn from_mcp_value(value: serde_json::Value) -> Result<Self, serde_json::Error> {

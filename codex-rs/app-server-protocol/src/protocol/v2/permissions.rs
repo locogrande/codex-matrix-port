@@ -670,14 +670,9 @@ impl NetworkPolicyAmendment {
     }
 }
 
-impl From<CoreNetworkPolicyAmendment> for NetworkPolicyAmendment {
-    fn from(value: CoreNetworkPolicyAmendment) -> Self {
-        Self {
-            host: value.host,
-            action: NetworkPolicyRuleAction::from(value.action),
-        }
-    }
-}
+mirror_from!(CoreNetworkPolicyAmendment => NetworkPolicyAmendment {
+    host, action: into,
+});
 
 #[derive(Serialize, Deserialize, Debug, Clone, PartialEq, JsonSchema, TS)]
 #[serde(rename_all = "camelCase")]

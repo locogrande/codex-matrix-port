@@ -1,4 +1,5 @@
 use crate::derives::*;
+use crate::mirror_from;
 
 /// Current remote-control connection status and remote identity exposed to clients.
 #[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq, JsonSchema, TS)]
@@ -51,36 +52,9 @@ pub enum RemoteControlConnectionStatus {
     Errored,
 }
 
-impl From<RemoteControlStatusChangedNotification> for RemoteControlEnableResponse {
-    fn from(notification: RemoteControlStatusChangedNotification) -> Self {
-        let RemoteControlStatusChangedNotification {
-            status,
-            server_name,
-            installation_id,
-            environment_id,
-        } = notification;
-        Self {
-            status,
-            server_name,
-            installation_id,
-            environment_id,
-        }
-    }
-}
-
-impl From<RemoteControlStatusChangedNotification> for RemoteControlDisableResponse {
-    fn from(notification: RemoteControlStatusChangedNotification) -> Self {
-        let RemoteControlStatusChangedNotification {
-            status,
-            server_name,
-            installation_id,
-            environment_id,
-        } = notification;
-        Self {
-            status,
-            server_name,
-            installation_id,
-            environment_id,
-        }
-    }
-}
+mirror_from!(RemoteControlStatusChangedNotification => RemoteControlEnableResponse {
+    status, server_name, installation_id, environment_id,
+});
+mirror_from!(RemoteControlStatusChangedNotification => RemoteControlDisableResponse {
+    status, server_name, installation_id, environment_id,
+});
