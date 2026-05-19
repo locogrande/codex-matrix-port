@@ -20,40 +20,20 @@
 /// ident) or piped through `.into()` when tagged `field: into`.
 #[macro_export]
 macro_rules! mirror_from {
-    ($src:ty => $dst:ty { $($spec:tt)+ }) => {
+    ($src:ty => $dst:ty { $($field:ident $(: $tag:ident)?),+ $(,)? }) => {
         impl ::core::convert::From<$src> for $dst {
             fn from(value: $src) -> Self {
                 Self {
-                    $crate::__mirror_from_fields!(value, $($spec)+)
+                    $( $field: $crate::__mirror_val!(value.$field $(, $tag)?) ),+
                 }
             }
         }
     };
 }
 
-/// Internal helper: expands the field list of `mirror_from!`. Each comma-
-/// separated entry is either `field` (pure) or `field: into` (call `.into()`).
-/// Arms with the `: into` tag are listed before bare-ident arms so the macro
-/// matcher picks the more specific form first.
 #[macro_export]
 #[doc(hidden)]
-macro_rules! __mirror_from_fields {
-    // `field: into`, more to follow.
-    ($value:ident, $field:ident : into, $($rest:tt)+) => {
-        $field: $value.$field.into(),
-        $crate::__mirror_from_fields!($value, $($rest)+)
-    };
-    // Trailing `field: into` (with optional trailing comma).
-    ($value:ident, $field:ident : into $(,)?) => {
-        $field: $value.$field.into()
-    };
-    // Pure field, more to follow.
-    ($value:ident, $field:ident, $($rest:tt)+) => {
-        $field: $value.$field,
-        $crate::__mirror_from_fields!($value, $($rest)+)
-    };
-    // Trailing pure field (with optional trailing comma).
-    ($value:ident, $field:ident $(,)?) => {
-        $field: $value.$field
-    };
+macro_rules! __mirror_val {
+    ($expr:expr) => { $expr };
+    ($expr:expr, into) => { ($expr).into() };
 }
